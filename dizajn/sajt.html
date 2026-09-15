@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WeeklyCert: prototip sajta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--teal-50:#EAF6F5;--teal-100:#CFEAE8;--teal-200:#A3D6D3;--teal-300:#6BBBB7;
+--teal-400:#2F9D9B;--teal-500:#0F8385;--teal-600:#0C6A6B;--teal-700:#0A5556;
+--teal-800:#0A4445;--teal-900:#093839;
+--n-50:#F7F9FA;--n-100:#EEF1F4;--n-200:#DFE4E9;--n-300:#C7CFD7;
+--n-400:#98A4B0;--n-450:#7A8894;--n-500:#6B7885;--n-600:#4E5A66;
+--n-700:#39434D;--n-800:#252C33;--n-900:#12171B;
+--error-50:#FEF3F2;--error-100:#FEE4E2;--error-500:#D92D20;--error-600:#B42318;--error-700:#912018;
+--warning-50:#FFFAEB;--warning-100:#FEF0C7;--warning-500:#DC6803;--warning-600:#B54708;
+--success-50:#ECFDF3;--success-100:#D1FADF;--success-500:#079455;--success-600:#067647;--success-700:#05603A;
+--info-50:#EFF6FF;--info-100:#DBEAFE;--info-500:#1570EF;--info-600:#175CD3;
+--brand:var(--teal-600);--brand-hover:var(--teal-700);--brand-ring:var(--teal-500);
+--font-sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+--font-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+--wrap:1160px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-sans);font-size:16px;line-height:1.55;color:var(--n-900);background:#fff;-webkit-font-smoothing:antialiased}
+h1,h2,h3{margin:0;letter-spacing:-.018em;line-height:1.16}
+p{margin:0}
+a{color:var(--teal-700)}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+.tnum{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--font-mono)}
+
+.proto{background:var(--n-800);color:#fff;font-size:12px;padding:7px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.proto b{font-weight:600}.proto span{color:var(--n-300)}
+.proto .k{background:rgba(255,255,255,.12);border-radius:3px;padding:1px 6px;font-family:var(--font-mono);font-size:11px}
+
+/* header */
+header.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:saturate(180%) blur(8px);border-bottom:1px solid var(--n-200)}
+.navin{max-width:var(--wrap);margin:0 auto;padding:0 24px;height:62px;display:flex;align-items:center;gap:26px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:600;font-size:17px;letter-spacing:-.02em;color:var(--n-900);text-decoration:none}
+.logo .mk{width:24px;height:24px;border-radius:6px;background:var(--brand);display:grid;place-items:center}
+.logo .mk svg{width:15px;height:15px}
+.navlinks{display:flex;gap:20px;font-size:14.5px}
+.navlinks a{color:var(--n-700);text-decoration:none;font-weight:500}
+.navlinks a:hover{color:var(--teal-700)}
+.navright{margin-left:auto;display:flex;align-items:center;gap:14px}
+.tel{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:600;color:var(--n-800);text-decoration:none;white-space:nowrap}
+.tel svg{width:15px;height:15px;color:var(--teal-600)}
+
+.btn{height:42px;padding:0 18px;border-radius:6px;border:1px solid var(--n-450);background:#fff;color:var(--n-800);font-size:15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--n-50)}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.p:hover{background:var(--brand-hover);border-color:var(--brand-hover)}
+.btn.sm{height:36px;padding:0 14px;font-size:14px}
+.btn.lg{height:50px;padding:0 24px;font-size:16px}
+.btn.ghost{border-color:transparent;background:none}
+.btn.onDark{background:#fff;border-color:#fff;color:var(--n-900)}
+.btn.outDark{background:none;border-color:rgba(255,255,255,.32);color:#fff}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 2px #fff,0 0 0 4px var(--brand-ring)}
+
+section{padding:74px 0}
+.eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-600);margin-bottom:12px}
+h2.sech{font-size:36px;margin-bottom:14px}
+.lede{font-size:18px;color:var(--n-600);max-width:660px}
+
+/* hero */
+.hero{padding:60px 0 48px;background:linear-gradient(180deg,var(--teal-50) 0%,#fff 78%);border-bottom:1px solid var(--n-200)}
+.heroin{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,1.15fr);gap:44px;align-items:center}
+h1.h1{font-size:47px;line-height:1.1}
+.hsub{font-size:18px;color:var(--n-600);margin-top:18px;max-width:520px}
+.hctas{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap;align-items:center}
+.hmicro{font-size:13.5px;color:var(--n-600);margin-top:14px;display:flex;gap:16px;flex-wrap:wrap}
+.hmicro span{display:flex;gap:6px;align-items:center}
+.hmicro svg{width:14px;height:14px;color:var(--success-600)}
+.shot{border:1px solid var(--n-300);border-radius:12px;overflow:hidden;box-shadow:0 18px 44px rgba(18,23,27,.16);background:#fff}
+.shot .bar{height:30px;background:var(--n-100);border-bottom:1px solid var(--n-200);display:flex;align-items:center;padding:0 11px;gap:6px}
+.shot .bar i{width:9px;height:9px;border-radius:999px;background:var(--n-300);display:inline-block}
+.shot .bar .u{margin-left:10px;font-size:11px;color:var(--n-500);font-family:var(--font-mono)}
+.shot img{display:block;width:100%}
+.miniapp{font-size:12px}
+.miniapp table{border-collapse:collapse;width:100%}
+.miniapp th{background:var(--n-100);font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--n-600);padding:7px 6px;text-align:left;font-weight:600;border-bottom:1px solid var(--n-200)}
+.miniapp td{padding:7px 6px;border-bottom:1px solid var(--n-200);font-variant-numeric:tabular-nums}
+.miniapp td.c{text-align:center}
+.miniapp .err{background:var(--error-50);box-shadow:inset 2px 0 0 var(--error-500)}
+.miniapp .ot{display:block;font-size:9.5px;color:var(--n-600)}
+.miniapp .head{padding:11px 12px;border-bottom:1px solid var(--n-200);display:flex;justify-content:space-between;align-items:center}
+.miniapp .head b{font-size:13.5px}
+.miniapp .fp{background:var(--n-50);border-top:1px solid var(--n-200);padding:9px 12px;font-size:11px;color:var(--error-700);display:flex;gap:7px;align-items:flex-start}
+.miniapp .fp svg{width:13px;height:13px;flex:none;margin-top:1px}
+
+/* proof band */
+.band{background:var(--n-900);color:#fff;padding:26px 0}
+.bandin{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center}
+.bandin .n{font-size:29px;font-weight:600;letter-spacing:-.02em}
+.bandin .l{font-size:13px;color:var(--n-400);margin-top:3px}
+
+/* generic cards */
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.c{border:1px solid var(--n-200);border-radius:12px;padding:22px;background:#fff}
+.c h3{font-size:17px;margin-bottom:8px}
+.c p{color:var(--n-600);font-size:15px}
+.c .num{width:28px;height:28px;border-radius:999px;background:var(--teal-50);color:var(--teal-700);font-weight:600;font-size:14px;display:grid;place-items:center;margin-bottom:12px}
+
+/* output section */
+.outgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:30px}
+.doc{background:#fff;border:1px solid var(--n-300);border-radius:8px;padding:16px 18px;font-size:11px;color:var(--n-700);box-shadow:0 6px 20px rgba(18,23,27,.09)}
+.doc .dh{text-align:center;font-weight:600;font-size:13px;color:var(--n-900);margin-bottom:2px}
+.doc .ds{text-align:center;font-size:10px;color:var(--n-500);margin-bottom:12px}
+.doc table{border-collapse:collapse;width:100%;font-size:10px}
+.doc th{background:var(--n-100);padding:5px 4px;font-size:9px;text-align:left;border:1px solid var(--n-200)}
+.doc td{padding:5px 4px;border:1px solid var(--n-200);font-variant-numeric:tabular-nums}
+.xmlbox{background:var(--n-900);color:#CFEAE8;border-radius:8px;padding:16px 18px;font-family:var(--font-mono);font-size:11.5px;line-height:1.6;overflow:auto;white-space:pre;box-shadow:0 6px 20px rgba(18,23,27,.14)}
+.xmlbox .tg{color:#6BBBB7}.xmlbox .vl{color:#fff}.xmlbox .at{color:#98A4B0}
+.captionrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;gap:12px}
+.captionrow h3{font-size:16px}
+.tag{font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--teal-50);color:var(--teal-700)}
+
+/* stakes */
+.stakes{background:var(--n-50);border-top:1px solid var(--n-200);border-bottom:1px solid var(--n-200)}
+.stakegrid{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+.factlist{display:flex;flex-direction:column;gap:2px;border:1px solid var(--n-200);border-radius:12px;overflow:hidden;background:#fff}
+.factlist div{display:grid;grid-template-columns:160px 1fr;gap:14px;padding:13px 18px;border-bottom:1px solid var(--n-200);font-size:14.5px}
+.factlist div:last-child{border-bottom:0}
+.factlist dt{color:var(--n-600)}
+.factlist b{font-weight:600}
+
+/* compare table */
+.cmp{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border:1px solid var(--n-200);border-radius:12px;overflow:hidden;background:#fff}
+.cmp th{background:var(--n-100);padding:13px 16px;text-align:left;font-size:12.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--n-600);font-weight:600}
+.cmp td{padding:13px 16px;border-top:1px solid var(--n-200)}
+.cmp td.no{color:var(--n-600)}
+.cmp td.yes{font-weight:500}
+.cmp .icon{display:inline-flex;width:17px;height:17px;margin-right:8px;vertical-align:-3px}
+.cmp col.us{background:var(--teal-50)}
+
+/* pricing */
+.price{background:var(--n-900);color:#fff}
+.price h2.sech{color:#fff}
+.price .lede{color:var(--n-400)}
+.pgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;margin-top:34px;align-items:start}
+.pcard{background:#fff;color:var(--n-900);border-radius:14px;padding:28px}
+.pcard .amt{font-size:46px;font-weight:600;letter-spacing:-.03em;line-height:1}
+.pcard .amt small{font-size:17px;font-weight:400;color:var(--n-600)}
+.plist{list-style:none;padding:0;margin:20px 0 0;display:flex;flex-direction:column;gap:10px;font-size:15px}
+.plist li{display:flex;gap:10px;align-items:flex-start}
+.plist svg{width:16px;height:16px;color:var(--success-600);flex:none;margin-top:3px}
+.setupbox{border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:24px;background:rgba(255,255,255,.04)}
+.setupbox h3{font-size:18px;margin-bottom:8px}
+.setupbox p{color:var(--n-400);font-size:14.5px}
+.tiers{margin-top:18px;display:flex;flex-direction:column;gap:1px;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.14)}
+.tiers div{display:flex;justify-content:space-between;gap:14px;padding:12px 15px;background:rgba(255,255,255,.03);font-size:14.5px}
+.tiers div b{font-weight:600}
+.tiers div span{color:var(--n-400);font-size:13.5px}
+
+/* faq */
+details.faq{border:1px solid var(--n-200);border-radius:10px;padding:0;margin-bottom:10px;background:#fff}
+details.faq summary{cursor:pointer;padding:16px 18px;font-weight:600;font-size:16px;list-style:none;display:flex;justify-content:space-between;gap:14px;align-items:center}
+details.faq summary::-webkit-details-marker{display:none}
+details.faq summary::after{content:"+";font-size:20px;color:var(--n-500);font-weight:400}
+details.faq[open] summary::after{content:"\2212"}
+details.faq p{padding:0 18px 17px;color:var(--n-600);font-size:15px}
+
+/* placeholder */
+.ph{border:1.5px dashed var(--n-300);border-radius:12px;padding:26px;background:var(--n-50);color:var(--n-600);font-size:14.5px}
+.ph .t{font-weight:600;color:var(--n-800);font-size:15px;margin-bottom:6px;display:flex;gap:8px;align-items:center}
+.ph .t svg{width:16px;height:16px;color:var(--warning-600)}
+
+/* about */
+.about{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:start;border:1px solid var(--n-200);border-radius:12px;padding:26px;background:#fff}
+.avatar{width:78px;height:78px;border-radius:14px;background:var(--teal-700);color:#fff;display:grid;place-items:center;font-size:26px;font-weight:600}
+
+/* cta */
+.cta{background:var(--teal-800);color:#fff;text-align:center}
+.cta h2{font-size:34px;color:#fff;margin-bottom:12px}
+.cta p{color:var(--teal-100);font-size:17px;max-width:560px;margin:0 auto 26px}
+
+footer{background:var(--n-900);color:var(--n-400);padding:48px 0 34px;font-size:14px}
+footer a{color:var(--n-300);text-decoration:none}
+footer a:hover{color:#fff}
+.fgrid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:28px;margin-bottom:30px}
+.fgrid h4{color:#fff;font-size:13px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em}
+.fgrid ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px}
+.fbot{border-top:1px solid rgba(255,255,255,.1);padding-top:20px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px}
+
+@media(max-width:960px){
+.heroin,.outgrid,.stakegrid,.pgrid,.cards2{grid-template-columns:1fr}
+.cards3{grid-template-columns:1fr}
+.bandin{grid-template-columns:1fr 1fr;gap:18px}
+.fgrid{grid-template-columns:1fr 1fr}
+h1.h1{font-size:34px}h2.sech{font-size:27px}
+.navlinks{display:none}
+.about{grid-template-columns:1fr}
+section{padding:52px 0}
+}
+</style>
+</head>
+<body>
+<div class="proto"><b>WeeklyCert</b><span>prototip javnog sajta</span><span class="k">tekst je prijedlog</span><span class="k">dizajn iz spec/14</span><span style="margin-left:auto">struktura po spec/16</span></div>
+
+<header class="nav"><div class="navin">
+  <a class="logo" href="#"><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>WeeklyCert</a>
+  <nav class="navlinks"><a href="#how">How it works</a><a href="#output">What you get</a><a href="#pricing">Pricing</a><a href="#faq">Questions</a><a href="#about">Who we are</a></nav>
+  <div class="navright">
+    <a class="tel" href="tel:+18455550142"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>(845) 555-0142</a>
+    <a class="btn sm ghost" href="#">Log in</a>
+    <a class="btn sm p" href="#pricing">Start free</a>
+  </div>
+</div></header>
+
+<!-- HERO -->
+<section class="hero"><div class="wrap heroin">
+  <div>
+    <h1 class="h1">Your weekly New York certified payroll, XML and WH&#8209;347, done in ten minutes.</h1>
+    <p class="hsub">Built for New York subcontractors with 3 to 30 workers. Enter hours once. We build the NYSDOL portal file and the federal WH&#8209;347, and check the overtime codes and fringe math before anyone signs anything.</p>
+    <div class="hctas">
+      <a class="btn lg p" href="#pricing">Start free for 14 days</a>
+      <a class="btn lg" href="#output">See a real WH&#8209;347</a>
+    </div>
+    <div class="hmicro">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>$79 a month, cancel anytime</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>We do the setup for you</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>New York only, on purpose</span>
+    </div>
+  </div>
+  <div class="shot">
+    <div class="bar"><i></i><i></i><i></i><span class="u">app.weeklycert.com/hudson-electric/week/2026-09-12</span></div>
+    <div class="miniapp">
+      <div class="head"><b>Hours, week ending Sat Sep 12</b><span style="font-size:11px;color:var(--n-500)">PS 118 Brooklyn &middot; PRC 2026004512</span></div>
+      <table>
+        <thead><tr><th>Worker</th><th class="c">Sun</th><th class="c">Mon</th><th class="c">Tue</th><th class="c">Wed</th><th class="c">Thu</th><th class="c">Fri</th><th class="c">Sat</th><th style="text-align:right">Gross</th></tr></thead>
+        <tbody>
+          <tr><td>Alvarez, Miguel<br><span style="color:var(--n-500);font-size:10px">Electrician</span></td><td class="c"></td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c"></td><td style="text-align:right">2,216.00</td></tr>
+          <tr class="err"><td>Chen, David<br><span style="color:var(--n-500);font-size:10px">Electrician</span></td><td class="c"></td><td class="c">8</td><td class="c"><b>9</b><span class="ot">OT 1.0</span></td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">6<span class="ot">OT 6.0</span></td><td style="text-align:right">2,798.20</td></tr>
+          <tr><td>Okafor, Chidi<br><span style="color:var(--n-500);font-size:10px">Apprentice 60%</span></td><td class="c"></td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c"></td><td style="text-align:right">1,329.60</td></tr>
+          <tr><td>Rossi, Anna<br><span style="color:var(--n-500);font-size:10px">Electrician</span></td><td class="c"></td><td class="c">8</td><td class="c">8</td><td class="c">8</td><td class="c">4</td><td class="c"></td><td class="c"></td><td style="text-align:right">1,551.20</td></tr>
+        </tbody>
+      </table>
+      <div class="fp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Overtime after 8 hours a day, OT code B.</b> Tuesday has 9 straight-time hours for David Chen. The ninth hour moves to 83.10.</div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- PROOF BAND -->
+<div class="band"><div class="wrap bandin">
+  <div><div class="n">10 min</div><div class="l">a typical week, start to signed</div></div>
+  <div><div class="n">2</div><div class="l">filings from one entry: NY XML and WH-347</div></div>
+  <div><div class="n">40+</div><div class="l">checks run before you can certify</div></div>
+  <div><div class="n">$0</div><div class="l">setup if you would rather do it yourself</div></div>
+</div></div>
+
+<!-- OUTPUT -->
+<section id="output"><div class="wrap">
+  <div class="eyebrow">What you actually get</div>
+  <h2 class="sech">The two documents, full size, before you pay anything</h2>
+  <p class="lede">Every other tool in this category shows you a stock photo of a hard hat. Here is the output. Download a real sample and open it in front of your bookkeeper.</p>
+  <div class="outgrid">
+    <div>
+      <div class="captionrow"><h3>NYSDOL portal file</h3><span class="tag">validated against the state schema</span></div>
+      <div class="xmlbox"><span class="at">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="tg">&lt;ProjectRollup&gt;</span>
+  <span class="tg">&lt;prcNumber&gt;</span><span class="vl">2026004512</span><span class="tg">&lt;/prcNumber&gt;</span>
+  <span class="tg">&lt;weekEndingDate&gt;</span><span class="vl">2026-09-12T12:00:00.000Z</span><span class="tg">&lt;/weekEndingDate&gt;</span>
+  <span class="tg">&lt;employeeWorkWeeks&gt;</span>
+    <span class="tg">&lt;employeeWorkWeek&gt;</span>
+      <span class="tg">&lt;employee&gt;</span>
+        <span class="tg">&lt;firstName&gt;</span><span class="vl">Miguel</span><span class="tg">&lt;/firstName&gt;</span>
+        <span class="tg">&lt;lastName&gt;</span><span class="vl">Alvarez</span><span class="tg">&lt;/lastName&gt;</span>
+        <span class="tg">&lt;ssnLast4&gt;</span><span class="vl">4417</span><span class="tg">&lt;/ssnLast4&gt;</span>
+        <span class="tg">&lt;nysRegisteredApprentice&gt;</span><span class="vl">false</span><span class="tg">&lt;/&gt;</span>
+      <span class="tg">&lt;/employee&gt;</span>
+      <span class="tg">&lt;workWeeks&gt;&lt;workWeek&gt;</span>
+        <span class="tg">&lt;stHourlyRate&gt;</span><span class="vl">55.40</span><span class="tg">&lt;/stHourlyRate&gt;</span>
+        <span class="tg">&lt;otHourlyRate&gt;</span><span class="vl">83.10</span><span class="tg">&lt;/otHourlyRate&gt;</span>
+      <span class="tg">&lt;/workWeek&gt;&lt;/workWeeks&gt;</span>
+    ...</div>
+      <p style="font-size:13.5px;color:var(--n-600);margin-top:11px">One project, one week, up to 500 workers, exactly the way the portal expects it. If the portal ever rejects a file, paste the error and we tell you which worker and which field caused it.</p>
+    </div>
+    <div>
+      <div class="captionrow"><h3>Federal WH-347</h3><span class="tag">January 2025 revision</span></div>
+      <div class="doc">
+        <div class="dh">PAYROLL</div>
+        <div class="ds">U.S. Department of Labor, Wage and Hour Division &middot; Form WH-347 (Rev. Jan 2025) &middot; OMB 1235-0008</div>
+        <div style="display:flex;gap:18px;font-size:10px;margin-bottom:9px">
+          <div><b>NAME OF CONTRACTOR</b><br>Hudson Electric LLC <span style="border:1px solid var(--n-700);padding:0 3px">X</span> SUBCONTRACTOR</div>
+          <div><b>PAYROLL NO.</b><br>13</div><div><b>WEEK ENDING</b><br>09/12/2026</div>
+        </div>
+        <table>
+          <thead><tr><th>1A</th><th>Name</th><th>1E ID</th><th>2</th><th>3 Classification</th><th>5 Hrs</th><th>6A Rate</th><th>6B Fringe</th><th>7A Gross</th><th>9 Net</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Alvarez, Miguel</td><td class="mono">XXX-XX-4417</td><td>J</td><td>Electrician</td><td>40.0</td><td>55.40</td><td>36.12</td><td>2,216.00</td><td>1,508.44</td></tr>
+            <tr><td>2</td><td>Chen, David</td><td class="mono">XXX-XX-9038</td><td>J</td><td>Electrician</td><td>47.0</td><td>55.40</td><td>36.12</td><td>2,798.20</td><td>1,872.10</td></tr>
+            <tr><td>3</td><td>Okafor, Chidi</td><td class="mono">XXX-XX-7731</td><td>RA</td><td>Electrician</td><td>40.0</td><td>33.24</td><td>21.67</td><td>1,329.60</td><td>1,014.88</td></tr>
+            <tr><td>4</td><td>Rossi, Anna</td><td class="mono">XXX-XX-5512</td><td>J</td><td>Electrician</td><td>28.0</td><td>55.40</td><td>36.12</td><td>1,551.20</td><td>1,072.31</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:10px;font-size:9.5px;color:var(--n-500)">Page 2 carries the Statement of Compliance with the six certification boxes, signed electronically. Worker home addresses are never printed.</div>
+      </div>
+      <p style="font-size:13.5px;color:var(--n-600);margin-top:11px">Filled into the actual government form, not a copy of it, so the general contractor recognises it immediately.</p>
+    </div>
+  </div>
+  <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
+    <a class="btn" href="#">Download a sample WH-347 (PDF)</a>
+    <a class="btn" href="#">Download a sample XML</a>
+    <span style="align-self:center;font-size:13.5px;color:var(--n-600)">No email required.</span>
+  </div>
+</div></section>
+
+<!-- STAKES -->
+<section class="stakes"><div class="wrap stakegrid">
+  <div>
+    <div class="eyebrow">Why this changed in 2026</div>
+    <h2 class="sech">Paper is gone. The portal is not optional.</h2>
+    <p class="lede" style="margin-bottom:18px">Since January 1, 2026, certified payroll for New York public work goes through the NYSDOL electronic portal. The file has to match the state schema exactly, and the classification names have to match the state list word for word.</p>
+    <p style="color:var(--n-600);font-size:15px">Nothing here is a scare tactic. These are the published rules, and you can check every one of them.</p>
+  </div>
+  <dl class="factlist">
+    <div><dt>Who has to file</dt><b>Every contractor and subcontractor on Article 8 public work</b></div>
+    <div><dt>How often</dt><b>At least every 30 days from the project start date</b></div>
+    <div><dt>Grace period</dt><b>14 days</b></div>
+    <div><dt>After that</dt><b>$100 per day, per the NYSDOL FAQ</b></div>
+    <div><dt>Federal jobs too</dt><b>WH-347 within 7 days of the pay date (29 CFR 3.4)</b></div>
+    <div><dt>Records kept</dt><b>Six years</b></div>
+  </dl>
+</div></section>
+
+<!-- HOW -->
+<section id="how"><div class="wrap">
+  <div class="eyebrow">How it works</div>
+  <h2 class="sech">Three steps, every week</h2>
+  <p class="lede">The first week we set up with you. After that it is the same three steps, and most of it is already filled in from last week.</p>
+  <div class="cards3" style="margin-top:30px">
+    <div class="c"><div class="num">1</div><h3>Put in the hours</h3><p>Type them into a grid that works like a spreadsheet, or import the export from QuickBooks Time, Gusto, ADP, Paychex or your own file. Last week's crew is already there.</p></div>
+    <div class="c"><div class="num">2</div><h3>We check the math</h3><p>Overtime by the OT code on your wage schedule, not a guess. Fringe credit against what the determination requires. Apprentice ratios and registration. Deduction totals that have to add up to net pay.</p></div>
+    <div class="c"><div class="num">3</div><h3>Sign and file</h3><p>Your certifying officer signs electronically, which the Department of Labor accepts. Download the XML for the portal, the WH-347 for the general contractor, or send the whole package by email.</p></div>
+  </div>
+  <div class="ph" style="margin-top:26px">
+    <div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>Ovdje ide klikabilni demo</div>
+    Istraživanje: 71% najuspješnijih interaktivnih demoa nema formu prije demoa, a 88% sesija je na desktopu, što je tačno naš kupac. Demo završava na generisanom PDF-u. Snima se tek kad aplikacija postoji, u koraku 3 plana izrade.
+  </div>
+</div></section>
+
+<!-- OLD WAY -->
+<section style="background:var(--n-50);border-top:1px solid var(--n-200);border-bottom:1px solid var(--n-200)"><div class="wrap">
+  <div class="eyebrow">The difference</div>
+  <h2 class="sech">What Friday afternoon looks like</h2>
+  <table class="cmp" style="margin-top:26px">
+    <colgroup><col style="width:34%"><col style="width:33%"><col class="us" style="width:33%"></colgroup>
+    <thead><tr><th></th><th>A spreadsheet</th><th style="color:var(--teal-700)">WeeklyCert</th></tr></thead>
+    <tbody>
+      <tr><td><b>Entering the crew</b></td><td class="no">Retype the same 12 names every week</td><td class="yes">Last week is already loaded</td></tr>
+      <tr><td><b>Overtime</b></td><td class="no">You remember the rule, or you do not</td><td class="yes">Read from the OT codes on your PRC schedule</td></tr>
+      <tr><td><b>Fringe benefits</b></td><td class="no">Annualised by hand, if at all</td><td class="yes">Checked against the determination, shortfall shown per hour</td></tr>
+      <tr><td><b>Apprentices</b></td><td class="no">Nobody checks the ratio until an audit does</td><td class="yes">Flagged the moment the ratio breaks</td></tr>
+      <tr><td><b>The portal file</b></td><td class="no">Typed into the portal, worker by worker</td><td class="yes">One file, validated against the state schema</td></tr>
+      <tr><td><b>A rejected upload</b></td><td class="no">A line number and a cryptic message</td><td class="yes">Paste it in, we name the worker and the field</td></tr>
+      <tr><td><b>Six-year records</b></td><td class="no">A folder somewhere</td><td class="yes">Every version kept, with the exact input it came from</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<!-- PRICING -->
+<section class="price" id="pricing"><div class="wrap">
+  <div class="eyebrow" style="color:var(--teal-300)">Pricing</div>
+  <h2 class="sech">One price. Published, because you should not have to ask.</h2>
+  <p class="lede">The established tools in this category quote you after a discovery call. Their published starting points run from $175 to $400 a month, with setup fees from about $995 to $4,995.</p>
+  <div class="pgrid">
+    <div class="pcard">
+      <div style="font-size:14px;font-weight:600;color:var(--teal-700);letter-spacing:.04em;text-transform:uppercase;margin-bottom:10px">Everything, one plan</div>
+      <div class="amt">$79<small> / month</small></div>
+      <p style="color:var(--n-600);margin-top:8px;font-size:15px">Unlimited projects, unlimited workers, unlimited filings. Two months free if you pay yearly.</p>
+      <ul class="plist">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>NYSDOL portal XML and federal WH-347</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>Overtime, fringe and apprentice checks before you sign</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>Import from your payroll or time system</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>Deadline reminders at 10, 5, 2 and 0 days</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>Six years of records, exportable any time</li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg>Your bookkeeper and your signer, at no extra cost</li>
+      </ul>
+      <a class="btn lg p" style="width:100%;margin-top:22px" href="#">Start free for 14 days</a>
+      <p style="text-align:center;font-size:13px;color:var(--n-600);margin-top:10px">Card required, nothing charged for 14 days.</p>
+    </div>
+    <div>
+      <div class="setupbox">
+        <h3>Setup, paid once</h3>
+        <p>We build your company, projects, classifications, rates, fringe plans and workers from your files, then file the first week together on a call. Most people take Standard.</p>
+        <div class="tiers">
+          <div><span><b>Basic</b><br><span>1 project, up to 10 workers</span></span><b>$149</b></div>
+          <div><span><b>Standard</b><br><span>up to 5 projects, 30 workers, union fringe plans, one training call</span></span><b>$299</b></div>
+          <div><span><b>Complex</b><br><span>up to 12 projects, 75 workers, apprentice ratios, 12 weeks of history</span></span><b>$499</b></div>
+          <div><span><b>Do it yourself</b><br><span>the product is the same</span></span><b>$0</b></div>
+        </div>
+        <p style="margin-top:16px;font-size:13.5px">Full refund of the setup fee if we do not have you live within ten business days.</p>
+      </div>
+      <div class="ph" style="margin-top:20px;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.2);color:var(--n-400)">
+        <div class="t" style="color:#fff"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>Odluka koja stoji otvorena</div>
+        Da li obećati nadoknadu kazne do 2.500 $ ako predaja padne isključivo našom greškom. Očekivani trošak je blizu nule, marketinška vrijednost velika, ali traži advokatski pregled. Vidi spec/13 C8 i spec/18.
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<!-- TRUST -->
+<section><div class="wrap">
+  <div class="cards2">
+    <div>
+      <div class="eyebrow">Your workers' data</div>
+      <h2 class="sech" style="font-size:28px">What we hold, and what we refuse to hold</h2>
+      <ul class="plist" style="margin-top:18px">
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg><span><b>We never store a full Social Security number.</b> The state accepts the last four digits or a date of birth, so that is all we keep. There is no column for a full SSN anywhere in our database.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg><span>Home addresses and dates of birth are encrypted with a key that belongs to your company alone. Every time one is read, it is logged, and you can see that log.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg><span>All data is stored and processed in United States data centres.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg><span>Two-factor authentication is required for anyone who can sign a certification.</span></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6 9 17l-5-5"/></svg><span>We keep a written information security program under the New York SHIELD Act, and we will send it to your general contractor's risk team on request.</span></li>
+      </ul>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div class="ph"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>Ovdje idu izjave kupaca</div>
+      Tri izjave, svaka s nazivom firme, zanatom, gradom, brojem radnika i jednim brojem ("s tri sata na dvadeset minuta"). <b>Ne izmišljaju se.</b> Prazno stoji dok prvih deset kupaca ne pristane. Istraživanje pokazuje da su za ovog kupca strukovna udruženja (NECA, ABC Empire State, AGC NYS, CFMA) i BBB jači signal od logotipa velikih firmi.</div>
+      <div class="ph"><div class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>Ovdje idu značke udruženja i recenzija</div>
+      Capterra i G2 značke kad postoje ocjene. Bez SOC 2 na početku, i bez fraza tipa "bank-level encryption". Piše se tačno šta radimo, kao u koloni lijevo.</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- FAQ -->
+<section id="faq" style="background:var(--n-50);border-top:1px solid var(--n-200)"><div class="wrap" style="max-width:840px">
+  <div class="eyebrow">Questions people actually ask</div>
+  <h2 class="sech" style="margin-bottom:26px">Before you sign up</h2>
+  <details class="faq" open><summary>Do you file with NYSDOL for me, or do I still upload it?</summary><p>You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we do is produce a file the portal accepts on the first try, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete. If the portal rejects a file, paste the error and we point at the worker and field that caused it.</p></details>
+  <details class="faq"><summary>Do I have to change payroll providers?</summary><p>No. Keep Gusto, ADP, Paychex, QuickBooks or your accountant. We only need hours and the pay figures, and we import them from the exports those systems already produce.</p></details>
+  <details class="faq"><summary>What about weeks when nobody worked?</summary><p>You still have to report them, and the portal does not accept a file for them. We track which weeks are missing, tell you which ones to mark as no-work in the portal, and keep the payroll numbers running without gaps, which is what an auditor looks at first.</p></details>
+  <details class="faq"><summary>My job is in New York City. Does that work?</summary><p>Not yet, and we will say so before you pay. New York City public improvement and roadway excavation projects go through the City's own system, not the NYSDOL portal. If all your work is in the five boroughs, we are the wrong tool today. If you have both, we cover the state jobs and tell you plainly which ones we do not.</p></details>
+  <details class="faq"><summary>How long is setup, really?</summary><p>Seven business days from the day you pay, and most of that is waiting on your spreadsheet. Our part is a 30 minute kickoff call, building your data, and a 30 minute handover where we file your first week together. If we miss ten business days, the setup fee comes back.</p></details>
+  <details class="faq"><summary>Who are you?</summary><p>One person, named, with a phone number, on the About section below. Not a call centre and not a venture-funded team of forty. That is the honest trade: you get the person who wrote the software answering the phone, and you do not get 24/7 coverage.</p></details>
+  <details class="faq"><summary>What happens to my records if I cancel?</summary><p>New York requires you to keep certified payroll records for six years. You get read-only access and a full export for 30 days after cancelling, and three reminders before that window closes. Export is one button, any time, whether you are a customer or not.</p></details>
+  <details class="faq"><summary>What if the math is wrong?</summary><p>You sign the certification, not us, and the classification you pick is your determination. What we guarantee is the arithmetic and the file format. Every calculation rule we apply is written down, cites the regulation it comes from, and is tested against worked examples we publish.</p></details>
+</div></section>
+
+<!-- ABOUT -->
+<section id="about"><div class="wrap">
+  <div class="eyebrow">Who we are</div>
+  <h2 class="sech" style="margin-bottom:22px">One person, and a phone number that rings</h2>
+  <div class="about">
+    <div class="avatar">MH</div>
+    <div>
+      <h3 style="font-size:19px;margin-bottom:6px">Mume Hodzic, founder</h3>
+      <p style="color:var(--n-600);font-size:15.5px;margin-bottom:14px">I build and run WeeklyCert on my own. I read every support email and I answer the phone during New York business hours. I am not in New York: I work from Bosnia, and I say so here because you would find out anyway and because your general contractor's risk team will ask. Your data stays in United States data centres; I am the one person who can reach it, under the security program described above.</p>
+      <div style="display:flex;gap:22px;flex-wrap:wrap;font-size:14.5px">
+        <span><b>Support hours</b><br><span style="color:var(--n-600)">9:00 to 16:00 Eastern, Monday to Friday</span></span>
+        <span><b>Blocking a filing</b><br><span style="color:var(--n-600)">answered within 2 business hours</span></span>
+        <span><b>Phone</b><br><span style="color:var(--n-600)">(845) 555-0142</span></span>
+        <span><b>Mail</b><br><span style="color:var(--n-600)">WeeklyCert LLC, Casper, Wyoming</span></span>
+      </div>
+      <div class="ph" style="margin-top:18px;padding:14px 16px;font-size:13.5px">Broj telefona i adresa su za sada izmišljeni. Prije objave: Wyoming adresa registrovanog agenta i pravi broj (Google Voice ili OpenPhone).</div>
+    </div>
+  </div>
+</div></section>
+
+<!-- CTA -->
+<section class="cta"><div class="wrap">
+  <h2>Try it on your next week</h2>
+  <p>Fourteen days free. If it does not save you an afternoon, cancel in two clicks and take your records with you.</p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a class="btn lg onDark" href="#">Start free for 14 days</a>
+    <a class="btn lg outDark" href="tel:+18455550142">Or call (845) 555-0142</a>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div>
+      <a class="logo" style="color:#fff" href="#"><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>WeeklyCert</a>
+      <p style="margin-top:12px;max-width:280px">Certified payroll for New York subcontractors. NYSDOL portal XML and federal WH-347 from one weekly entry.</p>
+      <p style="margin-top:14px">WeeklyCert LLC<br>Casper, Wyoming<br>(845) 555-0142</p>
+    </div>
+    <div><h4>Product</h4><ul><li><a href="#how">How it works</a></li><li><a href="#output">What you get</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#">Sample WH-347</a></li><li><a href="#">Status</a></li></ul></div>
+    <div><h4>New York guides</h4><ul><li><a href="#">The 30-day filing rule</a></li><li><a href="#">Reading OT codes on a PRC schedule</a></li><li><a href="#">Fringe annualisation, worked example</a></li><li><a href="#">Apprentice ratios</a></li><li><a href="#">No-work weeks</a></li></ul></div>
+    <div><h4>Company</h4><ul><li><a href="#about">Who we are</a></li><li><a href="#">Support</a></li><li><a href="#">Security</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li></ul></div>
+  </div>
+  <div class="fbot">
+    <span>&copy; 2026 WeeklyCert LLC. Not a law firm and not a payroll provider. You sign your own certifications.</span>
+    <span>Built for New York. On purpose.</span>
+  </div>
+</div></footer>
+</body>
+</html>

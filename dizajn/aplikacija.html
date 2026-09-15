@@ -1,0 +1,1075 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WeeklyCert: prototip aplikacije</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+--teal-50:#EAF6F5;--teal-100:#CFEAE8;--teal-200:#A3D6D3;--teal-300:#6BBBB7;
+--teal-400:#2F9D9B;--teal-500:#0F8385;--teal-600:#0C6A6B;--teal-700:#0A5556;
+--teal-800:#0A4445;--teal-900:#093839;
+--brand:var(--teal-600);--brand-hover:var(--teal-700);--brand-ring:var(--teal-500);
+--n-50:#F7F9FA;--n-100:#EEF1F4;--n-200:#DFE4E9;--n-300:#C7CFD7;
+--n-400:#98A4B0;--n-450:#7A8894;--n-500:#6B7885;--n-600:#4E5A66;
+--n-700:#39434D;--n-800:#252C33;--n-900:#12171B;
+--error-50:#FEF3F2;--error-100:#FEE4E2;--error-500:#D92D20;--error-600:#B42318;--error-700:#912018;
+--warning-50:#FFFAEB;--warning-100:#FEF0C7;--warning-500:#DC6803;--warning-600:#B54708;--warning-700:#93370D;
+--success-50:#ECFDF3;--success-100:#D1FADF;--success-500:#079455;--success-600:#067647;--success-700:#05603A;
+--info-50:#EFF6FF;--info-100:#DBEAFE;--info-500:#1570EF;--info-600:#175CD3;--info-700:#1849A9;
+--text-primary:var(--n-900);--text-secondary:var(--n-600);--text-disabled:var(--n-400);
+--border-interactive:var(--n-450);--border-decorative:var(--n-200);
+--surface:#fff;--surface-sunken:var(--n-50);--surface-header:var(--n-100);
+--focus-ring:0 0 0 2px #fff,0 0 0 4px var(--brand-ring);
+--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;--sp-8:32px;
+--radius-sm:3px;--radius-md:6px;--radius-lg:10px;
+--shadow-sm:0 1px 2px rgba(18,23,27,.05),0 1px 1px rgba(18,23,27,.03);
+--shadow-md:0 2px 8px rgba(18,23,27,.07);
+--shadow-lift:0 4px 14px rgba(18,23,27,.09);
+--font-sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;
+--font-mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font-sans);font-size:15px;line-height:1.45;color:var(--text-primary);background:var(--n-100);-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer}
+a{color:var(--teal-700)}
+.tnum,.num,.mono{font-variant-numeric:tabular-nums}
+::selection{background:var(--teal-100)}
+
+/* prototype strip */
+.proto{background:var(--n-900);color:var(--n-300);font-size:11.5px;padding:6px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;letter-spacing:.01em}
+.proto b{color:#fff;font-weight:600;letter-spacing:-.01em}
+.proto .k{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.08);border-radius:4px;padding:1px 7px;font-family:var(--font-mono);font-size:10.5px;color:var(--teal-200)}
+
+/* shell */
+.shell{display:grid;grid-template-columns:236px 1fr;min-height:calc(100vh - 30px)}
+.side{background:var(--n-900);color:#fff;display:flex;flex-direction:column;position:relative}
+.side::after{content:"";position:absolute;inset:0 -1px 0 auto;width:1px;background:rgba(255,255,255,.07)}
+.brand{padding:18px 16px 15px;display:flex;flex-wrap:nowrap;align-items:center;gap:9px;font-weight:600;font-size:16.5px;letter-spacing:-.02em;white-space:nowrap;line-height:1}
+.brand .mk{width:23px;height:23px;border-radius:6px;background:linear-gradient(160deg,var(--teal-400),var(--teal-600));display:grid;place-items:center;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+.brand .mk svg{width:14px;height:14px}
+.firm{margin:0 12px 16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:7px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:6px;cursor:pointer;transition:background .12s}
+.firm:hover{background:rgba(255,255,255,.1)}
+.firm .nm{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-.005em}
+.firm .sub{font-size:10.5px;color:var(--n-500);margin-top:1px;font-family:var(--font-mono)}
+.nav{padding:0 10px;flex:1}
+.navgrp{font-size:10.5px;text-transform:uppercase;letter-spacing:.09em;color:var(--n-500);padding:16px 8px 6px;font-weight:600}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:7px;color:var(--n-300);text-decoration:none;font-size:13.5px;position:relative;border:0;background:none;width:100%;text-align:left;transition:background .12s,color .12s;margin-bottom:1px}
+.nav a svg{width:16px;height:16px;flex:none;opacity:.8}
+.nav a:hover{background:rgba(255,255,255,.06);color:#fff}
+.nav a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.nav a.on svg{opacity:1;color:var(--teal-300)}
+.nav a.on::before{content:"";position:absolute;left:-10px;top:7px;bottom:7px;width:3px;border-radius:0 3px 3px 0;background:var(--teal-300)}
+.nav a .cnt{margin-left:auto;font-size:10.5px;background:var(--error-600);color:#fff;border-radius:999px;padding:1.5px 6.5px;font-weight:600;line-height:1.3}
+.sidefoot{padding:13px 12px;border-top:1px solid rgba(255,255,255,.08);font-size:12px;color:var(--n-400)}
+.sidefoot .me{display:flex;align-items:center;gap:9px;color:#fff;font-size:13px}
+.sidefoot .av{width:26px;height:26px;border-radius:999px;background:var(--teal-700);display:grid;place-items:center;font-size:10.5px;font-weight:600;color:#fff;letter-spacing:.02em}
+.sidefoot .hlp{margin-top:12px;display:flex;align-items:center;gap:7px;cursor:pointer}
+.sidefoot .hlp:hover{color:var(--n-200)}
+
+.main{background:var(--n-50);min-width:0;display:flex;flex-direction:column}
+.topbar{background:#fff;border-bottom:1px solid var(--border-decorative);padding:14px 26px 15px;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}
+.crumb{font-size:11.5px;color:var(--text-secondary);margin-bottom:3px;letter-spacing:.01em}
+.crumb b{color:var(--n-700);font-weight:500}
+.h1{font-size:23px;font-weight:600;margin:0;letter-spacing:-.022em;line-height:1.18}
+.h1 .meta{font-size:13px;font-weight:400;color:var(--text-secondary);margin-left:9px;letter-spacing:0}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.content{padding:22px 26px 56px}
+
+/* buttons */
+.btn{height:36px;padding:0 14px;border-radius:7px;border:1px solid var(--n-450);background:#fff;color:var(--n-800);font-size:13.5px;font-weight:600;display:inline-flex;align-items:center;gap:7px;transition:background .12s,border-color .12s,box-shadow .12s;box-shadow:var(--shadow-sm)}
+.btn svg{width:15px;height:15px}
+.btn:hover{background:var(--n-50);border-color:var(--n-500)}
+.btn.p{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.p:hover{background:var(--brand-hover);border-color:var(--brand-hover)}
+.btn.d{color:var(--error-600);border-color:var(--error-500)}
+.btn.sm{height:31px;padding:0 11px;font-size:12.5px;border-radius:6px}
+.btn.sm svg{width:14px;height:14px}
+.btn[disabled],.btn.off{opacity:.42;cursor:not-allowed;box-shadow:none}
+.btn:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible,summary:focus-visible{outline:none;box-shadow:var(--focus-ring)}
+.lnk{background:none;border:0;color:var(--teal-700);font-weight:600;font-size:13px;padding:0;text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.lnk:hover{color:var(--teal-800)}
+
+/* badges */
+.bdg{display:inline-flex;align-items:center;gap:4.5px;height:22px;padding:0 8px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap;letter-spacing:.005em}
+.bdg svg{width:11px;height:11px}
+.bdg.n{background:var(--n-100);color:var(--n-700)}
+.bdg.w{background:var(--warning-50);color:var(--warning-700);box-shadow:inset 0 0 0 1px var(--warning-100)}
+.bdg.i{background:var(--info-50);color:var(--info-700);box-shadow:inset 0 0 0 1px var(--info-100)}
+.bdg.s{background:var(--success-50);color:var(--success-700);box-shadow:inset 0 0 0 1px var(--success-100)}
+.bdg.s2{background:var(--success-600);color:#fff}
+.bdg.e{background:var(--error-50);color:var(--error-700);box-shadow:inset 0 0 0 1px var(--error-100)}
+.bdg.p{background:#F4F1FD;color:#6035C4;box-shadow:inset 0 0 0 1px #E6E0FA}
+
+/* cards */
+.card{background:#fff;border:1px solid var(--border-decorative);border-radius:11px;box-shadow:var(--shadow-sm);overflow:hidden}
+.card .hd{padding:13px 17px;border-bottom:1px solid var(--border-decorative);display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(180deg,#fff,#FCFDFD)}
+.card .hd h2{margin:0;font-size:14px;font-weight:600;letter-spacing:-.01em}
+.card .hd .sub{font-size:12px;color:var(--text-secondary);font-weight:400;letter-spacing:0}
+.card .bd{padding:17px}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:13px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--border-decorative);border-radius:11px;padding:14px 16px 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--n-300)}
+.stat .n{font-size:27px;font-weight:600;line-height:1.05;letter-spacing:-.03em}
+.stat .l{font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.35}
+.stat.e::before{background:var(--error-500)}.stat.e .n{color:var(--error-600)}
+.stat.w::before{background:var(--warning-500)}.stat.w .n{color:var(--warning-600)}
+.stat.g::before{background:var(--success-500)}.stat.g .n{color:var(--success-600)}
+
+/* tables */
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13.5px}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.055em;color:var(--text-secondary);font-weight:600;background:var(--surface-header);padding:0 11px;height:38px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--border-decorative)}
+td{padding:0 11px;height:46px;border-bottom:1px solid var(--n-100);white-space:nowrap;vertical-align:middle}
+tbody tr:last-child td{border-bottom:0}
+tbody tr{transition:background .1s}
+.tbl tbody tr:hover td{background:var(--n-50)}
+th.r,td.r{text-align:right}
+.tbl{overflow:auto;border-radius:11px;border:1px solid var(--border-decorative);background:#fff;box-shadow:var(--shadow-sm)}
+.muted{color:var(--text-secondary)}
+.mono{font-family:var(--font-mono);font-size:12.5px;letter-spacing:-.01em}
+td strong{font-weight:600;letter-spacing:-.005em}
+.sub2{font-size:11.5px;color:var(--text-secondary);margin-top:1px}
+
+/* notice */
+.notice{border-radius:9px;padding:12px 14px 12px 13px;display:flex;gap:11px;font-size:13.5px;border:1px solid transparent;align-items:flex-start;line-height:1.48}
+.notice svg{width:16px;height:16px;flex:none;margin-top:2px}
+.notice .ti{font-weight:600;font-size:13.5px;margin-bottom:3px;letter-spacing:-.005em}
+.notice.e{background:var(--error-50);border-color:var(--error-100);color:var(--error-700);box-shadow:inset 3px 0 0 var(--error-500)}
+.notice.w{background:var(--warning-50);border-color:var(--warning-100);color:var(--warning-700);box-shadow:inset 3px 0 0 var(--warning-500)}
+.notice.i{background:var(--info-50);border-color:var(--info-100);color:var(--info-700);box-shadow:inset 3px 0 0 var(--info-500)}
+.notice.s{background:var(--success-50);border-color:var(--success-100);color:var(--success-700);box-shadow:inset 3px 0 0 var(--success-500)}
+.notice p{margin:0;opacity:.94}
+
+/* week grid */
+.weekwrap{display:grid;grid-template-columns:minmax(0,1fr) 306px;gap:0;background:#fff;border:1px solid var(--border-decorative);border-radius:11px;overflow:hidden;box-shadow:var(--shadow-md)}
+.gridscroll{overflow:auto;max-height:none;scroll-padding-block-start:38px;scroll-padding-block-end:46px}
+.grid{border-collapse:separate;border-spacing:0;font-size:13.5px;min-width:100%}
+.grid th{position:sticky;top:0;z-index:3;height:38px;padding:0 8px}
+.grid th.w{position:sticky;left:0;z-index:4;width:186px;min-width:186px;background:var(--surface-header);padding-left:14px;box-shadow:1px 0 0 var(--border-decorative)}
+.grid td.w{position:sticky;left:0;z-index:2;background:#fff;overflow:hidden;width:186px;min-width:186px;padding:0 10px 0 14px;box-shadow:1px 0 0 var(--border-decorative),6px 0 8px -6px rgba(18,23,27,.07)}
+.grid th.d{width:54px;min-width:54px;text-align:center;padding:0}
+.grid th.d span{display:block;font-size:9.5px;opacity:.8;letter-spacing:.06em}
+.grid th.d b{display:block;font-size:12.5px;font-weight:600;text-transform:none;letter-spacing:-.01em;color:var(--n-700);margin-top:-1px}
+.grid th.t{width:52px;min-width:52px;text-align:right}
+.grid th.t2{width:74px;min-width:74px;text-align:right}
+.grid td{height:48px;padding:0;border-bottom:1px solid var(--n-100)}
+.grid td.cell{width:54px;min-width:54px;text-align:center;padding:0;border-left:1px solid var(--n-100);position:relative}
+.grid th.we,.grid td.we{background:#F4F7F8}
+.grid th.we{background:#E7ECEF}
+.grid tbody tr:hover td:not(.err):not(.wrn){background:#FAFCFC}
+.grid tbody tr:hover td.we{background:#F0F4F5}
+.grid tbody tr:hover td.w{background:#FAFCFC}
+.cellin{height:100%;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;padding:0 8px;gap:0}
+.cellin .v{font-size:15px;line-height:18px;font-variant-numeric:tabular-nums}
+.cellin .ot{font-size:11.5px;line-height:13px;color:var(--n-600);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.grid td.cell.err{background:var(--error-50);box-shadow:inset 3px 0 0 var(--error-500)}
+.grid td.cell.wrn{background:var(--warning-50);box-shadow:inset 3px 0 0 var(--warning-500)}
+.grid td.cell.foc .cellin{outline:2px solid var(--brand-ring);outline-offset:-3px;border-radius:4px;background:#fff}
+.mki{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:5px;font-size:9.5px;font-weight:700;color:#fff;font-family:var(--font-mono);line-height:1;vertical-align:1px;margin-right:5px}
+.mki.e{background:var(--error-600)}.mki.w{background:var(--warning-600)}
+.cmk{position:absolute;top:3px;left:4px;width:15px;height:15px;border-radius:5px;font-size:9.5px;font-weight:700;display:grid;place-items:center;color:#fff;font-family:var(--font-mono);line-height:1;z-index:1}
+.cmk.e{background:var(--error-600)}.cmk.w{background:var(--warning-600)}
+.grid .wname{font-weight:500;letter-spacing:-.005em;line-height:1.25}
+.grid .wcls{font-size:11.5px;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:162px;line-height:1.3;margin-top:1px}
+.grid tr.cont td.w{padding-left:26px}
+.grid tr.cont td.w::before{content:"";position:absolute;left:16px;top:-1px;bottom:24px;width:1px;background:var(--n-300)}
+.grid tr.cont td.w::after{content:"";position:absolute;left:16px;top:23px;width:6px;height:1px;background:var(--n-300)}
+.grid tr.cont .wname{color:var(--n-700);font-weight:400;font-size:13px}
+.grid tr.cont .wcls{font-size:11px;font-style:italic}
+.grid td.num{text-align:right;padding:0 8px;font-variant-numeric:tabular-nums}
+.grid td.num.big{font-weight:500}
+.grid tr.sum td{position:sticky;bottom:0;z-index:3;background:var(--surface-header);height:46px;font-weight:600;border-top:1px solid var(--n-300);border-bottom:0;box-shadow:0 -4px 8px -6px rgba(18,23,27,.1)}
+.grid tr.sum td.w{z-index:4;box-shadow:1px 0 0 var(--border-decorative),0 -4px 8px -6px rgba(18,23,27,.1)}
+.grid tr.sum td.we{background:#E7ECEF}
+.gridfoot{padding:10px 14px;font-size:12px;color:var(--text-secondary);border-top:1px solid var(--border-decorative);background:var(--n-50);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+kbd{font-family:var(--font-mono);font-size:11px;background:#fff;border:1px solid var(--n-300);border-bottom-width:2px;border-radius:4px;padding:1px 5px;color:var(--n-700)}
+
+/* findings panel */
+.panel{border-left:1px solid var(--border-decorative);background:var(--n-50);display:flex;flex-direction:column}
+.panel .ph{padding:13px 15px;border-bottom:1px solid var(--border-decorative);background:#fff}
+.panel .ph .t{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:7px;letter-spacing:-.01em}
+.panel .pb{overflow:auto;padding:13px;display:flex;flex-direction:column;gap:10px}
+.fnd{background:#fff;border:1px solid var(--border-decorative);border-radius:9px;padding:11px 12px 11px 13px;font-size:12.5px;line-height:1.45;box-shadow:var(--shadow-sm);position:relative}
+.fnd.h{box-shadow:inset 3px 0 0 var(--error-500),var(--shadow-sm)}
+.fnd.s{box-shadow:inset 3px 0 0 var(--warning-500),var(--shadow-sm)}
+.fnd.i{box-shadow:inset 3px 0 0 var(--n-300),var(--shadow-sm)}
+.fnd .ft{font-weight:600;font-size:12.5px;display:flex;gap:7px;align-items:flex-start;margin-bottom:4px;letter-spacing:-.005em}
+.fnd .fnum{width:16px;height:16px;border-radius:5px;font-size:9.5px;font-weight:700;display:grid;place-items:center;color:#fff;flex:none;margin-top:1px;font-family:var(--font-mono)}
+.fnd.h .fnum{background:var(--error-600)}.fnd.s .fnum{background:var(--warning-600)}.fnd.i .fnum{background:var(--n-450)}
+.fnd .fw{color:var(--text-secondary);margin-bottom:5px}
+.fnd .fx{color:var(--n-800)}
+.fnd .fc{font-family:var(--font-mono);font-size:10px;color:var(--n-500);margin-top:7px;display:block;letter-spacing:-.01em}
+.fnd .fa{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
+.panel .allok{text-align:center;padding:22px 12px;color:var(--text-secondary);font-size:13px}
+
+/* forms */
+.form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:15px 16px;max-width:760px}
+.fw{grid-column:1/-1}
+label.lb{display:block;font-size:12px;font-weight:600;color:var(--n-700);margin-bottom:5px;letter-spacing:.005em}
+label.lb .op{font-weight:400;color:var(--text-secondary)}
+.in{height:37px;border:1px solid var(--border-interactive);border-radius:7px;background:#fff;padding:0 11px;font-size:15px;display:flex;align-items:center;color:var(--text-primary);width:100%;box-shadow:var(--shadow-sm)}
+.in.sel{justify-content:space-between;cursor:pointer}
+.in.ta{height:auto;min-height:64px;padding:9px 11px;align-items:flex-start;line-height:1.5}
+.hint{font-size:12px;color:var(--text-secondary);margin-top:5px;line-height:1.4}
+.in.err{border-color:var(--error-500)}
+
+/* steps */
+.steps{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.steps .st{display:flex;align-items:center;gap:8px;height:34px;padding:0 13px;border:1px solid var(--border-decorative);border-radius:8px;font-size:12.5px;color:var(--text-secondary);background:#fff;box-shadow:var(--shadow-sm)}
+.steps .st .no{width:18px;height:18px;border-radius:999px;background:var(--n-200);color:var(--n-700);font-size:10.5px;font-weight:700;display:grid;place-items:center}
+.steps .st.done{background:var(--success-50);border-color:var(--success-100);color:var(--success-700)}
+.steps .st.done .no{background:var(--success-600);color:#fff}
+.steps .st.now{background:var(--n-900);border-color:var(--n-900);color:#fff;font-weight:600}
+.steps .st.now .no{background:var(--teal-400);color:var(--n-900)}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(auto-fit,minmax(58px,1fr));gap:6px;margin:12px 0 16px}
+.tl div{height:48px;border-radius:8px;border:1px solid var(--border-decorative);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11.5px;font-weight:600;gap:1px;background:#fff;box-shadow:var(--shadow-sm)}
+.tl div .dt{font-weight:400;font-size:10px;opacity:.8}
+.tl .sub{background:var(--success-600);color:#fff;border-color:var(--success-700)}
+.tl .sig{background:var(--success-100);color:var(--success-700);border-color:#BFE7D0}
+.tl .gen{background:var(--info-100);color:var(--info-700);border-color:#C6DCFB}
+.tl .open{background:var(--n-100);color:var(--n-700)}
+.tl .late{background:var(--error-100);color:var(--error-700);border-color:#FBCFCB}
+.tl .nw{background:#fff;color:var(--text-secondary);border-style:dashed}
+.tl .now{outline:2px solid var(--brand);outline-offset:1.5px}
+
+/* doc preview */
+.doc{background:#fff;border:1px solid var(--n-300);border-radius:7px;padding:15px 17px;font-size:11px;color:var(--n-700);box-shadow:var(--shadow-lift)}
+.doc .dh{text-align:center;font-weight:600;font-size:12.5px;color:var(--n-900);letter-spacing:.03em;margin-bottom:2px}
+.doc .ds{text-align:center;font-size:10px;color:var(--text-secondary);margin-bottom:11px}
+.doc .scroll{overflow-x:auto}
+.doc table{font-size:10px;min-width:100%}
+.doc th{height:25px;font-size:9px;padding:0 5px;background:var(--n-100);letter-spacing:.02em}
+.doc td{height:24px;padding:0 5px;font-size:10px;border-bottom:1px solid var(--n-100)}
+.xmlbox{background:var(--n-900);color:#CFEAE8;border-radius:8px;padding:14px 16px;font-family:var(--font-mono);font-size:11.5px;line-height:1.6;overflow:auto;max-height:340px;white-space:pre;box-shadow:var(--shadow-md)}
+.xmlbox .tg{color:#6BBBB7}.xmlbox .at{color:#7A8894}.xmlbox .vl{color:#fff}
+
+/* attest */
+.attest{border:1px solid var(--border-decorative);border-radius:9px;background:var(--n-50);padding:15px;font-size:12.5px;line-height:1.58}
+.chk{display:flex;gap:10px;align-items:flex-start;margin:10px 0}
+.chk .bx{width:16px;height:16px;border:1.5px solid var(--n-700);border-radius:4px;flex:none;margin-top:2px;display:grid;place-items:center;background:#fff}
+.chk .bx.on{background:var(--brand);border-color:var(--brand)}
+.chk .bx.on svg{width:11px;height:11px;color:#fff}
+.chk .bx.off{border-color:var(--n-300)}
+.chk.dim{color:var(--text-secondary)}
+
+/* misc */
+.rowline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:13.5px;margin:0}
+.kv dt{color:var(--text-secondary)}
+.kv dd{margin:0;font-weight:500}
+.screen{display:none}
+.screen.on{display:block}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--n-700);background:#fff;border:1px solid var(--border-decorative);border-radius:7px;padding:5px 11px;box-shadow:var(--shadow-sm);cursor:pointer}
+.pill:hover{border-color:var(--n-400)}
+.legend{display:flex;gap:15px;flex-wrap:wrap;font-size:11.5px;color:var(--text-secondary);margin-top:12px;align-items:center}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:-1px}
+details summary{cursor:pointer}
+@media(max-width:1240px){.weekwrap{grid-template-columns:1fr}.panel{border-left:0;border-top:1px solid var(--border-decorative)}}
+@media(max-width:900px){.shell{grid-template-columns:1fr}.side{display:none}.split,.grid2,.form{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="proto">
+  <b>WeeklyCert</b><span>prototip aplikacije, klikaj lijevu traku</span>
+  <span class="k">izmišljeni podaci</span>
+  <span class="k">dizajn iz spec/14</span>
+  <span style="margin-left:auto">sučelje je na engleskom jer su kupci Amerikanci</span>
+</div>
+<div class="shell">
+<aside class="side">
+  <div class="brand"><span class="mk"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>WeeklyCert</div>
+  <div class="firm"><div><div class="nm">Hudson Electric LLC</div><div class="sub">Reg. 1170234</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A4B0" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div>
+  <nav class="nav">
+    <a class="on" data-go="dash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Dashboard</a>
+    <a data-go="week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>This week<span class="cnt">2</span></a>
+    <a data-go="projects"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 7h6l2 3h10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Projects</a>
+    <a data-go="workers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11a3 3 0 1 0 0-6M18 20a5.6 5.6 0 0 0-2-4.3"/></svg>Workers</a>
+    <a data-go="fringe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M20.8 8.6a5.2 5.2 0 0 0-8.8-2.4 5.2 5.2 0 0 0-8.8 2.4c0 4.4 8.8 10.4 8.8 10.4s8.8-6 8.8-10.4z"/></svg>Fringe plans</a>
+    <a data-go="import"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Import</a>
+    <a data-go="archive"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8M10 12h4"/></svg>Archive</a>
+    <div class="navgrp">Company</div>
+    <a data-go="onboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>Setup</a>
+    <a data-go="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-2.9 1.2 2 2 0 1 1-4 0 1.7 1.7 0 0 0-2.9-1.2l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.7 1.7 0 0 0 3 15a2 2 0 1 1 0-4 1.7 1.7 0 0 0 1.2-2.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 10 4.6a2 2 0 1 1 4 0 1.7 1.7 0 0 0 2.9 1.2l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.7 1.7 0 0 0 21 11a2 2 0 1 1 0 4z"/></svg>Settings</a>
+  </nav>
+  <div class="sidefoot">
+    <div class="me"><span class="av">MH</span><div><div style="font-weight:500">Mirza Hodzic</div><div style="font-size:11px;color:var(--n-400)">Owner</div></div></div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#98A4B0" stroke-width="1.75"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 1 1 3.4 2.5c-.6.2-.9.8-.9 1.4v.4M12 17h.01"/></svg>Help and support</div>
+  </div>
+</aside>
+<div class="main">
+
+<!-- ===================== DASHBOARD ===================== -->
+<section class="screen on" id="dash">
+<div class="topbar">
+  <div><div class="crumb">Hudson Electric LLC</div><h1 class="h1">Monday, September 14<span class="meta">week ending Sat Sep 12</span></h1></div>
+  <div class="acts"><button class="btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Import hours</button><button class="btn p" data-go="week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 5v14M5 12h14"/></svg>Enter this week</button></div>
+</div>
+<div class="content">
+
+<div class="notice e" style="margin-bottom:16px">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+  <div><div class="ti">PS 118 Brooklyn is 3 days past its 30-day state deadline</div>
+  <p>NYSDOL assesses $100 per day once a filing is more than 14 days late. You have 11 days of grace left. Two weeks are unfiled: Sep 5 and Sep 12.</p></div>
+</div>
+
+<div class="stats">
+  <div class="stat e"><div class="n">1</div><div class="l">project past the 30-day deadline</div></div>
+  <div class="stat w"><div class="n">2</div><div class="l">weeks waiting for hours</div></div>
+  <div class="stat"><div class="n">1</div><div class="l">report waiting for signature</div></div>
+  <div class="stat g"><div class="n">38</div><div class="l">filings accepted this year</div></div>
+</div>
+
+<div class="card" style="margin-bottom:16px">
+  <div class="hd"><h2>State filing deadlines <span class="sub">NYSDOL requires a submission at least every 30 days per project</span></h2><button class="lnk">How this works</button></div>
+  <div class="tbl" style="border:0;border-radius:0;box-shadow:none">
+  <table>
+    <thead><tr><th>Project</th><th>PRC</th><th>Last accepted</th><th>Deadline</th><th>Status</th><th>Unfiled weeks</th><th></th></tr></thead>
+    <tbody>
+      <tr><td><strong>PS 118 Brooklyn Roof</strong></td><td class="mono">2026004512</td><td>Aug 12</td><td class="tnum">Sep 11</td><td><span class="bdg e"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M18 6 6 18M6 6l12 12"/></svg>3 days late</span></td><td>2 (Sep 5, Sep 12)</td><td class="r"><button class="btn sm p" data-go="week">Fix now</button></td></tr>
+      <tr><td><strong>Bronx River Pkwy Culvert</strong></td><td class="mono">2026003890</td><td>Sep 2</td><td class="tnum">Oct 2</td><td><span class="bdg s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>18 days left</span></td><td>1 (Sep 12)</td><td class="r"><button class="btn sm" data-go="week">Open</button></td></tr>
+      <tr><td><strong>Yonkers WWTP Upgrade</strong></td><td class="mono">2026005104</td><td>Sep 9</td><td class="tnum">Oct 9</td><td><span class="bdg s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>25 days left</span></td><td>0</td><td class="r"><button class="btn sm">No work this week</button></td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="split">
+  <div class="card">
+    <div class="hd"><h2>Weeks to close</h2><span class="sub">3 open</span></div>
+    <div class="tbl" style="border:0;border-radius:0;box-shadow:none">
+    <table>
+      <thead><tr><th>Week ending</th><th>Project</th><th>Findings</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="tnum">Sep 12</td><td>PS 118 Brooklyn</td><td><span class="bdg e">2 errors</span> <span class="bdg w">1 warning</span></td><td class="r"><button class="btn sm p" data-go="week">Enter hours</button></td></tr>
+        <tr><td class="tnum">Sep 5</td><td>PS 118 Brooklyn</td><td><span class="bdg n">no hours entered</span></td><td class="r"><button class="btn sm">Open</button></td></tr>
+        <tr><td class="tnum">Sep 12</td><td>Bronx River Pkwy</td><td><span class="bdg i">ready to certify</span></td><td class="r"><button class="btn sm" data-go="review">Review</button></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="hd"><h2>Federal WH-347</h2><span class="sub">due within 7 days of the pay date</span></div>
+      <div class="bd" style="padding:0">
+        <div class="tbl" style="border:0;border-radius:0;box-shadow:none">
+        <table><tbody>
+          <tr><td><strong>Bronx River Pkwy</strong><div class="muted" style="font-size:12px">W/E Sep 12 &middot; paid Sep 16</div></td><td class="r"><span class="bdg w">2 days left</span></td><td class="r" style="width:1%"><button class="btn sm" data-go="review">Review</button></td></tr>
+        </tbody></table>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="hd"><h2>Rates and schedules</h2></div>
+      <div class="bd" style="display:flex;flex-direction:column;gap:11px">
+        <div class="notice w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+          <div><div class="ti">NYSDOL published a correction for PRC 2026004512</div><p>Electrician &ndash; Building/Wireman base rate 54.75 to 55.40, retroactive to July 1. Three signed weeks are affected.</p>
+          <div style="margin-top:8px"><button class="btn sm">Review 3 corrections</button></div></div></div>
+        <div class="rowline muted" style="font-size:12.5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Schedules re-checked on the first business day of each month. Last check: Sep 1.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===================== WEEK GRID ===================== -->
+<section class="screen" id="week">
+<div class="topbar">
+  <div><div class="crumb">Projects / PS 118 Brooklyn Roof / Week ending Sep 12, 2026</div>
+    <h1 class="h1">Hours <span class="meta">Sat Sep 12 &middot; payroll no. will be #13 on signature</span></h1></div>
+  <div class="acts">
+    <button class="btn sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy last week</button>
+    <button class="btn sm" data-go="import"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Import CSV</button>
+    <button class="btn sm">Mark no-work week</button>
+    <button class="btn p off" title="2 errors must be fixed first">Review and generate</button>
+  </div>
+</div>
+<div class="content">
+  <div class="notice w" style="margin-bottom:14px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+    <div><div class="ti">Overtime on this project follows OT codes B, E2 and O from the PRC 2026004512 wage schedule</div>
+    <p>B: time and a half after 8 hours a day. E2: Saturday may be a straight-time make-up day when a day was lost to weather. O: double time on Saturday, Sunday and holidays.</p></div>
+  </div>
+
+  <div class="weekwrap">
+    <div>
+    <div class="gridscroll">
+    <table class="grid">
+      <thead><tr>
+        <th class="w">Worker and classification</th>
+        <th class="d we"><span>SUN</span><b>6</b></th><th class="d"><span>MON</span><b>7</b></th><th class="d"><span>TUE</span><b>8</b></th><th class="d"><span>WED</span><b>9</b></th><th class="d"><span>THU</span><b>10</b></th><th class="d"><span>FRI</span><b>11</b></th><th class="d we"><span>SAT</span><b>12</b></th>
+        <th class="t">ST</th><th class="t">OT</th><th class="t">Rate</th><th class="t2">Gross</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td class="w"><div class="wname">Alvarez, Miguel</div><div class="wcls" title="Electrician &ndash; Building/Wireman">Electrician &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">40.0</td><td class="num">0.0</td><td class="num">55.40</td><td class="num">2,216.00</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Chen, David</div><div class="wcls" title="Electrician &ndash; Building/Wireman">Electrician &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell err foc"><span class="cmk e">1</span><div class="cellin"><span class="v">9</span><span class="ot">OT 1.0</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell we wrn"><span class="cmk w">3</span><div class="cellin"><span class="v">6</span><span class="ot">OT 6.0</span></div></td>
+          <td class="num">40.0</td><td class="num">7.0</td><td class="num">55.40</td><td class="num">2,798.20</td>
+        </tr>
+        <tr class="cont">
+          <td class="w"><div class="wname" title="Laborer &ndash; Heavy &amp; Highway">Laborer &middot; J</div><div class="wcls">same worker, second classification</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">4</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">4.0</td><td class="num">0.0</td><td class="num">44.10</td><td class="num">176.40</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname"><span class="mki e">2</span>Okafor, Chidi</div><div class="wcls" title="Electrician &ndash; Building/Wireman">Electrician &middot; RA 60%</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">40.0</td><td class="num">0.0</td><td class="num" style="color:var(--error-600);font-weight:600">33.24</td><td class="num">1,329.60</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Rossi, Anna</div><div class="wcls" title="Electrician &ndash; Building/Wireman">Electrician &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">4</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">28.0</td><td class="num">0.0</td><td class="num">55.40</td><td class="num">1,551.20</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Brennan, Tom</div><div class="wcls" title="Electrician &ndash; Fire Alarm">Fire alarm &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">40.0</td><td class="num">0.0</td><td class="num">52.10</td><td class="num">2,084.00</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Ortega, Luis</div><div class="wcls" title="Laborer &ndash; Heavy &amp; Highway">Laborer &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">4</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">36.0</td><td class="num">0.0</td><td class="num">44.10</td><td class="num">1,587.60</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Kowalski, Pete</div><div class="wcls" title="Laborer &ndash; Heavy &amp; Highway">Laborer &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">40.0</td><td class="num">0.0</td><td class="num">44.10</td><td class="num">1,764.00</td>
+        </tr>
+        <tr>
+          <td class="w"><div class="wname">Delgado, Frank</div><div class="wcls" title="Electrician &ndash; Fire Alarm">Fire alarm &middot; J</div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">8</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">4</span></div></td>
+          <td class="cell"><div class="cellin"><span class="v">4</span></div></td>
+          <td class="cell we"><div class="cellin"><span class="v"></span></div></td>
+          <td class="num">32.0</td><td class="num">0.0</td><td class="num">52.10</td><td class="num">1,667.20</td>
+        </tr>
+        <tr class="sum">
+          <td class="w">Total &middot; 8 workers</td>
+          <td class="num we">0</td><td class="num">68</td><td class="num">68</td><td class="num">72</td><td class="num">60</td><td class="num">56</td><td class="num we">6</td>
+          <td class="num">308.0</td><td class="num">7.0</td><td class="num"></td><td class="num">15,155.10</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="gridfoot">
+      <div><kbd>&larr;&uarr;&rarr;&darr;</kbd> move &middot; <kbd>Enter</kbd> down &middot; <kbd>Tab</kbd> right &middot; <kbd>Ctrl</kbd>+<kbd>D</kbd> fill down &middot; type <span class="mono">8/1</span> to split ST and OT by hand. Classification names shown are yours; the official NY name goes into the file.</div>
+      <div class="rowline"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--success-600)" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg>Saved 09:41</div>
+    </div>
+    </div>
+
+    <aside class="panel">
+      <div class="ph"><div class="t"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--error-600)" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>2 errors, 1 warning, 2 notes</div>
+      <div class="muted" style="font-size:12px;margin-top:4px">Numbers match the marks in the grid. Errors block generating the report.</div></div>
+      <div class="pb">
+        <div class="fnd h">
+          <div class="ft"><span class="fnum">1</span>Overtime after 8 hours a day (OT code B)</div>
+          <div class="fw">Chen, David &middot; Tue Sep 8 &middot; 9 straight-time hours.</div>
+          <div class="fx">Fix: the ninth hour moves to overtime at 83.10. Confirm, or correct the entry.</div>
+          <div class="fa"><button class="btn sm p">Apply fix</button><button class="btn sm">Go to cell</button></div>
+          <span class="fc">OT_NY_CODE &middot; PRC 2026004512, code B</span>
+        </div>
+        <div class="fnd h">
+          <div class="ft"><span class="fnum">2</span>Apprentice has no registered program</div>
+          <div class="fw">Okafor, Chidi is set to 60% of journeyworker with no registration on file.</div>
+          <div class="fx">Fix: add the OA or SAA program registration, or pay the full 55.40 rate. Without registration the full rate is required.</div>
+          <div class="fa"><button class="btn sm p">Add program</button><button class="btn sm">Pay full rate</button></div>
+          <span class="fc">APPRENTICE_NO_RECORD &middot; 29 CFR 5.5(a)(4)</span>
+        </div>
+        <div class="fnd s">
+          <div class="ft"><span class="fnum">3</span>Saturday worked, code O applies</div>
+          <div class="fw">Chen, David &middot; Sat Sep 12 &middot; 6 hours at double time.</div>
+          <div class="fx">If Saturday was a weather make-up day, code E2 allows straight time instead.</div>
+          <div class="fa"><button class="btn sm">Keep double time</button><button class="btn sm">Make-up day</button></div>
+          <span class="fc">OT_NY_WEEKEND</span>
+        </div>
+        <div class="fnd i">
+          <div class="ft"><span class="fnum">4</span>Weighted average used for federal overtime</div>
+          <div class="fw">Chen, David works two classifications. Federal regular rate is 54.24.</div>
+          <span class="fc">WEIGHTED_AVERAGE_USED &middot; 29 CFR 778.115</span>
+        </div>
+        <div class="fnd i">
+          <div class="ft"><span class="fnum">5</span>Fringe is fully covered</div>
+          <div class="fw">Schedule requires 38.62 per hour. Plans credit 36.12, cash in lieu covers 2.50.</div>
+          <span class="fc">FRINGE_OK</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);text-align:center;padding:4px 0 2px">Findings update as you type.</div>
+      </div>
+    </aside>
+  </div>
+  <div class="legend">
+    <span><i style="background:var(--error-50);outline:1px solid var(--error-500)"></i>error, blocks the filing</span>
+    <span><i style="background:var(--warning-50);outline:1px solid var(--warning-500)"></i>warning, needs your confirmation</span>
+    <span><i style="background:#E7ECEF"></i>weekend</span>
+    <span><i style="background:#fff;outline:1px solid var(--brand-ring)"></i>focused cell</span>
+    <span>the small number under a value is computed overtime, not typed</span>
+  </div>
+</div>
+</section>
+
+<!-- ===================== REVIEW & SIGN ===================== -->
+<section class="screen" id="review">
+<div class="topbar">
+  <div><div class="crumb">Projects / Bronx River Pkwy Culvert / Week ending Sep 12, 2026</div>
+    <h1 class="h1">Review and certify <span class="meta">draft v1 generated Sep 14, 09:12</span></h1></div>
+  <div class="acts"><button class="btn sm">Back to hours</button><button class="btn sm">Download XML</button><button class="btn sm">Download WH-347</button></div>
+</div>
+<div class="content">
+  <div class="notice s" style="margin-bottom:16px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <div><div class="ti">No errors. One warning was confirmed by you on Sep 14, 09:10.</div>
+    <p>XML validated against NYDOL_CertPayroll.xsd. 11 workers, 418.5 hours, 3 classifications.</p></div>
+  </div>
+
+  <div class="split">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="hd"><h2>NY XML for the portal</h2><span class="bdg s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>schema valid</span></div>
+        <div class="bd">
+          <div class="xmlbox"><span class="at">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="tg">&lt;ProjectRollup&gt;</span>
+  <span class="tg">&lt;prcNumber&gt;</span><span class="vl">2026003890</span><span class="tg">&lt;/prcNumber&gt;</span>
+  <span class="tg">&lt;weekEndingDate&gt;</span><span class="vl">2026-09-12T12:00:00.000Z</span><span class="tg">&lt;/weekEndingDate&gt;</span>
+  <span class="tg">&lt;employeeWorkWeeks&gt;</span>
+    <span class="tg">&lt;employeeWorkWeek&gt;</span>
+      <span class="tg">&lt;employee&gt;</span>
+        <span class="tg">&lt;firstName&gt;</span><span class="vl">Miguel</span><span class="tg">&lt;/firstName&gt;</span>
+        <span class="tg">&lt;lastName&gt;</span><span class="vl">Alvarez</span><span class="tg">&lt;/lastName&gt;</span>
+        <span class="tg">&lt;ssnLast4&gt;</span><span class="vl">4417</span><span class="tg">&lt;/ssnLast4&gt;</span>
+        <span class="tg">&lt;nysRegisteredApprentice&gt;</span><span class="vl">false</span><span class="tg">&lt;/nysRegisteredApprentice&gt;</span>
+        <span class="tg">&lt;address&gt;</span>
+          <span class="tg">&lt;address1&gt;</span><span class="vl">318 Bay Ridge Ave</span><span class="tg">&lt;/address1&gt;</span>
+          <span class="tg">&lt;city&gt;</span><span class="vl">Brooklyn</span><span class="tg">&lt;/city&gt;</span>
+          <span class="tg">&lt;state&gt;</span><span class="vl">NY</span><span class="tg">&lt;/state&gt;</span>
+          <span class="tg">&lt;postalCode&gt;</span><span class="vl">11220</span><span class="tg">&lt;/postalCode&gt;</span>
+        <span class="tg">&lt;/address&gt;</span>
+      <span class="tg">&lt;/employee&gt;</span>
+      <span class="tg">&lt;deductionGrossEarnings&gt;</span><span class="vl">2216.00</span><span class="tg">&lt;/deductionGrossEarnings&gt;</span>
+      <span class="tg">&lt;netWages&gt;</span><span class="vl">1508.44</span><span class="tg">&lt;/netWages&gt;</span>
+      <span class="tg">&lt;workWeeks&gt;</span>
+        <span class="tg">&lt;workWeek&gt;</span>
+          <span class="tg">&lt;workCategory&gt;</span><span class="vl">Electrician &ndash; Building/Wireman</span><span class="tg">&lt;/workCategory&gt;</span>
+          <span class="tg">&lt;stHourlyRate&gt;</span><span class="vl">55.40</span><span class="tg">&lt;/stHourlyRate&gt;</span>
+          <span class="tg">&lt;otHourlyRate&gt;</span><span class="vl">83.10</span><span class="tg">&lt;/otHourlyRate&gt;</span>
+          ...</div>
+          <div class="rowline" style="margin-top:12px;justify-content:space-between">
+            <span class="muted mono" style="font-size:12px">41 KB &middot; sha256 3f9a&hellip;c2</span>
+            <button class="btn sm">Download 2026003890_2026-09-12_v1.xml</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd"><h2>What you type into the portal by hand</h2><span class="sub">the file does not carry these</span></div>
+        <div class="bd">
+          <dl class="kv">
+            <dt>FEIN</dt><dd class="mono">**-***4192</dd>
+            <dt>NYS registration no.</dt><dd class="mono">1170234</dd>
+            <dt>Payroll number</dt><dd class="mono">11</dd>
+            <dt>No-work week</dt><dd>No</dd>
+            <dt>Final payroll</dt><dd>No</dd>
+          </dl>
+          <div class="notice i" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg>
+          <div>The portal has no API. You upload the file yourself and we record the confirmation. A week can only be uploaded once, into an empty week.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card">
+        <div class="hd"><h2>Federal WH-347, page 1</h2><span class="sub">Rev. January 2025</span></div>
+        <div class="bd" style="background:var(--n-100);border-radius:0 0 10px 10px">
+          <div class="doc">
+            <div class="dh">PAYROLL</div>
+            <div class="ds">U.S. Department of Labor &middot; Wage and Hour Division &middot; Form WH-347 (Rev. Jan 2025) &middot; OMB 1235-0008</div>
+            <div style="display:flex;gap:14px;font-size:10px;margin-bottom:8px">
+              <div><b>NAME OF CONTRACTOR</b><br>Hudson Electric LLC &nbsp;<span style="border:1px solid var(--n-700);padding:0 3px">X</span> SUBCONTRACTOR</div>
+              <div><b>PAYROLL NO.</b><br>11</div>
+              <div><b>WEEK ENDING</b><br>09/12/2026</div>
+            </div>
+            <div class="scroll"><table>
+              <thead><tr><th>1A</th><th>1B/1C Name</th><th>1E ID</th><th>2</th><th>3 Classification</th><th>4 S/O hours</th><th>5</th><th>6A</th><th>6B</th><th>6C</th><th>7A</th><th>9</th></tr></thead>
+              <tbody>
+                <tr><td>1</td><td>Alvarez, Miguel</td><td class="mono">XXX-XX-4417</td><td>J</td><td>Electrician</td><td class="mono">8 8 8 8 8</td><td>40.0</td><td>55.40</td><td>36.12</td><td>2.50</td><td>2,216.00</td><td>1,508.44</td></tr>
+                <tr><td>2</td><td>Chen, David</td><td class="mono">XXX-XX-9038</td><td>J</td><td>Electrician</td><td class="mono">8 9 8 8 8</td><td>41.0</td><td>55.40</td><td>36.12</td><td>2.50</td><td>2,798.20</td><td>1,872.10</td></tr>
+                <tr><td>3</td><td>Okafor, Chidi</td><td class="mono">XXX-XX-7731</td><td>RA</td><td>Electrician</td><td class="mono">8 8 8 8 8</td><td>40.0</td><td>33.24</td><td>21.67</td><td>1.50</td><td>1,329.60</td><td>1,014.88</td></tr>
+                <tr><td colspan="12" style="color:var(--text-secondary)">&hellip; 8 rows per page, page 2 starts at entry 9</td></tr>
+              </tbody>
+            </table></div>
+          </div>
+          <div class="rowline" style="margin-top:12px;justify-content:space-between">
+            <span class="muted" style="font-size:12px">Worker addresses are not printed (29 CFR 5.5(a)(3)(ii)(B))</span>
+            <button class="btn sm">Download PDF</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd"><h2>Statement of Compliance</h2><span class="sub">page 2, exact form wording</span></div>
+        <div class="bd">
+          <div class="attest">
+            <p style="margin:0 0 8px">I, <b>Mirza Hodzic</b>, <b>President</b>, paid or supervised the payment of the laborers or mechanics working on the above project during the stated time period. I certify the following:</p>
+            <div class="chk"><span class="bx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>1.</b> The payroll information submitted with this statement is correct and complete&hellip; and the wage and fringe benefit rates paid are not less than the applicable rates in the wage determination.</span></div>
+            <div class="chk"><span class="bx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>2.</b> All regular payrolls and other basic records are complete and accurate and will be made available upon request.</span></div>
+            <div class="chk"><span class="bx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>3.</b> The classifications reported are the classifications of work each worker actually performed.</span></div>
+            <div class="chk dim"><span class="bx off"></span><span><b>4.</b> Apprentices are registered with OA or a recognized SAA. <i>Not checked: no apprentices on this report.</i></span></div>
+            <div class="chk"><span class="bx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>5.</b> Fringe benefits have been paid in cash and/or to bona fide plans. <i>Checked: 2 plans plus cash in lieu.</i></span></div>
+            <div class="chk"><span class="bx on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span><span><b>6.</b> All workers have been paid the full weekly wages earned, with no impermissible deductions (29 CFR part 3).</span></div>
+            <p style="margin:10px 0 0;font-size:11px;color:var(--error-700)">THE WILLFUL FALSIFICATION OF ANY OF THE ABOVE STATEMENTS MAY SUBJECT THE CONTRACTOR OR SUBCONTRACTOR TO CIVIL OR CRIMINAL PROSECUTION (18 U.S.C. 1001, 31 U.S.C. 3729), AS WELL AS DEBARMENT.</p>
+          </div>
+          <div class="form" style="margin-top:14px;grid-template-columns:1fr 1fr">
+            <div><label class="lb">Certifying official</label><div class="in sel">Mirza Hodzic, President <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div></div>
+            <div><label class="lb">Re-enter password or 2FA code</label><div class="in">&bull;&bull;&bull;&bull;&bull;&bull;</div><div class="hint">Required even though you are signed in.</div></div>
+          </div>
+          <div class="rowline" style="margin-top:14px;justify-content:space-between">
+            <span class="muted" style="font-size:12px">Signature is recorded electronically. Scanned signatures are not accepted by DOL.</span>
+            <button class="btn p" data-go="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 19V5m0 0-6 6m6-6 6 6" transform="rotate(180 12 12)"/></svg>Sign and lock this week</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== SUBMIT ===================== -->
+<section class="screen" id="submit">
+<div class="topbar">
+  <div><div class="crumb">Projects / Bronx River Pkwy Culvert / Week ending Sep 12, 2026</div>
+    <h1 class="h1">Submit <span class="meta">signed by Mirza Hodzic, Sep 14 09:20</span></h1></div>
+  <div class="acts"><span class="bdg s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>signed and locked</span></div>
+</div>
+<div class="content">
+<div class="split">
+  <div class="card">
+    <div class="hd"><h2>Upload to the NYSDOL portal</h2><span class="sub">4 steps, about 2 minutes</span></div>
+    <div class="bd">
+      <ol style="margin:0;padding-left:20px;font-size:13.5px;line-height:1.9">
+        <li>Open <span class="mono">mpwr-public.labor.ny.gov</span> and sign in.</li>
+        <li>Pick project <b>PRC 2026003890</b>, then week ending <b>09/12/2026</b>. The week must be empty; if you already started it by hand, delete those entries first.</li>
+        <li>Choose <b>Upload XML</b> and pick the file below.</li>
+        <li>Copy the confirmation number back here.</li>
+      </ol>
+      <div class="rowline" style="margin-top:14px">
+        <button class="btn p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>Download the XML</button>
+        <button class="btn">Open the portal</button>
+      </div>
+      <hr style="border:0;border-top:1px solid var(--border-decorative);margin:18px 0">
+      <div class="form" style="grid-template-columns:1fr 1fr">
+        <div><label class="lb">Confirmation number from the portal</label><div class="in mono">A88213</div></div>
+        <div><label class="lb">Submitted on</label><div class="in">Sep 14, 2026</div></div>
+        <div class="fw"><label class="lb">Portal response</label>
+          <div class="rowline">
+            <span class="bdg s2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>Accepted</span>
+            <span class="bdg n">Pending</span><span class="bdg n">Rejected</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px"><button class="btn p">Record submission</button></div>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card">
+      <div class="hd"><h2>Portal rejected the file?</h2></div>
+      <div class="bd">
+        <p class="muted" style="margin:0 0 10px;font-size:13px">Paste the error exactly as the portal shows it. It reports a line and character position; we translate that into the worker and the field.</p>
+        <div class="in ta mono" style="font-size:12px;color:var(--n-700)">cvc-maxLength-valid: Value 'Apt 4C, 1180 Pelham Parkway South' with length = 33 is not facet-valid with respect to maxLength '42' for type 'Address1Type'. Line 84, column 61.</div>
+        <div class="notice e" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <div><div class="ti">Line 84 is Ortega, Luis, address line 1</div><p>The combined street line is 51 characters and the portal allows 42. Move "Apt 4C" into address line 2.</p>
+        <div style="margin-top:8px"><button class="btn sm p">Fix and regenerate v2</button></div></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><h2>Send to the general contractor</h2></div>
+      <div class="bd">
+        <dl class="kv"><dt>Prime</dt><dd>Skanska USA Building</dd><dt>To</dt><dd>certpayroll@skanska.com</dd><dt>Package</dt><dd>WH-347 PDF, NY XML, cover sheet</dd></dl>
+        <div style="margin-top:12px"><button class="btn">Send package</button></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="hd"><h2>No-work weeks</h2></div>
+      <div class="bd">
+        <div class="notice w"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+        <div><div class="ti">A week with no work cannot be filed as a file</div><p>The portal has no XML for it. Tick <b>No Work Week</b> in the portal, or use <b>Enter Work Pause Dates</b> for a range. Yonkers WWTP has one such week: Aug 22.</p>
+        <div style="margin-top:8px"><button class="btn sm">Mark it as reported</button></div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===================== PROJECTS ===================== -->
+<section class="screen" id="projects">
+<div class="topbar">
+  <div><div class="crumb">Hudson Electric LLC</div><h1 class="h1">Projects <span class="meta">3 active</span></h1></div>
+  <div class="acts"><button class="btn">Archived</button><button class="btn p">New project</button></div>
+</div>
+<div class="content">
+  <div class="tbl" style="margin-bottom:22px">
+    <table>
+      <thead><tr><th>Project</th><th>PRC</th><th>County</th><th>Role</th><th>Reporting</th><th>Next deadline</th><th>Open weeks</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><strong>PS 118 Brooklyn Roof</strong><div class="muted" style="font-size:12px">NYC School Construction Authority</div></td><td class="mono">2026004512</td><td>Kings</td><td>Sub to Skanska</td><td><span class="bdg i">NY XML</span></td><td><span class="bdg e">3 days late</span></td><td>2</td><td class="r"><button class="btn sm">Open</button></td></tr>
+        <tr><td><strong>Bronx River Pkwy Culvert</strong><div class="muted" style="font-size:12px">NYSDOT Region 8</div></td><td class="mono">2026003890</td><td>Westchester</td><td>Sub to Yonkers Contracting</td><td><span class="bdg i">NY XML</span> <span class="bdg n">WH-347</span></td><td>Oct 2</td><td>0</td><td class="r"><button class="btn sm">Open</button></td></tr>
+        <tr><td><strong>Yonkers WWTP Upgrade</strong><div class="muted" style="font-size:12px">Westchester County DEF</div></td><td class="mono">2026005104</td><td>Westchester</td><td>Prime</td><td><span class="bdg i">NY XML</span></td><td>Oct 9</td><td>1</td><td class="r"><button class="btn sm">Open</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="hd"><h2>PS 118 Brooklyn Roof &middot; every week since the project started</h2><span class="sub">payroll numbers must run without gaps</span></div>
+    <div class="bd">
+      <div class="tl">
+        <div class="sub">#1<span class="dt">Jun 13</span></div><div class="sub">#2<span class="dt">Jun 20</span></div><div class="sub">#3<span class="dt">Jun 27</span></div>
+        <div class="sub">#4<span class="dt">Jul 4</span></div><div class="nw">no work<span class="dt">Jul 11</span></div><div class="sub">#5<span class="dt">Jul 18</span></div>
+        <div class="sub">#6<span class="dt">Jul 25</span></div><div class="sub">#7<span class="dt">Aug 1</span></div><div class="sub">#8<span class="dt">Aug 8</span></div>
+        <div class="sig">#9<span class="dt">Aug 15</span></div><div class="sub">#10<span class="dt">Aug 22</span></div><div class="gen">#11<span class="dt">Aug 29</span></div>
+        <div class="late">&mdash;<span class="dt">Sep 5</span></div><div class="open now">&mdash;<span class="dt">Sep 12</span></div>
+      </div>
+      <div class="legend" style="margin-top:0;margin-bottom:14px">
+        <span><i style="background:var(--success-600)"></i>submitted</span>
+        <span><i style="background:var(--success-100)"></i>signed, not submitted</span>
+        <span><i style="background:var(--info-100)"></i>generated</span>
+        <span><i style="background:var(--n-100)"></i>open</span>
+        <span><i style="background:var(--error-100)"></i>late</span>
+        <span><i style="background:#fff;outline:1px dashed var(--n-400)"></i>no work</span>
+      </div>
+      <div class="tbl">
+      <table>
+        <thead><tr><th>#</th><th>Week ending</th><th>Status</th><th>Workers</th><th class="r">Hours</th><th class="r">Gross on project</th><th>Version</th><th>Submitted</th><th></th></tr></thead>
+        <tbody>
+          <tr><td class="muted">&mdash;</td><td class="tnum">Sep 12, 2026</td><td><span class="bdg n">open</span></td><td>9</td><td class="r tnum">307.0</td><td class="r tnum">14,820.00</td><td></td><td></td><td class="r"><button class="btn sm p" data-go="week">Enter hours</button></td></tr>
+          <tr><td class="muted">&mdash;</td><td class="tnum">Sep 5, 2026</td><td><span class="bdg e">late, nothing entered</span></td><td>0</td><td class="r tnum">0.0</td><td class="r tnum">0.00</td><td></td><td></td><td class="r"><button class="btn sm">Enter or mark no work</button></td></tr>
+          <tr><td>11</td><td class="tnum">Aug 29, 2026</td><td><span class="bdg i">generated</span></td><td>11</td><td class="r tnum">418.5</td><td class="r tnum">19,902.75</td><td>v1</td><td></td><td class="r"><button class="btn sm" data-go="review">Certify</button></td></tr>
+          <tr><td>10</td><td class="tnum">Aug 22, 2026</td><td><span class="bdg s2">submitted</span></td><td>11</td><td class="r tnum">440.0</td><td class="r tnum">20,680.00</td><td>v2 correction</td><td>Aug 26 &middot; <span class="mono">A87904</span></td><td class="r"><button class="btn sm">View</button></td></tr>
+          <tr><td>9</td><td class="tnum">Aug 15, 2026</td><td><span class="bdg s">signed</span></td><td>10</td><td class="r tnum">392.0</td><td class="r tnum">18,441.60</td><td>v1</td><td></td><td class="r"><button class="btn sm">Mark submitted</button></td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== WORKERS ===================== -->
+<section class="screen" id="workers">
+<div class="topbar">
+  <div><div class="crumb">Hudson Electric LLC</div><h1 class="h1">Workers <span class="meta">14 active</span></h1></div>
+  <div class="acts"><button class="btn">Import from CSV</button><button class="btn p">Add worker</button></div>
+</div>
+<div class="content">
+  <div class="notice w" style="margin-bottom:16px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 8v5m0 3h.01"/></svg>
+    <div><div class="ti">One worker is missing something the NY portal requires</div><p>Okafor, Chidi has no apprenticeship registration. Every week he appears on will show an error until it is added.</p></div>
+  </div>
+  <div class="split" style="grid-template-columns:1.15fr .85fr">
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Name</th><th>No.</th><th>Default classification</th><th>Level</th><th>ID</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Alvarez, Miguel</td><td class="mono">1021</td><td>Electrician &ndash; Building/Wireman</td><td><span class="bdg n">J</span></td><td class="mono">SSN 4417</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Brennan, Tom</td><td class="mono">1033</td><td>Electrician &ndash; Fire Alarm</td><td><span class="bdg n">J</span></td><td class="mono">SSN 2260</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Chen, David</td><td class="mono">1027</td><td>Electrician &ndash; Building/Wireman</td><td><span class="bdg n">J</span></td><td class="mono">SSN 9038</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr style="background:var(--warning-50)"><td>Okafor, Chidi</td><td class="mono">1043</td><td>Electrician &ndash; Building/Wireman</td><td><span class="bdg w">RA 60%</span></td><td class="mono">SSN 7731</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Ortega, Luis</td><td class="mono">1050</td><td>Laborer &ndash; Heavy &amp; Highway</td><td><span class="bdg n">J</span></td><td class="mono">DOB on file</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Rossi, Anna</td><td class="mono">1018</td><td>Electrician &ndash; Building/Wireman</td><td><span class="bdg n">J</span></td><td class="mono">SSN 5512</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="hd"><h2>Okafor, Chidi</h2><span class="bdg w">needs attention</span></div>
+      <div class="bd">
+        <div class="form" style="grid-template-columns:1fr 1fr;max-width:none">
+          <div><label class="lb">First name</label><div class="in">Chidi</div></div>
+          <div><label class="lb">Last name</label><div class="in">Okafor</div></div>
+          <div><label class="lb">Worker number <span class="op">for imports</span></label><div class="in">1043</div></div>
+          <div><label class="lb">Level</label><div class="in sel">Registered apprentice <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div></div>
+          <div><label class="lb">Last 4 of SSN</label><div class="in mono">7731</div><div class="hint">We never store a full SSN. The portal accepts the last 4 or a date of birth.</div></div>
+          <div><label class="lb">Date of birth <span class="op">only if no SSN</span></label><div class="in muted">not set</div></div>
+        </div>
+        <div class="notice e" style="margin-top:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 9v4m0 4h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+          <div><div class="ti">No registered apprenticeship program</div><p>Until this is filled in, the full journeyworker rate of 55.40 applies. Registration must be with the federal OA or a recognized State Apprenticeship Agency.</p>
+          <div class="form" style="grid-template-columns:1fr 1fr;margin-top:10px;max-width:none">
+            <div><label class="lb">Registrar</label><div class="in sel" style="background:#fff">Choose <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></div></div>
+            <div><label class="lb">Program number</label><div class="in" style="background:#fff"></div></div>
+          </div></div>
+        </div>
+        <details style="margin-top:14px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal-700)">Home address, phone (encrypted, every read is logged)</summary>
+          <div class="hint" style="margin-top:8px">Address line 1 is limited to 42 characters and city to 40, because the NY portal rejects anything longer.</div>
+        </details>
+        <details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal-700)">Fringe plans: 2 plans, 21.67 per hour credit</summary></details>
+        <details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal-700)">History: 27 weeks on 2 projects</summary></details>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== IMPORT ===================== -->
+<section class="screen" id="import">
+<div class="topbar">
+  <div><div class="crumb">Import / New import</div><h1 class="h1">Check the rows <span class="meta">tsheets_sep12.csv &middot; 148 rows</span></h1></div>
+  <div class="acts"><button class="btn sm">Back to mapping</button></div>
+</div>
+<div class="content">
+  <div class="steps">
+    <span class="st done"><span class="no"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>File</span>
+    <span class="st done"><span class="no"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>Mapping: QuickBooks Time</span>
+    <span class="st now"><span class="no">3</span>Check</span>
+    <span class="st"><span class="no">4</span>Reconcile and apply</span>
+  </div>
+  <div class="stats" style="margin-bottom:16px">
+    <div class="stat"><div class="n">148</div><div class="l">rows in the file</div></div>
+    <div class="stat g"><div class="n">141</div><div class="l">ready</div></div>
+    <div class="stat w"><div class="n">5</div><div class="l">warnings</div></div>
+    <div class="stat e"><div class="n">2</div><div class="l">errors, these block</div></div>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:6px"></th><th>Row</th><th>Worker in the file</th><th>Matched to</th><th>Date</th><th class="r">Hours</th><th>Job code</th><th>Classification</th><th>Message</th></tr></thead>
+      <tbody>
+        <tr><td style="background:var(--error-500);padding:0"></td><td class="mono">17</td><td>J. Doe</td><td><span class="in sel" style="height:30px;width:190px;font-size:13px;display:inline-flex">Pick a worker <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span> <button class="btn sm">Create</button></td><td>09/08/2026</td><td class="r">8.0</td><td class="mono">ELEC-J</td><td>Electrician &ndash; Building/Wireman</td><td class="muted">No worker with this name</td></tr>
+        <tr><td style="background:var(--error-500);padding:0"></td><td class="mono">63</td><td>Chen, David</td><td>Chen, David</td><td>09/09/2026</td><td class="r" style="color:var(--error-600);font-weight:600">26.0</td><td class="mono">ELEC-J</td><td>Electrician &ndash; Building/Wireman</td><td class="muted">More than 24 hours in one day</td></tr>
+        <tr><td style="background:var(--warning-500);padding:0"></td><td class="mono">88</td><td>Rossi, Anna</td><td>Rossi, Anna</td><td>09/13/2026</td><td class="r">4.0</td><td class="mono">ELEC-J</td><td>Electrician &ndash; Building/Wireman</td><td class="muted">Outside this week, row will be skipped</td></tr>
+        <tr><td style="background:var(--warning-500);padding:0"></td><td class="mono">91</td><td>Okafor, Chidi</td><td>Okafor, Chidi</td><td>09/10/2026</td><td class="r">8.0</td><td class="mono">LAB</td><td><span class="in sel" style="height:30px;width:220px;font-size:13px;display:inline-flex">Laborer &ndash; Heavy &amp; Highway <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span></td><td class="muted">New job code, confirm once and we remember it</td></tr>
+        <tr><td style="background:var(--success-500);padding:0"></td><td class="mono">92</td><td>Alvarez, Miguel</td><td>Alvarez, Miguel</td><td>09/10/2026</td><td class="r">8.0</td><td class="mono">ELEC-J</td><td>Electrician &ndash; Building/Wireman</td><td></td></tr>
+        <tr><td style="background:var(--success-500);padding:0"></td><td class="mono">&hellip;</td><td colspan="7" class="muted">141 rows are ready. <button class="lnk">Show them</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rowline" style="margin-top:16px;justify-content:space-between">
+    <label class="rowline" style="font-size:13px;gap:7px"><span style="width:16px;height:16px;border:1.5px solid var(--n-700);border-radius:3px;display:inline-block"></span>Skip the rows with errors and apply the rest</label>
+    <div class="rowline"><button class="btn">Back</button><button class="btn p off">Apply 141 rows</button></div>
+  </div>
+</div>
+</section>
+
+<!-- ===================== ONBOARDING ===================== -->
+<section class="screen" id="onboard">
+<div class="topbar">
+  <div><div class="crumb">Setup</div><h1 class="h1">Classifications and rates <span class="meta">step 4 of 7</span></h1></div>
+  <div class="acts"><button class="btn sm">Save and finish later</button></div>
+</div>
+<div class="content">
+  <div class="steps">
+    <span class="st done"><span class="no"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>Company</span>
+    <span class="st done"><span class="no"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>Certifying official</span>
+    <span class="st done"><span class="no"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4"><path d="M20 6 9 17l-5-5"/></svg></span>First project</span>
+    <span class="st now"><span class="no">4</span>Classifications and rates</span>
+    <span class="st"><span class="no">5</span>Fringe plans</span>
+    <span class="st"><span class="no">6</span>Workers</span>
+    <span class="st"><span class="no">7</span>Billing</span>
+  </div>
+
+  <div class="notice s" style="margin-bottom:16px">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+    <div><div class="ti">We already have the wage schedule for PRC 2026004512</div>
+    <p>Pulled Sep 1, 2026 from the NYSDOL site, effective through Jun 30, 2027. Rates below are filled in from it. Check them against your own copy of the determination before you approve.</p></div>
+  </div>
+
+  <div class="card">
+    <div class="hd"><h2>Which classifications work on PS 118 Brooklyn Roof</h2><span class="sub">names come from the official NY list, you cannot type your own</span></div>
+    <div class="bd" style="padding:0">
+      <div class="tbl" style="border:0;border-radius:0;box-shadow:none">
+      <table>
+        <thead><tr><th>Official classification</th><th>Your label</th><th class="r">Base rate</th><th class="r">Supplement</th><th>OT codes</th><th>Effective</th><th></th></tr></thead>
+        <tbody>
+          <tr><td><strong>Electrician &ndash; Building/Wireman</strong></td><td class="muted">Electrician</td><td class="r tnum">55.40</td><td class="r tnum">38.62</td><td><span class="bdg n">B</span> <span class="bdg n">E2</span> <span class="bdg n">O</span></td><td>Jul 1, 2026</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td><strong>Electrician &ndash; Fire Alarm</strong></td><td class="muted">Fire alarm</td><td class="r tnum">52.10</td><td class="r tnum">35.88</td><td><span class="bdg n">B</span> <span class="bdg n">O</span></td><td>Jul 1, 2026</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td><strong>Laborer &ndash; Heavy &amp; Highway</strong></td><td class="muted">Laborer</td><td class="r tnum">44.10</td><td class="r tnum">31.04</td><td><span class="bdg n">B2</span> <span class="bdg n">E</span></td><td>Jul 1, 2026</td><td class="r"><button class="btn sm">Edit</button></td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="bd" style="border-top:1px solid var(--border-decorative)">
+        <div class="rowline" style="justify-content:space-between">
+          <div class="in sel" style="max-width:420px">Search the official list, for example "Ironworker" <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n-500)" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></div>
+          <button class="btn">Add classification</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:16px">
+    <div class="card"><div class="hd"><h2>What an OT code means</h2></div><div class="bd">
+      <dl class="kv" style="grid-template-columns:36px 1fr">
+        <dt class="mono"><strong>B</strong></dt><dd style="font-weight:400">Time and a half after 8 hours in a day.</dd>
+        <dt class="mono"><strong>B2</strong></dt><dd style="font-weight:400">Time and a half after 40 hours in a week.</dd>
+        <dt class="mono"><strong>E2</strong></dt><dd style="font-weight:400">Saturday may be a straight-time make-up day when a day was lost to weather.</dd>
+        <dt class="mono"><strong>O</strong></dt><dd style="font-weight:400">Double time on Saturday, Sunday and holidays.</dd>
+      </dl>
+      <p class="muted" style="font-size:12.5px;margin:12px 0 0">Codes come from the OVERTIME PAGE of your wage schedule. A classification usually carries several; we apply all of them and take the highest premium for each hour.</p>
+    </div></div>
+    <div class="card"><div class="hd"><h2>Holidays</h2><span class="bdg w">needs you once</span></div><div class="bd">
+      <p style="margin:0 0 10px;font-size:13.5px">Codes O and R depend on which days count as holidays on this schedule. That list is on the HOLIDAY PAGE of your PRC schedule and differs by trade.</p>
+      <div class="rowline"><button class="btn sm p">Upload the schedule PDF</button><button class="btn sm">Enter holidays by hand</button></div>
+      <p class="muted" style="font-size:12.5px;margin:10px 0 0">Until this is set, a day marked as a holiday raises a warning instead of computing a premium.</p>
+    </div></div>
+  </div>
+
+  <div class="rowline" style="margin-top:20px;justify-content:space-between">
+    <button class="btn">Back</button>
+    <button class="btn p">Next: fringe plans</button>
+  </div>
+</div>
+</section>
+
+<!-- ===================== SETTINGS / BILLING ===================== -->
+<section class="screen" id="settings">
+<div class="topbar">
+  <div><div class="crumb">Settings</div><h1 class="h1">Billing and plan</h1></div>
+  <div class="acts"><button class="btn sm">Manage billing</button></div>
+</div>
+<div class="content">
+<div class="split">
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card"><div class="hd"><h2>Plan</h2><span class="bdg s"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>active</span></div><div class="bd">
+      <div class="rowline" style="justify-content:space-between;align-items:flex-end">
+        <div><div style="font-size:28px;font-weight:600;letter-spacing:-.02em">$79<span style="font-size:15px;font-weight:400;color:var(--text-secondary)">/month</span></div>
+        <div class="muted" style="font-size:13px">Unlimited projects and workers. Next charge Oct 1, 2026.</div></div>
+        <button class="btn sm">Switch to yearly, 2 months free</button>
+      </div>
+      <hr style="border:0;border-top:1px solid var(--border-decorative);margin:14px 0">
+      <dl class="kv"><dt>Setup</dt><dd>Standard, $299, paid Aug 4</dd><dt>Card</dt><dd class="mono">Visa &bull;&bull;&bull;&bull; 4242</dd><dt>Billing email</dt><dd>office@hudsonelectric.com</dd></dl>
+      <div class="rowline" style="margin-top:14px"><button class="btn sm">Invoices</button><button class="btn sm">Pause for the winter</button><button class="btn sm">Cancel</button></div>
+    </div></div>
+
+    <div class="card"><div class="hd"><h2>Your records if you leave</h2></div><div class="bd">
+      <p style="margin:0 0 10px;font-size:13.5px">NY Labor Law requires certified payroll records to be kept for six years. If you cancel, you keep read-only access and full export for 30 days, and we email you three reminders before it closes.</p>
+      <button class="btn sm">Export everything now</button>
+    </div></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div class="card"><div class="hd"><h2>Team</h2><span class="sub">4 people</span></div>
+      <div class="tbl" style="border:0;border-radius:0;box-shadow:none"><table>
+        <thead><tr><th>Person</th><th>Role</th><th>2FA</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Mirza Hodzic<div class="muted" style="font-size:12px">mirza@hudsonelectric.com</div></td><td><span class="bdg n">Owner</span></td><td><span class="bdg s">on</span></td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Dana Kowalski<div class="muted" style="font-size:12px">office@hudsonelectric.com</div></td><td><span class="bdg n">Payroll</span></td><td><span class="bdg s">on</span></td><td class="r"><button class="btn sm">Edit</button></td></tr>
+          <tr><td>Ray Hodzic<div class="muted" style="font-size:12px">ray@hudsonelectric.com</div></td><td><span class="bdg n">Signer</span></td><td><span class="bdg e">off, required</span></td><td class="r"><button class="btn sm p">Remind</button></td></tr>
+          <tr><td>Ellen Pratt CPA<div class="muted" style="font-size:12px">ellen@prattcpa.com</div></td><td><span class="bdg n">Bookkeeper</span></td><td><span class="bdg s">on</span></td><td class="r"><button class="btn sm">Edit</button></td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card"><div class="hd"><h2>Reminders</h2></div><div class="bd">
+      <dl class="kv"><dt>Weekly nudge</dt><dd>Monday 8:00 ET to Dana</dd><dt>State deadline</dt><dd>10, 5, 2 and 0 days out, to Dana and Mirza</dd><dt>Signature waiting</dt><dd>after 24 hours, to Ray</dd><dt>Text messages</dt><dd class="muted">off, needs written consent first</dd></dl>
+    </div></div>
+  </div>
+</div>
+</div>
+</section>
+
+<!-- ===================== ARCHIVE ===================== -->
+<section class="screen" id="archive">
+<div class="topbar">
+  <div><div class="crumb">Archive</div><h1 class="h1">Filed reports <span class="meta">kept 6 years, as NY Labor Law requires</span></h1></div>
+  <div class="acts"><button class="btn sm">Export 2026 as a ZIP</button></div>
+</div>
+<div class="content">
+  <div class="rowline" style="margin-bottom:14px">
+    <span class="pill">2026 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+    <span class="pill">All projects <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+    <span class="pill">All types <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg></span>
+    <span class="muted" style="font-size:13px;margin-left:auto">38 reports</span>
+  </div>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Week ending</th><th>Project</th><th>#</th><th>Type</th><th>Signed by</th><th>Submitted</th><th>Checksum</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="tnum">Aug 29, 2026</td><td>PS 118 Brooklyn</td><td>11</td><td><span class="bdg i">NY XML</span></td><td>M. Hodzic &middot; Sep 2</td><td><span class="bdg s2">accepted</span> <span class="mono">A88213</span></td><td class="mono muted">3f9a&hellip;c2</td><td class="r"><button class="btn sm">Download</button></td></tr>
+        <tr><td class="tnum">Aug 22, 2026</td><td>PS 118 Brooklyn</td><td>10</td><td><span class="bdg i">NY XML</span> <span class="bdg p">v2</span></td><td>M. Hodzic &middot; Aug 26</td><td><span class="bdg s2">accepted</span> <span class="mono">A87904</span></td><td class="mono muted">b21e&hellip;7d</td><td class="r"><button class="btn sm">Download</button></td></tr>
+        <tr style="opacity:.65"><td class="tnum">Aug 22, 2026</td><td>PS 118 Brooklyn</td><td>10</td><td><span class="bdg n">NY XML v1</span></td><td>M. Hodzic &middot; Aug 24</td><td><span class="bdg n">superseded</span></td><td class="mono muted">9c04&hellip;1a</td><td class="r"><button class="btn sm">Download</button></td></tr>
+        <tr><td class="tnum">Sep 5, 2026</td><td>Bronx River Pkwy</td><td>7</td><td><span class="bdg n">WH-347</span></td><td>M. Hodzic &middot; Sep 9</td><td>Emailed to Skanska</td><td class="mono muted">44f7&hellip;90</td><td class="r"><button class="btn sm">Download</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="muted" style="font-size:12.5px;margin-top:12px">Every version keeps the exact input it was built from, so any report can be regenerated byte for byte. Corrections never overwrite what was already filed.</p>
+</div>
+</section>
+
+</div><!-- /main -->
+</div><!-- /shell -->
+<script>
+(function(){
+  var links=document.querySelectorAll('[data-go]');
+  function go(id){
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('on',s.id===id)});
+    document.querySelectorAll('.nav a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-go')===id)});
+    window.scrollTo({top:0,behavior:'instant'});
+  }
+  links.forEach(function(el){el.addEventListener('click',function(e){e.preventDefault();go(el.getAttribute('data-go'))})});
+})();
+</script>
+</body>
+</html>
