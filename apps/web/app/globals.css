@@ -1,0 +1,45 @@
+@import 'tailwindcss';
+@import '@wc/ui-tokens';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* One light theme, no dark mode in the MVP (spec/14 §11, spec/19 §11).
+   Every colour comes from @wc/ui-tokens; shadcn's names are aliases defined there. */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background: var(--surface-sunken);
+    color: var(--text-primary);
+    font-size: var(--fs-base);
+    line-height: 22px;
+  }
+
+  /* spec/14 §3: white inner ring, teal outer ring, on every focusable element. */
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+  }
+
+  /* spec/14 §11: prefers-reduced-motion is respected. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      /* biome-ignore lint/complexity/noImportantStyles: must beat every component's own duration */
+      animation-duration: 0.01ms !important;
+      /* biome-ignore lint/complexity/noImportantStyles: same reason */
+      animation-iteration-count: 1 !important;
+      /* biome-ignore lint/complexity/noImportantStyles: same reason */
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
