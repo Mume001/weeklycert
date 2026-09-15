@@ -1,0 +1,6 @@
+# LF everywhere, also on Windows checkouts: Biome formats with LF and would
+# otherwise fail `pnpm check` on every file after a fresh clone.
+* text=auto eol=lf
+*.woff2 binary
+*.png binary
+*.pdf binary
