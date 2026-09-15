@@ -1,0 +1,54 @@
+[
+  {
+    "id": "01921000-0000-7000-8000-000000000001",
+    "slug": "hudson-electric",
+    "legalName": "Hudson Electric LLC",
+    "dbaName": null,
+    "fein": "47-0000000",
+    "nysRegistrationNumber": "1170234",
+    "addressLine1": "112 Main Street",
+    "addressLine2": null,
+    "city": "Poughkeepsie",
+    "stateCode": "NY",
+    "zip": "12601",
+    "timezone": "America/New_York",
+    "status": "active",
+    "trialEndsAt": null,
+    "pastDueSince": null,
+    "onboardingStep": 7,
+    "settings": {
+      "defaultPayFrequency": "weekly",
+      "weekEndingDow": 6,
+      "federalOtEnabled": true,
+      "annualHoursBasis": "2080",
+      "mergeDeductions": true,
+      "strictPii": false
+    }
+  },
+  {
+    "id": "01921000-0000-7000-8000-000000000002",
+    "slug": "riverside-mechanical",
+    "legalName": "Riverside Mechanical LLC",
+    "dbaName": null,
+    "fein": null,
+    "nysRegistrationNumber": null,
+    "addressLine1": null,
+    "addressLine2": null,
+    "city": null,
+    "stateCode": "NY",
+    "zip": null,
+    "timezone": "America/New_York",
+    "status": "trial",
+    "trialEndsAt": "2026-09-24",
+    "pastDueSince": null,
+    "onboardingStep": 1,
+    "settings": {
+      "defaultPayFrequency": "weekly",
+      "weekEndingDow": 6,
+      "federalOtEnabled": true,
+      "annualHoursBasis": "2080",
+      "mergeDeductions": true,
+      "strictPii": false
+    }
+  }
+]

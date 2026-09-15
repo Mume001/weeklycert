@@ -1,0 +1,131 @@
+// Mock implementation over the fixtures, in memory (spec/19 §3).
+// Session A implements what the app shell reads. Everything else throws
+// NotYetBuiltError naming the session that builds it (spec/19 §10).
+import { type Dow, openWeekEndings, weekEndingOf } from '@wc/core'
+import type { OpenWeeksDTO, TenantBrief, TenantDTO, UserDTO } from '../dto/index.ts'
+import { NotYetBuiltError } from '../not-yet.ts'
+import type { Repositories } from '../repositories.ts'
+import { mockToday } from './clock.ts'
+import { db } from './db.ts'
+import { delay } from './delay.ts'
+
+const later = (method: string, session: string) => async (): Promise<never> => {
+  throw new NotYetBuiltError(method, session)
+}
+
+function activeProjectsOf(tenantId: string) {
+  return db.projects.filter((p) => p.tenantId === tenantId && p.status === 'active')
+}
+
+function ownerOf(tenantId: string): { name: string; email: string } {
+  const m = db.memberships.find((x) => x.tenantId === tenantId && x.role === 'owner')
+  const u = m && db.users.find((x) => x.id === m.userId)
+  if (!u) throw new Error(`Fixture tenant ${tenantId} has no owner`)
+  return { name: u.name, email: u.email }
+}
+
+export const mockRepositories: Repositories = {
+  today: () => mockToday(),
+
+  users: {
+    async get(userId) {
+      await delay('users.get')
+      const u = db.users.find((x) => x.id === userId)
+      return u
+        ? ({
+            id: u.id,
+            name: u.name,
+            email: u.email,
+            isSuperAdmin: u.isSuperAdmin,
+          } satisfies UserDTO)
+        : null
+    },
+  },
+
+  tenants: {
+    async listForUser(userId) {
+      await delay('tenants.listForUser')
+      return db.memberships
+        .filter((m) => m.userId === userId && m.status === 'active')
+        .flatMap((m): TenantBrief[] => {
+          const t = db.tenants.find((x) => x.id === m.tenantId)
+          if (!t) return []
+          return [
+            {
+              id: t.id,
+              slug: t.slug,
+              name: t.legalName,
+              role: m.role,
+              activeProjects: activeProjectsOf(t.id).length,
+            },
+          ]
+        })
+    },
+
+    async getBySlug(slug) {
+      await delay('tenants.getBySlug')
+      const t = db.tenants.find((x) => x.slug === slug)
+      if (!t) return null
+      return {
+        id: t.id,
+        slug: t.slug,
+        legalName: t.legalName,
+        status: t.status,
+        trialEndsAt: t.trialEndsAt,
+        pastDueSince: t.pastDueSince,
+        weekEndsOn: t.settings.weekEndingDow,
+        timezone: t.timezone,
+        owner: ownerOf(t.id),
+      } satisfies TenantDTO
+    },
+  },
+
+  dashboard: { get: later('dashboard.get', 'E (dashboard, 03 §5 item 9)') },
+
+  projects: {
+    list: later('projects.list', 'E (projects, 03 §5 item 4)'),
+    timeline: later('projects.timeline', 'E (projects, 03 §5 item 4)'),
+
+    async openWeeks(tenantId) {
+      await delay('projects.openWeeks')
+      const tenant = db.tenants.find((t) => t.id === tenantId)
+      if (!tenant) throw new Error(`Unknown tenant ${tenantId}`)
+      const today = mockToday()
+      const weekEndsOn: Dow = tenant.settings.weekEndingDow
+      return {
+        today,
+        currentWeekEnding: weekEndingOf(today, weekEndsOn),
+        activeProjects: activeProjectsOf(tenantId).map((p) => ({
+          id: p.id,
+          name: p.name,
+          openWeeks: openWeekEndings({
+            startDate: p.startDate,
+            endDate: p.actualEndDate,
+            weekEndsOn,
+            today,
+            periods: db.periods.filter((x) => x.projectId === p.id),
+          }),
+        })),
+      } satisfies OpenWeeksDTO
+    },
+  },
+
+  weeks: {
+    grid: later('weeks.grid', 'C (grid, needs core from session B)'),
+    patchCell: later('weeks.patchCell', 'C'),
+    copyPreviousWeek: later('weeks.copyPreviousWeek', 'C'),
+    markNoWork: later('weeks.markNoWork', 'C'),
+    review: later('weeks.review', 'E (review, 03 §5 item 3)'),
+  },
+  workers: {
+    list: later('workers.list', 'E (workers, 03 §5 item 5)'),
+    get: later('workers.get', 'E (workers, 03 §5 item 5)'),
+  },
+  fringe: { list: later('fringe.list', 'E (fringe plans, 03 §5 item 5)') },
+  imports: {
+    list: later('imports.list', 'E (import, 03 §5 item 7)'),
+    preview: later('imports.preview', 'E (import, 03 §5 item 7)'),
+  },
+  archive: { list: later('archive.list', 'E (archive, 03 §5 item 8)') },
+  admin: { health: later('admin.health', 'E (admin, 03 §5 item 12)') },
+}

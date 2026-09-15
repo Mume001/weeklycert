@@ -1,0 +1,58 @@
+[
+  {
+    "id": "01922000-0000-7000-8000-000000000001",
+    "email": "owner@hudson-electric.test",
+    "name": "Mirza Hodzic",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000002",
+    "email": "admin@hudson-electric.test",
+    "name": "Nadia Ferreira",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000003",
+    "email": "payroll@hudson-electric.test",
+    "name": "Dana Kowalski",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000004",
+    "email": "signer@hudson-electric.test",
+    "name": "Ray Hodzic",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000005",
+    "email": "viewer@hudson-electric.test",
+    "name": "Greg Hollis",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000006",
+    "email": "bookkeeper@pratt-cpa.test",
+    "name": "Ellen Pratt",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000001"
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000007",
+    "email": "super@weeklycert.test",
+    "name": "Mume",
+    "isSuperAdmin": true,
+    "lastActiveTenantId": null
+  },
+  {
+    "id": "01922000-0000-7000-8000-000000000008",
+    "email": "owner@riverside-mechanical.test",
+    "name": "Carl Jensen",
+    "isSuperAdmin": false,
+    "lastActiveTenantId": "01921000-0000-7000-8000-000000000002"
+  }
+]

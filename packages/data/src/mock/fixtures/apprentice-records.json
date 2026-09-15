@@ -1,0 +1,44 @@
+[
+  {
+    "id": "0192b000-0000-7000-8000-000000000001",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "workerId": "01927000-0000-7000-8000-000000000004",
+    "programName": "Mid-Hudson Electrical Apprenticeship Program",
+    "programRegistrationNo": null,
+    "registrar": "nysdol",
+    "sponsor": null,
+    "trade": "Electrician",
+    "periodNo": 2,
+    "pctOfJourney": "55.00",
+    "validFrom": "2026-03-01",
+    "validTo": null
+  },
+  {
+    "id": "0192b000-0000-7000-8000-000000000002",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "workerId": "01927000-0000-7000-8000-000000000005",
+    "programName": "Mid-Hudson Electrical Apprenticeship Program",
+    "programRegistrationNo": null,
+    "registrar": "nysdol",
+    "sponsor": null,
+    "trade": "Electrician",
+    "periodNo": 3,
+    "pctOfJourney": "65.00",
+    "validFrom": "2026-03-01",
+    "validTo": null
+  },
+  {
+    "id": "0192b000-0000-7000-8000-000000000003",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "workerId": "01927000-0000-7000-8000-000000000008",
+    "programName": "Mid-Hudson Electrical Apprenticeship Program",
+    "programRegistrationNo": null,
+    "registrar": "nysdol",
+    "sponsor": null,
+    "trade": "Electrician",
+    "periodNo": 5,
+    "pctOfJourney": "85.00",
+    "validFrom": "2026-03-01",
+    "validTo": null
+  }
+]

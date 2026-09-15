@@ -1,0 +1,1041 @@
+[
+  {
+    "id": "01928000-0000-7000-8000-000000000001",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-04-14T18:30:00Z",
+    "summary": {
+      "totalHours": "320.0",
+      "workerCount": 8,
+      "gross": "18672.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-04-11",
+    "status": "submitted",
+    "payrollNumber": 1
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000002",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-04-21T18:30:00Z",
+    "summary": {
+      "totalHours": "354.0",
+      "workerCount": 9,
+      "gross": "20655.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-04-18",
+    "status": "submitted",
+    "payrollNumber": 2
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000003",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-04-28T18:30:00Z",
+    "summary": {
+      "totalHours": "388.0",
+      "workerCount": 10,
+      "gross": "22639.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-04-25",
+    "status": "submitted",
+    "payrollNumber": 3
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000004",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-05-05T18:30:00Z",
+    "summary": {
+      "totalHours": "440.0",
+      "workerCount": 11,
+      "gross": "25674.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-05-02",
+    "status": "submitted",
+    "payrollNumber": 4
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000005",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-05-12T18:30:00Z",
+    "summary": {
+      "totalHours": "314.0",
+      "workerCount": 8,
+      "gross": "18321.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-05-09",
+    "status": "submitted",
+    "payrollNumber": 5
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000006",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-05-19T18:30:00Z",
+    "summary": {
+      "totalHours": "348.0",
+      "workerCount": 9,
+      "gross": "20305.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-05-16",
+    "status": "submitted",
+    "payrollNumber": 6
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000007",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-05-26T18:30:00Z",
+    "summary": {
+      "totalHours": "400.0",
+      "workerCount": 10,
+      "gross": "23340.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-05-23",
+    "status": "submitted",
+    "payrollNumber": 7
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000008",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-02T18:30:00Z",
+    "summary": {
+      "totalHours": "434.0",
+      "workerCount": 11,
+      "gross": "25323.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-05-30",
+    "status": "submitted",
+    "payrollNumber": 8
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000009",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-09T18:30:00Z",
+    "summary": {
+      "totalHours": "308.0",
+      "workerCount": 8,
+      "gross": "17971.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-06-06",
+    "status": "submitted",
+    "payrollNumber": 9
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000a",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-16T18:30:00Z",
+    "summary": {
+      "totalHours": "360.0",
+      "workerCount": 9,
+      "gross": "21006.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-06-13",
+    "status": "submitted",
+    "payrollNumber": 10
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000b",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-23T18:30:00Z",
+    "summary": {
+      "totalHours": "394.0",
+      "workerCount": 10,
+      "gross": "22989.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-06-20",
+    "status": "submitted",
+    "payrollNumber": 11
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000c",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-30T18:30:00Z",
+    "summary": {
+      "totalHours": "428.0",
+      "workerCount": 11,
+      "gross": "24973.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-06-27",
+    "status": "submitted",
+    "payrollNumber": 12
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000d",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-07T18:30:00Z",
+    "summary": {
+      "totalHours": "320.0",
+      "workerCount": 8,
+      "gross": "18672.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-07-04",
+    "status": "submitted",
+    "payrollNumber": 13
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000e",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-14T18:30:00Z",
+    "summary": {
+      "totalHours": "354.0",
+      "workerCount": 9,
+      "gross": "20655.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-07-11",
+    "status": "submitted",
+    "payrollNumber": 14
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000000f",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-21T18:30:00Z",
+    "summary": {
+      "totalHours": "388.0",
+      "workerCount": 10,
+      "gross": "22639.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-07-18",
+    "status": "submitted",
+    "payrollNumber": 15
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000010",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-28T18:30:00Z",
+    "summary": {
+      "totalHours": "440.0",
+      "workerCount": 11,
+      "gross": "25674.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-07-25",
+    "status": "submitted",
+    "payrollNumber": 16
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000011",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-04T18:30:00Z",
+    "summary": {
+      "totalHours": "314.0",
+      "workerCount": 8,
+      "gross": "18321.90"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-01",
+    "status": "submitted",
+    "payrollNumber": 17
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000012",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-11T18:30:00Z",
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-08",
+    "status": "corrected",
+    "payrollNumber": 18
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000013",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": "01928000-0000-7000-8000-000000000012",
+    "lockedAt": "2026-08-18T18:30:00Z",
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-08",
+    "status": "submitted",
+    "payrollNumber": 18
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000014",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-18T18:30:00Z",
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-15",
+    "status": "submitted",
+    "payrollNumber": 19
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000015",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-25T18:30:00Z",
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-22",
+    "status": "submitted",
+    "payrollNumber": 20
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000016",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-09-01T18:30:00Z",
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-08-29",
+    "status": "signed",
+    "payrollNumber": 21
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000017",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": null,
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-09-05",
+    "status": "in_review",
+    "payrollNumber": null
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000018",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": null,
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000001",
+    "weekEnding": "2026-09-12",
+    "status": "open",
+    "payrollNumber": null
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000019",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-09T18:30:00Z",
+    "summary": {
+      "totalHours": "200.0",
+      "workerCount": 5,
+      "gross": "12220.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-06-06",
+    "status": "submitted",
+    "payrollNumber": 1
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001a",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-16T18:30:00Z",
+    "summary": {
+      "totalHours": "236.0",
+      "workerCount": 6,
+      "gross": "14419.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-06-13",
+    "status": "submitted",
+    "payrollNumber": 2
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001b",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-23T18:30:00Z",
+    "summary": {
+      "totalHours": "280.0",
+      "workerCount": 7,
+      "gross": "17108.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-06-20",
+    "status": "submitted",
+    "payrollNumber": 3
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001c",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-06-30T18:30:00Z",
+    "summary": {
+      "totalHours": "196.0",
+      "workerCount": 5,
+      "gross": "11975.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-06-27",
+    "status": "submitted",
+    "payrollNumber": 4
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001d",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-07T18:30:00Z",
+    "summary": {
+      "totalHours": "240.0",
+      "workerCount": 6,
+      "gross": "14664.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-07-04",
+    "status": "submitted",
+    "payrollNumber": 5
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001e",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-14T18:30:00Z",
+    "summary": {
+      "totalHours": "276.0",
+      "workerCount": 7,
+      "gross": "16863.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-07-11",
+    "status": "submitted",
+    "payrollNumber": 6
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000001f",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-21T18:30:00Z",
+    "summary": {
+      "totalHours": "200.0",
+      "workerCount": 5,
+      "gross": "12220.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-07-18",
+    "status": "submitted",
+    "payrollNumber": 7
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000020",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-07-28T18:30:00Z",
+    "summary": {
+      "totalHours": "236.0",
+      "workerCount": 6,
+      "gross": "14419.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-07-25",
+    "status": "submitted",
+    "payrollNumber": 8
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000021",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-04T18:30:00Z",
+    "summary": {
+      "totalHours": "280.0",
+      "workerCount": 7,
+      "gross": "17108.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-08-01",
+    "status": "submitted",
+    "payrollNumber": 9
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000022",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-11T18:30:00Z",
+    "summary": {
+      "totalHours": "196.0",
+      "workerCount": 5,
+      "gross": "11975.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-08-08",
+    "status": "submitted",
+    "payrollNumber": 10
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000023",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-18T18:30:00Z",
+    "summary": {
+      "totalHours": "240.0",
+      "workerCount": 6,
+      "gross": "14664.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-08-15",
+    "status": "submitted",
+    "payrollNumber": 11
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000024",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-08-25T18:30:00Z",
+    "summary": {
+      "totalHours": "276.0",
+      "workerCount": 7,
+      "gross": "16863.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-08-22",
+    "status": "submitted",
+    "payrollNumber": 12
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000025",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": true,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-09-01T18:30:00Z",
+    "summary": {
+      "totalHours": "0.0",
+      "workerCount": 0,
+      "gross": "0.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-08-29",
+    "status": "submitted",
+    "payrollNumber": 13
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000026",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-09-08T18:30:00Z",
+    "summary": {
+      "totalHours": "236.0",
+      "workerCount": 6,
+      "gross": "14419.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-09-05",
+    "status": "signed",
+    "payrollNumber": 14
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000027",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": null,
+    "summary": null,
+    "projectId": "01924000-0000-7000-8000-000000000002",
+    "weekEnding": "2026-09-12",
+    "status": "open",
+    "payrollNumber": null
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000028",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-09-23T18:30:00Z",
+    "summary": {
+      "totalHours": "120.0",
+      "workerCount": 3,
+      "gross": "5544.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-09-20",
+    "status": "submitted",
+    "payrollNumber": 1
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000029",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-09-30T18:30:00Z",
+    "summary": {
+      "totalHours": "158.0",
+      "workerCount": 4,
+      "gross": "7299.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-09-27",
+    "status": "submitted",
+    "payrollNumber": 2
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002a",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-10-07T18:30:00Z",
+    "summary": {
+      "totalHours": "196.0",
+      "workerCount": 5,
+      "gross": "9055.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-10-04",
+    "status": "submitted",
+    "payrollNumber": 3
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002b",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-10-14T18:30:00Z",
+    "summary": {
+      "totalHours": "114.0",
+      "workerCount": 3,
+      "gross": "5266.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-10-11",
+    "status": "submitted",
+    "payrollNumber": 4
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002c",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-10-21T18:30:00Z",
+    "summary": {
+      "totalHours": "160.0",
+      "workerCount": 4,
+      "gross": "7392.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-10-18",
+    "status": "submitted",
+    "payrollNumber": 5
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002d",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-10-28T18:30:00Z",
+    "summary": {
+      "totalHours": "198.0",
+      "workerCount": 5,
+      "gross": "9147.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-10-25",
+    "status": "submitted",
+    "payrollNumber": 6
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002e",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-11-04T18:30:00Z",
+    "summary": {
+      "totalHours": "116.0",
+      "workerCount": 3,
+      "gross": "5359.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-11-01",
+    "status": "submitted",
+    "payrollNumber": 7
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000002f",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-11-11T18:30:00Z",
+    "summary": {
+      "totalHours": "154.0",
+      "workerCount": 4,
+      "gross": "7114.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-11-08",
+    "status": "submitted",
+    "payrollNumber": 8
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000030",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-11-18T18:30:00Z",
+    "summary": {
+      "totalHours": "200.0",
+      "workerCount": 5,
+      "gross": "9240.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-11-15",
+    "status": "submitted",
+    "payrollNumber": 9
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000031",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-11-25T18:30:00Z",
+    "summary": {
+      "totalHours": "118.0",
+      "workerCount": 3,
+      "gross": "5451.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-11-22",
+    "status": "submitted",
+    "payrollNumber": 10
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000032",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-12-02T18:30:00Z",
+    "summary": {
+      "totalHours": "156.0",
+      "workerCount": 4,
+      "gross": "7207.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-11-29",
+    "status": "submitted",
+    "payrollNumber": 11
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000033",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-12-09T18:30:00Z",
+    "summary": {
+      "totalHours": "194.0",
+      "workerCount": 5,
+      "gross": "8962.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-12-06",
+    "status": "submitted",
+    "payrollNumber": 12
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000034",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-12-16T18:30:00Z",
+    "summary": {
+      "totalHours": "120.0",
+      "workerCount": 3,
+      "gross": "5544.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-12-13",
+    "status": "submitted",
+    "payrollNumber": 13
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000035",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-12-23T18:30:00Z",
+    "summary": {
+      "totalHours": "158.0",
+      "workerCount": 4,
+      "gross": "7299.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-12-20",
+    "status": "submitted",
+    "payrollNumber": 14
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000036",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2025-12-30T18:30:00Z",
+    "summary": {
+      "totalHours": "196.0",
+      "workerCount": 5,
+      "gross": "9055.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2025-12-27",
+    "status": "submitted",
+    "payrollNumber": 15
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000037",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-01-06T18:30:00Z",
+    "summary": {
+      "totalHours": "114.0",
+      "workerCount": 3,
+      "gross": "5266.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-01-03",
+    "status": "submitted",
+    "payrollNumber": 16
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000038",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-01-13T18:30:00Z",
+    "summary": {
+      "totalHours": "160.0",
+      "workerCount": 4,
+      "gross": "7392.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-01-10",
+    "status": "submitted",
+    "payrollNumber": 17
+  },
+  {
+    "id": "01928000-0000-7000-8000-000000000039",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-01-20T18:30:00Z",
+    "summary": {
+      "totalHours": "198.0",
+      "workerCount": 5,
+      "gross": "9147.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-01-17",
+    "status": "submitted",
+    "payrollNumber": 18
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003a",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-01-27T18:30:00Z",
+    "summary": {
+      "totalHours": "116.0",
+      "workerCount": 3,
+      "gross": "5359.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-01-24",
+    "status": "submitted",
+    "payrollNumber": 19
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003b",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-02-03T18:30:00Z",
+    "summary": {
+      "totalHours": "154.0",
+      "workerCount": 4,
+      "gross": "7114.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-01-31",
+    "status": "submitted",
+    "payrollNumber": 20
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003c",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-02-10T18:30:00Z",
+    "summary": {
+      "totalHours": "200.0",
+      "workerCount": 5,
+      "gross": "9240.00"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-02-07",
+    "status": "submitted",
+    "payrollNumber": 21
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003d",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-02-17T18:30:00Z",
+    "summary": {
+      "totalHours": "118.0",
+      "workerCount": 3,
+      "gross": "5451.60"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-02-14",
+    "status": "submitted",
+    "payrollNumber": 22
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003e",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": false,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-02-24T18:30:00Z",
+    "summary": {
+      "totalHours": "156.0",
+      "workerCount": 4,
+      "gross": "7207.20"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-02-21",
+    "status": "submitted",
+    "payrollNumber": 23
+  },
+  {
+    "id": "01928000-0000-7000-8000-00000000003f",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "isNoWork": false,
+    "isFinal": true,
+    "correctsPeriodId": null,
+    "lockedAt": "2026-03-03T18:30:00Z",
+    "summary": {
+      "totalHours": "194.0",
+      "workerCount": 5,
+      "gross": "8962.80"
+    },
+    "projectId": "01924000-0000-7000-8000-000000000003",
+    "weekEnding": "2026-02-28",
+    "status": "submitted",
+    "payrollNumber": 24
+  }
+]

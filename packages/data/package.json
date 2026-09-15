@@ -1,0 +1,17 @@
+{
+  "name": "@wc/data",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./dto": "./src/dto/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@wc/core": "workspace:*",
+    "zod": "4.6.5"
+  }
+}

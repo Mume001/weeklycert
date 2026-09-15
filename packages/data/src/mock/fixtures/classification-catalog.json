@@ -1,0 +1,42 @@
+[
+  {
+    "id": "01925000-0000-7000-8000-000000000001",
+    "stateCode": "NY",
+    "trade": "Electrician",
+    "subtrade": "Inside Wireman",
+    "officialLabel": "Electrician – Inside Wireman",
+    "catalogVersion": "fixture"
+  },
+  {
+    "id": "01925000-0000-7000-8000-000000000002",
+    "stateCode": "NY",
+    "trade": "Electrician",
+    "subtrade": "Teledata Technician",
+    "officialLabel": "Electrician – Teledata Technician",
+    "catalogVersion": "fixture"
+  },
+  {
+    "id": "01925000-0000-7000-8000-000000000003",
+    "stateCode": "NY",
+    "trade": "Ironworker",
+    "subtrade": "Structural",
+    "officialLabel": "Ironworker – Structural",
+    "catalogVersion": "fixture"
+  },
+  {
+    "id": "01925000-0000-7000-8000-000000000004",
+    "stateCode": "NY",
+    "trade": "Laborer",
+    "subtrade": "Group 1",
+    "officialLabel": "Laborer – Group 1",
+    "catalogVersion": "fixture"
+  },
+  {
+    "id": "01925000-0000-7000-8000-000000000005",
+    "stateCode": "NY",
+    "trade": "Operating Engineer",
+    "subtrade": "Class A",
+    "officialLabel": "Operating Engineer – Class A",
+    "catalogVersion": "fixture"
+  }
+]

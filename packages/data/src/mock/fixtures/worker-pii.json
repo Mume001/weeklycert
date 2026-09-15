@@ -1,0 +1,175 @@
+[
+  {
+    "workerId": "01927000-0000-7000-8000-000000000001",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "4417",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "41 Cedar Street",
+      "address2": null,
+      "city": "Poughkeepsie",
+      "state": "NY",
+      "postalCode": "12601",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000002",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "9038",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "7 Orchard Lane",
+      "address2": null,
+      "city": "Wappingers Falls",
+      "state": "NY",
+      "postalCode": "12590",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000003",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "5512",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "112 Grand Avenue",
+      "address2": null,
+      "city": "Newburgh",
+      "state": "NY",
+      "postalCode": "12550",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000004",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "7731",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "26 Hudson Terrace",
+      "address2": null,
+      "city": "Beacon",
+      "state": "NY",
+      "postalCode": "12508",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000005",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "3309",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "3 Birch Court",
+      "address2": null,
+      "city": "Hyde Park",
+      "state": "NY",
+      "postalCode": "12538",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000006",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "2260",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "58 Mill Street",
+      "address2": null,
+      "city": "Kingston",
+      "state": "NY",
+      "postalCode": "12401",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000007",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "6184",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "9 Ridge Road",
+      "address2": null,
+      "city": "Highland",
+      "state": "NY",
+      "postalCode": "12528",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000008",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "8820",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "230 Main Street",
+      "address2": "Apt 4",
+      "city": "New Paltz",
+      "state": "NY",
+      "postalCode": "12561",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-000000000009",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": null,
+    "dateOfBirth": "1988-05-14",
+    "address": {
+      "address1": "15 Spring Street",
+      "address2": null,
+      "city": "Poughkeepsie",
+      "state": "NY",
+      "postalCode": "12601",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-00000000000a",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "1547",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "64 Maple Avenue",
+      "address2": null,
+      "city": "Fishkill",
+      "state": "NY",
+      "postalCode": "12524",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-00000000000b",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "4093",
+    "dateOfBirth": null,
+    "address": {
+      "address1": "301 Broadway",
+      "address2": null,
+      "city": "Kingston",
+      "state": "NY",
+      "postalCode": "12401",
+      "postalCodeExt": null
+    },
+    "phone": null
+  },
+  {
+    "workerId": "01927000-0000-7000-8000-00000000000c",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "ssnLast4": "7265",
+    "dateOfBirth": null,
+    "address": null,
+    "phone": null
+  }
+]

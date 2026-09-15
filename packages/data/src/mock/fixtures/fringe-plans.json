@@ -1,0 +1,72 @@
+[
+  {
+    "id": "01929000-0000-7000-8000-000000000001",
+    "name": "Electrical Workers Health Fund",
+    "kind": "health_welfare",
+    "annualCost": null,
+    "annualHoursBasis": null,
+    "hourlyCredit": "28.00",
+    "annualize": true,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "funding": "plan_contribution",
+    "planNumber": null,
+    "provider": null,
+    "isLegallyRequired": false
+  },
+  {
+    "id": "01929000-0000-7000-8000-000000000002",
+    "name": "Electrical Workers Pension Fund",
+    "kind": "pension",
+    "annualCost": null,
+    "annualHoursBasis": null,
+    "hourlyCredit": "24.40",
+    "annualize": true,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "funding": "plan_contribution",
+    "planNumber": null,
+    "provider": null,
+    "isLegallyRequired": false
+  },
+  {
+    "id": "01929000-0000-7000-8000-000000000003",
+    "name": "Laborers Benefit Fund",
+    "kind": "health_welfare",
+    "annualCost": null,
+    "annualHoursBasis": null,
+    "hourlyCredit": "31.80",
+    "annualize": true,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "funding": "plan_contribution",
+    "planNumber": null,
+    "provider": null,
+    "isLegallyRequired": false
+  },
+  {
+    "id": "01929000-0000-7000-8000-000000000004",
+    "name": "Operating Engineers Benefit Fund",
+    "kind": "health_welfare",
+    "annualCost": null,
+    "annualHoursBasis": null,
+    "hourlyCredit": "44.05",
+    "annualize": true,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "funding": "plan_contribution",
+    "planNumber": null,
+    "provider": null,
+    "isLegallyRequired": false
+  },
+  {
+    "id": "01929000-0000-7000-8000-000000000005",
+    "name": "Ironworkers Annuity Fund",
+    "kind": "pension",
+    "annualCost": "6240.00",
+    "annualHoursBasis": null,
+    "hourlyCredit": null,
+    "annualize": true,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "funding": "plan_contribution",
+    "planNumber": null,
+    "provider": null,
+    "isLegallyRequired": false
+  }
+]
