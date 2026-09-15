@@ -1,0 +1,35 @@
+# zavisnosti i build
+node_modules/
+.next/
+out/
+dist/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+
+# okruženje i tajne
+.env
+.env.*
+!.env.example
+
+# poslovni podaci, nikad u repozitorij
+poslovno/*.csv
+poslovno/*.pdf
+poslovno/*.pptx
+
+# zvanični izvori: veliki PDF-ovi se ne verzionišu,
+# ali XSD, primjer XML-a i WH-347 da, jer ih core koristi
+izvori/**/*.pdf
+izvori/**/*.pptx
+izvori/ny/portal/
+!izvori/ny/NYDOL_CertPayroll.xsd
+!izvori/ny/primjer-payroll.xml
+!izvori/ny/klasifikacije.html
+!izvori/federalno/wh347.pdf
+
+# alati
+.DS_Store
+Thumbs.db
+playwright-report/
+test-results/
+coverage/

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
+  "extends": ["./packages/config/biome.shared.json"],
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**",
+      "!spec",
+      "!dizajn",
+      "!izvori",
+      "!skice",
+      "!poslovno",
+      "!**/*.md",
+      "!**/next-env.d.ts"
+    ]
+  }
+}

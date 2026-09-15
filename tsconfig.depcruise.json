@@ -1,0 +1,17 @@
+{
+  "//": "Module resolution for dependency-cruiser only (the @/ alias of apps/web). Not used by tsc.",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["apps/web/*"]
+    },
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": ["apps/**/*.ts", "apps/**/*.tsx", "packages/**/*.ts"],
+  "exclude": ["**/node_modules", "**/.next"]
+}
