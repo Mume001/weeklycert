@@ -14,9 +14,10 @@ import { SubscriptionBanner } from './SubscriptionBanner'
 
 /** Narrower than 1024 px: opens the sidebar panel (spec/14 §6). */
 export function MenuButton() {
-  const { menuOpen, setMenuOpen } = useShell()
+  const { menuOpen, setMenuOpen, menuButtonRef } = useShell()
   return (
     <Button
+      ref={menuButtonRef}
       variant="secondary"
       size="sm"
       className="lg:hidden"

@@ -66,6 +66,7 @@ export function TenantSwitcher({ tenants, activeId, onNavigate }: TenantSwitcher
           <DropdownMenuItem key={t.id} asChild>
             <Link
               href={`/app/${t.slug}/dashboard`}
+              prefetch={false}
               onClick={onNavigate}
               aria-current={t.id === activeId ? 'true' : undefined}
               className="items-start"
@@ -80,7 +81,8 @@ export function TenantSwitcher({ tenants, activeId, onNavigate }: TenantSwitcher
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/firms" onClick={onNavigate}>
+          {/* /firms is a later screen: no prefetch until it exists (see Sidebar). */}
+          <Link href="/firms" prefetch={false} onClick={onNavigate}>
             {copy.shell.tenantSwitcher.seeAll}
           </Link>
         </DropdownMenuItem>

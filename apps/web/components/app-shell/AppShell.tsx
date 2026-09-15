@@ -3,7 +3,7 @@
 import { copy } from '@wc/copy'
 import type { MembershipRole, TenantBrief, TenantDTO, UserDTO } from '@wc/data/dto'
 import { usePathname, useSearchParams } from 'next/navigation'
-import { type ReactNode, useCallback, useMemo, useState } from 'react'
+import { type ReactNode, useCallback, useMemo, useRef, useState } from 'react'
 import { Sheet, SheetContent, SheetTitle } from '@/components/ui/sheet'
 import { activeNavKey, type NavItem } from '@/lib/nav'
 import type { SubscriptionBannerState } from '@/lib/subscription'
@@ -46,9 +46,19 @@ export function AppShell({
   const activeKey = activeNavKey(pathname, search.toString())
   const [menuOpen, setMenuOpen] = useState(false)
   const closeMenu = useCallback(() => setMenuOpen(false), [])
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   const context = useMemo(
-    () => ({ tenant, role, pickedRole, subscription, menuOpen, setMenuOpen, demoHomeHref }),
+    () => ({
+      tenant,
+      role,
+      pickedRole,
+      subscription,
+      menuOpen,
+      setMenuOpen,
+      menuButtonRef,
+      demoHomeHref,
+    }),
     [tenant, role, pickedRole, subscription, menuOpen, demoHomeHref],
   )
 
@@ -75,6 +85,12 @@ export function AppShell({
             side="left"
             showCloseButton={false}
             aria-describedby={undefined}
+            // The Menu button sits in the page bar, outside the dialog, so Radix
+            // cannot find it: return focus to it by hand (spec/14 §6).
+            onCloseAutoFocus={(event) => {
+              event.preventDefault()
+              menuButtonRef.current?.focus()
+            }}
             className="w-60 max-w-[85vw] border-0 bg-n-900 lg:hidden"
           >
             <SheetTitle className="sr-only">{copy.shell.menu.open}</SheetTitle>

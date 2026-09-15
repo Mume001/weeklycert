@@ -84,8 +84,12 @@ export function Sidebar({
     const active = item.key === activeKey
     return (
       <li key={item.key}>
+        {/* No prefetch while most targets are screens of later sessions: a
+            prefetch of a route that does not exist yet is a 404 in the console
+            (spec/19 §10 point 1). Turn it back on once the routes exist. */}
         <Link
           href={item.href}
+          prefetch={false}
           onClick={onNavigate}
           aria-current={active ? 'page' : undefined}
           className={cn(
@@ -172,13 +176,19 @@ export function Sidebar({
           </DropdownMenuTrigger>
           <DropdownMenuContent side="top" align="start" className="w-56">
             <DropdownMenuItem asChild>
-              <Link href="/account">{copy.shell.user.account}</Link>
+              <Link href="/account" prefetch={false}>
+                {copy.shell.user.account}
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/account/security">{copy.shell.user.security}</Link>
+              <Link href="/account/security" prefetch={false}>
+                {copy.shell.user.security}
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/login">{copy.shell.user.signOut}</Link>
+              <Link href="/login" prefetch={false}>
+                {copy.shell.user.signOut}
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
