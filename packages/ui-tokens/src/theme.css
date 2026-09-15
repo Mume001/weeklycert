@@ -1,0 +1,149 @@
+/* Tailwind 4 theme built from tokens.css (spec/14). Tailwind's default palette,
+   fonts, sizes, radii and shadows are removed first, so a class like bg-red-500
+   or font-light simply does not exist in this project. */
+
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --text-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --animate-*: initial;
+
+  /* Names shared with tokens.css: same literal values, checked by tokens.test.ts. */
+  --font-sans:
+    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Consolas, 'Liberation Mono',
+    monospace;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 1px 2px rgba(18, 23, 27, 0.06);
+  --shadow-md: 0 2px 8px rgba(18, 23, 27, 0.08);
+  --shadow-panel: 0 8px 24px rgba(18, 23, 27, 0.12);
+
+  /* §4: only 400, 500 and 600 are loaded. Never 300. */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* §4 type scale with its line heights */
+  --text-2xs: 0.6875rem;
+  --text-2xs--line-height: 14px;
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 16px;
+  --text-sm: 0.8125rem;
+  --text-sm--line-height: 18px;
+  --text-base: 0.9375rem;
+  --text-base--line-height: 22px;
+  --text-md: 1rem;
+  --text-md--line-height: 24px;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 26px;
+  --text-xl: 1.375rem;
+  --text-xl--line-height: 30px;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 34px;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 42px;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 52px;
+
+  /* spec/19 §11: the only motion is a 120 ms transition on hover and panel open. */
+  --default-transition-duration: 120ms;
+}
+
+@theme inline {
+  --color-teal-50: var(--teal-50);
+  --color-teal-100: var(--teal-100);
+  --color-teal-200: var(--teal-200);
+  --color-teal-300: var(--teal-300);
+  --color-teal-400: var(--teal-400);
+  --color-teal-500: var(--teal-500);
+  --color-teal-600: var(--teal-600);
+  --color-teal-700: var(--teal-700);
+  --color-teal-800: var(--teal-800);
+  --color-teal-900: var(--teal-900);
+
+  --color-n-50: var(--n-50);
+  --color-n-100: var(--n-100);
+  --color-n-200: var(--n-200);
+  --color-n-300: var(--n-300);
+  --color-n-400: var(--n-400);
+  --color-n-450: var(--n-450);
+  --color-n-500: var(--n-500);
+  --color-n-600: var(--n-600);
+  --color-n-700: var(--n-700);
+  --color-n-800: var(--n-800);
+  --color-n-900: var(--n-900);
+
+  --color-error-50: var(--error-50);
+  --color-error-100: var(--error-100);
+  --color-error-500: var(--error-500);
+  --color-error-600: var(--error-600);
+  --color-error-700: var(--error-700);
+  --color-warning-50: var(--warning-50);
+  --color-warning-100: var(--warning-100);
+  --color-warning-500: var(--warning-500);
+  --color-warning-600: var(--warning-600);
+  --color-warning-700: var(--warning-700);
+  --color-success-50: var(--success-50);
+  --color-success-100: var(--success-100);
+  --color-success-500: var(--success-500);
+  --color-success-600: var(--success-600);
+  --color-success-700: var(--success-700);
+  --color-info-50: var(--info-50);
+  --color-info-100: var(--info-100);
+  --color-info-500: var(--info-500);
+  --color-info-600: var(--info-600);
+  --color-info-700: var(--info-700);
+  --color-violet-50: var(--violet-50);
+  --color-violet-100: var(--violet-100);
+  --color-violet-500: var(--violet-500);
+  --color-violet-600: var(--violet-600);
+  --color-violet-700: var(--violet-700);
+
+  /* Role tokens (§3). Prefer these in components. */
+  --color-white: var(--surface);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-ring: var(--brand-ring);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-disabled: var(--text-disabled);
+  --color-border-interactive: var(--border-interactive);
+  --color-border-decorative: var(--border-decorative);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-surface-header: var(--surface-header);
+
+  /* Aliases for the names shadcn/ui components use. No new values: every alias
+     points at a §3 token. */
+  --color-background: var(--surface);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--surface);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--brand);
+  --color-primary-foreground: var(--surface);
+  --color-secondary: var(--surface);
+  --color-secondary-foreground: var(--n-800);
+  --color-muted: var(--n-100);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent: var(--n-100);
+  --color-accent-foreground: var(--text-primary);
+  --color-destructive: var(--error-600);
+  --color-border: var(--border-decorative);
+  --color-input: var(--border-interactive);
+  --color-ring: var(--brand-ring);
+}
+
+/* §3 focus ring: white inner ring, teal outer ring. Use as focus-visible:focus-ring. */
+@utility focus-ring {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}

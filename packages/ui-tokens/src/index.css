@@ -1,0 +1,4 @@
+/* Entry for both apps: @import "@wc/ui-tokens" after @import "tailwindcss" (spec/19 §2). */
+@import './tokens.css';
+@import './fonts.css';
+@import './theme.css';

@@ -1,0 +1,109 @@
+/* Design tokens, copied verbatim from spec/14 §3, §4 and §5.
+   Values are contrast-checked (scripts/contrast.ts). Do not "improve" them here;
+   change spec/14 first. This package is the only place in the repo with hex colours. */
+
+:root {
+  /* §3 Brand, teal */
+  --teal-50: #eaf6f5;
+  --teal-100: #cfeae8;
+  --teal-200: #a3d6d3;
+  --teal-300: #6bbbb7;
+  --teal-400: #2f9d9b;
+  --teal-500: #0f8385;
+  --teal-600: #0c6a6b;
+  --teal-700: #0a5556;
+  --teal-800: #0a4445;
+  --teal-900: #093839;
+  --brand: var(--teal-600);
+  --brand-hover: var(--teal-700);
+  --brand-ring: var(--teal-500);
+
+  /* §3 Neutral, cool steel */
+  --n-50: #f7f9fa;
+  --n-100: #eef1f4;
+  --n-200: #dfe4e9;
+  --n-300: #c7cfd7;
+  --n-400: #98a4b0;
+  --n-450: #7a8894;
+  --n-500: #6b7885;
+  --n-600: #4e5a66;
+  --n-700: #39434d;
+  --n-800: #252c33;
+  --n-900: #12171b;
+
+  /* §3 Semantic */
+  --error-50: #fef3f2;
+  --error-100: #fee4e2;
+  --error-500: #d92d20;
+  --error-600: #b42318;
+  --error-700: #912018;
+  --warning-50: #fffaeb;
+  --warning-100: #fef0c7;
+  --warning-500: #dc6803;
+  --warning-600: #b54708;
+  --warning-700: #93370d;
+  --success-50: #ecfdf3;
+  --success-100: #d1fadf;
+  --success-500: #079455;
+  --success-600: #067647;
+  --success-700: #05603a;
+  --info-50: #eff6ff;
+  --info-100: #dbeafe;
+  --info-500: #1570ef;
+  --info-600: #175cd3;
+  --info-700: #1849a9;
+  --violet-50: #f4f1fd;
+  --violet-100: #e6e0fa;
+  --violet-500: #7c5cd6;
+  --violet-600: #6035c4;
+  --violet-700: #4e2aa3;
+
+  /* §3 Roles. Code uses THESE, not the raw steps. */
+  --text-primary: var(--n-900);
+  --text-secondary: var(--n-600);
+  --text-disabled: var(--n-400);
+  --border-interactive: var(--n-450);
+  --border-decorative: var(--n-200);
+  --surface: #ffffff;
+  --surface-sunken: var(--n-50);
+  --surface-header: var(--n-100);
+  --focus-ring: 0 0 0 2px #ffffff, 0 0 0 4px var(--brand-ring);
+
+  /* §4 Typography */
+  --font-sans:
+    'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Consolas, 'Liberation Mono',
+    monospace;
+  --fs-2xs: 0.6875rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 0.9375rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.375rem;
+  --fs-2xl: 1.75rem;
+  --fs-3xl: 2.25rem;
+  --fs-4xl: 3rem;
+
+  /* §5 Spacing, radii, shadows */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --radius-sm: 3px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --shadow-sm: 0 1px 2px rgba(18, 23, 27, 0.06);
+  --shadow-md: 0 2px 8px rgba(18, 23, 27, 0.08);
+  --shadow-panel: 0 8px 24px rgba(18, 23, 27, 0.12);
+}
