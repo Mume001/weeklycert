@@ -14,6 +14,10 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* The same collision the grid has (spec/14 §7, WCAG 2.4.11), in the other
+       app: the header is sticky and 62 px tall, so "How it works" would scroll
+       its own heading underneath it. axe does not catch this either. */
+    scroll-padding-top: 62px;
   }
 
   /* spec/14 §11: no motion that moves content, and reduced motion is honoured. */

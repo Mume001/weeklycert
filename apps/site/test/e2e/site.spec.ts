@@ -79,6 +79,82 @@ test('the hero carries the real grid and a whole week of it (spec/16 §4 row 2)'
   await expect(shot).toHaveAttribute('alt', /seven days/)
 })
 
+test('the one primary action leads to the price (spec/16 §4, CTA discipline)', async ({ page }) => {
+  // spec/19 §10 item 7: one test for the main action of the screen. There is
+  // exactly one primary action on this site and it is repeated, never competed
+  // with by a "Book a demo" of equal weight.
+  await page.goto('/')
+  await page.getByRole('link', { name: 'Start free for 14 days' }).first().click()
+  await expect(page).toHaveURL(/\/pricing/)
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+})
+
+test('a section link does not park its heading under the sticky header', async ({ page }) => {
+  // spec/19 §10 item 5, in the shape this app has it: the header is sticky, so
+  // an anchor without scroll-padding hides the heading it just jumped to.
+  await page.goto('/')
+  await page.getByRole('link', { name: 'How it works' }).first().click()
+  const headerBottom = await page
+    .locator('header')
+    .evaluate((el) => el.getBoundingClientRect().bottom)
+  const sectionTop = await page.locator('#how').evaluate((el) => el.getBoundingClientRect().top)
+  expect(sectionTop).toBeGreaterThanOrEqual(headerBottom - 1)
+})
+
+test('the page paints inside the 3G budget (spec/16 §8, 12 step 3b)', async ({ page }) => {
+  // The acceptance number for this app: LCP under 1.5 s on 3G, because these
+  // customers sit on slow connections. Measured, not assumed.
+  //
+  // "3G" is Chrome's Fast 3G profile, 1.6 Mbps down with a 562 ms round trip,
+  // which is what Lighthouse means by the word. The profile is named here
+  // rather than picked to suit the result: on Slow 3G, 400 kbps, this page
+  // measures about 8.7 s, and no page carrying a real screenshot of the product
+  // can meet 1.5 s there, because the screenshot alone is 1.6 s of transfer.
+  // 16 §4 row 2 asks for that screenshot and 16 §8 asks for this budget.
+  const client = await page.context().newCDPSession(page)
+  await client.send('Network.enable')
+  await client.send('Network.emulateNetworkConditions', {
+    offline: false,
+    latency: 562,
+    downloadThroughput: (1.6 * 1024 * 1024) / 8,
+    uploadThroughput: (750 * 1024) / 8,
+  })
+
+  await page.goto('/', { waitUntil: 'load' })
+  const measured = await page.evaluate(
+    () =>
+      new Promise<{ lcp: number; element: string; heavy: string[] }>((resolve) => {
+        const report = (lcp: number, element: string) => {
+          const heavy = performance
+            .getEntriesByType('resource')
+            .map((e) => e as PerformanceResourceTiming)
+            .sort((a, b) => b.transferSize - a.transferSize)
+            .slice(0, 6)
+            .map((e) => `${Math.round(e.transferSize / 1024)} kB ${e.name.split('/').pop()}`)
+          resolve({ lcp, element, heavy })
+        }
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries()
+          const last = entries[entries.length - 1] as
+            | (PerformanceEntry & {
+                element?: Element
+                url?: string
+              })
+            | undefined
+          if (last) {
+            report(last.startTime, last.url || last.element?.tagName || 'unknown')
+          }
+        }).observe({ type: 'largest-contentful-paint', buffered: true })
+        setTimeout(() => report(0, 'timed out'), 5000)
+      }),
+  )
+  const lcp = measured.lcp
+  console.log(`LCP on 3G: ${Math.round(lcp)} ms, element: ${measured.element}`)
+  console.log(`heaviest: ${measured.heavy.join(' | ')}`)
+  expect(lcp).toBeGreaterThan(0)
+  expect(lcp).toBeLessThan(1500)
+})
+
 test('no phone number and no postal address reached the build (spec/19 §8)', async ({ page }) => {
   for (const route of ROUTES) {
     await page.goto(route.path)

@@ -1,4 +1,5 @@
 import { copy } from '@wc/copy'
+import { preload } from 'react-dom'
 import { Check } from './Check'
 
 /**
@@ -12,6 +13,10 @@ import { Check } from './Check'
  */
 export function Hero() {
   const c = copy.site.hero
+  // Measured: this screenshot is the largest contentful paint. Left to be found
+  // in the markup it waits for the stylesheet first, which on a slow connection
+  // is a whole round trip; announced in the head it starts immediately.
+  preload('/hero-grid.png', { as: 'image', fetchPriority: 'high' })
   return (
     <section className="border-border-decorative border-b bg-gradient-to-b from-teal-50 to-white px-6 py-14">
       <div className="mx-auto grid max-w-[1160px] items-center gap-11 lg:grid-cols-[1fr_1.1fr]">
@@ -48,6 +53,7 @@ export function Hero() {
             alt={c.shotAlt}
             width={1120}
             height={700}
+            fetchPriority="high"
             className="block h-auto w-full"
           />
         </div>
