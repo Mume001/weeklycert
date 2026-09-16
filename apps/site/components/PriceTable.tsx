@@ -1,5 +1,6 @@
 import { copy } from '@wc/copy'
 import { Check } from './Check'
+import { supportMailto } from './links'
 import { Section, SectionHead } from './Section'
 
 /**
@@ -32,13 +33,15 @@ export function PriceTable({ level = 2 }: { level?: 1 | 2 }) {
               </li>
             ))}
           </ul>
+          {/* No card is taken yet, so the note under the button cannot promise
+              what happens to one (15 §3 block 14). */}
           <a
             className="mt-6 flex h-12 items-center justify-center rounded-md bg-brand px-6 font-semibold text-md text-white no-underline hover:bg-brand-hover"
-            href="/pricing"
+            href={supportMailto(copy.site.signup.subject)}
           >
-            {c.cta}
+            {copy.site.signup.button}
           </a>
-          <p className="mt-2.5 text-center text-text-secondary text-xs">{c.ctaNote}</p>
+          <p className="mt-2.5 text-center text-text-secondary text-xs">{copy.site.signup.note}</p>
         </div>
 
         <div className="rounded-lg border border-white/15 bg-white/5 p-6">

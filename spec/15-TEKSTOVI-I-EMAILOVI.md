@@ -431,6 +431,23 @@ jednu istinitu rečenicu:
 `This document is being prepared with counsel and will be published here before the first paid account. Ask for the current draft and we will send it.`
 Ispod nje kontakt: `support@weeklycert.com`
 
+**14 Poziv na radnju dok registracija ne postoji**
+
+Registracija (`/register`) i aplikacija (`app.weeklycert.com`) nastaju tek
+poslije kapije od 10 uplata (19 §9, 12). Do tada nijedno dugme ne smije voditi na
+ekran koji ne postoji, jer je slijepi link na sajtu koji prodaje usklađenost
+gori od poštene rečenice. Primarna radnja i `Log in` zato vode na
+`mailto:support@weeklycert.com`, s predmetom koji kaže o čemu se radi.
+
+- Dugme, umjesto `Start free` i `Start free for 14 days`: `Ask for an account`
+- Napomena ispod dugmeta: `Sign up is not open yet. Email us and we will set your account up by hand.`
+- Predmet tog emaila: `Account request from weeklycert.com`
+- Predmet emaila iza `Log in`: `Sign in help`
+
+Kad registracija proradi, vraćaju se `Start free` i `Start free for 14 days` iz
+odjeljaka 1 i 7 gore, a ova četiri stringa se brišu. Oni su privremeni i to je
+jedini razlog zbog kojeg postoje.
+
 **Nijedan telefonski broj se ne pojavljuje u tekstu dok ne postoji stvaran broj
 koji neko javlja.** Izmišljen broj u poruci o grešci je gori od nikakvog, jer
 kupac po njemu zove kad mu gori.

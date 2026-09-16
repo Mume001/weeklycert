@@ -79,14 +79,68 @@ test('the hero carries the real grid and a whole week of it (spec/16 §4 row 2)'
   await expect(shot).toHaveAttribute('alt', /seven days/)
 })
 
-test('the one primary action leads to the price (spec/16 §4, CTA discipline)', async ({ page }) => {
+test('the one primary action opens an email, because sign up does not exist yet', async ({
+  page,
+}) => {
   // spec/19 §10 item 7: one test for the main action of the screen. There is
   // exactly one primary action on this site and it is repeated, never competed
   // with by a "Book a demo" of equal weight.
+  //
+  // Where it leads is 15 §3 block 14: /register and app.weeklycert.com are
+  // built after the gate of ten payments (19 §9), so until then the button says
+  // what it does and opens an email instead of promising a screen.
   await page.goto('/')
-  await page.getByRole('link', { name: 'Start free for 14 days' }).first().click()
-  await expect(page).toHaveURL(/\/pricing/)
-  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+  const primary = page.getByRole('link', { name: 'Ask for an account' }).first()
+  await expect(primary).toHaveAttribute(
+    'href',
+    'mailto:support@weeklycert.com?subject=Account%20request%20from%20weeklycert.com',
+  )
+  // And it says so next to itself, rather than letting the visitor find out.
+  await expect(page.getByText('Sign up is not open yet').first()).toBeVisible()
+})
+
+test('no link anywhere on the site leads to a page that does not exist', async ({
+  page,
+  request,
+}) => {
+  // The rule behind this one is blunt: a call to action that 404s on a site
+  // selling compliance software costs more than the sale. Every link on every
+  // built page is either an email, a section of a page that exists, or a page
+  // that answers 200.
+  const checked = new Map<string, number>()
+  for (const route of ROUTES) {
+    await page.goto(route.path)
+    const hrefs = await page
+      .locator('a[href]')
+      .evaluateAll((links) => links.map((link) => link.getAttribute('href') ?? ''))
+    expect(hrefs.length).toBeGreaterThan(5)
+
+    for (const href of hrefs) {
+      if (href.startsWith('mailto:')) {
+        // One inbox, and a subject that says which button was pressed (15 §3).
+        expect(href, `${route.path}: ${href}`).toMatch(
+          /^mailto:support@weeklycert\.com(\?subject=\S+)?$/,
+        )
+        continue
+      }
+      // Nothing on this site links off it, and nothing links to a host that is
+      // not built yet either.
+      expect(href, `${route.path}: ${href}`).toMatch(/^\/[\w#/-]*$/)
+
+      const [path = '/', fragment] = href.split('#')
+      const target = path === '' ? '/' : path
+      if (!checked.has(target)) {
+        checked.set(target, (await request.get(target)).status())
+      }
+      expect(checked.get(target), `${route.path} links to ${href}`).toBe(200)
+
+      if (fragment) {
+        await page.goto(target)
+        await expect(page.locator(`#${fragment}`)).toHaveCount(1)
+        await page.goto(route.path)
+      }
+    }
+  }
 })
 
 test('a section link does not park its heading under the sticky header', async ({ page }) => {

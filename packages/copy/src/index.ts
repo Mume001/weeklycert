@@ -392,6 +392,19 @@ export const copy = {
       /** The human option in the header. A phone number goes here when one exists. */
       contact: 'support@weeklycert.com',
     },
+    /**
+     * 15 §3 block 14. There is no /register and no app.weeklycert.com until the
+     * gate of ten payments (19 §9), so the primary action and "Log in" open an
+     * email instead of a screen that does not exist. `nav.startFree`,
+     * `hero.primary` and `pricing.cta` are the labels that come back the day
+     * sign-up does; nothing renders them in the meantime.
+     */
+    signup: {
+      button: 'Ask for an account',
+      note: 'Sign up is not open yet. Email us and we will set your account up by hand.',
+      subject: 'Account request from weeklycert.com',
+      logInSubject: 'Sign in help',
+    },
     footer: {
       description:
         'Certified payroll for New York subcontractors. NYSDOL portal XML and federal WH-347 from one weekly entry.',

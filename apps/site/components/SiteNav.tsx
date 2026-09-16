@@ -1,5 +1,5 @@
 import { copy } from '@wc/copy'
-import { APP_URL, SECTION } from './links'
+import { SECTION, supportMailto } from './links'
 
 /**
  * spec/16 §4 row 1. The human option in the header is an email address and not
@@ -8,6 +8,11 @@ import { APP_URL, SECTION } from './links'
  *
  * Section links are absolute (`/#how`), so they work from /pricing and
  * /security as well as from the home page.
+ *
+ * "Log in" and the primary action both open an email: the application lives at
+ * app.weeklycert.com, which is built after the gate of ten payments (19 §9), so
+ * until then both of them would point at a host that does not answer
+ * (15 §3 block 14).
  */
 export function SiteNav() {
   const c = copy.site.nav
@@ -49,15 +54,15 @@ export function SiteNav() {
           </a>
           <a
             className="hidden h-[30px] items-center rounded-md px-3 font-semibold text-n-800 text-sm no-underline hover:bg-n-50 sm:inline-flex"
-            href={APP_URL}
+            href={supportMailto(copy.site.signup.logInSubject)}
           >
             {c.logIn}
           </a>
           <a
             className="inline-flex h-[30px] items-center rounded-md bg-brand px-3 font-semibold text-sm text-white no-underline hover:bg-brand-hover"
-            href="/pricing"
+            href={supportMailto(copy.site.signup.subject)}
           >
-            {c.startFree}
+            {copy.site.signup.button}
           </a>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { copy } from '@wc/copy'
 import { preload } from 'react-dom'
 import { Check } from './Check'
+import { supportMailto } from './links'
 
 /**
  * spec/16 §4 row 2. The picture on the right is a REAL screenshot of the hours
@@ -24,11 +25,13 @@ export function Hero() {
           <h1 className="font-semibold text-4xl text-text-primary">{c.title}</h1>
           <p className="mt-5 max-w-[520px] text-lg text-text-secondary">{c.subtitle}</p>
           <div className="mt-7 flex flex-wrap gap-3">
+            {/* The one primary action, and while sign-up does not exist it is an
+                email, not a link to a screen nobody built (15 §3 block 14). */}
             <a
               className="inline-flex h-12 items-center rounded-md bg-brand px-6 font-semibold text-md text-white no-underline hover:bg-brand-hover"
-              href="/pricing"
+              href={supportMailto(copy.site.signup.subject)}
             >
-              {c.primary}
+              {copy.site.signup.button}
             </a>
             <a
               className="inline-flex h-12 items-center rounded-md border border-n-450 bg-white px-6 font-semibold text-md text-n-800 no-underline hover:bg-n-50"
@@ -48,6 +51,7 @@ export function Hero() {
         </div>
 
         <div className="overflow-hidden rounded-lg border border-n-300 bg-white shadow-panel">
+          {/* biome-ignore lint/performance/noImgElement: next/image optimises nothing under output: 'export' without a custom loader (19 §2 and §9), so <Image> would ship the same bytes plus a client component. The size is fixed above and the fetch priority is set by hand. */}
           <img
             src="/hero-grid.png"
             alt={c.shotAlt}
