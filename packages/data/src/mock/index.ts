@@ -5,9 +5,17 @@ import { type Dow, openWeekEndings, weekEndingOf } from '@wc/core'
 import type { OpenWeeksDTO, TenantBrief, TenantDTO, UserDTO } from '../dto/index.ts'
 import { NotYetBuiltError } from '../not-yet.ts'
 import type { Repositories } from '../repositories.ts'
-import { mockToday } from './clock.ts'
+import { mockNow, mockToday } from './clock.ts'
 import { db } from './db.ts'
 import { delay } from './delay.ts'
+import {
+  buildWeekInput,
+  copyPreviousWeek,
+  markNoWork,
+  patchCell,
+  periodLocation,
+  weekGrid,
+} from './week-grid.ts'
 
 const later = (method: string, session: string) => async (): Promise<never> => {
   throw new NotYetBuiltError(method, session)
@@ -26,6 +34,7 @@ function ownerOf(tenantId: string): { name: string; email: string } {
 
 export const mockRepositories: Repositories = {
   today: () => mockToday(),
+  now: () => mockNow(),
 
   users: {
     async get(userId) {
@@ -111,10 +120,37 @@ export const mockRepositories: Repositories = {
   },
 
   weeks: {
-    grid: later('weeks.grid', 'C (grid, needs core from session B)'),
-    patchCell: later('weeks.patchCell', 'C'),
-    copyPreviousWeek: later('weeks.copyPreviousWeek', 'C'),
-    markNoWork: later('weeks.markNoWork', 'C'),
+    async grid(projectId, weekEnding) {
+      await delay('weeks.grid')
+      return weekGrid(projectId, weekEnding)
+    },
+
+    async engineInput(projectId, weekEnding) {
+      await delay('weeks.engineInput')
+      return buildWeekInput(projectId, weekEnding)
+    },
+
+    async patchCell(periodId, rowId, day, raw) {
+      await delay('weeks.patchCell')
+      return patchCell(periodId, rowId, day, raw)
+    },
+
+    async findings(periodId) {
+      await delay('weeks.findings')
+      const { projectId, weekEnding } = periodLocation(periodId)
+      return weekGrid(projectId, weekEnding).findings
+    },
+
+    async copyPreviousWeek(periodId) {
+      await delay('weeks.copyPreviousWeek')
+      return copyPreviousWeek(periodId)
+    },
+
+    async markNoWork(periodId) {
+      await delay('weeks.markNoWork')
+      markNoWork(periodId)
+    },
+
     review: later('weeks.review', 'E (review, 03 §5 item 3)'),
   },
   workers: {

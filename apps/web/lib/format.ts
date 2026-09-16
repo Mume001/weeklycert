@@ -64,6 +64,25 @@ export function dateParts(date: IsoDate): {
   }
 }
 
+/**
+ * "12:41" for the autosave indicator (spec/15 §3). The time comes from the
+ * server with the save, never from the browser clock: the demo must show the
+ * same screenshot on every run (spec/19 §1 point 3).
+ */
+export function formatClock(isoDateTime: string): string {
+  const p = Object.fromEntries(
+    new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'UTC',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    })
+      .formatToParts(new Date(isoDateTime))
+      .map((part) => [part.type, part.value]),
+  )
+  return `${p.hour}:${p.minute}`
+}
+
 /** Two-letter initials for the avatar, "Mirza Hodzic" -> "MH". */
 export function initials(name: string): string {
   return name

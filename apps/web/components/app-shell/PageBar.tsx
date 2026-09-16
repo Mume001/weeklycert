@@ -37,8 +37,12 @@ export function PageBar({ title, meta, breadcrumb, actions, search, notification
                   <li key={crumb.href ?? crumb.label} className="flex items-center gap-1">
                     {i > 0 && <span aria-hidden="true">/</span>}
                     {crumb.href ? (
+                      /* No prefetch: a breadcrumb often points at a screen of a
+                         later session, and prefetching a route that does not
+                         exist yet is a 404 in the console (see Sidebar). */
                       <Link
                         href={crumb.href}
+                        prefetch={false}
                         className="rounded-sm hover:underline focus-visible:focus-ring"
                       >
                         {crumb.label}

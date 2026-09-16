@@ -102,6 +102,8 @@ describe('open weeks (spec/19 §4: exactly three)', () => {
 
 describe('later sessions', () => {
   it('throws NotYetBuiltError instead of pretending', async () => {
-    await expect(repos.weeks.grid('x', '2026-09-12')).rejects.toBeInstanceOf(NotYetBuiltError)
+    // The grid is built (session C); the dashboard is not (03 §5 item 9).
+    await expect(repos.dashboard.get('x')).rejects.toBeInstanceOf(NotYetBuiltError)
+    await expect(repos.weeks.review('x', '2026-09-12')).rejects.toBeInstanceOf(NotYetBuiltError)
   })
 })

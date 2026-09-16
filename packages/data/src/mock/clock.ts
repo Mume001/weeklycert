@@ -10,3 +10,12 @@ export function mockToday(): string {
     throw new Error(`MOCK_TODAY must be a date like 2026-09-15, got "${value}"`)
   return value
 }
+
+/**
+ * The moment the mock "saves" something. Fixed like the date, so the autosave
+ * indicator reads the same in every screenshot and every test run (spec/19 §4).
+ * In step 4 this becomes the server clock.
+ */
+export function mockNow(): string {
+  return `${mockToday()}T12:41:00.000Z`
+}

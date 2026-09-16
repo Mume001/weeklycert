@@ -82,9 +82,9 @@ weeklycert/
 
 ## Napomene o kodu (privremena stanja koja se vraćaju)
 
-- **Prefetch je isključen na linkovima bočne trake i birača firmi**
-  (`prefetch={false}` u `apps/web/components/app-shell/Sidebar.tsx` i
-  `TenantSwitcher.tsx`). Razlog: većina odredišta su ekrani iz kasnijih sesija
+- **Prefetch je isključen na linkovima bočne trake, birača firmi i putanje**
+  (`prefetch={false}` u `apps/web/components/app-shell/Sidebar.tsx`,
+  `TenantSwitcher.tsx` i `PageBar.tsx`). Razlog: većina odredišta su ekrani iz kasnijih sesija
   koji još ne postoje, pa bi ih Next.js unaprijed dovlačio i punio konzolu
   404 greškama, a definicija gotovog traži konzolu bez ijedne greške
   (spec/19 §10 stavka 1). **Vraća se na podrazumijevani prefetch čim ekrani iz

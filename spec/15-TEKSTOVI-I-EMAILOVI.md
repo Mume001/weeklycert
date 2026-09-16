@@ -185,6 +185,18 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Neispravan unos u ćeliju: `Enter hours, for example 8, 8.5 or 8/1.`
 - Bez nalaza: `Everything checks out. You can generate the report.`
 
+**Mreža, kolone i ćelija** (redoslijed kolona je iz 03 §4.5, mjere iz 14 §7)
+- Kolone: `Worker` · `Classification` · `J/RA` · sedam dana · `Total` · `ST` ·
+  `OT` · `ST rate` · `OT rate` · `Supplement` · `Gross`
+- Zaglavlje kolone dana nosi kratki dan i broj u mjesecu: `{WeekEndDay} {D}`
+- Prva ćelija reda zbira: `Week total`
+- Radnik koji cijele sedmice nema sat: `No hours this week`
+- Ime ćelije za čitač ekrana: `Hours for {Name} on {date}`
+- Podvrijednost u ćeliji: `OT`, puni naziv u `abbr`: `Overtime`
+- Status dodatka po redu: `Plan` · `Cash` · `Plan and cash` · `Not set`
+- Uz nalaz u panelu: `Apply this fix` · `I understand, this is intentional`
+- Naslov panela je brojač iznad, a grupe nose iste te brojače.
+
 ### Pregled i potpis
 - Naslov: `Review and certify`
 - Uspjeh: `No errors. {n} warning was confirmed by you on {date}.` /

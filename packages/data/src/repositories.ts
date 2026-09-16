@@ -1,11 +1,13 @@
 // The data contract the app sees (spec/19 §3). Two implementations share it:
 // mock/ now, drizzle/ in step 4. apps/web imports only this interface and
 // getRepositories(), never an implementation.
+import type { WeekInput } from '@wc/core'
 import type {
   AdminHealthDTO,
   ArchiveFilter,
   ArchiveRowDTO,
   DashboardDTO,
+  Finding,
   FringePlanDTO,
   GridRow,
   ImportBatchDTO,
@@ -28,6 +30,8 @@ import { mockRepositories } from './mock/index.ts'
 export interface Repositories {
   /** Today in the tenant's time zone. MOCK_TODAY in the mock phase. */
   today(): IsoDate
+  /** The moment a write happened, for "Saved {HH:MM}". Fixed in the mock phase. */
+  now(): string
   users: { get(userId: Uuid): Promise<UserDTO | null> }
   tenants: {
     /** Companies the user is an active member of. */
@@ -43,7 +47,16 @@ export interface Repositories {
   }
   weeks: {
     grid(projectId: Uuid, weekEnding: IsoDate): Promise<WeekGridDTO>
+    /**
+     * The same week as the engine sees it. The grid runs `computeWeek()` in the
+     * browser on every keystroke (spec/19 §6), and for that it needs the input,
+     * not the result. Only roles that may read worker addresses get it
+     * (spec/02 §3); a viewer reads the DTO, which carries no PII.
+     */
+    engineInput(projectId: Uuid, weekEnding: IsoDate): Promise<WeekInput>
     patchCell(periodId: Uuid, rowId: string, day: number, raw: string): Promise<GridRow>
+    /** The findings the server computed, which are the ones that count (spec/03 §4.5). */
+    findings(periodId: Uuid): Promise<Finding[]>
     copyPreviousWeek(periodId: Uuid): Promise<WeekGridDTO>
     markNoWork(periodId: Uuid): Promise<void>
     review(projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO>
