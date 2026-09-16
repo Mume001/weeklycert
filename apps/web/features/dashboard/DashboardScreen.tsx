@@ -25,7 +25,11 @@ export async function DashboardScreen({ slug }: { slug: string }) {
           Month: today.month,
           D: today.day,
         })}
-        meta={fill(copy.dashboard.subtitle, { Month: week.monthShort, D: week.day })}
+        meta={fill(copy.dashboard.subtitle, {
+          WeekEndDay: week.weekdayShort,
+          Month: week.monthShort,
+          D: week.day,
+        })}
         breadcrumb={[{ label: shell.tenant.legalName }]}
       />
       <div className="mx-auto w-full max-w-[1440px] p-6" />

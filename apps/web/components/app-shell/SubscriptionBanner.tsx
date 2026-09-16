@@ -1,6 +1,6 @@
 'use client'
 
-import { copy, fill } from '@wc/copy'
+import { copy, count } from '@wc/copy'
 import { cn } from 'cn'
 import { CircleAlert, CirclePause, Info, type LucideIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -28,16 +28,22 @@ const TONE: Record<SubscriptionBannerProps['state'], { icon: LucideIcon; classNa
   },
 }
 
-const TEXT = {
-  trial: copy.shell.subscription.trial,
-  paused: copy.shell.subscription.paused,
-  past_due: copy.shell.subscription.pastDue,
+const ACTION = {
+  trial: copy.shell.subscription.trial.action,
+  paused: copy.shell.subscription.paused.action,
+  past_due: copy.shell.subscription.pastDue.action,
 } as const
+
+/** Singular or plural by the number of days (spec/15 §1 rule 11). */
+function bannerText(state: SubscriptionBannerProps['state'], daysLeft: number): string {
+  if (state === 'trial') return count(copy.shell.subscription.trial, 'text', daysLeft)
+  if (state === 'past_due') return count(copy.shell.subscription.pastDue, 'text', daysLeft)
+  return copy.shell.subscription.paused.text
+}
 
 /** Under the page bar, only when needed (spec/03 §3). Text from spec/15 §3. */
 export function SubscriptionBanner({ state, daysLeft = 0, onAction }: SubscriptionBannerProps) {
   const { icon: Icon, className } = TONE[state]
-  const text = TEXT[state]
   return (
     <div
       role="status"
@@ -47,10 +53,10 @@ export function SubscriptionBanner({ state, daysLeft = 0, onAction }: Subscripti
       )}
     >
       <Icon className="size-4 shrink-0" aria-hidden="true" />
-      <p className="min-w-0 flex-1 text-sm font-semibold">{fill(text.text, { n: daysLeft })}</p>
+      <p className="min-w-0 flex-1 text-sm font-semibold">{bannerText(state, daysLeft)}</p>
       {onAction && (
         <Button variant="secondary" size="sm" onClick={onAction}>
-          {text.action}
+          {ACTION[state]}
         </Button>
       )}
     </div>

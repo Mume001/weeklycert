@@ -27,6 +27,13 @@ tekstovi su na engleskom i kopiraju se doslovno.
 9. Dugmad su **glagol plus objekat**: "Enter hours", "Sign and lock this week",
    "Record submission". Nikad samo "Submit" ili "OK".
 10. Prazna stanja objašnjavaju **zašto je prazno** i nude jednu radnju.
+11. **Svaki string s brojem ima dva oblika**, jedninu i množinu, i to su dva
+    ključa u `packages/copy`: `..._one` i `..._other`. Nikad "1 active projects"
+    i nikad zaobilaženje kroz "1 project(s)". Ovo vrijedi i za nula: engleski
+    koristi množinu za nulu (`0 projects`).
+12. **Nijedna vrijednost se ne upisuje u string.** Ni dan u sedmici
+    (`{WeekEndDay}`, jer ga firma bira), ni vrijeme (`{time}`), ni datum, ni ime.
+    Ako u stringu stoji konkretna vrijednost, to je greška, ne primjer.
 
 ## 2. Rječnik u sučelju (zamrznut, ne mijenjati)
 
@@ -60,9 +67,11 @@ po komponenti.
 
 **Birač firme** (vrh bočne trake)
 - Naslov padajućeg menija: `Your companies`
-- Ispod imena firme: `{Role} · {n} active projects`
+- Ispod imena firme: `{Role} · {n} active project` / `{Role} · {n} active projects`
 - Zadnja stavka: `See all companies`
-- Kad korisnik ima samo jednu firmu, birač se ne prikazuje.
+- Kad korisnik ima samo jednu firmu, **ime firme se i dalje vidi** na istom
+  mjestu, ali nije padajući meni i nema chevron. Korisnik mora u svakom trenutku
+  znati čije podatke gleda; to je prvo pitanje pri kontroli.
 
 **Otvaranje trake uže od 1024 px** (14 §6)
 - Dugme: `Menu` (isti tekst je i `aria-label`)
@@ -79,9 +88,9 @@ po komponenti.
 - Zvono, naslov: `Notifications` · zadnja stavka `Mark all as read`
 
 **Traka stanja pretplate**
-- Probni period: `Trial, {n} days left.` dugme `Add a payment method`
+- Probni period: `Trial, {n} day left.` / `Trial, {n} days left.` dugme `Add a payment method`
 - Pauzirano: `Subscription paused. You can read everything, but new reports cannot be generated.` dugme `Resume subscription`
-- Neuspjela naplata: `The last payment did not go through. Reports keep working for {n} more days.` dugme `Update card`
+- Neuspjela naplata: `The last payment did not go through. Reports keep working for {n} more day.` / `The last payment did not go through. Reports keep working for {n} more days.` dugme `Update card`
 
 **Značka statusa** (redoslijed i riječi su fiksni, mapiranje je u 04 §7.1)
 `Draft` · `Needs attention` · `Validated` · `Signed` · `Submitted` ·
@@ -143,37 +152,43 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Naslov: `Sign in to WeeklyCert`
 - Dugmad: `Sign in` · `Email me a sign-in link` · `Use a passkey`
 - Neuspjela prijava: `That email and password do not match. Check both, or use a sign-in link instead.`
-- Previše pokušaja: `Too many attempts. Try again at 10:14, or reset your password.`
+- Previše pokušaja: `Too many attempts. Try again at {time}, or reset your password.`
 - Magic link: `Click the button below to sign in. The link works once and expires in 15 minutes.`
 - Pozivnica: `{Inviter} invited you to {Company} as {Role}. Accepting adds this company to your account.`
 - 2FA obavezna: `Your role can sign certifications, so two-factor authentication is required. It takes two minutes to set up.`
 
 ### Kontrolna tabla
-- Naslov: `{Weekday}, {Month} {D}` · pod njim `week ending Sat {Month} {D}`
+- Naslov: `{Weekday}, {Month} {D}` · pod njim `week ending {WeekEndDay} {Month} {D}`
 - Kartice: `project past the 30-day deadline` · `weeks waiting for hours` ·
   `report waiting for signature` · `filings accepted this year`
 - Sekcija rokova: `State filing deadlines` / podnaslov
   `NYSDOL requires a submission at least every 30 days per project`
-- Statusi: `{n} days left` · `{n} days late` · `due today`
+- Statusi: `{n} day left` / `{n} days left` · `{n} day late` / `{n} days late` · `due today`
 - Prazno: `No projects yet. A project is one public job with its own PRC number.`
   Dugme `Add your first project`.
 
 ### Mreža sati
-- Naslov: `Hours` · meta `Sat {date} · payroll no. will be #{n} on signature`
+- Naslov: `Hours` · meta `{WeekEndDay} {date} · payroll no. will be #{n} on signature`
 - Dugmad: `Copy last week` · `Import CSV` · `Mark no-work week` ·
   `Review and generate`
-- Onemogućeno dugme, tooltip: `{n} errors must be fixed before you can generate the report.`
+- Onemogućeno dugme, tooltip: `{n} error must be fixed before you can generate the report.` /
+  `{n} errors must be fixed before you can generate the report.`
 - Snimanje: `Saved {HH:MM}` · `Saving...` · `Not saved. Check your connection.`
 - Prazna sedmica: `No hours yet for this week. Copy last week to bring the same crew over, or import a file.`
 - Zaključana sedmica: `This week was signed on {date} and cannot be changed. Create a correction to file a new version.`
-- Konflikt: `{Name} changed this week two minutes ago. Your view has been refreshed.`
-- Panel: `{n} errors, {n} warnings, {n} notes` / `Errors block generating the report.`
+- Konflikt: `{Name} changed this week {n} minute ago. Your view has been refreshed.` /
+  `{Name} changed this week {n} minutes ago. Your view has been refreshed.`
+- Panel, brojači (tri odvojena stringa, jer svaki broji svoje; spaja ih zarez u
+  prikazu, ne rečenica): `{n} error` / `{n} errors` · `{n} warning` / `{n} warnings` ·
+  `{n} note` / `{n} notes`
+- Panel, napomena: `Errors block generating the report.`
 - Neispravan unos u ćeliju: `Enter hours, for example 8, 8.5 or 8/1.`
 - Bez nalaza: `Everything checks out. You can generate the report.`
 
 ### Pregled i potpis
 - Naslov: `Review and certify`
-- Uspjeh: `No errors. {n} warnings were confirmed by you on {date}.`
+- Uspjeh: `No errors. {n} warning was confirmed by you on {date}.` /
+  `No errors. {n} warnings were confirmed by you on {date}.`
 - XML kartica: `NY XML for the portal` · značka `schema valid`
 - Ručni unos: `What you type into the portal by hand` / `the file does not carry these`
 - Portal bez API-ja: `The portal has no API. You upload the file yourself and we record the confirmation. A week can only be uploaded once, into an empty week.`
@@ -200,12 +215,15 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 
 ### Uvoz
 - Koraci: `File` · `Mapping` · `Check` · `Reconcile and apply`
-- Brojači: `{n} rows in the file` · `{n} ready` · `{n} warnings` · `{n} errors, these block`
+- Brojači: `{n} row in the file` / `{n} rows in the file` · `{n} ready` ·
+  `{n} warning` / `{n} warnings` · `{n} error, this blocks` / `{n} errors, these block`
+  (`{n} ready` nema imenicu koja se mijenja, pa nema dva oblika)
 - Puni SSN u fajlu: `This file has a column that looks like full Social Security numbers. We do not store those. We can keep the last four digits and delete the original file after import, or you can remove the column and upload again.`
 - Primjena: `Imported {n} rows for {n} workers, week ending {date}. {n} rows were skipped.`
 
 ### Naplata
-- Trial: `{n} days left in your trial. Your card is on file and will be charged $79 on {date}.`
+- Trial: `{n} day left in your trial. Your card is on file and will be charged $79 on {date}.` /
+  `{n} days left in your trial. Your card is on file and will be charged $79 on {date}.`
 - Neuspjela naplata: `We could not charge your card on {date}. Nothing is blocked yet. Update the card in the next 14 days to keep filing.`
 - Pauza: `Paused. You can read and export everything. Entering hours and generating reports resume when you unpause.`
 - Otkaz: `Cancelled. You have read-only access and full export until {date}, 30 days from now. New York requires you to keep these records for six years, so export before then.`
@@ -291,14 +309,14 @@ Hitnost: **P1** prekid (vrijedi i push obavještenja), **P2** isti dan, **P3** i
 | Email | Okidač | P |
 |---|---|---|
 | Week ending {date} is open | dan poslije kraja sedmice, ponedjeljak 8:00 ET | P2 |
-| {n} workers are missing hours for {date} | 2 dana prije internog roka | P2 |
-| {n} errors block your filing for {date} | validacija pala | P1 |
+| {n} worker is missing hours for {date} / {n} workers are missing hours for {date} | 2 dana prije internog roka | P2 |
+| {n} error blocks your filing for {date} / {n} errors block your filing for {date} | validacija pala | P1 |
 | {project} is ready to certify | validacija prošla | P2 |
 | {Name}, a certification is waiting for your signature | 24 h bez potpisa | P1 |
 | Filed: {project}, week ending {date} | zabilježena predaja | P1 |
 | The portal rejected {project}, week ending {date} | unesen status rejected | P1 |
-| {project}: {n} days to your 30-day state deadline | T-10, T-5, T-2, T-0 | P2 rastuće do P1 |
-| {project} is past the deadline. Penalties start in {n} days. | rok prošao | P1 |
+| {project}: {n} day to your NYSDOL filing deadline / {project}: {n} days to your NYSDOL filing deadline | T-10, T-5, T-2, T-0 | P2 rastuće do P1 |
+| {project} is past the deadline. Penalties start in {n} day. / {project} is past the deadline. Penalties start in {n} days. | rok prošao | P1 |
 | WH-347 for {project} is due in 2 days | federalni projekat | P2 |
 | No work on {project} last week? | nema unosa do roka | P2 |
 | Your week ahead | ponedjeljak 8:00 ET, sažetak | P3 |
@@ -331,7 +349,7 @@ SMS se šalje samo za T-2 i T-0, i samo uz zabilježen pisani pristanak.
 
 ### 4.3 Šablon podsjetnika na rok (najvažniji email)
 
-Subject: `PS 118 Brooklyn: 5 days to your NYSDOL deadline`
+Subject: `PS 118 Brooklyn: 5 days to your NYSDOL filing deadline`
 
 Ne: `URGENT!!`, `FINAL NOTICE`, `Don't miss your deadline!` Velika slova, više
 uzvičnika i riječi tipa "urgent" su klasični okidači filtera i čitaju se kao

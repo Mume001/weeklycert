@@ -1,6 +1,6 @@
 'use client'
 
-import { copy, fill } from '@wc/copy'
+import { copy, count } from '@wc/copy'
 import type { TenantBrief } from '@wc/data/dto'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import Link from 'next/link'
@@ -20,7 +20,9 @@ export interface TenantSwitcherProps {
 }
 
 const subtitle = (t: TenantBrief) =>
-  fill(copy.shell.tenantSwitcher.subtitle, { Role: copy.roles[t.role].label, n: t.activeProjects })
+  count(copy.shell.tenantSwitcher, 'subtitle', t.activeProjects, {
+    Role: copy.roles[t.role].label,
+  })
 
 /**
  * Company switcher at the top of the sidebar (spec/14 §6, text spec/15 §3).
