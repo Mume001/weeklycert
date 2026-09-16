@@ -275,6 +275,36 @@ describe('a cell', () => {
   })
 })
 
+describe('pasting a block out of Excel (spec/19 §6)', () => {
+  it('fills a rectangle from the focused cell, right and down', () => {
+    setup()
+    const start = cell(0, 1) as HTMLInputElement
+    start.focus()
+    fireEvent.paste(start, {
+      clipboardData: { getData: () => '10\t9\n7\t6' },
+    })
+
+    expect((cell(0, 1) as HTMLInputElement).value).toBe('10')
+    expect((cell(0, 2) as HTMLInputElement).value).toBe('9')
+    expect((cell(1, 1) as HTMLInputElement).value).toBe('7')
+    expect((cell(1, 2) as HTMLInputElement).value).toBe('6')
+  })
+
+  it('stops at the end of the week instead of wrapping into the next row', () => {
+    setup()
+    const start = cell(0, 5) as HTMLInputElement
+    start.focus()
+    fireEvent.paste(start, {
+      clipboardData: { getData: () => '1\t2\t3\t4' },
+    })
+
+    expect((cell(0, 5) as HTMLInputElement).value).toBe('1')
+    expect((cell(0, 6) as HTMLInputElement).value).toBe('2')
+    // The third and fourth value have nowhere to go, and row 1 keeps its own.
+    expect((cell(1, 0) as HTMLInputElement).value).toBe('')
+  })
+})
+
 describe('a week that cannot be edited', () => {
   it('disables every cell', () => {
     setup(true)

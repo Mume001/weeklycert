@@ -148,6 +148,18 @@ test('focus never ends under the sticky header (WCAG 2.4.11, spec/19 §10 item 5
   }
 })
 
+test('below 900 px the grid becomes a list per worker (spec/14 §6)', async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 900 })
+  await page.goto(REVIEW_WEEK)
+
+  await expect(page.locator('.grid-cards')).toBeVisible()
+  await expect(page.locator('.grid-scroll')).toBeHidden()
+  // Entering hours on a phone is not supported, only reading (spec/19 §6).
+  await expect(page.locator('#cell-0-1')).toBeHidden()
+  // The name is in the table too, which is hidden, so ask the cards for it.
+  await expect(page.locator('.grid-cards').getByText('Alvarez, Miguel')).toBeVisible()
+})
+
 test('a signed week is read only and offers a correction (spec/19 §7)', async ({ page }) => {
   await page.goto(`/app/hudson-electric/projects/${PROJECT}/weeks/2026-08-29`)
   await expect(page.getByRole('status').filter({ hasText: /was signed on/ })).toBeVisible()
