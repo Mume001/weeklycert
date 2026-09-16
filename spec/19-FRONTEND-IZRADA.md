@@ -715,7 +715,9 @@ nema šta pokazati u panelu.
 **Definicija gotovog** za svaki ekran, sve mora biti ispunjeno:
 
 1. Radi na mock podacima, bez ijedne greške u konzoli.
-2. Ima svih pet stanja iz §7 i sva su dostupna preko `?state=`.
+2. Ima svih pet stanja iz §7 i sva su dostupna preko `?state=`. **Ovo važi samo
+   za ekrane u `apps/web`.** Statične stranice u `apps/site` nemaju učitavanje,
+   zabranjeno ni zaključano, i ne izmišljaju ih se da bi lista izgledala potpuna.
 3. Prolazi se samo tastaturom, fokus je uvijek vidljiv.
 4. `axe-core` bez ijednog prekršaja ozbiljnosti serious ili critical.
 5. **Ručna provjera koju axe ne hvata:** fokus nikad ne završi ispod ljepljivog
@@ -726,6 +728,10 @@ nema šta pokazati u panelu.
 8. Snimak ekrana u `docs/screens/<ruta>.png`.
 9. Kriterij prihvatanja iz 03 za taj ekran je ispunjen doslovno, uključujući
    brojke (za mrežu: 12 radnika puta 5 dana ispod 4 minute samo tastaturom).
+   **Svaka brojka iz 03 se mjeri testom, ne procjenjuje.** Brojka koja danas
+   prolazi sama od sebe sutra je jedini alarm koji imaš: motor raste, validacija
+   raste, a granica ostaje ista. To izričito uključuje osvježavanje panela
+   nalaza ispod 300 ms poslije unosa (03 §4.5).
 
 **Kako se sesija otvara** (dopunjava oblik iz 12 §"Kako Mume vodi Claude Code"):
 
