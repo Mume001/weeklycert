@@ -376,6 +376,266 @@ export const copy = {
     },
   },
 
+  // 15 §3 Javni sajt. Structure is 16 §4, section by section. Three rules run
+  // through all of it (19 §8, 16 §6): no phone number and no postal address
+  // until a real one exists, no claim about customers, reviews or logos, and no
+  // picture of a product that does not exist yet.
+  site: {
+    nav: {
+      how: 'How it works',
+      output: 'What you get',
+      pricing: 'Pricing',
+      questions: 'Questions',
+      about: 'Who we are',
+      logIn: 'Log in',
+      startFree: 'Start free',
+      /** The human option in the header. A phone number goes here when one exists. */
+      contact: 'support@weeklycert.com',
+    },
+    footer: {
+      description:
+        'Certified payroll for New York subcontractors. NYSDOL portal XML and federal WH-347 from one weekly entry.',
+      product: 'Product',
+      company: 'Company',
+      legalLine: 'Not a law firm and not a payroll provider. You sign your own certifications.',
+      lastLine: 'Built for New York. On purpose.',
+    },
+    hero: {
+      title: 'Your weekly New York certified payroll, XML and WH-347, done in ten minutes.',
+      subtitle:
+        'Built for New York subcontractors with 3 to 30 workers. Enter hours once. We build the NYSDOL portal file and the federal WH-347, and check the overtime codes and fringe math before anyone signs anything.',
+      primary: 'Start free for 14 days',
+      secondary: 'See what you get',
+      micro: [
+        '$79 a month, cancel anytime',
+        'We do the setup for you',
+        'New York only, on purpose',
+      ],
+      // The days are counted, never named: the firm picks its week ending day
+      // (15 §1 rule 12).
+      shotAlt:
+        'The WeeklyCert hours grid: one row per worker, seven days of the week, and the overtime and the findings worked out while the hours are typed.',
+    },
+    numbers: [
+      { value: '10 minutes', label: 'a typical week, from the first hour typed to signed' },
+      { value: '2 filings', label: 'from one entry: the NYSDOL portal XML and the federal WH-347' },
+      { value: '63 checks', label: 'run against the week before you can certify it' },
+      { value: '$0', label: 'to set up, if you would rather do it yourself' },
+    ],
+    output: {
+      title: 'The two documents this exists to produce',
+      lede: 'Every other tool in this category shows you a stock photo of a hard hat. These are the two files a New York week ends in, and what goes in each one.',
+      xml: {
+        title: 'NYSDOL portal file',
+        tag: 'built against the state schema',
+        body: 'One project, one week, up to 500 workers, in the shape the portal expects. If the portal ever rejects a file, paste the error and we tell you which worker and which field caused it.',
+      },
+      wh347: {
+        title: 'Federal WH-347',
+        tag: 'the form itself, not a copy of it',
+        body: 'Filled into the actual government form, so the general contractor recognises it immediately. Page 2 carries the Statement of Compliance. Worker home addresses are never printed.',
+      },
+      /** No sample downloads until the generator exists (12 step 3b, 19 §11). */
+      note: 'Both files are generated from the week you type. Sample downloads go up the day the generator does.',
+    },
+    stakes: {
+      eyebrow: 'Why this changed in 2026',
+      title: 'Paper is gone. The portal is not optional.',
+      lede: 'Since the start of 2026, certified payroll for New York public work goes through the NYSDOL electronic portal. The file has to match the state schema exactly, and the classification names have to match the state list word for word.',
+      close:
+        'Nothing here is a scare tactic. These are the published rules, and you can check every one of them.',
+      facts: [
+        {
+          term: 'Who has to file',
+          value: 'Every contractor and subcontractor on Article 8 public work',
+        },
+        { term: 'How often', value: 'At least every 30 days from the project start date' },
+        { term: 'Grace period', value: '14 days' },
+        { term: 'After that', value: '$100 per day, per the NYSDOL FAQ' },
+        { term: 'Federal jobs too', value: 'WH-347 within 7 days of the pay date, 29 CFR 3.4' },
+        { term: 'Records kept', value: 'Six years' },
+      ],
+    },
+    how: {
+      eyebrow: 'How it works',
+      title: 'Three steps, every week',
+      lede: 'The first week we set up with you. After that it is the same three steps, and most of it is already filled in from last week.',
+      steps: [
+        {
+          title: 'Put in the hours',
+          body: "Type them into a grid that works like a spreadsheet, or import the export from QuickBooks Time, Gusto, ADP, Paychex or your own file. Last week's crew is already there.",
+        },
+        {
+          title: 'We check the math',
+          body: 'Overtime by the OT code on your wage schedule, not a guess. Fringe credit against what the determination requires. Apprentice ratios and registration. Deduction totals that have to add up to net pay.',
+        },
+        {
+          title: 'Sign and file',
+          body: 'Your certifying officer signs electronically, which the Department of Labor accepts. Download the XML for the portal and the WH-347 for the general contractor.',
+        },
+      ],
+    },
+    compare: {
+      eyebrow: 'The difference',
+      title: 'What Friday afternoon looks like',
+      them: 'A spreadsheet',
+      us: 'WeeklyCert',
+      rows: [
+        {
+          topic: 'Entering the crew',
+          them: 'Retype the same twelve names every week',
+          us: 'Last week is already loaded',
+        },
+        {
+          topic: 'Overtime',
+          them: 'You remember the rule, or you do not',
+          us: 'Read from the OT codes on your PRC schedule',
+        },
+        {
+          topic: 'Fringe benefits',
+          them: 'Annualised by hand, if at all',
+          us: 'Checked against the determination, shortfall shown per hour',
+        },
+        {
+          topic: 'Apprentices',
+          them: 'Nobody checks the ratio until an audit does',
+          us: 'Flagged the moment the ratio breaks',
+        },
+        {
+          topic: 'The portal file',
+          them: 'Typed into the portal, worker by worker',
+          us: 'One file, built against the state schema',
+        },
+        {
+          topic: 'A rejected upload',
+          them: 'A line number and a cryptic message',
+          us: 'Paste it in, we name the worker and the field',
+        },
+        {
+          topic: 'Six-year records',
+          them: 'A folder somewhere',
+          us: 'Every version kept, with the exact input it came from',
+        },
+      ],
+    },
+    pricing: {
+      eyebrow: 'Pricing',
+      title: 'One price. Published, because you should not have to ask.',
+      lede: 'The established tools in this category quote you after a discovery call. Their published starting points run from $175 to $400 a month, with setup fees from about $995 to $4,995.',
+      planName: 'Everything, one plan',
+      amount: '$79',
+      period: 'per month',
+      note: 'Unlimited projects, unlimited workers, unlimited filings. Two months free if you pay yearly.',
+      includes: [
+        'NYSDOL portal XML and federal WH-347',
+        'Overtime, fringe and apprentice checks before you sign',
+        'Import from your payroll or time system',
+        'Deadline reminders at 10, 5, 2 and 0 days',
+        'Six years of records, exportable any time',
+        'Your bookkeeper and your signer, at no extra cost',
+      ],
+      cta: 'Start free for 14 days',
+      ctaNote: 'Card required, nothing charged for 14 days.',
+      setupTitle: 'Setup, paid once',
+      setupBody:
+        'We build your company, projects, classifications, rates, fringe plans and workers from your files, then file the first week together on a call.',
+      tiers: [
+        { name: 'Basic', detail: 'one project, up to 10 workers', price: '$149' },
+        {
+          name: 'Standard',
+          detail: 'up to 5 projects, 30 workers, union fringe plans, one training call',
+          price: '$299',
+        },
+        {
+          name: 'Complex',
+          detail: 'up to 12 projects, 75 workers, apprentice ratios, 12 weeks of history',
+          price: '$499',
+        },
+        { name: 'Do it yourself', detail: 'the product is the same', price: '$0' },
+      ],
+      guarantee:
+        'Full refund of the setup fee if we do not have you live within ten business days.',
+    },
+    security: {
+      eyebrow: "Your workers' data",
+      title: 'What we hold, and what we refuse to hold',
+      points: [
+        'We never store a full Social Security number. The state accepts the last four digits or a date of birth, so that is all we keep. There is no column for a full Social Security number anywhere in our database.',
+        'Home addresses and dates of birth are encrypted with a key that belongs to your company alone. Every time one is read, it is logged, and you can see that log.',
+        'All data is stored and processed in United States data centres.',
+        'Two-factor authentication is required for anyone who can sign a certification.',
+        "We keep a written information security program under the New York SHIELD Act, and we will send it to your general contractor's risk team on request.",
+      ],
+      refuse:
+        'We do not claim a SOC 2 report we do not have, and we do not say "bank-level encryption". The list above is what we actually do.',
+    },
+    faq: {
+      eyebrow: 'Questions people actually ask',
+      title: 'Before you sign up',
+      items: [
+        {
+          q: 'Do you file with NYSDOL for me, or do I still upload it?',
+          a: 'You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we do is produce a file the portal accepts on the first try, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete.',
+        },
+        {
+          q: 'Do I have to change payroll providers?',
+          a: 'No. Keep Gusto, ADP, Paychex, QuickBooks or your accountant. We only need hours and the pay figures, and we import them from the exports those systems already produce.',
+        },
+        {
+          q: 'What about weeks when nobody worked?',
+          a: 'You still have to report them, and the portal does not accept a file for them. We track which weeks are missing, tell you which ones to mark as no-work in the portal, and keep the payroll numbers running without gaps, which is what an auditor looks at first.',
+        },
+        {
+          q: 'My job is in New York City. Does that work?',
+          a: "Not yet, and we will say so before you pay. New York City public improvement and roadway excavation projects go through the City's own system, not the NYSDOL portal. If all your work is in the five boroughs, we are the wrong tool today. If you have both, we cover the state jobs and tell you plainly which ones we do not.",
+        },
+        {
+          q: 'How long is setup, really?',
+          a: 'Seven business days from the day you pay, and most of that is waiting on your spreadsheet. Our part is a kickoff call, building your data, and a handover where we file your first week together. If we miss ten business days, the setup fee comes back.',
+        },
+        {
+          q: 'Who are you?',
+          a: 'One person, named, in the section below. Not a call centre and not a venture-funded team of forty. That is the honest trade: you get the person who wrote the software answering your email, and you do not get cover around the clock.',
+        },
+        {
+          q: 'What happens to my records if I cancel?',
+          a: 'New York requires you to keep certified payroll records for six years. You get read-only access and a full export for 30 days after cancelling, and three reminders before that window closes. Export is one button, any time, whether you are a customer or not.',
+        },
+        {
+          q: 'What if the math is wrong?',
+          a: 'You sign the certification, not us, and the classification you pick is your determination. What we guarantee is the arithmetic and the file format. Every calculation rule we apply is written down, cites the regulation it comes from, and is tested against worked examples we publish.',
+        },
+      ],
+    },
+    about: {
+      eyebrow: 'Who we are',
+      title: 'One person, and an inbox that answers',
+      name: 'Mume Hodzic',
+      role: 'founder',
+      body: "I build and run WeeklyCert on my own. I read every support email and I answer during New York business hours. I am not in New York: I work from Bosnia, and I say so here because you would find out anyway and because your general contractor's risk team will ask. Your data stays in United States data centres, and I am the one person who can reach it, under the security program described above.",
+      facts: [
+        { term: 'Support hours', value: '9 to 16 Eastern, Monday to Friday' },
+        { term: 'Anything blocking a filing', value: 'answered within 2 business hours' },
+        { term: 'Email', value: 'support@weeklycert.com' },
+      ],
+    },
+    cta: {
+      title: 'Try it on your next week',
+      body: 'Fourteen days free. If it does not save you an afternoon, cancel in two clicks and take your records with you.',
+      button: 'Start free for 14 days',
+    },
+    legal: {
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy',
+      dpa: 'Data Processing Agreement',
+      // The documents themselves are bought and reviewed by counsel (18 §5).
+      // Nothing legal is written in this repository.
+      pending:
+        'This document is being prepared with counsel and will be published here before the first paid account. Ask for the current draft and we will send it.',
+      contact: 'support@weeklycert.com',
+    },
+  },
+
   // 15 §4.2 subjects. Bodies are written in step 6b.
   email: {
     account: {

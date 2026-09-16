@@ -13,7 +13,7 @@
     "build": "pnpm --filter web build",
     "check": "biome check . && pnpm -r typecheck && tsc -p tsconfig.json && depcruise apps packages --config .dependency-cruiser.cjs && node scripts/check-gates.ts",
     "test": "vitest run",
-    "e2e": "pnpm --filter web e2e",
+    "e2e": "pnpm --filter web e2e && pnpm --filter site e2e",
     "format": "biome check --write .",
     "tokens:contrast": "node packages/ui-tokens/scripts/contrast.ts"
   },

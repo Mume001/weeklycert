@@ -99,6 +99,23 @@ test('the wide screen shows the hours and hides the per worker cards', async ({ 
   console.log(`grid is ${size.scroll} px wide in a ${size.visible} px window`)
 })
 
+test('the marketing hero gets a real screenshot of the grid (spec/16 §4 row 2)', async ({
+  page,
+}) => {
+  // spec/19 §8 item 4 forbids a picture of a product that does not exist, and
+  // 19 §10 says the hero can carry a real screenshot from session C onwards.
+  // It is generated here, with the suite, so it can never drift from the
+  // product: the day the grid changes, this file changes with it.
+  // Tall enough that the whole week fits: .grid-scroll is capped at the window
+  // height, so a short window slices the last row and drops the totals, and a
+  // grid cut off mid-row is the one thing a hero image must not be. Narrow
+  // enough that the grid fills the frame instead of trailing off into white.
+  await page.setViewportSize({ width: 1180, height: 1220 })
+  await page.goto(REVIEW_WEEK)
+  await page.locator('#cell-0-1').waitFor()
+  await page.locator('.grid-frame').screenshot({ path: '../site/public/hero-grid.png' })
+})
+
 test('clicking a finding focuses the cell it is about', async ({ page }) => {
   await page.setViewportSize({ width: 1600, height: 1000 })
   await page.goto(REVIEW_WEEK)

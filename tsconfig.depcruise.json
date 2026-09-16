@@ -1,9 +1,9 @@
 {
-  "//": "Module resolution for dependency-cruiser only (the @/ alias of apps/web). Not used by tsc.",
+  "//": "Module resolution for dependency-cruiser only (the @/ alias of apps/web and apps/site). Not used by tsc. Both apps spell their root @/, so both targets are listed and the resolver takes the first that exists; the two trees share no file name, and the rule site-shares-only-tokens-copy-config is what would catch it if they ever did.",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["apps/web/*"]
+      "@/*": ["apps/web/*", "apps/site/*"]
     },
     "module": "ESNext",
     "moduleResolution": "Bundler",

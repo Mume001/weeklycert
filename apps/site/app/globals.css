@@ -1,2 +1,41 @@
+/* The only CSS file apps/site may have (spec/19 §2, gate 9 in check-gates.ts).
+   Everything else is Tailwind utilities on the components.
+
+   Fonts come from next/font/local in layout.tsx and deliberately NOT from
+   @wc/ui-tokens/fonts.css, which is why this imports the two token files and
+   not the package root: the marketing page has an LCP target of 1.5 s on 3G,
+   and next/font gives preload, font-display and a stable size-adjust for free
+   (spec/19 §8). The application does the opposite, for the reason written in
+   the same table. */
 @import 'tailwindcss';
-@import '@wc/ui-tokens';
+@import '@wc/ui-tokens/tokens.css';
+@import '@wc/ui-tokens/theme.css';
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* spec/14 §11: no motion that moves content, and reduced motion is honoured. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background: var(--surface);
+    color: var(--text-primary);
+    font-family: var(--font-site-sans), var(--font-sans);
+    font-size: var(--fs-base);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.018em;
+    line-height: 1.16;
+  }
+}
