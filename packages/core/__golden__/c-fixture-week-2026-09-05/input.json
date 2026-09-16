@@ -1,0 +1,839 @@
+{
+  "tenant": {
+    "annualHoursBasis": "2080",
+    "federalOtEnabled": true,
+    "mergeDeductions": true,
+    "strictPii": false
+  },
+  "project": {
+    "id": "01924000-0000-7000-8000-000000000001",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "federalWdNumber": null,
+    "nyReporting": true,
+    "federalReporting": false,
+    "status": "active",
+    "startDate": "2026-04-06",
+    "lastAcceptedSubmissionAt": "2026-08-26"
+  },
+  "period": {
+    "id": "01928000-0000-7000-8000-000000000017",
+    "weekEnding": "2026-09-05",
+    "weekEndsOn": 6,
+    "status": "in_review"
+  },
+  "context": {
+    "today": "2026-09-15",
+    "catalogLabels": [
+      "Electrician – Inside Wireman",
+      "Electrician – Teledata Technician",
+      "Ironworker – Structural",
+      "Laborer – Group 1",
+      "Operating Engineer – Class A"
+    ]
+  },
+  "classifications": [
+    {
+      "id": "01926000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "63.20",
+      "wdFringeRate": "52.40",
+      "paidBaseRate": "63.20",
+      "cashInLieuRate": "0.00",
+      "apprenticeRatio": null,
+      "otCodes": ["A", "W", "R"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    },
+    {
+      "id": "01926000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "officialLabel": "Electrician – Teledata Technician",
+      "displayLabel": "Electrician – Teledata Technician",
+      "wdBaseRate": "44.85",
+      "wdFringeRate": "28.70",
+      "paidBaseRate": "44.85",
+      "cashInLieuRate": "0.70",
+      "apprenticeRatio": null,
+      "otCodes": ["B", "E", "I"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    },
+    {
+      "id": "01926000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "officialLabel": "Ironworker – Structural",
+      "displayLabel": "Ironworker – Structural",
+      "wdBaseRate": "57.40",
+      "wdFringeRate": "49.60",
+      "paidBaseRate": "57.40",
+      "cashInLieuRate": "46.60",
+      "apprenticeRatio": null,
+      "otCodes": ["B", "E1", "V"],
+      "effectiveFrom": "2025-07-01",
+      "effectiveTo": "2026-06-30"
+    },
+    {
+      "id": "01926000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "officialLabel": "Laborer – Group 1",
+      "displayLabel": "Laborer – Group 1",
+      "wdBaseRate": "42.10",
+      "wdFringeRate": "31.80",
+      "paidBaseRate": "42.10",
+      "cashInLieuRate": "0.00",
+      "apprenticeRatio": null,
+      "otCodes": ["B2", "F"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    },
+    {
+      "id": "01926000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000005",
+      "officialLabel": "Operating Engineer – Class A",
+      "displayLabel": "Operating Engineer – Class A",
+      "wdBaseRate": "58.90",
+      "wdFringeRate": "44.05",
+      "paidBaseRate": "58.90",
+      "cashInLieuRate": "0.00",
+      "apprenticeRatio": null,
+      "otCodes": ["AA", "E", "K"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "plans": [
+    {
+      "id": "01929000-0000-7000-8000-000000000001",
+      "name": "Electrical Workers Health Fund",
+      "kind": "health_welfare",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "28.00",
+      "annualize": true,
+      "isLegallyRequired": false
+    },
+    {
+      "id": "01929000-0000-7000-8000-000000000002",
+      "name": "Electrical Workers Pension Fund",
+      "kind": "pension",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "24.40",
+      "annualize": true,
+      "isLegallyRequired": false
+    },
+    {
+      "id": "01929000-0000-7000-8000-000000000003",
+      "name": "Laborers Benefit Fund",
+      "kind": "health_welfare",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "31.80",
+      "annualize": true,
+      "isLegallyRequired": false
+    },
+    {
+      "id": "01929000-0000-7000-8000-000000000004",
+      "name": "Operating Engineers Benefit Fund",
+      "kind": "health_welfare",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "44.05",
+      "annualize": true,
+      "isLegallyRequired": false
+    },
+    {
+      "id": "01929000-0000-7000-8000-000000000005",
+      "name": "Ironworkers Annuity Fund",
+      "kind": "pension",
+      "funding": "plan_contribution",
+      "annualCost": "6240.00",
+      "annualHoursBasis": null,
+      "hourlyCredit": null,
+      "annualize": true,
+      "isLegallyRequired": false
+    }
+  ],
+  "workers": [
+    {
+      "id": "01927000-0000-7000-8000-000000000001",
+      "firstName": "Miguel",
+      "lastName": "Alvarez",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "4417",
+      "address": {
+        "address1": "41 Cedar Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000002",
+      "firstName": "David",
+      "lastName": "Chen",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "9038",
+      "address": {
+        "address1": "7 Orchard Lane",
+        "city": "Wappingers Falls",
+        "state": "NY",
+        "postalCode": "12590"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000003",
+      "firstName": "Anna",
+      "lastName": "Rossi",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "5512",
+      "address": {
+        "address1": "112 Grand Avenue",
+        "city": "Newburgh",
+        "state": "NY",
+        "postalCode": "12550"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000004",
+      "firstName": "Chidi",
+      "lastName": "Okafor",
+      "level": "RA",
+      "status": "active",
+      "ssnLast4": "7731",
+      "address": {
+        "address1": "26 Hudson Terrace",
+        "city": "Beacon",
+        "state": "NY",
+        "postalCode": "12508"
+      },
+      "apprentice": {
+        "programName": "Mid-Hudson Electrical Apprenticeship Program",
+        "periodNo": 2,
+        "pctOfJourney": "55.00",
+        "validFrom": "2026-03-01",
+        "validTo": null
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000005",
+      "firstName": "Linh",
+      "lastName": "Nguyen",
+      "level": "RA",
+      "status": "active",
+      "ssnLast4": "3309",
+      "address": {
+        "address1": "3 Birch Court",
+        "city": "Hyde Park",
+        "state": "NY",
+        "postalCode": "12538"
+      },
+      "apprentice": {
+        "programName": "Mid-Hudson Electrical Apprenticeship Program",
+        "periodNo": 3,
+        "pctOfJourney": "65.00",
+        "validFrom": "2026-03-01",
+        "validTo": null
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000006",
+      "firstName": "Tom",
+      "lastName": "Brennan",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "2260",
+      "address": {
+        "address1": "58 Mill Street",
+        "city": "Kingston",
+        "state": "NY",
+        "postalCode": "12401"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000007",
+      "firstName": "Frank",
+      "lastName": "Delgado",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "6184",
+      "address": {
+        "address1": "9 Ridge Road",
+        "city": "Highland",
+        "state": "NY",
+        "postalCode": "12528"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000008",
+      "firstName": "Ivan",
+      "lastName": "Petrov",
+      "level": "RA",
+      "status": "active",
+      "ssnLast4": "8820",
+      "address": {
+        "address1": "230 Main Street",
+        "address2": "Apt 4",
+        "city": "New Paltz",
+        "state": "NY",
+        "postalCode": "12561"
+      },
+      "apprentice": {
+        "programName": "Mid-Hudson Electrical Apprenticeship Program",
+        "periodNo": 5,
+        "pctOfJourney": "85.00",
+        "validFrom": "2026-03-01",
+        "validTo": null
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000009",
+      "firstName": "Luis",
+      "lastName": "Ortega",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": null,
+      "dateOfBirth": "1988-05-14",
+      "address": {
+        "address1": "15 Spring Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000003",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000a",
+      "firstName": "Pete",
+      "lastName": "Kowalski",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1547",
+      "address": {
+        "address1": "64 Maple Avenue",
+        "city": "Fishkill",
+        "state": "NY",
+        "postalCode": "12524"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000004",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000b",
+      "firstName": "Kevin",
+      "lastName": "Walsh",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "4093",
+      "address": {
+        "address1": "301 Broadway",
+        "city": "Kingston",
+        "state": "NY",
+        "postalCode": "12401"
+      },
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000005",
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000c",
+      "firstName": "Omar",
+      "lastName": "Haddad",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "7265",
+      "address": null,
+      "allocations": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "effectiveFrom": "2026-08-31",
+          "effectiveTo": null
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "effectiveFrom": "2026-08-31",
+          "effectiveTo": null
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-08-31",
+      "hours": "8",
+      "paidStRate": "35.88"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-01",
+      "hours": "8",
+      "paidStRate": "35.88"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-02",
+      "hours": "8",
+      "paidStRate": "35.88"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-03",
+      "hours": "8",
+      "paidStRate": "35.88"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "workDate": "2026-09-04",
+      "hours": "8",
+      "paidStRate": "35.88"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-02",
+      "hours": "14"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "classificationId": "01925000-0000-7000-8000-000000000005",
+      "workDate": "2026-09-02",
+      "hours": "12"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-08-31",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-01",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-02",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-03",
+      "hours": "8"
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "workDate": "2026-09-04",
+      "hours": "8"
+    }
+  ]
+}

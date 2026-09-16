@@ -1,0 +1,314 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [
+    {
+      "id": "w-1:cls-1",
+      "workerId": "w-1",
+      "workerName": "Alvarez, Miguel",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "40.00",
+      "supplementRate": "0.00",
+      "stRate": "40.00",
+      "otRate": "60.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "60.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "8.00",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "grossProject": "320.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    },
+    {
+      "id": "w-2:cls-1",
+      "workerId": "w-2",
+      "workerName": "Okafor, Chidi",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B"],
+      "isApprentice": true,
+      "apprenticeLevel": "2",
+      "baseRate": "40.00",
+      "supplementRate": "0.00",
+      "stRate": "22.00",
+      "otRate": "33.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "33.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "8.00",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "grossProject": "176.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    },
+    {
+      "id": "w-3:cls-1",
+      "workerId": "w-3",
+      "workerName": "Nguyen, Linh",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B"],
+      "isApprentice": true,
+      "apprenticeLevel": "3",
+      "baseRate": "40.00",
+      "supplementRate": "0.00",
+      "stRate": "26.00",
+      "otRate": "39.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "39.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "8.00",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "grossProject": "208.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "w-1",
+      "workerName": "Alvarez, Miguel",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "totalHours": "8.00",
+      "regularRate": "40.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "320.00",
+      "grossAllWork": "320.00",
+      "deductionsTotal": "0.00",
+      "netPay": "320.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": []
+    },
+    {
+      "workerId": "w-2",
+      "workerName": "Okafor, Chidi",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "totalHours": "8.00",
+      "regularRate": "22.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "176.00",
+      "grossAllWork": "176.00",
+      "deductionsTotal": "0.00",
+      "netPay": "176.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": true,
+      "supplements": []
+    },
+    {
+      "workerId": "w-3",
+      "workerName": "Nguyen, Linh",
+      "stHours": "8.00",
+      "otHours": "0.00",
+      "totalHours": "8.00",
+      "regularRate": "26.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "208.00",
+      "grossAllWork": "208.00",
+      "deductionsTotal": "0.00",
+      "netPay": "208.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": true,
+      "supplements": []
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "24.00", "0.00", "0.00", "0.00", "0.00", "0.00"],
+    "st": "24.00",
+    "ot": "0.00",
+    "gross": "704.00"
+  },
+  "findings": [
+    {
+      "code": "APPRENTICE_RATIO",
+      "severity": "hard",
+      "message": "On Sep 7 there are 2 apprentices and 1 journeyworkers on \"Electrician – Inside Wireman\".",
+      "detail": "The ratio for this trade is 1:1.",
+      "suggestedFix": "Pay the apprentices over the ratio at the journeyworker rate.",
+      "workDate": "2026-09-07",
+      "classificationId": "cls-1",
+      "rule": "29 CFR 5.5(a)(4)"
+    }
+  ]
+}

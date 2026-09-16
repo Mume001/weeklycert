@@ -1,0 +1,34 @@
+{
+  "project": {
+    "id": "p-2",
+    "name": "Kingston WTP Electrical Upgrade",
+    "prcNumber": "2026001122",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-06-01"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open",
+    "isNoWork": true
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "40.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "40.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "workers": [],
+  "entries": []
+}

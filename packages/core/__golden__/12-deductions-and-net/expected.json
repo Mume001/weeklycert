@@ -1,0 +1,126 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [
+    {
+      "id": "w-1:cls-1",
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "40.00",
+      "supplementRate": "0.00",
+      "stRate": "40.00",
+      "otRate": "60.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "60.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "1600.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "40.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "1600.00",
+      "grossAllWork": "1850.00",
+      "deductionsTotal": "412.30",
+      "netPay": "1400.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": []
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "8.00", "8.00", "8.00", "8.00", "8.00", "0.00"],
+    "st": "40.00",
+    "ot": "0.00",
+    "gross": "1600.00"
+  },
+  "findings": [
+    {
+      "code": "NET_MISMATCH",
+      "severity": "hard",
+      "message": "Gross 1850.00 minus deductions 412.30 is not 1400.00.",
+      "detail": "The difference is 37.70.",
+      "suggestedFix": "Check the deductions and the net pay against the payroll register.",
+      "workerId": "w-1"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [],
+  "workers": [],
+  "totals": {
+    "byDay": ["0.00", "0.00", "0.00", "0.00", "0.00", "0.00", "0.00"],
+    "st": "0.00",
+    "ot": "0.00",
+    "gross": "0.00"
+  },
+  "findings": [
+    {
+      "code": "NO_WORK_WEEK_PORTAL",
+      "severity": "info",
+      "message": "A no work week is not filed as a file.",
+      "detail": "It is ticked in the portal as a no work week, or entered as work pause dates.",
+      "suggestedFix": "Open the portal and tick the week; the app keeps the record."
+    }
+  ]
+}

@@ -80,6 +80,16 @@ weeklycert/
    u `spec/19` §10, sesija A.
 5. Spec je izvor istine. Ako kod treba da odstupi, prvo se mijenja spec.
 
+## Napomene o kodu (privremena stanja koja se vraćaju)
+
+- **Prefetch je isključen na linkovima bočne trake i birača firmi**
+  (`prefetch={false}` u `apps/web/components/app-shell/Sidebar.tsx` i
+  `TenantSwitcher.tsx`). Razlog: većina odredišta su ekrani iz kasnijih sesija
+  koji još ne postoje, pa bi ih Next.js unaprijed dovlačio i punio konzolu
+  404 greškama, a definicija gotovog traži konzolu bez ijedne greške
+  (spec/19 §10 stavka 1). **Vraća se na podrazumijevani prefetch čim ekrani iz
+  koraka 3 nastanu**; tada se briše i ovaj pasus.
+
 ## Kapija
 
 Koraci 1 do 3 (motor, svi ekrani na izmišljenim podacima, sajt) služe za demo i

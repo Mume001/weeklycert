@@ -1,0 +1,72 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-04-06"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "30.00",
+      "wdFringeRate": "10.00",
+      "paidBaseRate": "30.00",
+      "cashInLieuRate": "10.00",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan-1",
+      "name": "FICA and workers compensation",
+      "kind": "other",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "4.00",
+      "annualize": true,
+      "isLegallyRequired": true
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1234",
+      "address": {
+        "address1": "1 Main Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      },
+      "allocations": [
+        {
+          "planId": "plan-1",
+          "hourlyCreditOverride": null,
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-08", "hours": "8" }
+  ]
+}

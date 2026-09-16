@@ -1,0 +1,128 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [
+    {
+      "id": "w-1:cls-1",
+      "workerId": "w-1",
+      "workerName": "Okafor, Chidi",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B"],
+      "isApprentice": true,
+      "apprenticeLevel": null,
+      "baseRate": "40.00",
+      "supplementRate": "0.00",
+      "stRate": "40.00",
+      "otRate": "60.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "60.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "24.00",
+      "stHours": "24.00",
+      "otHours": "0.00",
+      "grossProject": "960.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "w-1",
+      "workerName": "Okafor, Chidi",
+      "stHours": "24.00",
+      "otHours": "0.00",
+      "totalHours": "24.00",
+      "regularRate": "40.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "960.00",
+      "grossAllWork": "960.00",
+      "deductionsTotal": "0.00",
+      "netPay": "960.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": []
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "8.00", "8.00", "8.00", "0.00", "0.00", "0.00"],
+    "st": "24.00",
+    "ot": "0.00",
+    "gross": "960.00"
+  },
+  "findings": [
+    {
+      "code": "APPRENTICE_NO_RECORD",
+      "severity": "hard",
+      "message": "Chidi Okafor is marked as an apprentice with no registered programme.",
+      "detail": "Without registration the full journeyworker rate is owed.",
+      "suggestedFix": "Add the programme and its registration, or change the level to journeyworker.",
+      "workerId": "w-1",
+      "classificationId": "cls-1",
+      "rule": "29 CFR 5.5(a)(4)"
+    }
+  ]
+}

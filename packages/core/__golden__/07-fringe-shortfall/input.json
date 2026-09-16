@@ -1,0 +1,75 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-04-06"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "30.00",
+      "wdFringeRate": "10.00",
+      "paidBaseRate": "30.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "plans": [
+    {
+      "id": "plan-1",
+      "name": "Local 3 Health Fund",
+      "kind": "health_welfare",
+      "funding": "plan_contribution",
+      "annualCost": null,
+      "annualHoursBasis": null,
+      "hourlyCredit": "6.00",
+      "annualize": true,
+      "isLegallyRequired": false
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1234",
+      "address": {
+        "address1": "1 Main Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      },
+      "allocations": [
+        {
+          "planId": "plan-1",
+          "hourlyCreditOverride": null,
+          "effectiveFrom": "2026-01-01",
+          "effectiveTo": null
+        }
+      ]
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-08", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-09", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-10", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-11", "hours": "8" }
+  ]
+}

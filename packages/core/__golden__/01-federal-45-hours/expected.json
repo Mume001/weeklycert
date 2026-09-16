@@ -1,0 +1,117 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [
+    {
+      "id": "w-1:cls-1",
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "classificationId": "cls-1",
+      "classificationName": "Laborer – Group 1",
+      "otCodes": [],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "20.00",
+      "supplementRate": "0.00",
+      "stRate": "20.00",
+      "otRate": "30.00",
+      "otSupplementRate": "0.00",
+      "otHourlyTotal": "30.00",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "9.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "9.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "9.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "9.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "4.00",
+          "ot": "5.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "45.00",
+      "stHours": "40.00",
+      "otHours": "5.00",
+      "grossProject": "950.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "missing"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "stHours": "40.00",
+      "otHours": "5.00",
+      "totalHours": "45.00",
+      "regularRate": "20.0000",
+      "regularRateMethod": "single",
+      "otMethod": "federal",
+      "grossThisProject": "950.00",
+      "grossAllWork": "950.00",
+      "deductionsTotal": "0.00",
+      "netPay": "950.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": []
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "9.00", "9.00", "9.00", "9.00", "9.00", "0.00"],
+    "st": "40.00",
+    "ot": "5.00",
+    "gross": "950.00"
+  },
+  "findings": []
+}

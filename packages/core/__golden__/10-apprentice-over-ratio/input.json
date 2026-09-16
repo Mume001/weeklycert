@@ -1,0 +1,95 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-04-06"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "40.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "40.00",
+      "cashInLieuRate": "0.00",
+      "apprenticeRatio": "1:1",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "Miguel",
+      "lastName": "Alvarez",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "4417",
+      "address": {
+        "address1": "41 Cedar Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      }
+    },
+    {
+      "id": "w-2",
+      "firstName": "Chidi",
+      "lastName": "Okafor",
+      "level": "RA",
+      "status": "active",
+      "ssnLast4": "7731",
+      "address": {
+        "address1": "26 Hudson Terrace",
+        "city": "Beacon",
+        "state": "NY",
+        "postalCode": "12508"
+      },
+      "apprentice": {
+        "programName": "Mid-Hudson Electrical Apprenticeship Program",
+        "periodNo": 2,
+        "pctOfJourney": "55.00",
+        "validFrom": "2026-03-01",
+        "validTo": null
+      }
+    },
+    {
+      "id": "w-3",
+      "firstName": "Linh",
+      "lastName": "Nguyen",
+      "level": "RA",
+      "status": "active",
+      "ssnLast4": "3309",
+      "address": {
+        "address1": "3 Birch Court",
+        "city": "Hyde Park",
+        "state": "NY",
+        "postalCode": "12538"
+      },
+      "apprentice": {
+        "programName": "Mid-Hudson Electrical Apprenticeship Program",
+        "periodNo": 3,
+        "pctOfJourney": "65.00",
+        "validFrom": "2026-03-01",
+        "validTo": null
+      }
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-2", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-3", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" }
+  ]
+}

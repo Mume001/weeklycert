@@ -1,0 +1,134 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-12",
+  "days": [
+    "2026-09-06",
+    "2026-09-07",
+    "2026-09-08",
+    "2026-09-09",
+    "2026-09-10",
+    "2026-09-11",
+    "2026-09-12"
+  ],
+  "rows": [
+    {
+      "id": "w-1:cls-1",
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "classificationId": "cls-1",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["B", "W"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "16.00",
+      "supplementRate": "2.50",
+      "stRate": "16.00",
+      "otRate": "24.00",
+      "otSupplementRate": "3.75",
+      "otHourlyTotal": "27.75",
+      "days": [
+        {
+          "date": "2026-09-06",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-07",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-08",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-09",
+          "st": "8.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-10",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-11",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-12",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "9.00",
+      "stHours": "8.00",
+      "otHours": "1.00",
+      "grossProject": "152.00",
+      "fringeCreditHourly": "0.0000",
+      "cashInLieuHourly": "2.5000",
+      "fringeRequiredHourly": "2.5000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "cash"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "w-1",
+      "workerName": "Doe, John",
+      "stHours": "8.00",
+      "otHours": "1.00",
+      "totalHours": "9.00",
+      "regularRate": "16.0000",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "152.00",
+      "grossAllWork": "152.00",
+      "deductionsTotal": "0.00",
+      "netPay": "152.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": null,
+          "kind": "other",
+          "paidTo": "cash",
+          "stHourlyAmount": "2.5000",
+          "otHourlyAmount": "3.7500",
+          "totalAmount": "23.75"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "0.00", "0.00", "9.00", "0.00", "0.00", "0.00"],
+    "st": "8.00",
+    "ot": "1.00",
+    "gross": "152.00"
+  },
+  "findings": [
+    {
+      "code": "OT_NY_SUPPLEMENT_PREMIUM",
+      "severity": "info",
+      "message": "Code W: supplements for \"Electrician – Inside Wireman\" carry a premium on overtime hours.",
+      "classificationId": "cls-1",
+      "rule": "Labor Law 220"
+    }
+  ]
+}

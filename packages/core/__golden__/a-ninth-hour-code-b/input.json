@@ -1,0 +1,50 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-04-06"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Electrician – Inside Wireman",
+      "displayLabel": "Electrician – Inside Wireman",
+      "wdBaseRate": "16.00",
+      "wdFringeRate": "2.50",
+      "paidBaseRate": "16.00",
+      "cashInLieuRate": "2.50",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1234",
+      "address": {
+        "address1": "1 Main Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      }
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-09", "hours": "9" }
+  ]
+}

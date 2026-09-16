@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "pnpm --filter web dev",
+    "dev:mock": "cross-env DATA_SOURCE=mock pnpm --filter web dev",
     "dev:worker": "pnpm --filter worker dev",
     "build": "pnpm --filter web build",
     "check": "biome check . && pnpm -r typecheck && tsc -p tsconfig.json && depcruise apps packages --config .dependency-cruiser.cjs && node scripts/check-gates.ts",
@@ -19,6 +20,8 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.13",
     "@types/node": "22.20.2",
+    "@vitest/coverage-v8": "3.2.7",
+    "cross-env": "10.1.0",
     "dependency-cruiser": "18.3.1",
     "typescript": "5.9.3",
     "vitest": "3.2.7"

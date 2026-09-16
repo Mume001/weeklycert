@@ -1,0 +1,1498 @@
+{
+  "engineVersion": "1.0.0",
+  "weekEnding": "2026-09-05",
+  "days": [
+    "2026-08-30",
+    "2026-08-31",
+    "2026-09-01",
+    "2026-09-02",
+    "2026-09-03",
+    "2026-09-04",
+    "2026-09-05"
+  ],
+  "rows": [
+    {
+      "id": "01927000-0000-7000-8000-000000000001:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "workerName": "Alvarez, Miguel",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "63.20",
+      "otRate": "94.80",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "173.40",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "2686.00",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000002:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "workerName": "Chen, David",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "63.20",
+      "otRate": "94.80",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "173.40",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "2686.00",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000003:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "workerName": "Rossi, Anna",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "63.20",
+      "otRate": "94.80",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "173.40",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "2686.00",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000004:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "workerName": "Okafor, Chidi",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": true,
+      "apprenticeLevel": "2",
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "34.76",
+      "otRate": "52.14",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "130.74",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "1477.30",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000005:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "workerName": "Nguyen, Linh",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": true,
+      "apprenticeLevel": "3",
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "41.08",
+      "otRate": "61.62",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "140.22",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "1745.90",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000006:01925000-0000-7000-8000-000000000002",
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "workerName": "Brennan, Tom",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "classificationName": "Electrician – Teledata Technician",
+      "otCodes": ["B", "E", "I"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "44.85",
+      "supplementRate": "28.70",
+      "stRate": "44.85",
+      "otRate": "67.28",
+      "otSupplementRate": "28.70",
+      "otHourlyTotal": "95.98",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "1794.00",
+      "fringeCreditHourly": "28.0000",
+      "cashInLieuHourly": "0.7000",
+      "fringeRequiredHourly": "28.7000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "mixed"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000007:01925000-0000-7000-8000-000000000002",
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "workerName": "Delgado, Frank",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "classificationName": "Electrician – Teledata Technician",
+      "otCodes": ["B", "E", "I"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "44.85",
+      "supplementRate": "28.70",
+      "stRate": "44.85",
+      "otRate": "67.28",
+      "otSupplementRate": "28.70",
+      "otHourlyTotal": "95.98",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "1794.00",
+      "fringeCreditHourly": "28.0000",
+      "cashInLieuHourly": "0.7000",
+      "fringeRequiredHourly": "28.7000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "mixed"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000008:01925000-0000-7000-8000-000000000002",
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "workerName": "Petrov, Ivan",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "classificationName": "Electrician – Teledata Technician",
+      "otCodes": ["B", "E", "I"],
+      "isApprentice": true,
+      "apprenticeLevel": "5",
+      "baseRate": "44.85",
+      "supplementRate": "28.70",
+      "stRate": "35.88",
+      "otRate": "53.82",
+      "otSupplementRate": "28.70",
+      "otHourlyTotal": "82.52",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "1435.20",
+      "fringeCreditHourly": "28.0000",
+      "cashInLieuHourly": "0.7000",
+      "fringeRequiredHourly": "28.7000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "mixed"
+    },
+    {
+      "id": "01927000-0000-7000-8000-000000000009:01925000-0000-7000-8000-000000000004",
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "workerName": "Ortega, Luis",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "classificationName": "Laborer – Group 1",
+      "otCodes": ["B2", "F"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "42.10",
+      "supplementRate": "31.80",
+      "stRate": "42.10",
+      "otRate": "63.15",
+      "otSupplementRate": "31.80",
+      "otHourlyTotal": "94.95",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "1684.00",
+      "fringeCreditHourly": "31.8000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "31.8000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000a:01925000-0000-7000-8000-000000000004",
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "workerName": "Kowalski, Pete",
+      "classificationId": "01925000-0000-7000-8000-000000000004",
+      "classificationName": "Laborer – Group 1",
+      "otCodes": ["B2", "F"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "42.10",
+      "supplementRate": "31.80",
+      "stRate": "42.10",
+      "otRate": "63.15",
+      "otSupplementRate": "44.05",
+      "otHourlyTotal": "107.20",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "14.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "0.00",
+          "ot": "8.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "0.00",
+          "ot": "8.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "46.00",
+      "stHours": "30.00",
+      "otHours": "16.00",
+      "grossProject": "2273.40",
+      "fringeCreditHourly": "44.0500",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "31.8000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000a:01925000-0000-7000-8000-000000000005",
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "workerName": "Kowalski, Pete",
+      "classificationId": "01925000-0000-7000-8000-000000000005",
+      "classificationName": "Operating Engineer – Class A",
+      "otCodes": ["AA", "E", "K"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "58.90",
+      "supplementRate": "44.05",
+      "stRate": "58.90",
+      "otRate": "88.35",
+      "otSupplementRate": "44.05",
+      "otHourlyTotal": "132.40",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.50",
+          "ot": "4.50",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "12.00",
+      "stHours": "7.50",
+      "otHours": "4.50",
+      "grossProject": "839.33",
+      "fringeCreditHourly": "44.0500",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "44.0500",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000b:01925000-0000-7000-8000-000000000003",
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "workerName": "Walsh, Kevin",
+      "classificationId": "01925000-0000-7000-8000-000000000003",
+      "classificationName": "Ironworker – Structural",
+      "otCodes": ["B", "E1", "V"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "0.00",
+      "supplementRate": "0.00",
+      "stRate": "0.00",
+      "otRate": "0.00",
+      "otSupplementRate": "3.00",
+      "otHourlyTotal": "3.00",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "8.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "grossProject": "0.00",
+      "fringeCreditHourly": "3.0000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "0.0000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    },
+    {
+      "id": "01927000-0000-7000-8000-00000000000c:01925000-0000-7000-8000-000000000001",
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "workerName": "Haddad, Omar",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "classificationName": "Electrician – Inside Wireman",
+      "otCodes": ["A", "W", "R"],
+      "isApprentice": false,
+      "apprenticeLevel": null,
+      "baseRate": "63.20",
+      "supplementRate": "52.40",
+      "stRate": "63.20",
+      "otRate": "94.80",
+      "otSupplementRate": "78.60",
+      "otHourlyTotal": "173.40",
+      "days": [
+        {
+          "date": "2026-08-30",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-08-31",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-01",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-02",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-03",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-04",
+          "st": "7.00",
+          "ot": "1.00",
+          "manual": false,
+          "holiday": false
+        },
+        {
+          "date": "2026-09-05",
+          "st": "0.00",
+          "ot": "0.00",
+          "manual": false,
+          "holiday": false
+        }
+      ],
+      "totalHours": "40.00",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "grossProject": "2686.00",
+      "fringeCreditHourly": "52.4000",
+      "cashInLieuHourly": "0.0000",
+      "fringeRequiredHourly": "52.4000",
+      "fringeShortfallHourly": "0.0000",
+      "fringeStatus": "plan"
+    }
+  ],
+  "workers": [
+    {
+      "workerId": "01927000-0000-7000-8000-000000000001",
+      "workerName": "Alvarez, Miguel",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "63.2000",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "2686.00",
+      "grossAllWork": "2686.00",
+      "deductionsTotal": "0.00",
+      "netPay": "2686.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000002",
+      "workerName": "Chen, David",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "63.2000",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "2686.00",
+      "grossAllWork": "2686.00",
+      "deductionsTotal": "0.00",
+      "netPay": "2686.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000003",
+      "workerName": "Rossi, Anna",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "63.2000",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "2686.00",
+      "grossAllWork": "2686.00",
+      "deductionsTotal": "0.00",
+      "netPay": "2686.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "workerName": "Okafor, Chidi",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "34.7600",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "1477.30",
+      "grossAllWork": "1477.30",
+      "deductionsTotal": "0.00",
+      "netPay": "1477.30",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": true,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000005",
+      "workerName": "Nguyen, Linh",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "41.0800",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "1745.90",
+      "grossAllWork": "1745.90",
+      "deductionsTotal": "0.00",
+      "netPay": "1745.90",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": true,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000006",
+      "workerName": "Brennan, Tom",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "44.8500",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "1794.00",
+      "grossAllWork": "1794.00",
+      "deductionsTotal": "0.00",
+      "netPay": "1794.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "28.0000",
+          "totalAmount": "1120.00"
+        },
+        {
+          "planId": null,
+          "kind": "other",
+          "paidTo": "cash",
+          "stHourlyAmount": "0.7000",
+          "otHourlyAmount": "0.7000",
+          "totalAmount": "28.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000007",
+      "workerName": "Delgado, Frank",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "44.8500",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "1794.00",
+      "grossAllWork": "1794.00",
+      "deductionsTotal": "0.00",
+      "netPay": "1794.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "28.0000",
+          "totalAmount": "1120.00"
+        },
+        {
+          "planId": null,
+          "kind": "other",
+          "paidTo": "cash",
+          "stHourlyAmount": "0.7000",
+          "otHourlyAmount": "0.7000",
+          "totalAmount": "28.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "workerName": "Petrov, Ivan",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "35.8800",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "1435.20",
+      "grossAllWork": "1435.20",
+      "deductionsTotal": "0.00",
+      "netPay": "1435.20",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": true,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "28.0000",
+          "totalAmount": "1120.00"
+        },
+        {
+          "planId": null,
+          "kind": "other",
+          "paidTo": "cash",
+          "stHourlyAmount": "0.7000",
+          "otHourlyAmount": "0.7000",
+          "totalAmount": "28.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-000000000009",
+      "workerName": "Ortega, Luis",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "42.1000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "1684.00",
+      "grossAllWork": "1684.00",
+      "deductionsTotal": "0.00",
+      "netPay": "1684.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000003",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "31.8000",
+          "otHourlyAmount": "31.8000",
+          "totalAmount": "1272.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "workerName": "Kowalski, Pete",
+      "stHours": "37.50",
+      "otHours": "20.50",
+      "totalHours": "58.00",
+      "regularRate": "45.5759",
+      "regularRateMethod": "weighted_average",
+      "otMethod": "ny",
+      "grossThisProject": "3112.73",
+      "grossAllWork": "3112.73",
+      "deductionsTotal": "0.00",
+      "netPay": "3112.73",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000004",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "44.0500",
+          "otHourlyAmount": "44.0500",
+          "totalAmount": "2554.90"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000004",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "44.0500",
+          "otHourlyAmount": "44.0500",
+          "totalAmount": "2554.90"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "workerName": "Walsh, Kevin",
+      "stHours": "40.00",
+      "otHours": "0.00",
+      "totalHours": "40.00",
+      "regularRate": "0.0000",
+      "regularRateMethod": "single",
+      "otMethod": "equal",
+      "grossThisProject": "0.00",
+      "grossAllWork": "0.00",
+      "deductionsTotal": "0.00",
+      "netPay": "0.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000005",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "3.0000",
+          "otHourlyAmount": "3.0000",
+          "totalAmount": "120.00"
+        }
+      ]
+    },
+    {
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "workerName": "Haddad, Omar",
+      "stHours": "35.00",
+      "otHours": "5.00",
+      "totalHours": "40.00",
+      "regularRate": "63.2000",
+      "regularRateMethod": "single",
+      "otMethod": "ny",
+      "grossThisProject": "2686.00",
+      "grossAllWork": "2686.00",
+      "deductionsTotal": "0.00",
+      "netPay": "2686.00",
+      "fringeShortfallHourly": "0.0000",
+      "apprenticeApplied": false,
+      "supplements": [
+        {
+          "planId": "01929000-0000-7000-8000-000000000001",
+          "kind": "health_welfare",
+          "paidTo": "plan",
+          "stHourlyAmount": "28.0000",
+          "otHourlyAmount": "42.0000",
+          "totalAmount": "1190.00"
+        },
+        {
+          "planId": "01929000-0000-7000-8000-000000000002",
+          "kind": "pension",
+          "paidTo": "plan",
+          "stHourlyAmount": "24.4000",
+          "otHourlyAmount": "36.6000",
+          "totalAmount": "1037.00"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "byDay": ["0.00", "96.00", "96.00", "114.00", "96.00", "96.00", "0.00"],
+    "st": "447.50",
+    "ot": "50.50",
+    "gross": "23787.13"
+  },
+  "findings": [
+    {
+      "code": "WORKER_ADDRESS_MISSING",
+      "severity": "hard",
+      "message": "Omar Haddad has no address; the NY file needs one.",
+      "suggestedFix": "Add the home address on the worker.",
+      "workerId": "01927000-0000-7000-8000-00000000000c",
+      "field": "address1"
+    },
+    {
+      "code": "RATE_EXPIRED",
+      "severity": "hard",
+      "message": "The rates for \"Ironworker – Structural\" do not cover this week.",
+      "detail": "They ran out on Jun 30.",
+      "suggestedFix": "Enter the new rates from the wage schedule and their start date.",
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "classificationId": "01925000-0000-7000-8000-000000000003"
+    },
+    {
+      "code": "DAY_OVER_24",
+      "severity": "hard",
+      "message": "Pete Kowalski has 26.00 hours on Sep 2. A day has 24.",
+      "suggestedFix": "Correct the hours for that day.",
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "workDate": "2026-09-02",
+      "field": "hours"
+    },
+    {
+      "code": "FRINGE_NOT_ANNUALIZED",
+      "severity": "soft",
+      "message": "\"Ironworkers Annuity Fund\" has a yearly cost but no yearly hours.",
+      "detail": "The engine used the 2080.00 hour default, which counts public and private work alike.",
+      "suggestedFix": "Enter the hours the plan is spread over so the credit is right.",
+      "workerId": "01927000-0000-7000-8000-00000000000b",
+      "rule": "29 CFR 5.25(b)"
+    },
+    {
+      "code": "APPRENTICE_PCT_MISMATCH",
+      "severity": "soft",
+      "message": "Ivan Petrov is paid 35.88 an hour; period 5 of the programme is 38.12.",
+      "detail": "That is 85.00 percent of the journeyworker rate for \"Electrician – Teledata Technician\".",
+      "suggestedFix": "Correct the rate, or the period of the programme on the worker.",
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002"
+    },
+    {
+      "code": "DAY_OVER_16",
+      "severity": "soft",
+      "message": "Pete Kowalski has 26.00 hours on Sep 2. Check it is not a typo.",
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "workDate": "2026-09-02",
+      "field": "hours"
+    },
+    {
+      "code": "WEIGHTED_AVERAGE_USED",
+      "severity": "info",
+      "message": "Overtime for Pete Kowalski uses the weighted average rate 45.58.",
+      "detail": "The worker held more than one classification this week.",
+      "workerId": "01927000-0000-7000-8000-00000000000a",
+      "rule": "29 CFR 778.115"
+    },
+    {
+      "code": "OT_NY_SUPPLEMENT_PREMIUM",
+      "severity": "info",
+      "message": "Code W: supplements for \"Electrician – Inside Wireman\" carry a premium on overtime hours.",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "rule": "Labor Law 220"
+    },
+    {
+      "code": "APPRENTICE_RATIO",
+      "severity": "info",
+      "message": "No apprentice ratio is on file for \"Electrician – Inside Wireman\".",
+      "detail": "Without it the engine cannot check how many apprentices the crew may carry.",
+      "suggestedFix": "Enter the ratio from the apprenticeship programme, for example 1:3.",
+      "workerId": "01927000-0000-7000-8000-000000000004",
+      "classificationId": "01925000-0000-7000-8000-000000000001",
+      "rule": "29 CFR 5.5(a)(4)"
+    },
+    {
+      "code": "APPRENTICE_RATIO",
+      "severity": "info",
+      "message": "No apprentice ratio is on file for \"Electrician – Teledata Technician\".",
+      "detail": "Without it the engine cannot check how many apprentices the crew may carry.",
+      "suggestedFix": "Enter the ratio from the apprenticeship programme, for example 1:3.",
+      "workerId": "01927000-0000-7000-8000-000000000008",
+      "classificationId": "01925000-0000-7000-8000-000000000002",
+      "rule": "29 CFR 5.5(a)(4)"
+    },
+    {
+      "code": "STATE_DEADLINE_T10",
+      "severity": "info",
+      "message": "The next NY filing is due Sep 25. 10 days left.",
+      "rule": "Labor Law 220-j"
+    }
+  ]
+}

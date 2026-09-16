@@ -1,0 +1,69 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Kingston WTP Electrical Upgrade",
+    "prcNumber": null,
+    "federalWdNumber": "NY20260014",
+    "nyReporting": false,
+    "federalReporting": true,
+    "startDate": "2026-06-01"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Laborer – Group 1",
+      "displayLabel": "Laborer – Group 1",
+      "wdBaseRate": "20.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "20.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": [],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    },
+    {
+      "id": "pc-2",
+      "classificationId": "cls-2",
+      "officialLabel": "Operating Engineer – Class A",
+      "displayLabel": "Operating Engineer – Class A",
+      "wdBaseRate": "30.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "30.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": [],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "John",
+      "lastName": "Doe",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1234",
+      "address": {
+        "address1": "1 Main Street",
+        "city": "Poughkeepsie",
+        "state": "NY",
+        "postalCode": "12601"
+      }
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-08", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-09", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-10", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-2", "workDate": "2026-09-11", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-2", "workDate": "2026-09-12", "hours": "8" }
+  ]
+}

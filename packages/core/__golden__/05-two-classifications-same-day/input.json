@@ -1,0 +1,66 @@
+{
+  "project": {
+    "id": "p-1",
+    "name": "Dutchess County Courthouse Lighting",
+    "prcNumber": "2010008390",
+    "nyReporting": true,
+    "federalReporting": false,
+    "startDate": "2026-04-06"
+  },
+  "period": {
+    "id": "per-1",
+    "weekEnding": "2026-09-12",
+    "weekEndsOn": 6,
+    "status": "open"
+  },
+  "classifications": [
+    {
+      "id": "pc-1",
+      "classificationId": "cls-1",
+      "officialLabel": "Laborer – Group 1",
+      "displayLabel": "Laborer – Group 1",
+      "wdBaseRate": "20.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "20.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    },
+    {
+      "id": "pc-2",
+      "classificationId": "cls-2",
+      "officialLabel": "Operating Engineer – Class A",
+      "displayLabel": "Operating Engineer – Class A",
+      "wdBaseRate": "30.00",
+      "wdFringeRate": "0.00",
+      "paidBaseRate": "30.00",
+      "cashInLieuRate": "0.00",
+      "otCodes": ["B"],
+      "effectiveFrom": "2026-07-01",
+      "effectiveTo": null
+    }
+  ],
+  "workers": [
+    {
+      "id": "w-1",
+      "firstName": "Pete",
+      "lastName": "Kowalski",
+      "level": "J",
+      "status": "active",
+      "ssnLast4": "1547",
+      "address": {
+        "address1": "64 Maple Avenue",
+        "city": "Fishkill",
+        "state": "NY",
+        "postalCode": "12524"
+      }
+    }
+  ],
+  "entries": [
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-07", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-2", "workDate": "2026-09-07", "hours": "4" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-08", "hours": "8" },
+    { "workerId": "w-1", "classificationId": "cls-1", "workDate": "2026-09-09", "hours": "8" }
+  ]
+}

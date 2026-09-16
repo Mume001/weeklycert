@@ -72,6 +72,30 @@ export function lastEndedWeekEnding(today: string, weekEndsOn: Dow): string {
   return addDays(weekEndingOf(today, weekEndsOn), -7)
 }
 
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+/**
+ * "Sep 9", the way a date is written inside a finding message. Findings are
+ * composed in core and never in the UI (spec/07 §1), so the short form lives
+ * here with the rest of the calendar arithmetic.
+ */
+export function shortDate(date: string): string {
+  const parts = date.split('-')
+  const month = MONTHS[Number(parts[1]) - 1]
+  return month ? `${month} ${Number(parts[2])}` : date
+}
+
+/** Same day of the month `count` months later, clamped to the month's length. */
+export function addMonths(date: string, count: number): string {
+  const [y = '0', m = '1', d = '1'] = date.split('-')
+  const total = Number(y) * 12 + (Number(m) - 1) + count
+  const year = Math.floor(total / 12)
+  const month = (total % 12) + 1
+  const lastDay = new Date(Date.UTC(year, month, 0)).getUTCDate()
+  const day = Math.min(Number(d), lastDay)
+  return `${String(year).padStart(4, '0')}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+}
+
 /** Every week ending from `first` to `last`, both included, oldest first. */
 export function weekEndingsBetween(first: string, last: string): string[] {
   const out: string[] = []
