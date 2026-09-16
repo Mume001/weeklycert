@@ -12,17 +12,30 @@ import { SiteNav } from '@/components/SiteNav'
  * of 1.5 s on 3G and next/font gives preload, font-display and size-adjust
  * without hand-written link tags.
  *
- * Only weight 400 is declared, because only weight 400 exists: the repository
- * carries `ibm-plex-sans-400-*.woff2` and nothing else for Sans. spec/14 §4 asks
- * for 400, 500 and 600, and 19 §8 asks to preload 400 and 600. Until those two
- * files are added, 500 and 600 are synthesised by the browser, here and in the
- * application alike.
+ * All three weights of spec/14 §4 are declared, and each one has its own file:
+ * 400 for body text, 500 for the navigation, 600 for every heading and button.
+ * Declaring only 400, which is what this file did until the files existed, does
+ * not mean the page has one weight. It means the browser fakes the other two.
+ *
+ * Only the latin subset is loaded here. latin-ext exists in the package for the
+ * application, where a crew list carries accented names; the marketing copy is
+ * English and every byte counts against the 3G budget (16 §8).
  */
 const sans = localFont({
   src: [
     {
       path: '../../../packages/ui-tokens/fonts/ibm-plex-sans-400-latin.woff2',
       weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../../../packages/ui-tokens/fonts/ibm-plex-sans-500-latin.woff2',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../../../packages/ui-tokens/fonts/ibm-plex-sans-600-latin.woff2',
+      weight: '600',
       style: 'normal',
     },
   ],

@@ -5,7 +5,7 @@
 // note left in a dashed box, an invented phone number, a claim about customers
 // nobody made. The prototype in dizajn/sajt.html carried all three, on purpose,
 // as notes to ourselves. This file is why they cannot reach the build.
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { join } from 'node:path'
 import { render, screen } from '@testing-library/react'
 import { copy } from '@wc/copy'
@@ -111,6 +111,29 @@ describe('the hero shows the real grid, and a whole week of it', () => {
     // (05 §4), so the alt text counts the days instead of naming them.
     expect(copy.site.hero.shotAlt).toMatch(/seven days/)
     expect(copy.site.hero.shotAlt).not.toMatch(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\b/)
+  })
+})
+
+describe('the type spec/14 §4 asks for (19 §8)', () => {
+  const layout = sources.find((s) => s.file.replace(/\\/g, '/').endsWith('app/layout.tsx'))
+
+  it('declares all three weights, each from its own file', () => {
+    if (!layout) throw new Error('no app/layout.tsx')
+    const declared = [...layout.text.matchAll(/path:\s*'([^']+)',\s*weight:\s*'(\d+)'/g)].map(
+      (m) => ({ path: m[1] ?? '', weight: m[2] ?? '' }),
+    )
+    // 400 for body text, 500 for the navigation, 600 for headings and buttons.
+    // One file declared at three weights is not three weights: it is one weight
+    // and two the browser fakes, which is what this file did until the files
+    // existed.
+    expect(declared.map((d) => d.weight)).toEqual(['400', '500', '600'])
+    expect(new Set(declared.map((d) => d.path)).size).toBe(3)
+
+    for (const { path, weight } of declared) {
+      const file = join(ROOT, 'app', path)
+      expect(existsSync(file), `weight ${weight}: ${path}`).toBe(true)
+      expect(readFileSync(file).subarray(0, 4).toString(), path).toBe('wOF2')
+    }
   })
 })
 
