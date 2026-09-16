@@ -87,9 +87,6 @@ describe('15 §1 rule 11: a number has a singular and a plural form', () => {
     ['copy.grid.meta', 'identifier, not a count'],
     // No noun that inflects: "1 ready" and "5 ready" are the same words.
     ['copy.imports.ready', '{n} ready'],
-    // Three independent counts in one sentence; splitting it would break the
-    // sentence, so 15 §3 keeps it whole. Open question for Mume.
-    ['copy.imports.applied', 'three counts in one sentence'],
     // A fixed trigger from 15 §4.2 (T-3 and T-2), not a computed number.
     ['copy.email.billing.trialEnds', 'fixed T-3 trigger'],
     ['copy.email.weekly.wh347Due', 'fixed T-2 trigger'],
@@ -128,9 +125,9 @@ describe('fill', () => {
   })
 
   it('fills repeated placeholders in order', () => {
-    expect(fill(copy.imports.applied, { n: [12, 3, 1], date: 'Sep 12, 2026' })).toBe(
-      'Imported 12 rows for 3 workers, week ending Sep 12, 2026. 1 rows were skipped.',
-    )
+    // No string in 15 needs this any more (the import summary was split into
+    // three counted lines), but fill() keeps it: the next one will.
+    expect(fill('{n} of {n}', { n: [3, 12] })).toBe('3 of 12')
   })
 
   it('handles names with spaces', () => {

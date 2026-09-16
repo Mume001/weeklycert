@@ -11,13 +11,11 @@ export function GridHeader({ days }: { days: IsoDate[] }) {
   return (
     <thead>
       <tr>
+        {/* One column, three pieces of data: the classification and the J/RA
+            badge live inside the worker cell (spec/03 §4.5, spec/14 §7). */}
         <th scope="col" className="grid__worker">
           {c.worker}
         </th>
-        <th scope="col" className="grid__classification">
-          {c.classification}
-        </th>
-        <th scope="col">{c.level}</th>
         {days.map((date) => {
           const part = dateParts(date)
           return (
@@ -37,16 +35,16 @@ export function GridHeader({ days }: { days: IsoDate[] }) {
         <th scope="col" className="grid__total">
           {c.ot}
         </th>
-        <th scope="col" className="grid__total">
+        <th scope="col" className="grid__total grid__derived">
           {c.stRate}
         </th>
-        <th scope="col" className="grid__total">
+        <th scope="col" className="grid__total grid__derived">
           {c.otRate}
         </th>
-        <th scope="col" className="grid__total">
+        <th scope="col" className="grid__total grid__derived">
           {c.supplement}
         </th>
-        <th scope="col" className="grid__total">
+        <th scope="col" className="grid__total grid__derived">
           {c.gross}
         </th>
       </tr>

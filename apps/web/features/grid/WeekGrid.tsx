@@ -10,6 +10,7 @@
 import { copy, count } from '@wc/copy'
 import { AUTO_FIXABLE, type WeekInput, weekDates } from '@wc/core'
 import { type Finding, gridRowFromLine, type IsoDate, type WeekGridDTO } from '@wc/data/dto'
+import { cn } from 'cn'
 import { CalendarOff, CopyIcon } from 'lucide-react'
 import { type ClipboardEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { EmptyState } from '@/components/patterns/EmptyState'
@@ -119,6 +120,9 @@ export function WeekGrid({
   const days = useMemo(() => weekDates(data.weekEnding), [data.weekEnding])
   const [cells, setCells] = useState<CellMap>(() => (input ? cellsFromInput(input) : {}))
   const [focusedRow, setFocusedRow] = useState<string | null>(null)
+  // ST rate, OT rate, Supplement and Gross are read after the hours are typed,
+  // so on a narrow grid they start folded away (spec/03 §4.5).
+  const [showRates, setShowRates] = useState(false)
   const autosave = useAutosave(periodId ?? '')
   const { queue } = autosave
 
@@ -278,6 +282,7 @@ export function WeekGrid({
     return map
   }, [findings])
 
+  const empty = data.isNoWork || rows.length === 0
   const toolbar = (
     <WeekToolbar
       status={data.displayStatus}
@@ -287,12 +292,16 @@ export function WeekGrid({
       onCopyLastWeek={copyLastWeek}
       onMarkNoWork={markNoWork}
       reviewHref={reviewHref}
+      findings={findings}
+      onOpenFindings={() => week.setPanelOpen(true)}
+      findingsTriggerRef={week.panelTriggerRef}
+      {...(empty ? {} : { showRates, onToggleRates: () => setShowRates((on) => !on) })}
     />
   )
 
-  if (data.isNoWork || rows.length === 0) {
+  if (empty) {
     return (
-      <>
+      <div className="grid-frame">
         {toolbar}
         <div className="p-6">
           <EmptyState
@@ -307,12 +316,12 @@ export function WeekGrid({
             }
           />
         </div>
-      </>
+      </div>
     )
   }
 
   return (
-    <>
+    <div className="grid-frame">
       {toolbar}
 
       {conflict && (
@@ -341,7 +350,7 @@ export function WeekGrid({
       {/* Wide: the grid. Narrow: one card per worker, read only (spec/14 §6).
           Which one shows is decided in grid.css, at 900 px. */}
       <div className="grid-scroll">
-        <table className="grid">
+        <table className={cn('grid', !showRates && 'grid--compact')}>
           <GridHeader days={days} />
           <tbody onPaste={onPaste}>
             {rows.map((row, index) => (
@@ -384,6 +393,6 @@ export function WeekGrid({
           </article>
         ))}
       </div>
-    </>
+    </div>
   )
 }

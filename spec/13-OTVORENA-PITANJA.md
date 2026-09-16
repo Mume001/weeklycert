@@ -35,6 +35,7 @@ Ažurirano 15.9.2026.
 | A8b | Imena AcroForm polja u WH-347 PDF 2025 | 05 §4.6 | Skinuti PDF, pokrenuti `scripts/dump-pdf-fields.ts` |
 | A10 | **Legenda praznika (HOLIDAY PAGE)**, numerisani kodovi 1 do oko 29 | 01 §2.1, 07 HOLIDAY_RULE_UNKNOWN | Prepisati s jedne stvarne platne tabele. Bez nje motor ne računa praznične premije. |
 | A11 | Stvaran broj klasifikacija na zvaničnoj listi | 01 §3 | Prebrojati pri skidanju. Dva automatska čitanja dala su 227 i 463. |
+| A14 | Gdje tačno gotovina umjesto beneficije ide na WH-347 i u NY XML | 05 §4 | Motor ih od koraka 2 vodi **odvojeno od nadnica**, i to je sigurno tačno jer oba izlaza traže razdvojeno. Otvoreno je samo u koju kolonu i element idu. Zatvara se u koraku 5, kad budu XSD i zvanični PDF u `izvori/`. |
 | A12 | Maksimalna veličina XML fajla u MB | 05 §3.1 | Nije objavljeno. Pitati NYSDOL ili testirati. |
 | A13 | Tačna formulacija OT koda **X** (beneficije na plaćene praznike) | 01 §2.1 | Prepisati s aktuelne platne tabele, zajedno s A10 |
 

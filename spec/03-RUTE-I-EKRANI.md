@@ -362,9 +362,21 @@ Povratak s Checkouta zatvara čarobnjak. Detalji u 08 §2.1.
 - **Mreža:**
   - Red = radnik + klasifikacija. Ispod radnika dugme "+ Dodaj klasifikaciju"
     pravi drugi uvučeni red.
-  - Kolone: Radnik · Klasifikacija · J/RA · **sedam dana** (s datumima u
-    zaglavlju) · Ukupno · ST · OT · Stopa ST · Stopa OT · Fringe status ·
-    Bruto (projekat).
+  - Kolone: **Radnik** (ime, ispod njega klasifikacija, uz njih značka J ili RA;
+    sve u jednoj ljepljivoj koloni od 220 px, kao u `dizajn/aplikacija.html`) ·
+    **sedam dana** (s datumima u zaglavlju) · Ukupno · ST · OT · Stopa ST ·
+    Stopa OT · Fringe status · Bruto (projekat).
+  - **Klasifikacija i J/RA nisu zasebne kolone.** Ranija verzija ih je tako
+    nabrajala, i to je bila greška: tri odvojene kolone troše 480 px, a mreža
+    onda ne stane ni na 1366 px. Prototip ih od početka slaže u ćeliju radnika.
+  - **Izvedene kolone se sklapaju na uskim ekranima.** Ispod 1200 px se Stopa ST,
+    Stopa OT, Fringe status i Bruto skrivaju iza prekidača "Show rates and
+    gross". **Prag se mjeri na širini koju mreža dobije, ne na širini prozora:**
+    na prozoru od 1366 px bočna traka uzme 240 px i mreži ostane 1126 px, pa se
+    izvedene kolone već tu moraju skloniti da bi mreža stala (račun je u 19 §6).
+    Razlog je što se te kolone **čitaju poslije unosa**, a ne tokom
+    njega: dok korisnik kuca, trebaju mu ime, sedam dana i zbir. Kad ih otvori,
+    horizontalno skrolanje je u redu, jer tad čita, ne kuca.
   - **Redoslijed dana se izvodi, ne hardkodira**: prva kolona je
     `week_ending` minus 6 dana, zadnja je `week_ending` (05 §4). Za firmu kojoj
     sedmica završava subotom to je nedjelja do subota. Dan kraja sedmice je
@@ -545,7 +557,10 @@ skidanje, potpisi, ispravke. Filter po korisniku i vrsti. Izvoz CSV.
 10. Postavke (tim, potpisnici, naplata, obavještenja, dnevnik, podaci).
 11. Auth ekrani.
 12. Admin.
-13. Javne stranice.
+13. Javne stranice. **Izuzetak u redoslijedu: ove se rade odmah poslije stavke
+    2 (mreža sati), ne na kraju.** Razlog je u 19 §10: hladan email već kreće i
+    bez sajta nema gdje voditi kupca, a poslije mreže hero može nositi stvaran
+    snimak ekrana.
 
 Svaki ekran se smatra gotovim kad: radi na mock podacima, ima svih **pet** stanja
 (učitavanje, prazno, greška, zabranjeno, **zaključano**), radi tastaturom, i ima

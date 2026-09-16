@@ -17,8 +17,6 @@ export function TotalsRow({ totals }: { totals: WeekGridDTO['totals'] }) {
         <th scope="row" className="grid__worker text-left">
           {copy.grid.weekTotal}
         </th>
-        <td />
-        <td />
         {totals.byDay.map((value, day) => (
           <td
             // The seven columns are positional; the date is in the header.
@@ -38,10 +36,10 @@ export function TotalsRow({ totals }: { totals: WeekGridDTO['totals'] }) {
         <td className="grid__num">
           <Hours value={totals.ot} />
         </td>
-        <td />
-        <td />
-        <td />
-        <td className="grid__num">
+        <td className="grid__derived" />
+        <td className="grid__derived" />
+        <td className="grid__derived" />
+        <td className="grid__num grid__derived">
           <Money value={totals.gross} />
         </td>
       </tr>

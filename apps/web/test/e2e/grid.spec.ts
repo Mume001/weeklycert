@@ -31,6 +31,9 @@ test('the week spec/19 §4 seeded: 3 errors and 3 warnings, no console or a11y e
   page,
 }) => {
   const errors = collectErrors(page)
+  // The panel is a permanent column from 1600 px up (spec/19 §6); the overlay
+  // below that width has its own test.
+  await page.setViewportSize({ width: 1600, height: 1000 })
   await page.goto(REVIEW_WEEK)
 
   const panel = page.getByRole('complementary')
@@ -97,6 +100,7 @@ test('the wide screen shows the hours and hides the per worker cards', async ({ 
 })
 
 test('clicking a finding focuses the cell it is about', async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 1000 })
   await page.goto(REVIEW_WEEK)
   await page.getByRole('button', { name: /A day has 24/ }).click()
   const focused = page.locator('input:focus')
@@ -146,6 +150,68 @@ test('focus never ends under the sticky header (WCAG 2.4.11, spec/19 §10 item 5
     })
     expect(box.top).toBeGreaterThanOrEqual(headerBottom - 1)
   }
+})
+
+test('under 1600 px the counter opens the panel and Escape closes it (spec/19 §6)', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1366, height: 900 })
+  await page.goto(REVIEW_WEEK)
+
+  // No permanent column at this width: the grid needs the room.
+  await expect(page.getByRole('complementary')).toBeHidden()
+
+  const counter = page.getByRole('button', { name: /3 errors, 3 warnings/ })
+  await counter.click()
+  const panel = page.getByRole('dialog')
+  await expect(panel).toBeVisible()
+  await expect(panel).toContainText('Errors block generating the report.')
+
+  await page.keyboard.press('Escape')
+  await expect(panel).toBeHidden()
+  // Focus goes back to what opened it, like the navigation panel (spec/14 §6).
+  await expect(counter).toBeFocused()
+})
+
+test('the grid fits 1366 px with the panel closed (spec/19 §6)', async ({ page }) => {
+  await page.setViewportSize({ width: 1366, height: 900 })
+  await page.goto(OPEN_WEEK)
+  await page.locator('#cell-0-1').waitFor()
+
+  // 220 worker + 7 x 64 days + 3 x 80 totals = 908 px, and the derived columns
+  // are folded away at this width. If this fails the week cannot be typed
+  // without scrolling sideways, which is how it was before.
+  const size = await page
+    .locator('.grid-scroll')
+    .evaluate((el) => ({ scroll: el.scrollWidth, visible: el.clientWidth }))
+  console.log(`1366 px: grid is ${size.scroll} px in ${size.visible} px of room`)
+  expect(size.scroll).toBeLessThanOrEqual(size.visible)
+
+  // Opened, they come back and sideways scrolling is fine: now it is reading,
+  // not typing (spec/03 §4.5).
+  await page.getByRole('button', { name: 'Show rates and gross' }).click()
+  const opened = await page
+    .locator('.grid-scroll')
+    .evaluate((el) => ({ scroll: el.scrollWidth, visible: el.clientWidth }))
+  expect(opened.scroll).toBeGreaterThan(size.scroll)
+})
+
+test('a value typed into a cell is still there after a refresh (spec/03 §4.5)', async ({
+  page,
+}) => {
+  await page.goto(OPEN_WEEK)
+  // Saturday: the keyboard test above types Monday to Friday, and both run
+  // against the same server.
+  const cell = page.locator('#cell-1-6')
+  await cell.waitFor()
+  await cell.fill('6')
+  await page.keyboard.press('Enter')
+
+  // Autosave is debounced 800 ms and never fails silently (spec/19 §6).
+  await expect(page.getByText(/^Saved /)).toBeVisible()
+
+  await page.reload()
+  await expect(page.locator('#cell-1-6')).toHaveValue(/^6(\.0+)?$/)
 })
 
 test('below 900 px the grid becomes a list per worker (spec/14 §6)', async ({ page }) => {

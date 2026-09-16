@@ -7,10 +7,12 @@
 import { copy, count, fill } from '@wc/copy'
 import type { DisplayStatus, Finding } from '@wc/data/dto'
 import { CalendarOff, CloudOff, CopyIcon, FileUp, RefreshCw } from 'lucide-react'
+import type { RefObject } from 'react'
 import { StatusBadge } from '@/components/patterns/StatusBadge'
 import { Button } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { formatClock } from '@/lib/format'
+import { findingsSummary } from '@/lib/week-state'
 import type { SaveState } from './useAutosave'
 
 export interface WeekToolbarProps {
@@ -21,6 +23,16 @@ export interface WeekToolbarProps {
   onCopyLastWeek: () => void
   onMarkNoWork: () => void
   reviewHref: string
+  /** Everything the panel shows, for the counter that opens it (spec/19 §6). */
+  findings: Finding[]
+  onOpenFindings: () => void
+  findingsTriggerRef: RefObject<HTMLButtonElement | null>
+  /**
+   * The four derived columns. Absent when there is no grid to fold (03 §4.5);
+   * the switch itself disappears once the grid is wide enough for them.
+   */
+  showRates?: boolean
+  onToggleRates?: () => void
 }
 
 function SaveIndicator({ state, savedAt }: WeekToolbarProps['save']) {
@@ -60,6 +72,11 @@ export function WeekToolbar({
   onCopyLastWeek,
   onMarkNoWork,
   reviewHref,
+  findings,
+  onOpenFindings,
+  findingsTriggerRef,
+  showRates,
+  onToggleRates,
 }: WeekToolbarProps) {
   const blocked = blocking.length > 0
   const codes = [...new Set(blocking.map((f) => f.code))].join(', ')
@@ -68,6 +85,32 @@ export function WeekToolbar({
     <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border-decorative bg-white px-6 py-2.5">
       <StatusBadge status={status} />
       <SaveIndicator {...save} />
+      {/* The counter is the button: it says what is waiting and opens the
+          panel that says it in full (spec/15 §3, spec/19 §6). Above 1600 px
+          the panel is already a column, so the button has nothing to do. */}
+      <Button
+        ref={findingsTriggerRef}
+        variant="secondary"
+        size="sm"
+        onClick={onOpenFindings}
+        className="min-[1600px]:hidden"
+      >
+        {findingsSummary(findings)}
+      </Button>
+      {onToggleRates && (
+        <Button
+          variant="secondary"
+          size="sm"
+          onClick={onToggleRates}
+          aria-pressed={showRates}
+          className="grid-rates-toggle"
+        >
+          {copy.grid.showRates}
+        </Button>
+      )}
+      {/* What the week bar does, in the order spec/03 §4.5 lists it, with the
+          one primary action last (spec/14 §11). These two are view controls and
+          belong with the status, not among the actions. */}
       <div className="ml-auto flex flex-wrap items-center gap-2">
         <Button variant="secondary" size="sm" onClick={onCopyLastWeek} disabled={readOnly}>
           <CopyIcon aria-hidden="true" />

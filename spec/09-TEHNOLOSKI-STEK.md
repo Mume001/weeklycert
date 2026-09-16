@@ -36,7 +36,7 @@ postoji ijedna tabela. Kad se Postgres uključi, ekrani se ne mijenjaju.
 
 | Sloj | Izbor | Verzija | Zašto ovo, a ne alternativa |
 |---|---|---|---|
-| Runtime | Node.js | 22 LTS | Next.js 16 traži ≥ 20.9; 22 je LTS do 2027. Ne Bun (pdf-lib i pg imaju rubne probleme). |
+| Runtime | Node.js | 22 LTS ili noviji (provjereno i na 24) | Next.js 16 traži ≥ 20.9; 22 je LTS do 2027. Ne Bun (pdf-lib i pg imaju rubne probleme). |
 | Paket menadžer | pnpm | 10 | Brz, strogi node_modules. |
 | Okvir | Next.js (App Router) | 16.x | Server Components, Server Actions za forme, Route Handlers za API. Ne Remix/SvelteKit: manji ekosistem za ovo što nam treba. |
 | UI | React | 19.x | Dolazi s Next 16. |
@@ -65,6 +65,8 @@ postoji ijedna tabela. Kad se Postgres uključi, ekrani se ne mijenjaju.
 | Greške | Sentry (`@sentry/nextjs`) | 9.x | Free plan dovoljan za start. Scrubbing PII uključen. |
 | Metrike | Prometheus endpoint `/api/metrics` + Grafana Cloud free | | Kasnije. Prvo Sentry i logovi. |
 | Testovi | Vitest, Testing Library, Playwright | 3.x / / 1.5x | Golden testovi u `core/`, komponente u web, E2E na mock podacima. |
+| Pokrivenost | `@vitest/coverage-v8` | 3.x | Prag 95 % na `core/engine` (12 korak 2). |
+| Env u skriptama | `cross-env` | 7.x | `pnpm dev:mock` mora raditi i u PowerShellu. |
 | Lint/format | Biome | 2.x | Jedan alat umjesto ESLint + Prettier. |
 | Kontejneri | Docker, Compose | | Jedan `Dockerfile` s dva targeta: `web`, `worker`. |
 | Deploy, `apps/web` | Dokploy na VPS-u | aktuelno | Git push → build → zero-downtime. Vidi 10-INFRASTRUKTURA. |

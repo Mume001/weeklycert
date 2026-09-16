@@ -44,23 +44,32 @@ export function GridRow({
       data-row={row.id}
       className={cn('grid__row', idle && 'grid__row--idle', focused && 'grid__row--focused')}
     >
-      <th scope="row" className="grid__worker text-left font-medium">
-        {continued ? (
-          <span className="sr-only">{row.workerName}</span>
-        ) : (
-          <span className="block truncate">{row.workerName}</span>
-        )}
-        {idle && <span className="block text-xs text-text-secondary">{copy.grid.noHours}</span>}
-      </th>
-      <td className={cn('grid__classification whitespace-nowrap', continued && 'pl-4')}>
-        <span className="block truncate">{row.classificationName}</span>
-        {row.otCodes.length > 0 && (
-          <span className="block font-mono text-2xs text-text-secondary">
-            {row.otCodes.join(' ')}
+      {/* Name, classification under it, J or RA to the right, all inside the one
+          220 px sticky column (spec/14 §7). A second classification for the same
+          worker indents under the name instead of repeating it. */}
+      <th scope="row" className="grid__worker text-left">
+        <div className="grid__wcell">
+          <div className="min-w-0 flex-1">
+            {continued ? (
+              <span className="sr-only">{row.workerName}</span>
+            ) : (
+              <span className="grid__wname" title={row.workerName}>
+                {row.workerName}
+              </span>
+            )}
+            <span
+              className={cn('grid__wclass', continued && 'pl-3')}
+              title={row.classificationName}
+            >
+              {row.classificationName}
+            </span>
+            {idle && <span className="grid__wclass">{copy.grid.noHours}</span>}
+          </div>
+          <span className="grid__wbadge" title={copy.grid.columns.level}>
+            {row.isApprentice ? 'RA' : 'J'}
           </span>
-        )}
-      </td>
-      <td>{row.isApprentice ? 'RA' : 'J'}</td>
+        </div>
+      </th>
 
       {days.map((date, day) => (
         <DayCell
@@ -87,14 +96,14 @@ export function GridRow({
       <td className="grid__num">
         <Hours value={row.otHours} />
       </td>
-      <td className="grid__num">
+      <td className="grid__num grid__derived">
         <Money value={row.stRate} />
       </td>
-      <td className="grid__num">
+      <td className="grid__num grid__derived">
         <Money value={row.otRate} />
       </td>
-      <td className="whitespace-nowrap">{copy.grid.fringe[row.fringeStatus]}</td>
-      <td className="grid__num">
+      <td className="grid__derived whitespace-nowrap">{copy.grid.fringe[row.fringeStatus]}</td>
+      <td className="grid__num grid__derived">
         <Money value={row.grossProject} />
       </td>
     </tr>

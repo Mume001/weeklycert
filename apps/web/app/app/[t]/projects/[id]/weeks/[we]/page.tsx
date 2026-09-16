@@ -71,7 +71,7 @@ export default async function WeekPage({
       <>
         {bar}
         <div className="p-6">
-          <LoadingTable columns={14} rows={13} />
+          <LoadingTable columns={15} rows={13} />
         </div>
       </>
     )

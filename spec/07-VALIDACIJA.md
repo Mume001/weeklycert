@@ -54,7 +54,7 @@ type Finding = {
 | OT_NY_WEEKEND | hard | OT kod nosi E/F/L/M/O i sati subotom ili nedjeljom uneseni kao ST | |
 | OT_NY_MAKEUP_DAY | info | kod E2, E3 ili E4 i rad vikendom po redovnoj stopi | "Kod E2 dozvoljava subotu kao nadoknadu po redovnoj stopi kad je dan izgubljen zbog vremena. Ako je tako, ovo je uredu." |
 | OT_NY_SUPPLEMENT_PREMIUM | info | kod V ili W | "Kod W: beneficije se za prekovremene sate plaćaju s premijom 1,5." |
-| HOLIDAY_RULE_UNKNOWN | soft | dan označen kao praznik a legenda praznika nije unesena | "Označili ste 4.7. kao praznik. Legenda praznika za ovaj PRC nije unesena, pa multiplikator morate potvrditi ručno." |
+| HOLIDAY_RULE_UNKNOWN | soft | dan označen kao praznik a legenda praznika nije unesena | "You marked Jul 4 as a holiday, so we applied the {x} premium that code {code} requires. The holiday list for this wage schedule is not in the system, so check the HOLIDAY PAGE of your schedule and confirm that Jul 4 is on it." Nalaz mora reći **koji je multiplikator primijenjen i po kojem kodu**, jer se na osnovu njega isplaćuje novac. |
 
 ### 3.2 Stope i beneficije
 

@@ -12,9 +12,22 @@ import { db } from './db.ts'
 /**
  * Cells edited during this run of the demo. The fixtures on disk stay as they
  * are; step 4 replaces this with `time_entries` in Postgres.
+ *
+ * It hangs off `globalThis` and not off the module, because Next bundles the
+ * page and the route handler separately: a plain module-level Map exists twice
+ * in one server process, PATCH writes into one copy and the page reads the
+ * other, and an hour typed into the grid disappears on refresh. That is the
+ * acceptance criterion in 03 §4.5, and it is the whole reason this is not a
+ * bare `new Map()`.
  */
-const edits = new Map<string, (string | null)[]>()
-const noWork = new Map<Uuid, boolean>()
+const store = globalThis as typeof globalThis & {
+  __wcWeekEdits?: Map<string, (string | null)[]>
+  __wcNoWork?: Map<Uuid, boolean>
+}
+if (!store.__wcWeekEdits) store.__wcWeekEdits = new Map<string, (string | null)[]>()
+if (!store.__wcNoWork) store.__wcNoWork = new Map<Uuid, boolean>()
+const edits = store.__wcWeekEdits
+const noWork = store.__wcNoWork
 
 const editKey = (periodId: Uuid, rowId: string) => `${periodId}|${rowId}`
 

@@ -125,7 +125,7 @@ Bijelo na teal-600 **6,38** (primarno dugme), na teal-700 **8,58** (hover).
 |---|---|---|---|---|---|
 | n-900 primarni | 18,04 | 17,08 | | | |
 | **n-600 sekundarni** | **7,05** | **6,68** | **6,22** | **6,49** | **6,76** |
-| n-500 (ne koristiti) | 4,52 | 4,28 ✗ | 3,98 ✗ | 4,15 ✗ | 4,37 ✗ |
+| n-500 (ne koristiti) | 4,52 | 4,28 ✗ | 3,98 ✗ | 4,15 ✗ | 4,33 ✗ |
 
 Semantički tekst (koraci 600), sve prolazi 4,5:1 na bijelom i na oba svoja tona:
 error-600 6,57 / 6,05 / 5,45 · warning-600 5,43 / 5,20 / 4,78 · success-600
@@ -133,7 +133,7 @@ error-600 6,57 / 6,05 / 5,45 · warning-600 5,43 / 5,20 / 4,78 · success-600
 
 Ikone i granice (treba 3:1, na bijelom / na svom 50): error-500 4,83 / 4,44 ·
 warning-500 3,49 / 3,34 · success-500 3,91 / 3,70 · info-500 4,57 / 4,20 ·
-violet-500 4,82 / 4,45.
+violet-500 4,82 / **4,32**.
 
 Ljubičasta, tekst: violet-600 na bijelom **7,49**, na violet-50 **6,72**, na
 n-50 **7,10**. Prolazi svuda gdje i ostale.
@@ -256,6 +256,9 @@ Red podataka:      48px  (ćelija s dvije vrijednosti: ST unos + OT ispod)
                    40px  (jednostavne liste samo za čitanje)
 Kolona radnika:    220px, position: sticky; left: 0; z-index: 2
                    (ćelija u uglu treba z-index: 4)
+                   Nosi TRI podatka: ime (13/600), klasifikaciju ispod njega
+                   (11/400, --n-600, skraćena s title atributom kad je duga)
+                   i značku J ili RA desno. Nisu tri kolone.
 Kolone dana:       64px × 7
 Kolone zbira:      80px
 Padding ćelije:    0 8px  (ne 16px, sedam kolona nema mjesta)

@@ -227,7 +227,11 @@ export const copy = {
     allClear: 'Everything checks out. You can generate the report.',
     columns: {
       worker: 'Worker',
-      classification: 'Classification',
+      /**
+       * Not a column any more (03 §4.5): the worker cell carries the name, the
+       * classification under it and a J or RA badge. This is the badge's full
+       * name, in its title attribute.
+       */
       level: 'J/RA',
       total: 'Total',
       st: 'ST',
@@ -237,6 +241,8 @@ export const copy = {
       supplement: 'Supplement',
       gross: 'Gross',
     },
+    /** The four derived columns fold away when the grid is too narrow (03 §4.5). */
+    showRates: 'Show rates and gross',
     dayHeader: '{WeekEndDay} {D}',
     weekTotal: 'Week total',
     noHours: 'No hours this week',
@@ -311,7 +317,16 @@ export const copy = {
     errors_other: '{n} errors, these block',
     fullSsn:
       'This file has a column that looks like full Social Security numbers. We do not store those. We can keep the last four digits and delete the original file after import, or you can remove the column and upload again.',
-    applied: 'Imported {n} rows for {n} workers, week ending {date}. {n} rows were skipped.',
+    // One sentence cannot inflect three counts at once, so 15 §3 splits it into
+    // a title and three counted lines.
+    applied: 'Import finished',
+    appliedWeek: 'Week ending {date}',
+    rowsImported_one: '{n} row imported',
+    rowsImported_other: '{n} rows imported',
+    workers_one: '{n} worker',
+    workers_other: '{n} workers',
+    rowsSkipped_one: '{n} row skipped',
+    rowsSkipped_other: '{n} rows skipped',
   },
 
   // 15 §3 Naplata

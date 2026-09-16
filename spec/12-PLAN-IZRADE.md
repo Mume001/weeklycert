@@ -55,7 +55,6 @@ Iz: 09-TEHNOLOSKI-STEK i **14-DIZAJN-SISTEM**.
 - **Demo podaci se pišu ovdje, ne u koraku 3**, jer se okvir aplikacije ne može
   sagraditi nad praznim repozitorijem. Sadržaj je propisan u **19 §4**.
 - `packages/copy`: svaki string iz 15, po ključevima.
-- Docker Compose za lokalno (postgres, minio, mailpit), ali se još ne koristi.
 - **`packages/ui-tokens`: svi tokeni iz 14 §3 do §5 doslovno**, kao CSS varijable
   i kao Tailwind `@theme`. IBM Plex Sans i Mono, samo debljine 400, 500, 600.
 - Osnovne komponente iz 14 §9 s punim skupom stanja, i test kontrasta koji
@@ -131,6 +130,9 @@ backenda.
 ## Korak 4: Baza i auth (Claude Code, 4 do 5 dana)
 
 Iz: 04-MODEL-PODATAKA, 02-ULOGE, 11-SIGURNOST §3 i §4.
+- **Docker Compose za lokalno** (postgres, minio, mailpit). Ranije je stajao u
+  koraku 1, ali tamo nema šta da radi: cijela faza do kapije ide na
+  `DATA_SOURCE=mock`, bez baze (19 §1). Ovo je prvi korak kojem stvarno treba.
 - Drizzle šema sve 44 tabele, enum tipovi, indeksi; migracije s RLS
   politikama u istom fajlu; `app_user` i `app_admin` uloge.
 - Better Auth s pluginovima; 2FA obavezna po ulozi; magic link; pozivnice.

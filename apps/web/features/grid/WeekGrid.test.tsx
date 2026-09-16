@@ -166,8 +166,6 @@ describe('the grid on screen', () => {
     const header = screen.getAllByRole('columnheader')
     expect(header.map((h) => h.textContent)).toEqual([
       'Worker',
-      'Classification',
-      'J/RA',
       'Sun 6',
       'Mon 7',
       'Tue 8',
@@ -194,6 +192,16 @@ describe('the grid on screen', () => {
     const totals = screen.getByRole('row', { name: /Week total/ })
     expect(within(totals).getAllByText('80.0')).toHaveLength(2)
     expect(within(totals).getByText('$1,600.00')).toBeTruthy()
+  })
+
+  it('puts the classification and the J/RA badge inside the worker cell', () => {
+    setup()
+    // Three pieces of data, one 220 px column (spec/03 §4.5, spec/14 §7).
+    const cell = screen.getAllByRole('rowheader')[0]
+    if (!cell) throw new Error('no worker cell')
+    expect(cell.textContent).toBe('Alvarez, TestElectrician – Inside WiremanJ')
+    // The long official label truncates, so the whole of it stays in a title.
+    expect(within(cell).getByTitle('Electrician – Inside Wireman', { exact: true })).toBeTruthy()
   })
 
   it('names every cell for a screen reader', () => {

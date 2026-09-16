@@ -3,6 +3,14 @@
    file (spec/19 §2 and §5), because Tailwind classes do not hit sticky offsets
    and inset shadows reliably. No hex colour: every colour is a token. */
 
+/* The toolbar and the grid measure themselves against the width the grid
+   actually gets, not against the window: at a 1366 px window the sidebar takes
+   240 px and the grid is left with 1126 px, which is already too narrow for the
+   derived columns (spec/03 §4.5, arithmetic in spec/19 §6). */
+.grid-frame {
+  container-type: inline-size;
+}
+
 .grid-scroll {
   overflow: auto;
   max-height: calc(100vh - 13rem);
@@ -80,13 +88,49 @@
   text-align: right;
 }
 
-/* The classification carries a long official label ("Electrician – Teledata
-   Technician"), which would otherwise set the width of the whole column and
-   push the day columns off the screen. It truncates instead. */
-.grid__classification {
-  width: 200px;
-  min-width: 200px;
-  max-width: 200px;
+/* The worker cell carries THREE things and they are not three columns
+   (spec/14 §7, spec/03 §4.5): the name, the classification under it, and a J or
+   RA badge on the right. Three separate columns cost 480 px and the grid then
+   does not fit 1366 px. 16 + 14 + 14 fits the 48 px row. */
+.grid__wcell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.grid__wname {
+  display: block;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* The official label is long ("Electrician – Teledata Technician"), so it
+   truncates and keeps the whole text in a title attribute. */
+.grid__wclass {
+  display: block;
+  overflow: hidden;
+  color: var(--n-600);
+  font-size: var(--fs-2xs);
+  font-weight: 400;
+  line-height: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.grid__wbadge {
+  flex: none;
+  border-radius: var(--radius-sm);
+  background: var(--n-100);
+  padding: 1px 6px;
+  color: var(--n-600);
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  line-height: 16px;
 }
 
 .grid__total {
@@ -97,6 +141,24 @@
 
 .grid__num {
   text-align: right;
+}
+
+/* ST rate, OT rate, Supplement and Gross are READ AFTER the hours are typed,
+   never during (spec/03 §4.5). Under 1200 px of grid they fold behind the
+   "Show rates and gross" switch, which leaves 220 + 7×64 + 3×80 = 908 px, and
+   that fits 1366 px. Opened, they scroll sideways, which is fine: by then the
+   user is reading, not typing. */
+@container (max-width: 1199px) {
+  .grid--compact .grid__derived {
+    display: none;
+  }
+}
+
+/* The switch itself is pointless once every column fits. */
+@container (min-width: 1200px) {
+  .grid-rates-toggle {
+    display: none;
+  }
 }
 
 /* A worker with no hours all week stays in the grid, greyed out (spec/03 §4.5).

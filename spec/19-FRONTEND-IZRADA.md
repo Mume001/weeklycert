@@ -379,6 +379,11 @@ Kodovi **V** i **W** su namjerno u skupu: to su jedina dva slučaja u kojima
 dodatak ulazi u premiju (01 §2.1), i to na dva različita načina, pa bez oba
 nalaz `OT_NY_SUPPLEMENT_PREMIUM` nikad ne bi bio pokriven.
 
+Imena, adrese i sitni detalji koji nisu nabrojani ovdje biraju se **jednom** pri
+pisanju fixtures i od tada su `packages/data/src/mock/fixtures/` izvor istine za
+njih. Ne prepisuju se u ovaj dokument; ovdje stoji samo ono što nosi pravilo
+(broj radnika, stanja sedmica, OT kodovi, nalazi).
+
 **Radnici:** 12 ukupno, isto koliko traži kriterij prihvatanja mreže u 03 §4.5.
 Devet majstora, tri pripravnika (nivoi 2, 3 i 5, procenti 55, 65 i 85). Jedan
 radnik ima **dvije klasifikacije u istoj sedmici** (Laborer i Operating
@@ -566,8 +571,29 @@ lijepljenje i kretanje strelicama.
 `PATCH /api/v1/periods/[id]/entries`. Tri stanja indikatora su iz 15 i ne
 izmišljaju se. Nikad tiho ne pada.
 
+**Panel nalaza po širini.** Na **1600 px i šire** je stalna kolona od 352 px uz
+mrežu, kako 03 §4.5 traži ("uvijek otvoren"). **Ispod 1600 px** je prekrivač koji
+se otvara klikom na brojač nalaza i zatvara se Escapeom, s istim ponašanjem
+modala kao panel navigacije (14 §6).
+
+Prag nije okrugao broj nego rezultat računa. Mreža u režimu unosa je
+220 (radnik) + 7 × 64 (dani) + 3 × 80 (Ukupno, ST, OT) = **908 px**. Uz bočnu
+traku 240 i padding 48, stalni panel od 352 px traži 1548 px prozora. 1600 je
+prva vrijednost iznad toga s malo zraka.
+
+Na 1366 px bez ovoga mreži ostane 726 px, što nije dovoljno ni za sedam dana i
+zbir. S prekrivačem dobija 1078 px, pa 908 stane s viškom.
+
+Panel se **ne smanjuje** ispod 352 px. Nalaz mora stati u tri reda s brojkama i
+dugmetom; uži panel prelama brojeve i gubi smisao.
+
 **Ispod 900 px** mreža prelazi u prikaz po radniku (14 §6). Unos na mobilnom
 nije podržan, samo pregled.
+
+**Provjera širine je dio definicije gotovog.** E2E mjeri ukupnu širinu mreže na
+1366 px sa zatvorenim panelom i pada ako pređe raspoloživu širinu. Mjera kolone
+dana od 64 px se provjerava zasebno, jer se najlakše tiho razvuče
+podvrijednošću `OT 0.0`.
 
 ---
 
@@ -610,8 +636,17 @@ nijedan drugi ekran ne trpi istovremeno uređivanje.
    statična ilustracija mreže; snimci ulaze tek kad mreža radi.
 
 **Tehnički:** sve stranice statične, bez JS-a za čitanje sadržaja. **LCP ispod
-1,5 s na 3G**, kako traže 16 §8 i 12 korak 3b. Fontovi lokalno (`next/font`), ne
-s Google CDN-a. Interaktivni demo iz 16 §4 dolazi tek kad mreža sati radi, i to
+1,5 s na 3G**, kako traže 16 §8 i 12 korak 3b. Fontovi se hostuju lokalno, nikad
+s Google CDN-a, ali na dva različita načina i to nije nedosljednost:
+
+| Gdje | Kako | Zašto |
+|---|---|---|
+| `apps/site` | `next/font/local` | automatski `preload`, `font-display` i stabilan `size-adjust`. Marketing stranica ima cilj LCP 1,5 s na 3G i tu svaka desetinka vrijedi |
+| `apps/web` | `@font-face` u `packages/ui-tokens` | aplikacija je iza prijave, LCP nije prodajni cilj, a token ostaje doslovan kao u 14 §4 |
+
+Ako se ide na `@font-face`, obavezno je `font-display: swap` i ručni
+`<link rel="preload">` za dvije debljine koje se vide bez skrolanja (400 i 600
+Sans). Bez toga se dobije prazan tekst na sporoj vezi. Interaktivni demo iz 16 §4 dolazi tek kad mreža sati radi, i to
 kao ugrađena mreža na mock podacima, ne video.
 
 ---
@@ -658,8 +693,19 @@ zna šta s čim ide:
 | A | 12 korak 1 + 03 §5 stavka 1 | `packages/ui-tokens` (14 §3), `packages/copy` (15), `packages/config`, `dto/*`, `repositories.ts`, mock fixtures iz §4, shadcn init, `AppShell`, `Sidebar`, `TenantSwitcher`, `PageBar`, `RoleSwitcher`, svi obrasci iz §5, `api/health` |
 | B | 12 korak 2 | **Motor.** `packages/core`: obračun, validacija, 15 golden testova, svih 63 koda iz 07 §3. Nijedan ekran. |
 | C, D | 03 §5 stavka 2 | Mreža sati i panel nalaza |
+| **Z** | 12 korak 3b + 03 §5 stavka 13 | `apps/site`, javne stranice |
 | E nadalje | 03 §5 stavke 3 do 12 | jedan ekran po sesiji, veliki ekrani po dva |
-| Z | 12 korak 3b + 03 §5 stavka 13 | `apps/site`, javne stranice |
+
+**Sajt se pomjerio naprijed, odmah iza mreže.** 03 §5 ga stavlja posljednjeg, po
+logici "prvo proizvod, pa izlog". Dva razloga to mijenjaju:
+
+1. Zagrijavanje domene je već počelo i hladan email kreće za sedmicu do dvije.
+   Poruka koja vodi na domenu bez sajta je bačena poruka; kupac prvo proguglja,
+   pa tek onda odgovori. Sajt je preduslov za prodaju, a prodaja je kapija za
+   ostatak izrade.
+2. Tek poslije sesije D postoji stvarna mreža sati, pa hero iz 16 §4 može nositi
+   **pravi snimak ekrana** umjesto ilustracije. Dan ranije to ne bi bilo moguće,
+   dan kasnije nema razloga čekati.
 
 Sesija A završava kad `/app/hudson-electric/dashboard` prikaže prazan okvir s
 ispravnom bočnom trakom, biračem firme i prebacivanjem uloga. Sesija B završava

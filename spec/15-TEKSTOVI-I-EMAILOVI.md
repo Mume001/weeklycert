@@ -186,8 +186,12 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Bez nalaza: `Everything checks out. You can generate the report.`
 
 **Mreža, kolone i ćelija** (redoslijed kolona je iz 03 §4.5, mjere iz 14 §7)
-- Kolone: `Worker` · `Classification` · `J/RA` · sedam dana · `Total` · `ST` ·
-  `OT` · `ST rate` · `OT rate` · `Supplement` · `Gross`
+- Kolone: `Worker` · sedam dana · `Total` · `ST` · `OT` · `ST rate` ·
+  `OT rate` · `Supplement` · `Gross`
+- **Klasifikacija i J/RA nisu zasebne kolone** (03 §4.5). Ćelija radnika nosi
+  ime, klasifikaciju ispod njega i značku `J` ili `RA` desno. Značka je kratica,
+  pa nosi puni naziv u `title` atributu: `J/RA`.
+- Prekidač za izvedene kolone kad mreža nije dovoljno široka: `Show rates and gross`
 - Zaglavlje kolone dana nosi kratki dan i broj u mjesecu: `{WeekEndDay} {D}`
 - Prva ćelija reda zbira: `Week total`
 - Radnik koji cijele sedmice nema sat: `No hours this week`
@@ -195,7 +199,9 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Podvrijednost u ćeliji: `OT`, puni naziv u `abbr`: `Overtime`
 - Status dodatka po redu: `Plan` · `Cash` · `Plan and cash` · `Not set`
 - Uz nalaz u panelu: `Apply this fix` · `I understand, this is intentional`
-- Naslov panela je brojač iznad, a grupe nose iste te brojače.
+- Naslov panela je brojač iznad, a grupe nose iste te brojače. Ispod 1600 px
+  panel je prekrivač koji otvara dugme s tim istim brojačem, a zatvara ga
+  `Close` (19 §6). Dugme ne nosi svoj tekst: brojač je i naziv i sadržaj.
 
 ### Pregled i potpis
 - Naslov: `Review and certify`
@@ -231,7 +237,15 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
   `{n} warning` / `{n} warnings` · `{n} error, this blocks` / `{n} errors, these block`
   (`{n} ready` nema imenicu koja se mijenja, pa nema dva oblika)
 - Puni SSN u fajlu: `This file has a column that looks like full Social Security numbers. We do not store those. We can keep the last four digits and delete the original file after import, or you can remove the column and upload again.`
-- Primjena: `Imported {n} rows for {n} workers, week ending {date}. {n} rows were skipped.`
+- Primjena, naslov: `Import finished` · pod njim `Week ending {date}`
+- Primjena, tri reda ispod naslova, svaki sa svojom jedninom i množinom:
+  `{n} row imported` / `{n} rows imported` ·
+  `{n} worker` / `{n} workers` ·
+  `{n} row skipped` / `{n} rows skipped`
+
+  Jedna rečenica s tri brojača ne može imati ispravnu jedninu i množinu ni na
+  jednom jeziku. Tri kratka reda su i čitljivija: oko skenira brojeve, ne
+  rečenicu.
 
 ### Naplata
 - Trial: `{n} day left in your trial. Your card is on file and will be charged $79 on {date}.` /
