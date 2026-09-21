@@ -70,7 +70,13 @@ Ako Certiwage doda NY, ovo se mijenja. To je rizik i piše u spec/13 C7.
 
 | # | Sekcija | Svrha | Šta mora biti unutra |
 |---|---|---|---|
-| 1 | Ljepljivo zaglavlje | orijentacija i cijena na dohvat | logo, How it works, What you get, Pricing, Questions, Who we are, **telefon ako postoji stvaran, inače `support@weeklycert.com`**, Log in, Start free |
+| 1 | Ljepljivo zaglavlje | orijentacija i cijena na dohvat | logo, How it works, What you get, Pricing, Questions, Who we are, **telefon ako postoji stvaran, inače `support@weeklycert.com`**, Start free |
+
+**"Log in" se ne stavlja dok aplikacija ne postoji.** Jedini posao tog dugmeta je
+da postojećem kupcu pokaže gdje se prijavljuje, a kupaca nema. Dok ih nema, ono
+je ili slijep link na host koji ne odgovara, ili dugme koje otvara email, a ni
+jedno ni drugo ne znači "log in". Vraća se u zaglavlje onog dana kad registracija
+proradi, i tada vodi na `app.weeklycert.com`.
 | 2 | Hero | odgovoriti na "je li ovo za mene" | naslov po formuli dolje, podnaslov s NY + 3 do 30 radnika + 79 $, dva CTA-a, desno **snimak stvarne mreže sati čim mreža postoji**; dok ne postoji, statična ilustracija mreže, nikad snimak izmišljenog proizvoda (03 §4.1) |
 | 3 | Traka brojeva | odmah, prije nego što se skrola | 4 tvrda broja |
 | 4 | Izlazni dokumenti | najveća rupa u kategoriji | WH-347 i XML jedan pored drugog, čitljivi, preuzimanje uzorka **bez emaila** |
