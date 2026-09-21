@@ -387,23 +387,23 @@ export const copy = {
       pricing: 'Pricing',
       questions: 'Questions',
       about: 'Who we are',
-      logIn: 'Log in',
       startFree: 'Start free',
       /** The human option in the header. A phone number goes here when one exists. */
       contact: 'support@weeklycert.com',
     },
     /**
      * 15 §3 block 14. There is no /register and no app.weeklycert.com until the
-     * gate of ten payments (19 §9), so the primary action and "Log in" open an
-     * email instead of a screen that does not exist. `nav.startFree`,
-     * `hero.primary` and `pricing.cta` are the labels that come back the day
-     * sign-up does; nothing renders them in the meantime.
+     * gate of ten payments (19 §9), so the primary action opens an email
+     * instead of a screen that does not exist. "Log in" is not redirected but
+     * removed from the header (16 §4 row 1): a button that opens an email does
+     * not mean log in. `nav.startFree`, `hero.primary` and `pricing.cta` are
+     * the labels that come back the day sign-up does, along with "Log in";
+     * nothing renders them in the meantime.
      */
     signup: {
       button: 'Ask for an account',
       note: 'Sign up is not open yet. Email us and we will set your account up by hand.',
       subject: 'Account request from weeklycert.com',
-      logInSubject: 'Sign in help',
     },
     footer: {
       description:
@@ -415,8 +415,9 @@ export const copy = {
     },
     hero: {
       title: 'Your weekly New York certified payroll, XML and WH-347, done in ten minutes.',
+      // No claim that the two files exist: the generator is step 5 (19 §11).
       subtitle:
-        'Built for New York subcontractors with 3 to 30 workers. Enter hours once. We build the NYSDOL portal file and the federal WH-347, and check the overtime codes and fringe math before anyone signs anything.',
+        'Built for New York subcontractors with 3 to 30 workers. Enter hours once. The overtime codes and the fringe math are checked as you type, and that same entry is what the NYSDOL portal file and the federal WH-347 will be built from.',
       primary: 'Start free for 14 days',
       secondary: 'See what you get',
       micro: [
@@ -438,18 +439,22 @@ export const copy = {
     output: {
       title: 'The two documents this exists to produce',
       lede: 'Every other tool in this category shows you a stock photo of a hard hat. These are the two files a New York week ends in, and what goes in each one.',
+      // The tags say what the portal and the form require, not what we have
+      // already built: the generator is step 5, and neither the XSD nor the
+      // WH-347 field names are in izvori/ yet (13 A1 and A8b). The worker
+      // ceiling that used to be quoted here came from neither.
       xml: {
         title: 'NYSDOL portal file',
-        tag: 'built against the state schema',
-        body: 'One project, one week, up to 500 workers, in the shape the portal expects. If the portal ever rejects a file, paste the error and we tell you which worker and which field caused it.',
+        tag: 'what the portal requires',
+        body: 'One project, one week, in the shape the portal expects. When the portal rejects a file, you will be able to paste the error and we will name the worker and the field it came from.',
       },
       wh347: {
         title: 'Federal WH-347',
-        tag: 'the form itself, not a copy of it',
-        body: 'Filled into the actual government form, so the general contractor recognises it immediately. Page 2 carries the Statement of Compliance. Worker home addresses are never printed.',
+        tag: 'the federal form',
+        body: 'It will be filled into the actual government form rather than a lookalike, with the Statement of Compliance on page two. Worker home addresses are never printed.',
       },
       /** No sample downloads until the generator exists (12 step 3b, 19 §11). */
-      note: 'Both files are generated from the week you type. Sample downloads go up the day the generator does.',
+      note: 'Neither file is generated yet. The generator is the next piece of work, and sample downloads go up the day it does.',
     },
     stakes: {
       eyebrow: 'Why this changed in 2026',
@@ -484,7 +489,7 @@ export const copy = {
         },
         {
           title: 'Sign and file',
-          body: 'Your certifying officer signs electronically, which the Department of Labor accepts. Download the XML for the portal and the WH-347 for the general contractor.',
+          body: 'Your certifying officer signs electronically, which the Department of Labor accepts. When the generator is finished you will download the XML for the portal and the WH-347 for the general contractor.',
         },
       ],
     },
@@ -517,12 +522,12 @@ export const copy = {
         {
           topic: 'The portal file',
           them: 'Typed into the portal, worker by worker',
-          us: 'One file, built against the state schema',
+          us: 'One file for the whole week',
         },
         {
           topic: 'A rejected upload',
           them: 'A line number and a cryptic message',
-          us: 'Paste it in, we name the worker and the field',
+          us: 'Paste it in and we will name the worker and the field',
         },
         {
           topic: 'Six-year records',
@@ -588,7 +593,7 @@ export const copy = {
       items: [
         {
           q: 'Do you file with NYSDOL for me, or do I still upload it?',
-          a: 'You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we do is produce a file the portal accepts on the first try, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete.',
+          a: 'You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we will do is produce the file for you, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete.',
         },
         {
           q: 'Do I have to change payroll providers?',
@@ -608,7 +613,10 @@ export const copy = {
         },
         {
           q: 'Who are you?',
-          a: 'One person, named, in the section below. Not a call centre and not a venture-funded team of forty. That is the honest trade: you get the person who wrote the software answering your email, and you do not get cover around the clock.',
+          // Pointed at a section that named a person, and no longer does
+          // (16 §4 row 13). It says what the company is, without a name, a
+          // location, or a team size nobody can check.
+          a: 'WeeklyCert builds certified payroll software for New York public work, and nothing else. Your email is answered by someone who works on the product itself, not by a call centre. What you do not get in exchange is cover around the clock.',
         },
         {
           q: 'What happens to my records if I cancel?',
@@ -620,12 +628,13 @@ export const copy = {
         },
       ],
     },
+    // 16 §4 row 13: the section is about the company, not about a person. No
+    // name, no face, no initials, and no location of the owner. The size of the
+    // team, an office and an address are not invented to fill the gap.
     about: {
       eyebrow: 'Who we are',
-      title: 'One person, and an inbox that answers',
-      name: 'Mume Hodzic',
-      role: 'founder',
-      body: "I build and run WeeklyCert on my own. I read every support email and I answer during New York business hours. I am not in New York: I work from Bosnia, and I say so here because you would find out anyway and because your general contractor's risk team will ask. Your data stays in United States data centres, and I am the one person who can reach it, under the security program described above.",
+      title: 'One state, one product',
+      body: 'WeeklyCert builds certified payroll software for New York public work, and nothing else. Every support email is read and answered by someone who works on the product itself, not a call centre. Your data stays in United States data centres, under the security program described above.',
       facts: [
         { term: 'Support hours', value: '9 to 16 Eastern, Monday to Friday' },
         { term: 'Anything blocking a filing', value: 'answered within 2 business hours' },

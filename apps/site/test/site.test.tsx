@@ -76,6 +76,16 @@ describe('spec/19 §8: what has to be out before it is published', () => {
     expect(offenders(/\b(Casper|Wyoming)\b/)).toEqual([])
   })
 
+  it('names nobody and locates nobody (16 §4 row 13)', () => {
+    // The section is about the company. The owner's name, initials, role and
+    // where he sits were all on the page, and all of them are out: a visitor
+    // buying compliance software is asking what the company does and who
+    // answers the email, not who the person is.
+    expect(visible(/\b(Mume|Hodzic|Hodžić|Bosnia|Bosna|founder)\b/i)).toEqual([])
+    // Nothing invented to fill the space they left, either (16 §6).
+    expect(visible(/\b(we are a team of|our .* office|headquarter)/i)).toEqual([])
+  })
+
   it('claims no customers, no reviews and no logos', () => {
     // 16 §4 row 11 keeps that section empty until real customers agree to be
     // quoted, so nothing on the page may stand in for them.

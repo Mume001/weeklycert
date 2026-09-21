@@ -9,10 +9,12 @@ import { SECTION, supportMailto } from './links'
  * Section links are absolute (`/#how`), so they work from /pricing and
  * /security as well as from the home page.
  *
- * "Log in" and the primary action both open an email: the application lives at
- * app.weeklycert.com, which is built after the gate of ten payments (19 §9), so
- * until then both of them would point at a host that does not answer
- * (15 §3 block 14).
+ * There is no "Log in" in the header, and that is 16 §4 row 1: the only job of
+ * that button is to show an existing customer where to sign in, and the
+ * application it would point at is built after the gate of ten payments
+ * (19 §9). A blind link to a host that does not answer and a button that opens
+ * an email are both worse than no button. It comes back the day registration
+ * works. The primary action opens an email in the meantime (15 §3 block 14).
  */
 export function SiteNav() {
   const c = copy.site.nav
@@ -51,12 +53,6 @@ export function SiteNav() {
             href={`mailto:${c.contact}`}
           >
             {c.contact}
-          </a>
-          <a
-            className="hidden h-[30px] items-center rounded-md px-3 font-semibold text-n-800 text-sm no-underline hover:bg-n-50 sm:inline-flex"
-            href={supportMailto(copy.site.signup.logInSubject)}
-          >
-            {c.logIn}
           </a>
           <a
             className="inline-flex h-[30px] items-center rounded-md bg-brand px-3 font-semibold text-sm text-white no-underline hover:bg-brand-hover"

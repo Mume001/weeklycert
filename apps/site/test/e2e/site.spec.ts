@@ -99,6 +99,15 @@ test('the one primary action opens an email, because sign up does not exist yet'
   await expect(page.getByText('Sign up is not open yet').first()).toBeVisible()
 })
 
+test('the header carries no Log in until there is something to log in to', async ({ page }) => {
+  // 16 §4 row 1: the button comes back the day registration works, pointing at
+  // app.weeklycert.com. Until then it is neither a blind link nor an email.
+  for (const route of ROUTES) {
+    await page.goto(route.path)
+    await expect(page.getByRole('link', { name: /log in/i })).toHaveCount(0)
+  }
+})
+
 test('no link anywhere on the site leads to a page that does not exist', async ({
   page,
   request,

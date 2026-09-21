@@ -285,7 +285,8 @@ dokument s izmišljenim radnicima.
 **Zaglavlje i podnožje**
 - Ime: `WeeklyCert`
 - Linkovi: `How it works` · `What you get` · `Pricing` · `Questions` · `Who we are`
-- Desno: `Log in` · `Start free`
+- Desno: `Start free`. **`Log in` se ne stavlja u zaglavlje dok aplikacija ne
+  postoji** (16 §4 red 1); vraća se kad registracija proradi.
 - Ljudski kontakt u zaglavlju, umjesto telefona: `support@weeklycert.com`
 - Podnožje, opis: `Certified payroll for New York subcontractors. NYSDOL portal XML and federal WH-347 from one weekly entry.`
 - Podnožje, grupe: `Product` · `New York guides` · `Company`
@@ -294,7 +295,8 @@ dokument s izmišljenim radnicima.
 
 **1 Hero**
 - Naslov: `Your weekly New York certified payroll, XML and WH-347, done in ten minutes.`
-- Podnaslov: `Built for New York subcontractors with 3 to 30 workers. Enter hours once. We build the NYSDOL portal file and the federal WH-347, and check the overtime codes and fringe math before anyone signs anything.`
+- Podnaslov (ne tvrdi da izlazi već postoje; generator je korak 5):
+  `Built for New York subcontractors with 3 to 30 workers. Enter hours once. The overtime codes and the fringe math are checked as you type, and that same entry is what the NYSDOL portal file and the federal WH-347 will be built from.`
 - Dugmad: `Start free for 14 days` · `See what you get`
 - Tri mikro-tvrdnje: `$79 a month, cancel anytime` · `We do the setup for you` ·
   `New York only, on purpose`
@@ -310,11 +312,16 @@ dokument s izmišljenim radnicima.
 **3 Šta dobijete** (16 §4 red 4)
 - Naslov: `The two documents this exists to produce`
 - Uvod: `Every other tool in this category shows you a stock photo of a hard hat. These are the two files a New York week ends in, and what goes in each one.`
-- XML kartica: `NYSDOL portal file` · `built against the state schema`
-- XML opis: `One project, one week, up to 500 workers, in the shape the portal expects. If the portal ever rejects a file, paste the error and we tell you which worker and which field caused it.`
-- WH-347 kartica: `Federal WH-347` · `the form itself, not a copy of it`
-- WH-347 opis: `Filled into the actual government form, so the general contractor recognises it immediately. Page 2 carries the Statement of Compliance. Worker home addresses are never printed.`
-- Napomena dok generator ne postoji (korak 5): `Both files are generated from the week you type. Sample downloads go up the day the generator does.`
+Nijedan izlaz još ne postoji: generator je korak 5, a XSD i imena polja u
+WH-347 obrascu nisu u `izvori/` (13 A1 i A8b). Zato oznake kartica opisuju **šta
+obrazac i portal traže**, a ne šta mi već pravimo, i nijedan broj iz šeme se ne
+navodi dok se ne pročita iz XSD-a.
+
+- XML kartica: `NYSDOL portal file` · `what the portal requires`
+- XML opis: `One project, one week, in the shape the portal expects. When the portal rejects a file, you will be able to paste the error and we will name the worker and the field it came from.`
+- WH-347 kartica: `Federal WH-347` · `the federal form`
+- WH-347 opis: `It will be filled into the actual government form rather than a lookalike, with the Statement of Compliance on page two. Worker home addresses are never printed.`
+- Napomena dok generator ne postoji (korak 5): `Neither file is generated yet. The generator is the next piece of work, and sample downloads go up the day it does.`
 
 **4 Ulog** (16 §4 red 5)
 - Nadnaslov: `Why this changed in 2026`
@@ -337,7 +344,7 @@ dokument s izmišljenim radnicima.
 - Uvod: `The first week we set up with you. After that it is the same three steps, and most of it is already filled in from last week.`
 - Korak 1: `Put in the hours` / `Type them into a grid that works like a spreadsheet, or import the export from QuickBooks Time, Gusto, ADP, Paychex or your own file. Last week's crew is already there.`
 - Korak 2: `We check the math` / `Overtime by the OT code on your wage schedule, not a guess. Fringe credit against what the determination requires. Apprentice ratios and registration. Deduction totals that have to add up to net pay.`
-- Korak 3: `Sign and file` / `Your certifying officer signs electronically, which the Department of Labor accepts. Download the XML for the portal and the WH-347 for the general contractor.`
+- Korak 3: `Sign and file` / `Your certifying officer signs electronically, which the Department of Labor accepts. When the generator is finished you will download the XML for the portal and the WH-347 for the general contractor.`
 
 **6 Stari i novi način** (16 §4 red 8, sedam redova)
 - Nadnaslov: `The difference`
@@ -347,8 +354,8 @@ dokument s izmišljenim radnicima.
 - `Overtime` / `You remember the rule, or you do not` / `Read from the OT codes on your PRC schedule`
 - `Fringe benefits` / `Annualised by hand, if at all` / `Checked against the determination, shortfall shown per hour`
 - `Apprentices` / `Nobody checks the ratio until an audit does` / `Flagged the moment the ratio breaks`
-- `The portal file` / `Typed into the portal, worker by worker` / `One file, built against the state schema`
-- `A rejected upload` / `A line number and a cryptic message` / `Paste it in, we name the worker and the field`
+- `The portal file` / `Typed into the portal, worker by worker` / `One file for the whole week`
+- `A rejected upload` / `A line number and a cryptic message` / `Paste it in and we will name the worker and the field`
 - `Six-year records` / `A folder somewhere` / `Every version kept, with the exact input it came from`
 
 **7 Cijena** (16 §4 red 9)
@@ -391,7 +398,7 @@ renderuje ništa.
 - Nadnaslov: `Questions people actually ask`
 - Naslov: `Before you sign up`
 1. `Do you file with NYSDOL for me, or do I still upload it?` /
-   `You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we do is produce a file the portal accepts on the first try, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete.`
+   `You upload it. The state portal has no API, which the Department of Labor states plainly in its own bulk upload guide, so no software can file for you. What we will do is produce the file for you, tell you exactly what to type into the portal by hand, and record the confirmation number so your history is complete.`
 2. `Do I have to change payroll providers?` /
    `No. Keep Gusto, ADP, Paychex, QuickBooks or your accountant. We only need hours and the pay figures, and we import them from the exports those systems already produce.`
 3. `What about weeks when nobody worked?` /
@@ -401,17 +408,21 @@ renderuje ništa.
 5. `How long is setup, really?` /
    `Seven business days from the day you pay, and most of that is waiting on your spreadsheet. Our part is a kickoff call, building your data, and a handover where we file your first week together. If we miss ten business days, the setup fee comes back.`
 6. `Who are you?` /
-   `One person, named, in the section below. Not a call centre and not a venture-funded team of forty. That is the honest trade: you get the person who wrote the software answering your email, and you do not get cover around the clock.`
+   `WeeklyCert builds certified payroll software for New York public work, and nothing else. Your email is answered by someone who works on the product itself, not by a call centre. What you do not get in exchange is cover around the clock.`
 7. `What happens to my records if I cancel?` /
    `New York requires you to keep certified payroll records for six years. You get read-only access and a full export for 30 days after cancelling, and three reminders before that window closes. Export is one button, any time, whether you are a customer or not.`
 8. `What if the math is wrong?` /
    `You sign the certification, not us, and the classification you pick is your determination. What we guarantee is the arithmetic and the file format. Every calculation rule we apply is written down, cites the regulation it comes from, and is tested against worked examples we publish.`
 
-**11 Ko smo mi** (16 §4 red 13, bez telefona i bez adrese)
+**11 Ko smo mi** (16 §4 red 13: o firmi, ne o osobi)
+
+Bez imena, lica, inicijala i lokacije vlasnika. Sekcija govori šta firma radi,
+za koga, ko odgovara na email i gdje su podaci. Ne navodi se veličina tima,
+kancelarija ni adresa, jer nijedno nije istina koja se može provjeriti.
+
 - Nadnaslov: `Who we are`
-- Naslov: `One person, and an inbox that answers`
-- Ime i uloga: `Mume Hodzic` / `founder`
-- Tekst: `I build and run WeeklyCert on my own. I read every support email and I answer during New York business hours. I am not in New York: I work from Bosnia, and I say so here because you would find out anyway and because your general contractor's risk team will ask. Your data stays in United States data centres, and I am the one person who can reach it, under the security program described above.`
+- Naslov: `One state, one product`
+- Tekst: `WeeklyCert builds certified payroll software for New York public work, and nothing else. Every support email is read and answered by someone who works on the product itself, not a call centre. Your data stays in United States data centres, under the security program described above.`
 - Tri činjenice: `Support hours` / `9 to 16 Eastern, Monday to Friday` ·
   `Anything blocking a filing` / `answered within 2 business hours` ·
   `Email` / `support@weeklycert.com`
@@ -436,17 +447,18 @@ Ispod nje kontakt: `support@weeklycert.com`
 Registracija (`/register`) i aplikacija (`app.weeklycert.com`) nastaju tek
 poslije kapije od 10 uplata (19 §9, 12). Do tada nijedno dugme ne smije voditi na
 ekran koji ne postoji, jer je slijepi link na sajtu koji prodaje usklađenost
-gori od poštene rečenice. Primarna radnja i `Log in` zato vode na
+gori od poštene rečenice. Primarna radnja zato vodi na
 `mailto:support@weeklycert.com`, s predmetom koji kaže o čemu se radi.
+`Log in` se u istoj situaciji ne preusmjerava nego **uklanja** iz zaglavlja
+(16 §4 red 1): dugme koje otvara email ne znači "log in".
 
 - Dugme, umjesto `Start free` i `Start free for 14 days`: `Ask for an account`
 - Napomena ispod dugmeta: `Sign up is not open yet. Email us and we will set your account up by hand.`
 - Predmet tog emaila: `Account request from weeklycert.com`
-- Predmet emaila iza `Log in`: `Sign in help`
 
 Kad registracija proradi, vraćaju se `Start free` i `Start free for 14 days` iz
-odjeljaka 1 i 7 gore, a ova četiri stringa se brišu. Oni su privremeni i to je
-jedini razlog zbog kojeg postoje.
+odjeljaka 1 i 7 gore i `Log in` u zaglavlje, a ova tri stringa se brišu. Oni su
+privremeni i to je jedini razlog zbog kojeg postoje.
 
 **Nijedan telefonski broj se ne pojavljuje u tekstu dok ne postoji stvaran broj
 koji neko javlja.** Izmišljen broj u poruci o grešci je gori od nikakvog, jer
@@ -575,7 +587,6 @@ NYSDOL assesses $100 per day once records are more than 14 days late.
 No work on this project last week? Mark it here and we will stop asking:
 https://app.weeklycert.com/...
 
-Mume
 WeeklyCert
 support@weeklycert.com
 Support 9:00 to 16:00 Eastern, Monday to Friday
@@ -588,8 +599,9 @@ Zašto ovako:
 - **Jedan glavni link**, direktno na blokirani ekran.
 - Posljedica **jednom**, kao činjenica s izvorom. Bez podebljanog crvenog teksta.
 - Izlaz za slučaj da nije bilo rada.
-- Ime čovjeka, kontakt i radno vrijeme u istočnoj zoni. Telefon se dodaje tek kad
-  postoji stvaran broj koji neko javlja; do tada email.
+- Potpis firme, kontakt i radno vrijeme u istočnoj zoni, **bez imena osobe**
+  (16 §4 red 13). Telefon se dodaje tek kad postoji stvaran broj koji neko
+  javlja; do tada email.
 - Eskalacija ide **kroz preciznost, ne kroz količinu.** T-10 je informativan,
   T-2 imenuje prepreke, T-0 nudi da to riješimo zajedno danas. Isti email četiri
   puta uči ljude da nas filtriraju.

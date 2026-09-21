@@ -88,7 +88,7 @@ proradi, i tada vodi na `app.weeklycert.com`.
 | 10 | Sigurnost podataka | prigovor koji dolazi od GC-a | šta čuvamo i šta odbijamo čuvati, običnim riječima |
 | 11 | Izjave i značke | društveni dokaz | **prazno dok ne bude stvarnih.** Nikad izmišljeno |
 | 12 | FAQ | prigovori | 8 pitanja iz liste dolje |
-| 13 | Ko smo mi | povjerenje | ime, lice, radno vrijeme, i iskreno gdje sjedim. Telefon i adresa **samo ako su stvarni**; izmišljena adresa na sajtu koji prodaje uslugu usklađenosti je pravni problem |
+| 13 | Ko smo mi | povjerenje | o firmi, ne o osobi: šta radi, za koga, ko odgovara na email, gdje su podaci, radno vrijeme. Bez imena, lica i lokacije vlasnika. |
 | 14 | Zadnji CTA | | isti tekst kao u herou |
 | 15 | Podnožje | SEO i pravno | NY vodiči, uslovi, privatnost, kontakt email; adresa i telefon samo ako su stvarni |
 

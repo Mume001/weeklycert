@@ -50,7 +50,10 @@ export function Hero() {
           </ul>
         </div>
 
-        <div className="overflow-hidden rounded-lg border border-n-300 bg-white shadow-panel">
+        {/* The card frames the screenshot with the same gap on all four sides,
+            and centres it in its column: the grid inside the picture already
+            starts at its own edge, so a flush card reads as a cut-off table. */}
+        <div className="mx-auto w-full rounded-lg border border-n-300 bg-white p-3 shadow-panel">
           {/* biome-ignore lint/performance/noImgElement: next/image optimises nothing under output: 'export' without a custom loader (19 §2 and §9), so <Image> would ship the same bytes plus a client component. The size is fixed above and the fetch priority is set by hand. */}
           <img
             src="/hero-grid.png"
