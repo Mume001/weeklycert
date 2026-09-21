@@ -22,6 +22,15 @@
 }
 
 .grid {
+  /* `grid` is also a Tailwind utility. This file is unlayered and beats the
+     Tailwind layers, but it never declared `display`, so `.grid{display:grid}`
+     won: thead, tbody and tfoot each became a grid item and laid its own rows
+     out as a separate anonymous table. The header then sized its columns from
+     its own 80 px cells and the body sized them from the figures, which is why
+     ST and OT stood to the right of the numbers they name, and why the table
+     stopped short of its own right edge and left a band of white inside the
+     card. One table, one set of columns, only if the display is declared here. */
+  display: table;
   border-collapse: separate;
   border-spacing: 0;
   width: max-content;
@@ -66,11 +75,18 @@
 
 /* No zebra stripes: they fight hover and disabled states (spec/14 §7). */
 
+/* 220 px is the floor, and the 100% is what keeps the measured columns honest
+   (spec/14 §7): the table is at least as wide as the grid it sits in, and a
+   table hands spare width to every column at once, which turned the 64 px day
+   into 73 px on a wide screen. A column asking for 100% takes the slack by
+   itself, so the days stay 64 and the totals stay 80. This is the right column
+   to give it to: it is the only one holding text rather than figures, and a
+   name that fits is worth more than white space on the right. */
 .grid__worker {
   position: sticky;
   left: 0;
   z-index: 2;
-  width: 220px;
+  width: 100%;
   min-width: 220px;
   background: var(--surface);
 }

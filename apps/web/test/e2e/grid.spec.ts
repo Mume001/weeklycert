@@ -310,6 +310,52 @@ test('the findings panel refreshes under 300 ms after an entry (spec/03 §4.5)',
   await expect(page.getByText(/^Saved /)).toBeVisible()
 })
 
+test('every header sits over its own column, and the table fills its width', async ({ page }) => {
+  // The picture in the marketing hero is this screen, so a column that drifts
+  // away from its heading is on the front page too (16 §4 row 2). It drifted
+  // for a plain reason: `grid` is a Tailwind utility as well as our class, and
+  // the table was rendering as a CSS grid, with the header and the body sizing
+  // their columns separately.
+  await page.setViewportSize({ width: 1180, height: 1220 })
+  await page.goto(REVIEW_WEEK)
+  await page.locator('#cell-0-1').waitFor()
+
+  const columns = await page.locator('table.grid').evaluate((table) => {
+    const shown = (nodes: Element[]) =>
+      nodes.filter((node) => getComputedStyle(node).display !== 'none')
+    const box = (node: Element) => {
+      const rect = node.getBoundingClientRect()
+      return [Math.round(rect.left), Math.round(rect.right)]
+    }
+    const head = shown([...table.querySelectorAll('thead th')])
+    const body = shown([...table.querySelectorAll('tbody tr:first-child > *')])
+    const foot = shown([...table.querySelectorAll('tfoot tr > *')])
+    return head.map((cell, index) => ({
+      label: cell.textContent?.trim() ?? '',
+      head: box(cell),
+      body: body[index] ? box(body[index] as Element) : null,
+      foot: foot[index] ? box(foot[index] as Element) : null,
+    }))
+  })
+
+  // Worker, seven days, Total, ST and OT with the derived columns folded away.
+  expect(columns).toHaveLength(11)
+  for (const column of columns) {
+    expect(column.body, `${column.label} body`).toEqual(column.head)
+    expect(column.foot, `${column.label} totals`).toEqual(column.head)
+  }
+
+  // And no band of empty table to the right of the last column.
+  const edges = await page.locator('table.grid').evaluate((table) => {
+    const row = table.querySelector('tbody tr:first-child')
+    return {
+      row: Math.round((row as Element).getBoundingClientRect().right),
+      table: Math.round(table.getBoundingClientRect().right),
+    }
+  })
+  expect(edges.row).toBe(edges.table)
+})
+
 test('the two weights above the fold are preloaded (spec/19 §8)', async ({ page, request }) => {
   await page.goto(OPEN_WEEK)
 
