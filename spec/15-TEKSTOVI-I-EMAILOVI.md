@@ -167,6 +167,126 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Prazno: `No projects yet. A project is one public job with its own PRC number.`
   Dugme `Add your first project`.
 
+### Projekti
+
+Ekrani iz 03 §4.4. Lista filtrirana na otvorene sedmice (`?open=1`) ima svoje
+tekstove gore, u okviru aplikacije. Rokovi u koloni i na kartici koriste
+statuse s kontrolne table (`{n} days left`, `{n} days late`, `due today`).
+Statusi sedmica su značke iz okvira.
+
+**Lista** (`/projects`)
+- Naslov je stavka navigacije `Projects` · meta `{n} active project` / `{n} active projects`
+- Glavna akcija: `Add a project`
+- Filter (ime grupe za čitač ekrana `Show projects`): `Active` · `Paused` · `Closed`
+- Kolone: `Project` (naručilac ispod naziva, kao klasifikacija ispod radnika u
+  mreži) · `PRC` · `Our role` · `Next deadline` · `Week in progress` ·
+  `Open findings` · `Actions` (samo za čitač ekrana)
+- Naša uloga (`our_role`): `General contractor` · `Subcontractor` · `Second-tier subcontractor`
+- Akcija u redu: `Enter hours`
+- Bez roka (projekat zatvoren): `No filing due`
+- Bez ijedne sedmice (počinje kasnije): `No weeks yet`
+- Bez PRC broja: `Not set`
+- Sedmica bez ijednog sata: `No entries`
+- Nazad s `?open=1`: `Show all projects`
+- Prazan filter: naslov `No projects with this status`, tekst
+  `Paused and closed projects are listed under their own tab.`, dugme `Show active projects`
+- Prazna lista uopšte: tekst i dugme iz kontrolne table (`No projects yet`...).
+
+**Status projekta** (`project_status`, riječi iz 03 §4.4)
+`Draft` · `Active` · `Paused` · `Completed` · `Archived`
+
+**Vremenska linija** (`/projects/[id]`)
+- Naslov je naziv projekta · meta `PRC {prc}`
+- Kartice: `PRC` · `Wage determination` · `Awarding body` · `General contractor` ·
+  `Classifications` · `Next deadline`
+- Vrijednosti kartica: `{number}, modification {mod}` · bez federalnog finansiranja
+  `None. State funding only.` · kad je kupac glavni izvođač `None. You are the general contractor.` ·
+  `{n} classification` / `{n} classifications`
+- Glavna akcija: `Open current week` · ostale: `Edit classifications` · `Edit project`
+- Sekcija: `Every week since the project started` / podnaslov `Payroll numbers must run without gaps.`
+- Kolone: `Payroll no.` · `Week ending` · `Status` · `Workers` · `Hours` ·
+  `Gross on project` · `Findings` · `Version` · `Actions` (samo za čitač ekrana)
+- Redni broj prije potpisa: `will be #{n}`. Broj je redoslijed, ne brojanje, pa
+  nema dva oblika: sedmice se potpisuju redom, pa druga nepotpisana sedmica piše
+  sljedeći broj.
+- Verzija: `v{n}` (oznaka, ne brojanje)
+- Sedmica bez ijednog unosa: `No entries` · označena bez rada: `No work`
+- Akcije u redu: datum sedmice je link koji je otvara (za čitač ekrana
+  `Open week ending {date}`) · `Mark no-work week` · `Download`
+- Ploča sedmica iznad tabele, ime za čitač ekrana po pločici: `Week ending {date}, {status}`
+- Prazno (projekat još nema završenu sedmicu): naslov `No weeks yet`, tekst
+  `The first week ends on {date}. It shows up here once that week is over.`, dugme `Edit project`
+
+**Forma projekta** (`/projects/new` i `/projects/[id]/settings`, ista forma kao korak 2 onboardinga)
+- Naslovi: `New project` · `Project settings`
+- Dugmad: `Create project` · `Save changes` · `Cancel`
+- Poslije snimanja: `Changes saved.`
+- Polja i pomoćni tekst ispod polja:
+  - `Project name` / `Your own name for the job.`
+  - `PRC number` / `From the wage schedule the awarding body gave you.`
+  - `Awarding body` / `The public agency that owns the job.`
+  - `Our role on this job`
+  - `General contractor` / `Leave empty if you are the general contractor.`
+  - `Contract number` / `The number on your contract with the awarding body.`
+  - `County` / `The county decides which wage schedule applies.`
+  - `Start date` / `The first week of the project is the week this date falls in.`
+  - `This project is also federally funded` / `Federal projects also need the WH-347, and overtime starts after 40 hours a week.`
+  - `Wage determination number` / `As printed on the federal wage determination.`
+  - `Modification`
+  - `Expected end date`
+  - `Site address` / `Where the work is done. The WH-347 prints it as the project location.`
+  - `Work pauses` / `Weeks you already know will have no work.` · polja `From` · `To` ·
+    `Reason` · dugmad `Add a pause` · `Remove this pause`
+  - `Years to keep records` / `Counted from the day the project closes. We keep at least six.`
+  - `Status`
+  - `Weeks end on` / `Set for the whole company. It cannot change once a project has its first week, because payroll numbers and filed weeks are counted from it.`
+- Greške ispod polja:
+  - `Enter a name for the project.`
+  - `Enter the PRC number.`
+  - `A PRC number has ten digits.`
+  - `Another project already uses this PRC number with the same contract number: {Project}. Give this one its own contract number, or open that project.`
+  - `Enter the start date.`
+  - `Enter the wage determination number.`
+  - `Enter the modification as a whole number.`
+  - `The expected end date is before the start date.`
+  - `This pause ends before it starts.`
+  - `We keep records for at least six years.`
+- Zbir iznad forme: `{n} field needs attention.` / `{n} fields need attention.`
+
+**Zatvoren projekat** (stanje zaključano za ekrane jednog projekta, 19 §7)
+- `This project is closed. You can read everything, but nothing can be changed.`
+- Dugme: `Change the status`
+
+**Klasifikacije** (`/projects/[id]/classifications`)
+- Naslov: `Classifications and rates` · podnaslov `Names come from the official NY list.`
+- Kolone: `Classification` · `Base rate` · `Supplement` · `Effective from` ·
+  `Effective to` · `OT codes` · `Apprentice ratio` · `Actions` (samo za čitač ekrana).
+  Vlastiti naziv i izvor (`Source`) stoje ispod zvaničnog naziva, spojeni tačkom u sredini.
+- Bez kraja važenja: `No end date` · bez omjera: `Not set`
+- Izvor: `Entered by hand` · `Pasted from the schedule` · `From the wage schedule`
+- Upozorenje, naslov: `A rate is missing for the current week` /
+  tekst po klasifikaciji: `{Classification} has no rate for the week ending {date}. Add a new rate version.`
+- Akcije: `Add a classification` · `Edit` · `Add a new rate version`
+- Forma dodavanja, polja: `Classification` (prazan izbor `Pick from the official NY list`) ·
+  `Your label` / `What your crew calls it. The file uses the official name.` ·
+  `Base rate` · `Supplement` · `OT codes` / `From the OVERTIME PAGE of the wage schedule, separated by commas.` ·
+  `Effective from` · `Apprentice ratio` / `Apprentices per journeyworker, as the program allows.`
+- Dugmad: `Add classification` · `Add rate version` · `Save changes` · `Cancel`
+- Nova verzija, naslov: `New rate version for {Classification}` / tekst
+  `The current rate stays on every week before this date. Weeks from this date on use the new rate.`
+- Stopa koju koristi potpisana sedmica: `A signed week uses this rate, so it cannot change. Add a new rate version instead.`
+- Greške:
+  - `Pick a classification.`
+  - `This classification is already on the project. Add a new rate version instead.`
+  - `Enter the rate in dollars and cents.`
+  - `Enter at least one OT code.`
+  - `{code} is not an NY overtime code.`
+  - `Enter the date the rate starts.`
+  - `The new version has to start after {date}, when the current one starts.`
+- Prazno: naslov `No classifications yet`, tekst
+  `Add the classifications that work on this project, with the rates from its wage schedule.`,
+  dugme `Add a classification`
+
 ### Mreža sati
 - Naslov: `Hours` · meta `{WeekEndDay} {date} · payroll no. will be #{n} on signature`
 - Dugmad: `Copy last week` · `Import CSV` · `Mark no-work week` ·

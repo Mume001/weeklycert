@@ -3,7 +3,14 @@
 // The engine is real (spec/19 §1 point 4): this file only shapes the fixtures
 // into the input `computeWeek()` expects, and shapes its output into the DTO
 // the screen reads. Nothing here decides a rate, an hour or a finding.
-import { computeWeek, type WeekInput, type WeekResult, weekDates } from '@wc/core'
+import {
+  addDays,
+  computeWeek,
+  timelineWeekEndings,
+  type WeekInput,
+  type WeekResult,
+  weekDates,
+} from '@wc/core'
 import type { GridRow, IsoDate, Uuid, WeekGridDTO } from '../dto/index.ts'
 import { displayStatusOf, gridRowFromLine, lockedReasonOf } from '../dto/week-grid.ts'
 import { mockToday } from './clock.ts'
@@ -36,6 +43,44 @@ function period(projectId: Uuid, weekEnding: IsoDate) {
   // row for that week ending is the one the grid opens (spec/04 §7.1).
   const rows = db.periods.filter((p) => p.projectId === projectId && p.weekEnding === weekEnding)
   return rows.find((p) => p.correctsPeriodId !== null) ?? rows[0]
+}
+
+/**
+ * The period of a week, created `open` when the week has none yet. In step 4 a
+ * job does this every Sunday for every active project (spec/04 §7 step 1, the
+ * first row of §7.1); the mock does it when the week is first opened. Only a
+ * week between the project's first week and the week in progress has one.
+ */
+export function ensurePeriod(projectId: Uuid, weekEnding: IsoDate) {
+  const existing = period(projectId, weekEnding)
+  if (existing) return existing
+  const project = db.projects.find((p) => p.id === projectId)
+  const tenant = project && db.tenants.find((t) => t.id === project.tenantId)
+  if (!project || !tenant) throw new Error(`Unknown project ${projectId}`)
+  // The week in progress has its period too: the job makes it on the Sunday it
+  // starts. Moving "today" one week on makes the timeline end on that week.
+  const onTimeline = timelineWeekEndings({
+    startDate: project.startDate,
+    endDate: project.actualEndDate,
+    weekEndsOn: tenant.settings.weekEndingDow,
+    today: addDays(mockToday(), 7),
+  }).includes(weekEnding)
+  if (!onTimeline) throw new Error(`No period for ${projectId} week ending ${weekEnding}`)
+  const row = {
+    id: `01928000-0000-7000-9000-${String(db.periods.length + 1).padStart(12, '0')}`,
+    tenantId: project.tenantId,
+    projectId,
+    weekEnding,
+    status: 'open' as const,
+    isNoWork: false,
+    isFinal: false,
+    payrollNumber: null,
+    correctsPeriodId: null,
+    lockedAt: null,
+    summary: null,
+  }
+  db.periods.push(row)
+  return row
 }
 
 function classificationOf(projectClassificationId: Uuid) {
@@ -87,8 +132,7 @@ export function buildWeekInput(projectId: Uuid, weekEnding: IsoDate): WeekInput 
   if (!project) throw new Error(`Unknown project ${projectId}`)
   const tenant = db.tenants.find((t) => t.id === project.tenantId)
   if (!tenant) throw new Error(`Unknown tenant ${project.tenantId}`)
-  const row = period(projectId, weekEnding)
-  if (!row) throw new Error(`No period for ${projectId} week ending ${weekEnding}`)
+  const row = ensurePeriod(projectId, weekEnding)
 
   const dates = weekDates(weekEnding)
   const entries = rowsOf(row.id).flatMap((line) =>

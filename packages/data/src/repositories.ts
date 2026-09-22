@@ -6,6 +6,9 @@ import type {
   AdminHealthDTO,
   ArchiveFilter,
   ArchiveRowDTO,
+  ClassificationEditInput,
+  ClassificationInput,
+  ClassificationSaveResult,
   DashboardDTO,
   Finding,
   FringePlanDTO,
@@ -14,9 +17,14 @@ import type {
   ImportPreviewDTO,
   IsoDate,
   OpenWeeksDTO,
+  ProjectClassificationsDTO,
+  ProjectFormDTO,
+  ProjectInput,
   ProjectListFilter,
   ProjectRowDTO,
+  ProjectSaveResult,
   ProjectTimelineDTO,
+  RateVersionInput,
   ReviewDTO,
   TenantBrief,
   TenantDTO,
@@ -41,7 +49,30 @@ export interface Repositories {
   dashboard: { get(tenantId: Uuid): Promise<DashboardDTO> }
   projects: {
     list(tenantId: Uuid, filter?: ProjectListFilter): Promise<ProjectRowDTO[]>
-    timeline(tenantId: Uuid, projectId: Uuid): Promise<ProjectTimelineDTO>
+    /** Null when the project does not exist in this company (the page answers 404). */
+    timeline(tenantId: Uuid, projectId: Uuid): Promise<ProjectTimelineDTO | null>
+    /** The form's starting values; `projectId` null is a new project. */
+    form(tenantId: Uuid, projectId: Uuid | null): Promise<ProjectFormDTO | null>
+    /** `input` has passed ProjectInputSchema; this adds the checks that need data (unique PRC). */
+    create(tenantId: Uuid, input: ProjectInput): Promise<ProjectSaveResult>
+    update(tenantId: Uuid, projectId: Uuid, input: ProjectInput): Promise<ProjectSaveResult>
+    classifications(tenantId: Uuid, projectId: Uuid): Promise<ProjectClassificationsDTO | null>
+    addClassification(
+      tenantId: Uuid,
+      projectId: Uuid,
+      input: ClassificationInput,
+    ): Promise<ClassificationSaveResult>
+    /** A new row from a date; the old row's rates are never overwritten (spec/03 §4.4). */
+    addRateVersion(
+      tenantId: Uuid,
+      projectId: Uuid,
+      input: RateVersionInput,
+    ): Promise<ClassificationSaveResult>
+    editClassification(
+      tenantId: Uuid,
+      projectId: Uuid,
+      input: ClassificationEditInput,
+    ): Promise<ClassificationSaveResult>
     /** Open weeks on active projects, for "This week" (spec/03 §3). */
     openWeeks(tenantId: Uuid): Promise<OpenWeeksDTO>
   }
@@ -58,6 +89,8 @@ export interface Repositories {
     /** The findings the server computed, which are the ones that count (spec/03 §4.5). */
     findings(periodId: Uuid): Promise<Finding[]>
     copyPreviousWeek(periodId: Uuid): Promise<WeekGridDTO>
+    /** The week's period, created open if it has none yet (spec/04 §7.1, first row). */
+    open(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<Uuid>
     markNoWork(periodId: Uuid): Promise<void>
     review(projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO>
   }

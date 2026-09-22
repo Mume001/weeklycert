@@ -14,7 +14,7 @@ import {
 
 // Colour and icon per status (spec/03 §1, icons fixed by spec/14 §10).
 // Text is always step 600 on the tone 50 (spec/14 §3); Corrected uses the violet ramp.
-const STYLE: Record<DisplayStatus, { icon: LucideIcon; className: string }> = {
+export const STATUS_STYLE: Record<DisplayStatus, { icon: LucideIcon; className: string }> = {
   draft: { icon: Pencil, className: 'border-n-200 bg-n-100 text-n-600' },
   needs_attention: {
     icon: TriangleAlert,
@@ -29,7 +29,7 @@ const STYLE: Record<DisplayStatus, { icon: LucideIcon; className: string }> = {
 
 /** Icon and word, never colour alone (spec/14 §1 rule 3). 22 high, fully rounded, 11/600. */
 export function StatusBadge({ status }: { status: DisplayStatus }) {
-  const { icon: Icon, className } = STYLE[status]
+  const { icon: Icon, className } = STATUS_STYLE[status]
   return (
     <span
       data-status={status}

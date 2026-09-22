@@ -25,7 +25,15 @@ export interface NavItem {
   group: NavGroup
   /** "This week" counter. Absent when zero (spec/03 §3). */
   badge?: number
+  /** Next's default prefetch. Only for targets that exist; the rest would be a 404 (README). */
+  prefetch: boolean
 }
+
+/**
+ * Items whose every target is a screen that is already built. "This week" goes
+ * to the grid or to /projects?open=1, both built (sessions C and F).
+ */
+const BUILT: ReadonlySet<NavKey> = new Set(['thisWeek', 'projects'])
 
 const ALL: readonly MembershipRole[] = [
   'owner',
@@ -140,6 +148,7 @@ export function buildNav(input: {
     group,
     label: copy.nav[key],
     href: hrefFor(key, input.slug, thisWeek),
+    prefetch: BUILT.has(key),
     ...(key === 'thisWeek' && thisWeek.count > 0 ? { badge: thisWeek.count } : {}),
   }))
 }

@@ -26,6 +26,7 @@ import {
   FringePlanRow,
   MembershipRow,
   PeriodRow,
+  type PrimeContractorRow,
   ProjectClassificationRow,
   ProjectRow,
   ReportRow,
@@ -36,6 +37,7 @@ import {
   UserRow,
   WorkerPiiRow,
   WorkerRow,
+  type WorkPauseRow,
 } from './schema.ts'
 
 function load<T extends z.ZodType>(name: string, schema: T, rows: unknown): z.infer<T>[] {
@@ -46,28 +48,53 @@ function load<T extends z.ZodType>(name: string, schema: T, rows: unknown): z.in
   return parsed.data
 }
 
-export const db = {
-  tenants: load('tenants', TenantRow, tenants),
-  users: load('users', UserRow, users),
-  memberships: load('memberships', MembershipRow, memberships),
-  signers: load('signers', SignerRow, signers),
-  awardingBodies: load('awarding-bodies', AwardingBodyRow, awardingBodies),
-  classificationCatalog: load('classification-catalog', CatalogRow, classificationCatalog),
-  projects: load('projects', ProjectRow, projects),
-  projectClassifications: load(
-    'project-classifications',
-    ProjectClassificationRow,
-    projectClassifications,
-  ),
-  workers: load('workers', WorkerRow, workers),
-  workerPii: load('worker-pii', WorkerPiiRow, workerPii),
-  apprenticeRecords: load('apprentice-records', ApprenticeRecordRow, apprenticeRecords),
-  fringePlans: load('fringe-plans', FringePlanRow, fringePlans),
-  fringeAllocations: load('fringe-allocations', FringeAllocationRow, fringeAllocations),
-  periods: load('periods', PeriodRow, periods),
-  reports: load('reports', ReportRow, reports),
-  submissions: load('submissions', SubmissionRow, submissions),
-  timeEntries: load('time-entries', TimeEntryRow, timeEntries),
+function loadAll() {
+  return {
+    tenants: load('tenants', TenantRow, tenants),
+    users: load('users', UserRow, users),
+    memberships: load('memberships', MembershipRow, memberships),
+    signers: load('signers', SignerRow, signers),
+    awardingBodies: load('awarding-bodies', AwardingBodyRow, awardingBodies),
+    classificationCatalog: load('classification-catalog', CatalogRow, classificationCatalog),
+    projects: load('projects', ProjectRow, projects),
+    projectClassifications: load(
+      'project-classifications',
+      ProjectClassificationRow,
+      projectClassifications,
+    ),
+    workers: load('workers', WorkerRow, workers),
+    workerPii: load('worker-pii', WorkerPiiRow, workerPii),
+    apprenticeRecords: load('apprentice-records', ApprenticeRecordRow, apprenticeRecords),
+    fringePlans: load('fringe-plans', FringePlanRow, fringePlans),
+    fringeAllocations: load('fringe-allocations', FringeAllocationRow, fringeAllocations),
+    periods: load('periods', PeriodRow, periods),
+    reports: load('reports', ReportRow, reports),
+    submissions: load('submissions', SubmissionRow, submissions),
+    timeEntries: load('time-entries', TimeEntryRow, timeEntries),
+    // Tables of spec/04 that have no fixture rows: the screens fill them.
+    primeContractors: [] as z.infer<typeof PrimeContractorRow>[],
+    workPauses: [] as z.infer<typeof WorkPauseRow>[],
+  }
 }
 
-export type MockDb = typeof db
+export type MockDb = ReturnType<typeof loadAll>
+
+/**
+ * One copy per server process, on `globalThis`. Screens now write (a new
+ * project, a new rate version), and Next bundles pages, server actions and
+ * route handlers separately: a plain module-level object would exist more than
+ * once, one bundle would write into its copy and the next page would read the
+ * other. Same reason as the edits in week-grid.ts.
+ */
+const store = globalThis as typeof globalThis & { __wcDb?: MockDb }
+if (!store.__wcDb) store.__wcDb = loadAll()
+export const db: MockDb = store.__wcDb
+
+/** Only for tests: put every table back to the fixtures on disk. */
+export function resetMockDb(): void {
+  const fresh = loadAll()
+  for (const key of Object.keys(fresh) as (keyof MockDb)[]) {
+    const rows = db[key] as unknown[]
+    rows.splice(0, rows.length, ...(fresh[key] as unknown[]))
+  }
+}

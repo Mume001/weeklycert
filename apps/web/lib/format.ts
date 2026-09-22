@@ -40,6 +40,19 @@ export function formatDate(date: IsoDate): string {
   return `${p.month} ${p.day}, ${p.year}`
 }
 
+/** "Sep 12", for the week tiles of the project timeline. */
+export function formatDayMonth(date: IsoDate): string {
+  const p = parts(date, { month: 'short', day: 'numeric' })
+  return `${p.month} ${p.day}`
+}
+
+/** "Saturday" for a day of the week, 0 Sunday to 6 Saturday (tenant_settings.week_ending_dow). */
+export function weekdayName(dow: number): string {
+  // 2026-09-13 is a Sunday; any Sunday would do.
+  const date = new Date(Date.UTC(2026, 8, 13 + dow))
+  return new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', weekday: 'long' }).format(date)
+}
+
 /** "2026-09-12", for files and mono text. */
 export function formatDateMono(date: IsoDate): string {
   return inUtc(date).toISOString().slice(0, 10)

@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest'
-import { isOpenPeriodStatus, isWeekOpen, openWeekEndings, timelineWeekEndings } from './weeks.ts'
+import {
+  expectedPayrollNumbers,
+  isOpenPeriodStatus,
+  isWeekOpen,
+  nextStateFilingDeadline,
+  openWeekEndings,
+  timelineWeekEndings,
+} from './weeks.ts'
 
 describe('open weeks (spec/03 §3 state table)', () => {
   it.each([
@@ -58,5 +65,55 @@ describe('open weeks (spec/03 §3 state table)', () => {
         ],
       }),
     ).toEqual(['2026-08-29', '2026-09-05', '2026-09-12'])
+  })
+})
+
+describe('state filing deadline (spec/05 §2)', () => {
+  it('is the start date plus 30 before any accepted submission', () => {
+    expect(
+      nextStateFilingDeadline({ startDate: '2026-04-06', lastAcceptedSubmissionAt: null }),
+    ).toBe('2026-05-06')
+  })
+
+  it('is the last accepted submission plus 30 afterwards', () => {
+    expect(
+      nextStateFilingDeadline({ startDate: '2026-04-06', lastAcceptedSubmissionAt: '2026-08-26' }),
+    ).toBe('2026-09-25')
+  })
+
+  it('honours a project with a different interval', () => {
+    expect(
+      nextStateFilingDeadline({
+        startDate: '2026-04-06',
+        lastAcceptedSubmissionAt: '2026-08-26',
+        everyDays: 14,
+      }),
+    ).toBe('2026-09-09')
+  })
+})
+
+describe('payroll number a week will get (spec/04 §7.1, 01 §2.5)', () => {
+  it('numbers unsigned weeks in order, from next_payroll_number', () => {
+    expect(
+      expectedPayrollNumbers(
+        [
+          { weekEnding: '2026-08-29', payrollNumber: 21 },
+          { weekEnding: '2026-09-12', payrollNumber: null },
+          { weekEnding: '2026-09-05', payrollNumber: null },
+        ],
+        22,
+      ),
+    ).toEqual(
+      new Map([
+        ['2026-09-05', 22],
+        ['2026-09-12', 23],
+      ]),
+    )
+  })
+
+  it('gives nothing to a week that already has its number', () => {
+    expect(expectedPayrollNumbers([{ weekEnding: '2026-08-29', payrollNumber: 21 }], 22).size).toBe(
+      0,
+    )
   })
 })

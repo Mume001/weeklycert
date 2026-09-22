@@ -65,3 +65,40 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
     today: repos.today(),
   }
 })
+
+/** Roles that create and change projects, classifications and weeks (spec/02 §3). */
+export const PROJECT_WRITERS: readonly MembershipRole[] = [
+  'owner',
+  'admin',
+  'payroll',
+  'signer',
+  'bookkeeper',
+]
+
+export class GuardError extends Error {
+  constructor(readonly status: 403 | 404) {
+    super(status === 404 ? 'not_found' : 'forbidden')
+  }
+}
+
+/**
+ * The one guard every server action starts with (CLAUDE.md, spec/11 §4). In
+ * the mock phase it is the fake session plus the role check of spec/02 §3 and
+ * the subscription rule of spec/08 §2.4 (paused and cancelled read only).
+ * Step 4 replaces the body with the real requireTenant, which also opens the
+ * transaction and sets the tenant for RLS.
+ */
+export async function requireTenant(
+  slug: string,
+  roles: readonly MembershipRole[],
+): Promise<ShellContext> {
+  const shell = await loadShell(slug)
+  if (!shell) throw new GuardError(404)
+  if (!roles.includes(shell.role) || isReadOnlyCompany(shell.tenant)) throw new GuardError(403)
+  return shell
+}
+
+/** spec/08 §2.4: a paused or cancelled company reads and exports, nothing else. */
+export function isReadOnlyCompany(tenant: TenantDTO): boolean {
+  return tenant.status === 'paused' || tenant.status === 'cancelled'
+}

@@ -1,5 +1,11 @@
 // Which payroll weeks are still open (spec/03 §3, state table).
-import { type Dow, lastEndedWeekEnding, weekEndingOf, weekEndingsBetween } from './dates.ts'
+import {
+  addDays,
+  type Dow,
+  lastEndedWeekEnding,
+  weekEndingOf,
+  weekEndingsBetween,
+} from './dates.ts'
 
 /** period_status, spec/04 §4. */
 export const PERIOD_STATUSES = [
@@ -56,4 +62,34 @@ export function openWeekEndings(p: ProjectWeeksInput): string[] {
     byWeek.set(row.weekEnding, [...(byWeek.get(row.weekEnding) ?? []), row.status])
   }
   return timelineWeekEndings(p).filter((we) => isWeekOpen(byWeek.get(we) ?? []))
+}
+
+/**
+ * The next NY filing deadline (spec/05 §2, the only definition): start date
+ * plus 30 until the portal has accepted a submission, then the last accepted
+ * submission plus 30.
+ */
+export function nextStateFilingDeadline(p: {
+  startDate: string
+  lastAcceptedSubmissionAt: string | null
+  everyDays?: number
+}): string {
+  return addDays(p.lastAcceptedSubmissionAt ?? p.startDate, p.everyDays ?? 30)
+}
+
+/**
+ * The payroll number each unsigned week will get. Numbers are assigned at
+ * signing, one after the other without gaps (spec/04 §7.1, 01 §2.5), so if
+ * the weeks are signed in order the oldest unsigned week gets
+ * next_payroll_number, the one after it the number after that.
+ */
+export function expectedPayrollNumbers(
+  weeks: readonly { weekEnding: string; payrollNumber: number | null }[],
+  nextPayrollNumber: number,
+): Map<string, number> {
+  const unsigned = weeks
+    .filter((w) => w.payrollNumber === null)
+    .map((w) => w.weekEnding)
+    .sort()
+  return new Map(unsigned.map((we, i) => [we, nextPayrollNumber + i]))
 }

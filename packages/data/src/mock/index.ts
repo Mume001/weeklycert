@@ -9,6 +9,18 @@ import { mockNow, mockToday } from './clock.ts'
 import { db } from './db.ts'
 import { delay } from './delay.ts'
 import {
+  addClassification,
+  addRateVersion,
+  createProject,
+  editClassification,
+  listProjects,
+  openWeek,
+  projectClassifications,
+  projectForm,
+  projectTimeline,
+  updateProject,
+} from './projects.ts'
+import {
   buildWeekInput,
   copyPreviousWeek,
   markNoWork,
@@ -92,8 +104,50 @@ export const mockRepositories: Repositories = {
   dashboard: { get: later('dashboard.get', 'E (dashboard, 03 §5 item 9)') },
 
   projects: {
-    list: later('projects.list', 'E (projects, 03 §5 item 4)'),
-    timeline: later('projects.timeline', 'E (projects, 03 §5 item 4)'),
+    async list(tenantId, filter) {
+      await delay('projects.list')
+      return listProjects(tenantId, filter)
+    },
+
+    async timeline(tenantId, projectId) {
+      await delay('projects.timeline')
+      return projectTimeline(tenantId, projectId)
+    },
+
+    async form(tenantId, projectId) {
+      await delay('projects.form')
+      return projectForm(tenantId, projectId)
+    },
+
+    async create(tenantId, input) {
+      await delay('projects.create')
+      return createProject(tenantId, input)
+    },
+
+    async update(tenantId, projectId, input) {
+      await delay('projects.update')
+      return updateProject(tenantId, projectId, input)
+    },
+
+    async classifications(tenantId, projectId) {
+      await delay('projects.classifications')
+      return projectClassifications(tenantId, projectId)
+    },
+
+    async addClassification(tenantId, projectId, input) {
+      await delay('projects.addClassification')
+      return addClassification(tenantId, projectId, input)
+    },
+
+    async addRateVersion(tenantId, projectId, input) {
+      await delay('projects.addRateVersion')
+      return addRateVersion(tenantId, projectId, input)
+    },
+
+    async editClassification(tenantId, projectId, input) {
+      await delay('projects.editClassification')
+      return editClassification(tenantId, projectId, input)
+    },
 
     async openWeeks(tenantId) {
       await delay('projects.openWeeks')
@@ -144,6 +198,11 @@ export const mockRepositories: Repositories = {
     async copyPreviousWeek(periodId) {
       await delay('weeks.copyPreviousWeek')
       return copyPreviousWeek(periodId)
+    },
+
+    async open(tenantId, projectId, weekEnding) {
+      await delay('weeks.open')
+      return openWeek(tenantId, projectId, weekEnding)
     },
 
     async markNoWork(periodId) {

@@ -84,12 +84,12 @@ export function Sidebar({
     const active = item.key === activeKey
     return (
       <li key={item.key}>
-        {/* No prefetch while most targets are screens of later sessions: a
+        {/* No prefetch for targets that are screens of later sessions: a
             prefetch of a route that does not exist yet is a 404 in the console
-            (spec/19 §10 point 1). Turn it back on once the routes exist. */}
+            (spec/19 §10 point 1). Built screens get it back (lib/nav.ts BUILT). */}
         <Link
           href={item.href}
-          prefetch={false}
+          prefetch={item.prefetch ? undefined : false}
           onClick={onNavigate}
           aria-current={active ? 'page' : undefined}
           className={cn(

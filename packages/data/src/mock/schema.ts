@@ -94,6 +94,23 @@ export const AwardingBodyRow = z.object({
   ]),
 })
 
+/** prime_contractors (spec/04 §3.4), trimmed. Empty in the fixtures: Hudson is the GC everywhere. */
+export const PrimeContractorRow = z.object({
+  id: UuidSchema,
+  tenantId: UuidSchema,
+  legalName: z.string(),
+})
+
+/** work_pauses (spec/04 §3.4): weeks known in advance to have no work. */
+export const WorkPauseRow = z.object({
+  id: UuidSchema,
+  tenantId: UuidSchema,
+  projectId: UuidSchema,
+  fromDate: IsoDateSchema,
+  toDate: IsoDateSchema,
+  reason: z.string().nullable(),
+})
+
 /** Official NY label: "Trade – Subtrade", U+2013 with spaces (spec/01 §3). */
 export const CatalogRow = z.object({
   id: UuidSchema,
@@ -146,6 +163,8 @@ export const ProjectClassificationRow = z.object({
   holidayCode: z.string().nullable(),
   effectiveFrom: IsoDateSchema,
   effectiveTo: IsoDateSchema.nullable(),
+  /** Set when the rate was taken from the wage schedule cache (spec/04). None in the fixtures. */
+  sourceRateId: UuidSchema.nullable().default(null),
 })
 
 export const WorkerRow = z.object({
