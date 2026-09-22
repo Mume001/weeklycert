@@ -6,6 +6,7 @@
 import {
   addDays,
   computeWeek,
+  expectedPayrollNumbers,
   timelineWeekEndings,
   type WeekInput,
   type WeekResult,
@@ -275,6 +276,28 @@ export function buildWeekInput(projectId: Uuid, weekEnding: IsoDate): WeekInput 
   }
 }
 
+/**
+ * The payroll number each unsigned week of this project will get. The rule is
+ * core's (spec/04 §7.1): numbers are handed out at signing, in order, without
+ * gaps, so the number a week shows before it is signed is never a guess made
+ * in the component.
+ */
+function expectedNumbers(projectId: Uuid): Map<IsoDate, number> {
+  const project = db.projects.find((p) => p.id === projectId)
+  const tenant = project && db.tenants.find((t) => t.id === project.tenantId)
+  if (!project || !tenant) return new Map()
+  const weeks = timelineWeekEndings({
+    startDate: project.startDate,
+    endDate: project.actualEndDate,
+    weekEndsOn: tenant.settings.weekEndingDow,
+    today: addDays(mockToday(), 7),
+  }).map((weekEnding) => ({
+    weekEnding,
+    payrollNumber: period(projectId, weekEnding)?.payrollNumber ?? null,
+  }))
+  return expectedPayrollNumbers(weeks, project.nextPayrollNumber)
+}
+
 /** The engine result, shaped into what the screen reads (spec/19 §3). */
 export function toWeekGridDTO(input: WeekInput, result: WeekResult): WeekGridDTO {
   const projectRow = db.projects.find((p) => p.id === input.project.id)
@@ -297,6 +320,10 @@ export function toWeekGridDTO(input: WeekInput, result: WeekResult): WeekGridDTO
     displayStatus: displayStatusOf(input.period.status, outcome, hard),
     ...(outcome === undefined ? {} : { submissionOutcome: outcome }),
     payrollNumber: input.period.payrollNumber,
+    expectedPayrollNumber:
+      input.period.payrollNumber === null
+        ? (expectedNumbers(input.project.id).get(input.period.weekEnding) ?? null)
+        : null,
     rows: result.rows.map(gridRowFromLine),
     totals: result.totals,
     findings: result.findings,

@@ -30,7 +30,7 @@ Ažurirano 15.9.2026.
 | A1 | Sam XSD fajl: redoslijed elemenata (sequence), tipovi, broj decimala, minOccurs | 05 §3.2 | Skinuti `https://dol.ny.gov/certpayrollxsd` u pregledniku. Domen je blokiran za moj sandbox. |
 | A3 | Tačan token za peti tip dodatka: `Other Benefit` ili `Other Benefit (Type)`; i lista dozvoljenih `deduction/type` | 05 §3.3, 04 enumi | XSD |
 | A4 | Da li `gender` i `ethnicity` uopšte postoje u šemi | 04 workers | XSD. U uputstvu za grupni upload ih **nema**, što je jak signal da ne postoje. Ako ih nema, izbaciti kolone iz `workers`. |
-| A6 | Tačan format `prcNumber` i gdje se u portalu unosi registracioni broj | 04, 05 §3.4 | Portal uživo |
+| A6 | Tačan format `prcNumber` i gdje se u portalu unosi registracioni broj | 04, 05 §3.4 | Portal uživo  Do tada forma **ne smije odbiti** PRC koji nema 10 cifara, samo upozoriti (15 §3, Projekti). |
 | A7 | Da li portal prima više fajlova za istu sedmicu (za >500 radnika) | 05 §3.6 | Uputstvo ili portal. Za našeg kupca (5 do 40 radnika) nije hitno. |
 | A8b | Imena AcroForm polja u WH-347 PDF 2025 | 05 §4.6 | Skinuti PDF, pokrenuti `scripts/dump-pdf-fields.ts` |
 | A10 | **Legenda praznika (HOLIDAY PAGE)**, numerisani kodovi 1 do oko 29 | 01 §2.1, 07 HOLIDAY_RULE_UNKNOWN | Prepisati s jedne stvarne platne tabele. Bez nje motor ne računa praznične premije. |

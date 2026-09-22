@@ -19,6 +19,26 @@ const OPEN_PERIOD = '01928000-0000-7000-8000-000000000018'
 
 beforeEach(resetWeekEdits)
 
+describe('the payroll number the week will get (spec/04 §7.1)', () => {
+  it('is the next number for the oldest unsigned week and the one after for the next', () => {
+    expect(weekGrid(PROJECT, IN_REVIEW)).toMatchObject({
+      payrollNumber: null,
+      expectedPayrollNumber: 22,
+    })
+    expect(weekGrid(PROJECT, OPEN)).toMatchObject({
+      payrollNumber: null,
+      expectedPayrollNumber: 23,
+    })
+  })
+
+  it('is the number it already has once the week is signed', () => {
+    expect(weekGrid(PROJECT, '2026-08-29')).toMatchObject({
+      payrollNumber: 21,
+      expectedPayrollNumber: null,
+    })
+  })
+})
+
 describe('the week the demo opens', () => {
   it('matches the DTO of spec/19 §3', () => {
     expect(WeekGridDTOSchema.safeParse(weekGrid(PROJECT, OPEN)).success).toBe(true)

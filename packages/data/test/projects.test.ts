@@ -6,6 +6,7 @@ import {
   ProjectInputSchema,
   ProjectRowDTOSchema,
   ProjectTimelineDTOSchema,
+  prcLooksUnusual,
 } from '../src/dto/index.ts'
 import { getRepositories } from '../src/index.ts'
 import { resetMockDb } from '../src/mock/db.ts'
@@ -223,11 +224,19 @@ describe('the form', () => {
     expect(saved).toEqual({ ok: true, id: KINGSTON })
   })
 
+  it('saves a PRC that is not ten digits, and only marks it as unusual (spec/13 A6)', async () => {
+    expect(prcLooksUnusual('2010008390')).toBe(false)
+    expect(prcLooksUnusual('PRC-12345')).toBe(true)
+    expect(prcLooksUnusual('')).toBe(false)
+    const saved = await repos.projects.create(TENANT, input({ prcNumber: '12345' }))
+    expect(saved.ok).toBe(true)
+  })
+
   it('checks what the form checks, with codes and no English (spec/15 §3)', () => {
     const bad = ProjectInputSchema.safeParse({
       ...input(),
       name: ' ',
-      prcNumber: '12345',
+      prcNumber: '',
       federallyFunded: true,
       federalWdNumber: '',
       expectedEndDate: '2026-01-01',
@@ -240,7 +249,7 @@ describe('the form', () => {
     )
     expect(codes).toEqual({
       name: 'nameRequired',
-      prcNumber: 'prcFormat',
+      prcNumber: 'prcRequired',
       federalWdNumber: 'wdRequired',
       expectedEndDate: 'endBeforeStart',
       retentionYears: 'retentionMin',
@@ -348,6 +357,7 @@ describe('classifications and rates', () => {
       otCodes: ['A', 'W', 'R'],
       apprenticeRatio: '1:1',
       source: 'manual',
+      // spec/04 §3.4: rate_source, not derived from source_rate_id.
     })
     expect(await repos.projects.addClassification(TENANT, created.id, add)).toEqual({
       ok: false,

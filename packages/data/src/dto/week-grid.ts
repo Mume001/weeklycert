@@ -136,6 +136,8 @@ export const WeekGridDTOSchema = z.object({
   submissionOutcome: SubmissionOutcomeSchema.optional(),
   /** NULL until signed (spec/04 payroll_periods). */
   payrollNumber: z.number().int().positive().nullable(),
+  /** What it will be on signature, if the weeks are signed in order. NULL once signed. */
+  expectedPayrollNumber: z.number().int().positive().nullable(),
   rows: z.array(GridRowSchema),
   totals: z.object({
     byDay: z.array(HoursSchema).length(7),

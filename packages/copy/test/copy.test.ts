@@ -85,6 +85,7 @@ describe('15 §1 rule 11: a number has a singular and a plural form', () => {
     // #{n} is the payroll number, an identifier and not a count: "payroll no.
     // will be #1" reads the same as "#21".
     ['copy.grid.meta', 'identifier, not a count'],
+    ['copy.grid.metaSigned', 'identifier, not a count'],
     // Same for the timeline: the payroll number a week will get, and a version.
     ['copy.projects.timeline.willBe', 'identifier, not a count'],
     ['copy.projects.timeline.version', 'identifier, not a count'],

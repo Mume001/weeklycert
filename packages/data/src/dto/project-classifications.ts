@@ -4,15 +4,13 @@
 // were computed and signed.
 import { isKnownOtCode } from '@wc/core'
 import { z } from 'zod'
-import { IsoDateSchema, MoneySchema, ProjectStatusSchema, UuidSchema } from './common.ts'
-
-/**
- * Where a rate came from. spec/04 has `source_rate_id` for the wage schedule
- * cache; "pasted" (onboarding step 3, session H) has no column in 04 yet, so
- * the mock never produces it.
- */
-export const RateSourceSchema = z.enum(['manual', 'pasted', 'cache'])
-export type RateSource = z.infer<typeof RateSourceSchema>
+import {
+  IsoDateSchema,
+  MoneySchema,
+  ProjectStatusSchema,
+  RateSourceSchema,
+  UuidSchema,
+} from './common.ts'
 
 export const ClassificationRateRowSchema = z.object({
   /** project_classifications.id: one version of one classification's rate. */

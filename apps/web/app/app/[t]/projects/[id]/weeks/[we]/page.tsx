@@ -34,15 +34,26 @@ export default async function WeekPage({
   const shell = await loadShell(t)
   if (!shell) notFound()
 
+  const repos = getRepositories()
+  const data = await repos.weeks.grid(id, we)
+
   const week = dateParts(we)
+  // The payroll number comes from the data, never from the component: before
+  // signing it is the one this week will get, after it the one it has
+  // (spec/04 §7.1, same rule as the project timeline).
+  const payrollNo = data.payrollNumber ?? data.expectedPayrollNumber
   const bar = (
     <PageBar
       title={copy.grid.title}
-      meta={fill(copy.grid.meta, {
-        WeekEndDay: week.weekdayShort,
-        date: `${week.monthShort} ${week.day}`,
-        n: 22,
-      })}
+      meta={
+        payrollNo === null
+          ? undefined
+          : fill(data.payrollNumber === null ? copy.grid.meta : copy.grid.metaSigned, {
+              WeekEndDay: week.weekdayShort,
+              date: `${week.monthShort} ${week.day}`,
+              n: payrollNo,
+            })
+      }
       breadcrumb={[
         { label: shell.tenant.legalName },
         { label: copy.nav.projects, href: `/app/${t}/projects` },
@@ -88,8 +99,6 @@ export default async function WeekPage({
     )
   }
 
-  const repos = getRepositories()
-  const data = await repos.weeks.grid(id, we)
   const editable = MAY_EDIT.includes(shell.role) && data.lockedReason === undefined
   const readOnly = !editable || forced === 'locked'
   const input = editable ? await repos.weeks.engineInput(id, we) : undefined

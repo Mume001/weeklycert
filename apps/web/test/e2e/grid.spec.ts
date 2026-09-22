@@ -38,6 +38,12 @@ test('the week spec/19 §4 seeded: 3 errors and 3 warnings, no console or a11y e
   await page.setViewportSize({ width: 1600, height: 1000 })
   await page.goto(REVIEW_WEEK)
 
+  // The payroll number in the header is the one this week will get, from the
+  // data (spec/04 §7.1). It used to be typed into the page.
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'payroll no. will be #22 on signature',
+  )
+
   const panel = page.getByRole('complementary')
   await expect(panel).toContainText('3 errors, 3 warnings')
   await expect(panel).toContainText('Errors block generating the report.')
@@ -262,6 +268,12 @@ test('the findings panel refreshes under 300 ms after an entry (spec/03 §4.5)',
   // measure the browser protocol instead.
   await page.setViewportSize({ width: 1600, height: 1000 })
   await page.goto(REVIEW_WEEK)
+  // The payroll number in the header is the one this week will get, from the
+  // data (spec/04 §7.1). It used to be typed into the page.
+  await expect(page.getByRole('heading', { level: 1 })).toContainText(
+    'payroll no. will be #22 on signature',
+  )
+
   const panel = page.getByRole('complementary')
   await expect(panel).toContainText('3 errors, 3 warnings')
 

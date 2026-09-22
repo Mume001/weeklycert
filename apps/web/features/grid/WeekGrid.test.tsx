@@ -134,6 +134,7 @@ function dto(week: WeekInput): WeekGridDTO {
       result.findings.filter((f) => f.severity === 'hard').length,
     ),
     payrollNumber: null,
+    expectedPayrollNumber: 23,
     rows: result.rows.map(gridRowFromLine),
     totals: result.totals,
     findings: result.findings,

@@ -193,8 +193,16 @@ test.describe('the form', () => {
     await expect(summary).toBeFocused()
     await expect(page.getByText('Enter a name for the project.')).toBeVisible()
 
-    // The PRC Dutchess already uses, with the same (empty) contract number.
+    // A PRC in another shape is only a warning: the format is unverified (13 A6).
     await page.getByLabel('Project name').fill('Poughkeepsie Station Lighting')
+    await page.getByLabel('PRC number').fill('12345')
+    await expect(
+      page.getByText(
+        'Every PRC number we have seen has ten digits. Check this one before you file.',
+      ),
+    ).toBeVisible()
+
+    // The PRC Dutchess already uses, with the same (empty) contract number.
     await page.getByLabel('PRC number').fill('2010008390')
     await page.getByLabel('Start date').fill('2026-08-31')
     await page.getByLabel('Status', { exact: true }).selectOption('draft')

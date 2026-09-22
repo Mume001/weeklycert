@@ -7,6 +7,7 @@ import {
   type ProjectFormErrors,
   type ProjectInput,
   ProjectInputSchema,
+  prcLooksUnusual,
   projectFormErrors,
 } from '@wc/data/dto'
 import Link from 'next/link'
@@ -52,6 +53,8 @@ export function ProjectForm({ slug, form, readOnly, closed, cancelHref }: Projec
   })
   const pauses = useFieldArray({ control, name: 'workPauses' })
   const federal = watch('federallyFunded')
+  // spec/13 A6: the PRC format is unverified, so an unusual one is a warning.
+  const prcWarning = prcLooksUnusual(watch('prcNumber') ?? '') ? f.warnings.prcFormat : undefined
   const isNew = form.projectId === null
   const locked = readOnly || closed
 
@@ -89,10 +92,11 @@ export function ProjectForm({ slug, form, readOnly, closed, cancelHref }: Projec
     const field = fields[name]
     const hint = 'hint' in field ? field.hint : undefined
     const error = message(errors[name])
+    const warning = name === 'prcNumber' ? prcWarning : undefined
     return (
-      <FormField id={id} label={field.label} hint={hint} error={error}>
+      <FormField id={id} label={field.label} hint={hint} warning={warning} error={error}>
         <Input
-          {...fieldIds(id, hint, error)}
+          {...fieldIds(id, hint, error, warning)}
           type={extra?.type ?? 'text'}
           disabled={locked}
           {...register(name)}

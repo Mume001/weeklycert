@@ -69,6 +69,10 @@ export type WorkerLevel = z.infer<typeof WorkerLevelSchema>
 export const WorkerStatusSchema = z.enum(['active', 'inactive'])
 export type WorkerStatus = z.infer<typeof WorkerStatusSchema>
 
+/** project_classifications.rate_source (spec/04 §4). */
+export const RateSourceSchema = z.enum(['manual', 'pasted', 'cache'])
+export type RateSource = z.infer<typeof RateSourceSchema>
+
 export const SupplementKindSchema = z.enum([
   'health_welfare',
   'vacation_holiday',

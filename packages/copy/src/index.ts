@@ -313,7 +313,6 @@ export const copy = {
       errors: {
         nameRequired: 'Enter a name for the project.',
         prcRequired: 'Enter the PRC number.',
-        prcFormat: 'A PRC number has ten digits.',
         prcTaken:
           'Another project already uses this PRC number with the same contract number: {Project}. Give this one its own contract number, or open that project.',
         startRequired: 'Enter the start date.',
@@ -322,6 +321,13 @@ export const copy = {
         endBeforeStart: 'The expected end date is before the start date.',
         pauseOrder: 'This pause ends before it starts.',
         retentionMin: 'We keep records for at least six years.',
+      },
+      /**
+       * Not an error and it blocks nothing: the PRC format is unverified
+       * (spec/13 A6), so a number in another shape is only worth a second look.
+       */
+      warnings: {
+        prcFormat: 'Every PRC number we have seen has ten digits. Check this one before you file.',
       },
       summary_one: '{n} field needs attention.',
       summary_other: '{n} fields need attention.',
@@ -442,6 +448,7 @@ export const copy = {
   grid: {
     title: 'Hours',
     meta: '{WeekEndDay} {date} · payroll no. will be #{n} on signature',
+    metaSigned: '{WeekEndDay} {date} · payroll no. #{n}',
     copyLastWeek: 'Copy last week',
     importCsv: 'Import CSV',
     markNoWork: 'Mark no-work week',

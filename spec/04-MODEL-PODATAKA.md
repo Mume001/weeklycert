@@ -287,7 +287,7 @@ school_district, authority, federal, other)`, `address_*`, `contact_name N`,
 | notes | text N | |
 | archived_at | timestamptz N | |
 | created_at, updated_at | | |
-| U (tenant_id, prc_number, project_number) where prc_number is not null | | |
+| U (tenant_id, prc_number, project_number) **NULLS NOT DISTINCT**, where prc_number is not null | | Bez `NULLS NOT DISTINCT` Postgres tretira svaki NULL kao različit, pa bi prošla dva projekta s istim PRC-om i bez broja ugovora. Kod to odbija, baza bi puštala. Podržano od Postgresa 15, mi smo na 17. |
 
 **project_classifications** (koje klasifikacije se koriste na projektu i po kojoj stopi)
 | Kolona | Tip | Napomena |
@@ -306,7 +306,8 @@ school_district, authority, federal, other)`, `address_*`, `contact_name N`,
 | holiday_code | text N | Kod s HOLIDAY PAGE platne tabele. Legenda neprovjerena (spec/13 A10). |
 | effective_from | date | Verzionisano: promjena stope 1. jula pravi novi red. |
 | effective_to | date N | |
-| source_rate_id | uuid FK wage_schedule_rates N | Odakle je stopa prepisana. |
+| rate_source | E rate_source default 'manual' | Odakle je stopa došla: ručno ukucana, zalijepljena iz platnog rasporeda, ili iz keša. Kolona "izvor" na ekranu klasifikacija (03 §4.4). |
+| source_rate_id | uuid FK wage_schedule_rates N | Odakle je stopa prepisana. Popunjeno samo kad je `rate_source = cache`. |
 | created_at, updated_at | | |
 | U (project_id, classification_id, effective_from) | | |
 
@@ -605,6 +606,7 @@ entry_source: manual, import, api
 rr_method: single, weighted_average, rate_in_effect
 deduction_kind: federal_tax, state_tax, local_tax, fica, medicare, sdi, pfl, union_dues, garnishment, insurance, retirement_401k, other
 supplement_kind: health_welfare, vacation_holiday, apprenticeship_training, pension, other
+rate_source: manual, pasted, cache
   (u XML se ispisuju kao "Health/Welfare", "Vacation/Holiday",
   "Apprenticeship/Training", "Pension", "Other Benefit"; tačan token za zadnji
   potvrditi u XSD-u, spec/13 A3)

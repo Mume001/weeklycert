@@ -12,6 +12,7 @@ import {
   PeriodStatusSchema,
   ProjectRoleSchema,
   ProjectStatusSchema,
+  RateSourceSchema,
   RegistrarSchema,
   ReportKindSchema,
   ReportStatusSchema,
@@ -163,7 +164,9 @@ export const ProjectClassificationRow = z.object({
   holidayCode: z.string().nullable(),
   effectiveFrom: IsoDateSchema,
   effectiveTo: IsoDateSchema.nullable(),
-  /** Set when the rate was taken from the wage schedule cache (spec/04). None in the fixtures. */
+  /** spec/04 §3.4: where the rate came from. The fixtures are all typed by hand. */
+  rateSource: RateSourceSchema.default('manual'),
+  /** Filled only when rate_source = cache (spec/04 §3.4). */
   sourceRateId: UuidSchema.nullable().default(null),
 })
 

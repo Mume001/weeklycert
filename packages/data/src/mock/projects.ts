@@ -353,9 +353,9 @@ function primeContractorId(tenantId: Uuid, name: string): Uuid | null {
 }
 
 /**
- * spec/04: U (tenant_id, prc_number, project_number). A missing contract number
- * counts as a value here: two projects with the same PRC and no contract
- * number are the same job twice, which is what the rule is there to stop.
+ * spec/04: U (tenant_id, prc_number, project_number) NULLS NOT DISTINCT. A
+ * missing contract number counts as a value: two projects with the same PRC
+ * and no contract number are the same job twice, which is what the rule stops.
  */
 function duplicateOf(tenantId: Uuid, input: ProjectInput, selfId: Uuid | null) {
   return db.projects.find(
@@ -499,7 +499,7 @@ export function projectClassifications(
         effectiveFrom: r.effectiveFrom,
         effectiveTo: r.effectiveTo,
         otCodes: r.otCodes,
-        source: r.sourceRateId ? 'cache' : 'manual',
+        source: r.rateSource,
         apprenticeRatio: r.apprenticeRatio,
         usedBySignedWeek: usedBySignedWeek(r),
         isLatest: latest.get(r.classificationId) === r.effectiveFrom,
@@ -569,6 +569,7 @@ export function addClassification(
     holidayCode: null,
     effectiveFrom: input.effectiveFrom,
     effectiveTo: null,
+    rateSource: 'manual',
     sourceRateId: null,
   })
   return { ok: true }
@@ -610,6 +611,7 @@ export function addRateVersion(
     otCodes: parseOtCodes(input.otCodes),
     effectiveFrom: input.effectiveFrom,
     effectiveTo: null,
+    rateSource: 'manual',
     sourceRateId: null,
   })
   return { ok: true }

@@ -243,7 +243,8 @@ Statusi sedmica su značke iz okvira.
 - Greške ispod polja:
   - `Enter a name for the project.`
   - `Enter the PRC number.`
-  - `A PRC number has ten digits.`
+  - **Ne kao greška nego kao upozorenje, i ne blokira snimanje** (13 A6, format
+    PRC broja je neprovjeren): `Every PRC number we have seen has ten digits. Check this one before you file.`
   - `Another project already uses this PRC number with the same contract number: {Project}. Give this one its own contract number, or open that project.`
   - `Enter the start date.`
   - `Enter the wage determination number.`
@@ -289,6 +290,8 @@ Statusi sedmica su značke iz okvira.
 
 ### Mreža sati
 - Naslov: `Hours` · meta `{WeekEndDay} {date} · payroll no. will be #{n} on signature`
+- Kad je sedmica potpisana, broj nije više budući nego dodijeljen:
+  `{WeekEndDay} {date} · payroll no. #{n}`
 - Dugmad: `Copy last week` · `Import CSV` · `Mark no-work week` ·
   `Review and generate`
 - Onemogućeno dugme, tooltip: `{n} error must be fixed before you can generate the report.` /

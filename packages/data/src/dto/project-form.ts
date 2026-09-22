@@ -8,7 +8,6 @@ import { type Dow, ProjectRoleSchema, ProjectStatusSchema } from './common.ts'
 export const PROJECT_FORM_ERRORS = [
   'nameRequired',
   'prcRequired',
-  'prcFormat',
   'prcTaken',
   'startRequired',
   'wdRequired',
@@ -27,10 +26,16 @@ const optionalDate = z.string().refine((v) => v === '' || ISO.test(v))
 
 /**
  * NEPROVJERENO (spec/13 A6): the exact PRC format is confirmed only in the
- * live portal. Every PRC in the fixtures and the design reference has ten
- * digits, so that is the check until step 0 settles it.
+ * live portal. Every PRC we have seen has ten digits, so a number that does
+ * not is worth a warning, but it must never be refused: a customer with a
+ * real PRC in another shape has to be able to save the project (13 A6, 15 §3).
  */
 export const PRC_FORMAT = /^\d{10}$/
+
+/** True when the PRC deserves the warning of 15 §3. Empty is a missing PRC, not a shape. */
+export function prcLooksUnusual(prcNumber: string): boolean {
+  return prcNumber !== '' && !PRC_FORMAT.test(prcNumber)
+}
 
 export const WorkPauseInputSchema = z
   .object({ from: z.string().regex(ISO), to: z.string().regex(ISO), reason: z.string().trim() })
@@ -51,7 +56,7 @@ function tidyPauses(value: unknown): unknown {
 export const ProjectInputSchema = z
   .object({
     name: z.string().trim().min(1, 'nameRequired'),
-    prcNumber: z.string().trim().min(1, 'prcRequired').regex(PRC_FORMAT, 'prcFormat'),
+    prcNumber: z.string().trim().min(1, 'prcRequired'),
     awardingBody: z.string().trim(),
     ourRole: ProjectRoleSchema,
     generalContractor: z.string().trim(),

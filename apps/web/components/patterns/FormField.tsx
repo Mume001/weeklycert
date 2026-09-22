@@ -2,8 +2,10 @@ import { cn } from 'cn'
 import type { ReactNode } from 'react'
 
 /** The ids a control points at, so a screen reader reads the hint and the error with it. */
-export function fieldIds(id: string, hint?: string, error?: string) {
-  const describedBy = [hint && `${id}-hint`, error && `${id}-error`].filter(Boolean).join(' ')
+export function fieldIds(id: string, hint?: string, error?: string, warning?: string) {
+  const describedBy = [hint && `${id}-hint`, warning && `${id}-warning`, error && `${id}-error`]
+    .filter(Boolean)
+    .join(' ')
   return {
     id,
     'aria-describedby': describedBy || undefined,
@@ -18,6 +20,8 @@ export interface FormFieldProps {
   hint?: string
   /** The error sentence, from packages/copy; the border turns error-500 (spec/14 §9). */
   error?: string
+  /** A sentence worth reading that blocks nothing: amber text, no aria-invalid. */
+  warning?: string
   children: ReactNode
   className?: string
 }
@@ -27,7 +31,15 @@ export interface FormFieldProps {
  * below the field in error-600). The error is text, never colour alone
  * (WCAG 3.3.1). The control itself takes its ids from fieldIds().
  */
-export function FormField({ id, label, hint, error, children, className }: FormFieldProps) {
+export function FormField({
+  id,
+  label,
+  hint,
+  warning,
+  error,
+  children,
+  className,
+}: FormFieldProps) {
   return (
     <div className={cn('grid content-start gap-1.5', className)}>
       <label htmlFor={id} className="text-sm font-semibold text-n-800">
@@ -37,6 +49,11 @@ export function FormField({ id, label, hint, error, children, className }: FormF
       {hint && (
         <p id={`${id}-hint`} className="text-xs text-text-secondary">
           {hint}
+        </p>
+      )}
+      {warning && (
+        <p id={`${id}-warning`} className="text-xs font-semibold text-warning-700">
+          {warning}
         </p>
       )}
       {error && (
