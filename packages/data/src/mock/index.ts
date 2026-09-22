@@ -276,9 +276,9 @@ export const mockRepositories: Repositories = {
       return createCorrection(tenantId, periodId, note)
     },
 
-    async file(fileId) {
+    async file(tenantId, fileId) {
       await delay('reports.file')
-      return sampleFile(fileId)
+      return sampleFile(tenantId, fileId)
     },
   },
   workers: {

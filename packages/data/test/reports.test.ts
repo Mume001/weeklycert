@@ -212,9 +212,11 @@ describe('generating, signing and filing', () => {
     const dto = await reportsOf(DUTCHESS, SIGNED_WEEK)
     const file = dto.versions[0]?.files[0]
     if (!file) throw new Error('fixture')
-    const served = await repos.reports.file(file.id)
+    const served = await repos.reports.file(TENANT, file.id)
     expect(served?.name).toBe(file.name)
     expect(served?.body).toContain('<!-- EXAMPLE. Made-up data, not a filing. -->')
-    expect(await repos.reports.file('nope:ny_xml')).toBeNull()
+    expect(await repos.reports.file(TENANT, 'nope:ny_xml')).toBeNull()
+    // Another company cannot ask for this file by its id (spec/02 §4 rule 2).
+    expect(await repos.reports.file(OTHER_TENANT, file.id)).toBeNull()
   })
 })

@@ -131,8 +131,15 @@ export interface Repositories {
       reason: string,
     ): Promise<void>
     createCorrection(tenantId: Uuid, periodId: Uuid, note: string): Promise<{ periodId: Uuid }>
-    /** The example file behind a download (spec/19 §11). */
-    file(fileId: string): Promise<{ name: string; contentType: string; body: string } | null>
+    /**
+     * The example file behind a download (spec/19 §11). The tenant is part of
+     * the lookup, not only of the guard: a file id alone must never reach
+     * another company's row (spec/02 §4 rule 2, which RLS enforces in step 4).
+     */
+    file(
+      tenantId: Uuid,
+      fileId: string,
+    ): Promise<{ name: string; contentType: string; body: string } | null>
   }
   workers: {
     list(tenantId: Uuid): Promise<WorkerDTO[]>

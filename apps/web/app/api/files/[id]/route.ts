@@ -9,9 +9,11 @@ export const dynamic = 'force-dynamic'
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const slug = new URL(request.url).searchParams.get('t') ?? ''
   try {
-    await requireTenant(slug, PROJECT_WRITERS)
+    const shell = await requireTenant(slug, PROJECT_WRITERS)
     const { id } = await context.params
-    const file = await getRepositories().reports.file(decodeURIComponent(id))
+    // The company comes from the session, never from the id in the URL: the
+    // guard says who is asking, the lookup says what they may ask for.
+    const file = await getRepositories().reports.file(shell.tenant.id, decodeURIComponent(id))
     if (!file) return Response.json({ error: 'not_found' }, { status: 404 })
     return new Response(file.body, {
       headers: {

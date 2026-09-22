@@ -477,12 +477,17 @@ export function createCorrection(tenantId: Uuid, periodId: Uuid, note: string): 
   return { periodId: correction.id }
 }
 
-/** The example file behind a download (spec/19 §11). */
+/**
+ * The example file behind a download (spec/19 §11). The report has to belong to
+ * this company: the guard on the route says who is asking, this says what they
+ * may ask for, and in step 4 RLS says it a third time (spec/02 §4 rule 2).
+ */
 export function sampleFile(
+  tenantId: Uuid,
   fileId: string,
 ): { name: string; contentType: string; body: string } | null {
   const [reportId = '', kind] = fileId.split(':')
-  const report = db.reports.find((r) => r.id === reportId)
+  const report = db.reports.find((r) => r.id === reportId && r.tenantId === tenantId)
   if (!report || kind !== 'ny_xml') return null
   const version = versionsOf(report.periodId).find((v) => v.id === report.id)
   return {
