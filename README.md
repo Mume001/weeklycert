@@ -62,6 +62,7 @@ weeklycert/
     19-FRONTEND-IZRADA.md        ugovor za izradu frontenda: dvije aplikacije,
                                  stablo fajlova, DTO-i, potpisi komponenti,
                                  demo podaci, sesije, definicija gotovog
+    20-SESIJE.md                 red čekanja sesija F do O, do kapije
 
   skice/
     ekrani.html          rani žičani modeli (dizajn/ ih je zamijenio)
