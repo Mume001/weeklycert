@@ -21,6 +21,19 @@ import {
   updateProject,
 } from './projects.ts'
 import {
+  createCorrection,
+  generate,
+  recordOutcome,
+  recordSubmission,
+  reportStatus,
+  reports,
+  review,
+  sampleFile,
+  savePayroll,
+  sign,
+  signerFor,
+} from './reports.ts'
+import {
   buildWeekInput,
   copyPreviousWeek,
   markNoWork,
@@ -77,6 +90,7 @@ export const mockRepositories: Repositories = {
               slug: t.slug,
               name: t.legalName,
               role: m.role,
+              canSign: m.canSign,
               activeProjects: activeProjectsOf(t.id).length,
             },
           ]
@@ -210,7 +224,62 @@ export const mockRepositories: Repositories = {
       markNoWork(periodId)
     },
 
-    review: later('weeks.review', 'E (review, 03 §5 item 3)'),
+    async review(tenantId, projectId, weekEnding) {
+      await delay('weeks.review')
+      return review(tenantId, projectId, weekEnding)
+    },
+
+    async savePayroll(tenantId, periodId, input) {
+      await delay('weeks.savePayroll')
+      savePayroll(tenantId, periodId, input)
+    },
+  },
+
+  reports: {
+    async list(tenantId, projectId, weekEnding) {
+      await delay('reports.list')
+      return reports(tenantId, projectId, weekEnding)
+    },
+
+    async generate(tenantId, periodId) {
+      await delay('reports.generate')
+      return generate(tenantId, periodId)
+    },
+
+    async status(tenantId, reportId) {
+      await delay('reports.status')
+      return reportStatus(tenantId, reportId)
+    },
+
+    async signer(tenantId, userId) {
+      await delay('reports.signer')
+      return signerFor(tenantId, userId)
+    },
+
+    async sign(tenantId, periodId, userId, input) {
+      await delay('reports.sign')
+      return sign(tenantId, periodId, userId, input)
+    },
+
+    async recordSubmission(tenantId, periodId, input) {
+      await delay('reports.recordSubmission')
+      recordSubmission(tenantId, periodId, input)
+    },
+
+    async recordOutcome(tenantId, submissionId, outcome, reason) {
+      await delay('reports.recordOutcome')
+      recordOutcome(tenantId, submissionId, outcome, reason)
+    },
+
+    async createCorrection(tenantId, periodId, note) {
+      await delay('reports.createCorrection')
+      return createCorrection(tenantId, periodId, note)
+    },
+
+    async file(fileId) {
+      await delay('reports.file')
+      return sampleFile(fileId)
+    },
   },
   workers: {
     list: later('workers.list', 'E (workers, 03 §5 item 5)'),

@@ -6,7 +6,12 @@ import type * as React from 'react'
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (
-    <div data-slot="table-container" className="relative w-full overflow-x-auto">
+    // A container that scrolls has to be reachable by keyboard, or the columns
+    // past the edge cannot be read without a mouse (WCAG 2.1.1, axe
+    // scrollable-region-focusable). The lint rule and the success criterion
+    // disagree here, and the criterion wins.
+    // biome-ignore lint/a11y/noNoninteractiveTabindex: a scrollable region must take focus
+    <div data-slot="table-container" tabIndex={0} className="relative w-full overflow-x-auto">
       <table
         data-slot="table"
         className={cn('w-full border-separate border-spacing-0 text-sm', className)}

@@ -9,5 +9,7 @@ export const TenantBriefSchema = z.object({
   /** The user's role in this company. */
   role: MembershipRoleSchema,
   activeProjects: z.number().int().nonnegative(),
+  /** A bookkeeper may sign only where the owner turned it on (spec/02 §2). */
+  canSign: z.boolean(),
 })
 export type TenantBrief = z.infer<typeof TenantBriefSchema>

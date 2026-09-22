@@ -32,6 +32,8 @@ export interface ShellContext {
   tenants: TenantBrief[]
   /** The user's role in this company. */
   role: MembershipRole
+  /** Whether this membership may sign the certification (spec/02 §2 and §3). */
+  canSign: boolean
   /** The role picked in RoleSwitcher (mock only). */
   pickedRole: MembershipRole
   openWeeks: OpenWeeksDTO
@@ -60,11 +62,21 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
     tenant,
     tenants,
     role: membership.role,
+    canSign:
+      SIGNING_ROLES.includes(membership.role) &&
+      (membership.role !== 'bookkeeper' || membership.canSign),
     pickedRole,
     openWeeks,
     today: repos.today(),
   }
 })
+
+/**
+ * Who may sign the certification (spec/02 §3): the signer, the owner and the
+ * administrator always, an outside bookkeeper only where the owner turned it
+ * on. Payroll never signs; that separation is the reason the role exists.
+ */
+export const SIGNING_ROLES: readonly MembershipRole[] = ['owner', 'admin', 'signer', 'bookkeeper']
 
 /** Roles that create and change projects, classifications and weeks (spec/02 §3). */
 export const PROJECT_WRITERS: readonly MembershipRole[] = [

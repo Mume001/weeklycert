@@ -17,6 +17,7 @@ import type {
   ImportPreviewDTO,
   IsoDate,
   OpenWeeksDTO,
+  PayrollInput,
   ProjectClassificationsDTO,
   ProjectFormDTO,
   ProjectInput,
@@ -25,7 +26,12 @@ import type {
   ProjectSaveResult,
   ProjectTimelineDTO,
   RateVersionInput,
+  ReportStatusDTO,
+  ReportsDTO,
   ReviewDTO,
+  SignerDTO,
+  SignInput,
+  SubmissionDTO,
   TenantBrief,
   TenantDTO,
   UserDTO,
@@ -92,7 +98,41 @@ export interface Repositories {
     /** The week's period, created open if it has none yet (spec/04 §7.1, first row). */
     open(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<Uuid>
     markNoWork(periodId: Uuid): Promise<void>
-    review(projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO>
+    /** The week as the review screen reads it; null when the project is not this company's. */
+    review(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO | null>
+    /** Gross for all work, deductions and net for one worker (spec/03 §4.5). */
+    savePayroll(tenantId: Uuid, periodId: Uuid, input: PayrollInput): Promise<void>
+  }
+  /** Generating, signing and filing one week (spec/03 §4.5). */
+  reports: {
+    list(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<ReportsDTO | null>
+    /** Refuses while a blocking finding is open (spec/05 §1 point 2). */
+    generate(tenantId: Uuid, periodId: Uuid): Promise<{ reportId: Uuid; version: number }>
+    /** The generate job's progress, polled by the screen (spec/19 §2). */
+    status(tenantId: Uuid, reportId: Uuid): Promise<ReportStatusDTO | null>
+    /** Who signs, prefilled from `signers` (spec/04 §3.2). */
+    signer(tenantId: Uuid, userId: Uuid): Promise<SignerDTO>
+    /** Signs, locks the week and hands out the payroll number (spec/04 §7.1). */
+    sign(
+      tenantId: Uuid,
+      periodId: Uuid,
+      userId: Uuid,
+      input: SignInput,
+    ): Promise<{ payrollNumber: number }>
+    recordSubmission(
+      tenantId: Uuid,
+      periodId: Uuid,
+      input: { channel: SubmissionDTO['channel']; confirmationRef: string; recipient?: string },
+    ): Promise<void>
+    recordOutcome(
+      tenantId: Uuid,
+      submissionId: Uuid,
+      outcome: 'accepted' | 'rejected',
+      reason: string,
+    ): Promise<void>
+    createCorrection(tenantId: Uuid, periodId: Uuid, note: string): Promise<{ periodId: Uuid }>
+    /** The example file behind a download (spec/19 §11). */
+    file(fileId: string): Promise<{ name: string; contentType: string; body: string } | null>
   }
   workers: {
     list(tenantId: Uuid): Promise<WorkerDTO[]>

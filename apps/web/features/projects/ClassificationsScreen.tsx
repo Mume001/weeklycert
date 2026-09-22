@@ -5,13 +5,13 @@ import type { ReactNode } from 'react'
 import { PageBar } from '@/components/app-shell/PageBar'
 import { ForbiddenState } from '@/components/patterns/ForbiddenState'
 import { LoadingTable } from '@/components/patterns/LoadingTable'
+import { Notice } from '@/components/patterns/Notice'
+import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { formatDate } from '@/lib/format'
+import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
 import { ClassificationsPanel } from './ClassificationsPanel'
-import { Notice } from './Notice'
 import { ClosedNotice } from './ProjectFormScreen'
-import { RetryErrorState } from './RetryErrorState'
-import { screenState } from './screen-state'
 
 const c = copy.projects.classifications
 

@@ -339,6 +339,61 @@ Statusi sedmica su značke iz okvira.
 - Upozorenje o potpisu: `Signature is recorded electronically. Scanned signatures are not accepted by the Department of Labor.`
 - Poslije potpisa: `Signed by {Name} on {date} at {time} ET. This week is locked.`
 
+**Pregled** (`/weeks/[we]/review`, 03 §4.5). Brojači nalaza, panel i dugme
+"Popravi" su isti kao u mreži i ne ponavljaju se ovdje.
+
+- Kolone sažetka: `Worker` · `Classification` · `ST` · `OT` · `ST rate` ·
+  `OT rate` · `Fringe credit` · `Gross on project` · `Gross for all work` ·
+  `Deductions` · `Net pay`
+- Dugmad: `Generate the draft` · `Request signature` · `Back to hours`
+- Dok traje generisanje: `Generating the draft...` · gotovo: `Draft v{n} is ready.`
+  (`v{n}` je oznaka, ne brojanje)
+- Onemogućeno zbog upozorenja koja niko nije potvrdio:
+  `{n} warning needs a look before you can generate the report.` /
+  `{n} warnings need a look before you can generate the report.`
+- Kartica WH-347: `WH-347 for the general contractor`
+- Oznaka na oba pregleda: `An example of what the file will hold. Real files come with the generator.`
+- Kartica onoga što se kuca u portal, oznake: `FEIN` · `NYS registration number`
+  (uz PRC i redni broj izvještaja, koji imaju svoje nazive gore)
+- Odjeljak plate: `Deductions and all work` /
+  `The hours do not carry these. Import them from payroll, or type them here.`
+- Polja: `Gross for all work` · `Net pay` · `Deduction` · `Amount`
+- Dugmad odjeljka: `Add a deduction` · `Remove this deduction` · `Save payroll figures`
+- Vrste odbitaka (`deduction_kind` iz 04 §4): `Federal tax` · `State tax` ·
+  `Local tax` · `FICA` · `Medicare` · `SDI` · `PFL` · `Union dues` ·
+  `Garnishment` · `Insurance` · `Retirement 401(k)` · `Other`
+
+**Potpis** (`/weeks/[we]/sign`)
+- Naslov: `Certify this week`
+- Izjava: `Statement of compliance` / `We tick a box from your data, never by hand. Each one says why.`
+- Zašto je kućica čekirana: `Always required.` ·
+  `Because apprentices are on this report.` ·
+  `Because fringe benefits are on this report.`
+- Zašto nije: `Not ticked: no apprentices on this report.` ·
+  `Not ticked: no fringe benefits on this report.`
+- Polja potpisnika: `Full name` · `Title` · `Phone` · `Email`
+- Potvrda: `I understand what I am signing.`
+- Krivična odgovornost (naš tekst, ne citat obrasca):
+  `Signing this is a statement to the federal government. A false statement can be a crime under 18 U.S.C. 1001 and 31 U.S.C. 3729, and what you file can be released under a Freedom of Information Act request.`
+- Greške: `Enter the name that goes on the certification.` · `Enter your title.` ·
+  `Enter your password or your two-factor code.` ·
+  `Tick the box to confirm you understand.`
+- Ko ne smije potpisati vidi `Request signature` i ide potpisniku emailom (02 §5).
+
+**Izvještaji i predaja** (`/weeks/[we]/reports`)
+- Naslov: `Reports and filing`
+- Kolone verzija: `Version` · `Generated` · `Signed by` · `Status` · `Files`
+- Prazno: naslov `No report yet`, tekst
+  `A report is generated on the review screen, and signed there.`, dugme `Review and certify`
+- Predaja: `Record the filing` · polja `Confirmation number` · `Filed on` ·
+  dugme `Record submission`
+- Odgovor portala: `Portal response` · dugmad `Accepted` · `Rejected` ·
+  polje `What the portal said`
+- Glavnom izvođaču: `Record as sent to the general contractor` · polje `Email`
+- Ispravka: `A correction is a new version of this week. The old one stays.` ·
+  polje `What is being corrected` · greška `Say what is being corrected.`
+- Greška pri predaji: `Enter the confirmation number the portal gave you.`
+
 ### Predaja
 - Naslov: `Submit`
 - Koraci: `Open mpwr-public.labor.ny.gov and sign in.` /

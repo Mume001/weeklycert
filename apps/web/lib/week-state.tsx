@@ -100,6 +100,13 @@ export function WeekStateProvider({
   readOnly: boolean
 }) {
   const [findings, setFindings] = useState(initialFindings)
+
+  // The server is the one that counts (spec/03 §4.5): when it sends a new set,
+  // the panel takes it. Without this the panel keeps the findings of the first
+  // render, and a screen that saved something would still show the old count.
+  useEffect(() => {
+    setFindings(initialFindings)
+  }, [initialFindings])
   const [acknowledged, setAcknowledged] = useState<string[]>([])
   const [panelOpen, setPanelOpen] = useState(false)
   const panelTriggerRef = useRef<HTMLButtonElement>(null)

@@ -281,6 +281,11 @@ export const ReportRow = z.object({
   signedBySignerId: UuidSchema.nullable(),
   signedByUserId: UuidSchema.nullable(),
   signedAt: IsoDateTimeSchema.nullable(),
+  /** The exact words the signer accepted (spec/04 §3.7). Written at signing. */
+  attestationText: z.string().nullable().default(null),
+  /** Name and title as typed on the certification, which may differ from the signer row. */
+  signedName: z.string().nullable().default(null),
+  signedTitle: z.string().nullable().default(null),
 })
 
 export const SubmissionRow = z.object({

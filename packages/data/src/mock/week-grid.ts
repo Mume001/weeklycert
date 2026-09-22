@@ -10,6 +10,7 @@ import {
   timelineWeekEndings,
   type WeekInput,
   type WeekResult,
+  type WorkerPayrollInput,
   weekDates,
 } from '@wc/core'
 import type { GridRow, IsoDate, Uuid, WeekGridDTO } from '../dto/index.ts'
@@ -31,11 +32,19 @@ import { db } from './db.ts'
 const store = globalThis as typeof globalThis & {
   __wcWeekEdits?: Map<string, (string | null)[]>
   __wcNoWork?: Map<Uuid, boolean>
+  __wcPayroll?: Map<string, WorkerPayrollInput>
 }
 if (!store.__wcWeekEdits) store.__wcWeekEdits = new Map<string, (string | null)[]>()
 if (!store.__wcNoWork) store.__wcNoWork = new Map<Uuid, boolean>()
+if (!store.__wcPayroll) store.__wcPayroll = new Map<string, WorkerPayrollInput>()
 const edits = store.__wcWeekEdits
 const noWork = store.__wcNoWork
+/**
+ * The payroll side of the week: gross for all work, deductions and net, typed
+ * on the review screen (spec/03 §4.5) or imported. The hours cannot know them,
+ * and without them the engine cannot check net pay against the deductions.
+ */
+const payroll = store.__wcPayroll
 
 const editKey = (periodId: Uuid, rowId: string) => `${periodId}|${rowId}`
 
@@ -261,7 +270,7 @@ export function buildWeekInput(projectId: Uuid, weekEnding: IsoDate): WeekInput 
         isLegallyRequired: p.isLegallyRequired,
       })),
     entries,
-    payroll: [],
+    payroll: payrollOf(row.id),
     context: {
       today: mockToday(),
       payDate: null,
@@ -362,6 +371,8 @@ export function patchCell(periodId: Uuid, rowId: string, day: number, raw: strin
   const next = [...current]
   next[day] = raw === '' ? null : raw
   edits.set(editKey(periodId, rowId), next)
+  // spec/04 §7.1: an edit in `in_review` puts the week back to `open`.
+  if (row.status === 'in_review') row.status = 'open'
 
   const dto = weekGrid(row.projectId, row.weekEnding)
   const updated = dto.rows.find((r) => r.id === rowId)
@@ -394,8 +405,20 @@ export function markNoWork(periodId: Uuid): void {
   }
 }
 
+/** What the customer typed on the review screen, as the engine takes it. */
+export function payrollOf(periodId: Uuid): WorkerPayrollInput[] {
+  return [...payroll.entries()]
+    .filter(([key]) => key.startsWith(`${periodId}|`))
+    .map(([, value]) => value)
+}
+
+export function setPayroll(periodId: Uuid, row: WorkerPayrollInput): void {
+  payroll.set(`${periodId}|${row.workerId}`, row)
+}
+
 /** Only for tests: forget this run's edits. */
 export function resetWeekEdits(): void {
   edits.clear()
   noWork.clear()
+  payroll.clear()
 }

@@ -5,12 +5,12 @@ import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { PageBar } from '@/components/app-shell/PageBar'
 import { ForbiddenState } from '@/components/patterns/ForbiddenState'
+import { Notice } from '@/components/patterns/Notice'
+import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Skeleton } from '@/components/ui/skeleton'
+import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
-import { Notice } from './Notice'
 import { ProjectForm } from './ProjectForm'
-import { RetryErrorState } from './RetryErrorState'
-import { screenState } from './screen-state'
 
 /** Skeleton in the shape of the form (spec/19 §7), no spinner. */
 function LoadingForm() {

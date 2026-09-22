@@ -526,6 +526,128 @@ export const copy = {
     signatureWarning:
       'Signature is recorded electronically. Scanned signatures are not accepted by the Department of Labor.',
     signed: 'Signed by {Name} on {date} at {time} ET. This week is locked.',
+    columns: {
+      worker: 'Worker',
+      classification: 'Classification',
+      st: 'ST',
+      ot: 'OT',
+      stRate: 'ST rate',
+      otRate: 'OT rate',
+      fringeCredit: 'Fringe credit',
+      grossProject: 'Gross on project',
+      grossAllWork: 'Gross for all work',
+      deductions: 'Deductions',
+      netPay: 'Net pay',
+    },
+    generate: 'Generate the draft',
+    requestSignature: 'Request signature',
+    backToHours: 'Back to hours',
+    generating: 'Generating the draft...',
+    /** v{n} is a label, not a count. */
+    ready: 'Draft v{n} is ready.',
+    warningsBlock_one: '{n} warning needs a look before you can generate the report.',
+    warningsBlock_other: '{n} warnings need a look before you can generate the report.',
+    wh347Card: 'WH-347 for the general contractor',
+    byHand: { fein: 'FEIN', nysRegistration: 'NYS registration number' },
+    sampleNote: 'An example of what the file will hold. Real files come with the generator.',
+    payroll: {
+      title: 'Deductions and all work',
+      hint: 'The hours do not carry these. Import them from payroll, or type them here.',
+      grossAllWork: 'Gross for all work',
+      netPay: 'Net pay',
+      deduction: 'Deduction',
+      amount: 'Amount',
+      add: 'Add a deduction',
+      remove: 'Remove this deduction',
+      save: 'Save payroll figures',
+    },
+    /** deduction_kind, spec/04 §4. */
+    deductionKinds: {
+      federal_tax: 'Federal tax',
+      state_tax: 'State tax',
+      local_tax: 'Local tax',
+      fica: 'FICA',
+      medicare: 'Medicare',
+      sdi: 'SDI',
+      pfl: 'PFL',
+      union_dues: 'Union dues',
+      garnishment: 'Garnishment',
+      insurance: 'Insurance',
+      retirement_401k: 'Retirement 401(k)',
+      other: 'Other',
+    },
+  },
+
+  // 15 §3 Potpis
+  sign: {
+    title: 'Certify this week',
+    statement: 'Statement of compliance',
+    statementNote: 'We tick a box from your data, never by hand. Each one says why.',
+    reasons: {
+      always: 'Always required.',
+      apprentices: 'Because apprentices are on this report.',
+      fringe: 'Because fringe benefits are on this report.',
+    },
+    notTicked: {
+      apprentices: 'Not ticked: no apprentices on this report.',
+      fringe: 'Not ticked: no fringe benefits on this report.',
+    },
+    fields: {
+      fullName: 'Full name',
+      title: 'Title',
+      phone: 'Phone',
+      email: 'Email',
+    },
+    understand: 'I understand what I am signing.',
+    criminalWarning:
+      'Signing this is a statement to the federal government. A false statement can be a crime under 18 U.S.C. 1001 and 31 U.S.C. 3729, and what you file can be released under a Freedom of Information Act request.',
+    errors: {
+      nameRequired: 'Enter the name that goes on the certification.',
+      titleRequired: 'Enter your title.',
+      reauthRequired: 'Enter your password or your two-factor code.',
+      understandRequired: 'Tick the box to confirm you understand.',
+    },
+  },
+
+  // 15 §3 Izvještaji i predaja
+  reports: {
+    title: 'Reports and filing',
+    columns: {
+      version: 'Version',
+      generated: 'Generated',
+      signedBy: 'Signed by',
+      status: 'Status',
+      files: 'Files',
+    },
+    empty: {
+      title: 'No report yet',
+      body: 'A report is generated on the review screen, and signed there.',
+      action: 'Review and certify',
+    },
+    filing: {
+      title: 'Record the filing',
+      confirmation: 'Confirmation number',
+      filedOn: 'Filed on',
+      submit: 'Record submission',
+    },
+    portal: {
+      title: 'Portal response',
+      accepted: 'Accepted',
+      rejected: 'Rejected',
+      reason: 'What the portal said',
+    },
+    toPrime: {
+      record: 'Record as sent to the general contractor',
+      email: 'Email',
+    },
+    correction: {
+      note: 'A correction is a new version of this week. The old one stays.',
+      field: 'What is being corrected',
+      error: 'Say what is being corrected.',
+    },
+    errors: {
+      confirmationRequired: 'Enter the confirmation number the portal gave you.',
+    },
   },
 
   // 15 §3 Predaja

@@ -9,12 +9,12 @@ import { PageBar } from '@/components/app-shell/PageBar'
 import { EmptyState } from '@/components/patterns/EmptyState'
 import { ForbiddenState } from '@/components/patterns/ForbiddenState'
 import { LoadingTable } from '@/components/patterns/LoadingTable'
+import { Notice } from '@/components/patterns/Notice'
+import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
+import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
-import { Notice } from './Notice'
 import { ProjectsTable } from './ProjectsTable'
-import { RetryErrorState } from './RetryErrorState'
-import { screenState } from './screen-state'
 
 const t = copy.projects.list
 const STATUSES = ['active', 'paused', 'closed'] as const
