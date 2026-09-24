@@ -105,3 +105,8 @@ export function initials(name: string): string {
     .map((w) => w.charAt(0).toUpperCase())
     .join('')
 }
+
+/** "2,080" for a whole number, such as the hours in a year. */
+export function formatWhole(value: string): string {
+  return group(new Decimal(value).toFixed(0, Decimal.ROUND_HALF_UP))
+}

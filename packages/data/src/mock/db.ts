@@ -26,6 +26,7 @@ import {
   FringePlanRow,
   MembershipRow,
   PeriodRow,
+  type PiiAccessLogRow,
   type PrimeContractorRow,
   ProjectClassificationRow,
   ProjectRow,
@@ -74,6 +75,7 @@ function loadAll() {
     // Tables of spec/04 that have no fixture rows: the screens fill them.
     primeContractors: [] as z.infer<typeof PrimeContractorRow>[],
     workPauses: [] as z.infer<typeof WorkPauseRow>[],
+    piiAccessLog: [] as z.infer<typeof PiiAccessLogRow>[],
   }
 }
 

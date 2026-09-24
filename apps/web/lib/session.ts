@@ -103,12 +103,22 @@ export class GuardError extends Error {
 export async function requireTenant(
   slug: string,
   roles: readonly MembershipRole[],
+  /** A read (Show on a worker's PII) is allowed in a paused company; a write is not. */
+  mode: 'write' | 'read' = 'write',
 ): Promise<ShellContext> {
   const shell = await loadShell(slug)
   if (!shell) throw new GuardError(404)
-  if (!roles.includes(shell.role) || isReadOnlyCompany(shell.tenant)) throw new GuardError(403)
+  if (!roles.includes(shell.role)) throw new GuardError(403)
+  if (mode === 'write' && isReadOnlyCompany(shell.tenant)) throw new GuardError(403)
   return shell
 }
+
+/**
+ * Who may read a worker's address, last 4 of the SSN and date of birth
+ * (spec/02 §3): everybody but the viewer, who sees the name and the
+ * classification only.
+ */
+export const PII_READERS: readonly MembershipRole[] = PROJECT_WRITERS
 
 /** spec/08 §2.4: a paused or cancelled company reads and exports, nothing else. */
 export function isReadOnlyCompany(tenant: TenantDTO): boolean {

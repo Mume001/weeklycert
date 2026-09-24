@@ -11,13 +11,17 @@ import type {
   ClassificationSaveResult,
   DashboardDTO,
   Finding,
-  FringePlanDTO,
+  FringePlanInput,
+  FringePlansDTO,
+  FringeSaveResult,
   GridRow,
   ImportBatchDTO,
   ImportPreviewDTO,
   IsoDate,
   OpenWeeksDTO,
   PayrollInput,
+  PiiPart,
+  PiiValue,
   ProjectClassificationsDTO,
   ProjectFormDTO,
   ProjectInput,
@@ -37,7 +41,12 @@ import type {
   UserDTO,
   Uuid,
   WeekGridDTO,
-  WorkerDTO,
+  WorkerFormDTO,
+  WorkerInput,
+  WorkerListFilter,
+  WorkerNameDTO,
+  WorkerRowDTO,
+  WorkerSaveResult,
 } from './dto/index.ts'
 import { mockRepositories } from './mock/index.ts'
 
@@ -149,11 +158,26 @@ export interface Repositories {
       fileId: string,
     ): Promise<{ name: string; contentType: string; body: string } | null>
   }
+  /** Workers (spec/03 §4.6). No DTO here carries PII; that is readPii, one part at a time. */
   workers: {
-    list(tenantId: Uuid): Promise<WorkerDTO[]>
-    get(tenantId: Uuid, workerId: Uuid): Promise<WorkerDTO | null>
+    list(tenantId: Uuid, filter?: WorkerListFilter): Promise<WorkerRowDTO[]>
+    /** The viewer's list: name and classification only (spec/02 §3). */
+    names(tenantId: Uuid, filter?: WorkerListFilter): Promise<WorkerNameDTO[]>
+    /** The viewer's detail; null when the worker is not this company's. */
+    name(tenantId: Uuid, workerId: Uuid): Promise<WorkerNameDTO | null>
+    /** The form's starting values; `workerId` null is a new worker. */
+    form(tenantId: Uuid, workerId: Uuid | null): Promise<WorkerFormDTO | null>
+    /** `input` has passed WorkerInputSchema; this adds the checks that need data. */
+    create(tenantId: Uuid, input: WorkerInput): Promise<WorkerSaveResult>
+    update(tenantId: Uuid, workerId: Uuid, input: WorkerInput): Promise<WorkerSaveResult>
+    /** Show: one PII part, and a row in pii_access_log (spec/04 §6). */
+    readPii(tenantId: Uuid, workerId: Uuid, userId: Uuid, part: PiiPart): Promise<PiiValue | null>
   }
-  fringe: { list(tenantId: Uuid): Promise<FringePlanDTO[]> }
+  fringe: {
+    list(tenantId: Uuid): Promise<FringePlansDTO>
+    create(tenantId: Uuid, input: FringePlanInput): Promise<FringeSaveResult>
+    update(tenantId: Uuid, planId: Uuid, input: FringePlanInput): Promise<FringeSaveResult>
+  }
   imports: {
     list(tenantId: Uuid): Promise<ImportBatchDTO[]>
     preview(tenantId: Uuid, batchId: Uuid): Promise<ImportPreviewDTO>

@@ -23,6 +23,7 @@ const B = '01921000-0000-7000-8000-000000000002'
 const PROJECT = '01924000-0000-7000-8000-000000000001'
 const RATE = '01926000-0000-7000-8000-000000000001'
 const WORKER = '01927000-0000-7000-8000-000000000001'
+const PLAN = '01929000-0000-7000-8000-000000000001'
 const OPEN_WEEK = '2026-09-12'
 const OPEN_PERIOD = '01928000-0000-7000-8000-000000000018'
 const REPORT = '0192c000-0000-7000-8000-000000000001'
@@ -102,7 +103,27 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
   'reports.recordOutcome': (r) => r.reports.recordOutcome(B, SUBMISSION, 'rejected', 'x'),
   'reports.createCorrection': (r) => r.reports.createCorrection(B, OPEN_PERIOD, 'x'),
   'reports.file': (r) => r.reports.file(B, `${REPORT}:ny_xml`),
-  'workers.get': (r) => r.workers.get(B, WORKER),
+  'workers.name': (r) => r.workers.name(B, WORKER),
+  'workers.form': (r) => r.workers.form(B, WORKER),
+  'workers.update': async (r) => {
+    const form = await r.workers.form(A, WORKER)
+    if (!form) throw new Error('fixture')
+    return r.workers.update(B, WORKER, { ...form.values, firstName: 'Taken over' })
+  },
+  'workers.readPii': (r) => r.workers.readPii(B, WORKER, USER_OF_A, 'address'),
+  'fringe.update': (r) =>
+    r.fringe.update(B, PLAN, {
+      name: 'Taken over',
+      kind: 'pension',
+      funding: 'plan_contribution',
+      planNumber: '',
+      provider: '',
+      hourlyCredit: '1.00',
+      annualCost: '',
+      annualHoursBasis: '',
+      annualize: true,
+      isLegallyRequired: false,
+    }),
   'imports.preview': (r) => r.imports.preview(B, IMPORT_BATCH),
 }
 

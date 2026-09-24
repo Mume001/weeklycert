@@ -212,6 +212,20 @@ export const WorkerPiiRow = z.object({
   phone: z.string().nullable(),
 })
 
+/**
+ * pii_access_log (spec/04 §3.9): one row per read of a worker's PII. Written
+ * only by packages/data/src/pii.ts. No value is ever stored here, only which
+ * fields were read.
+ */
+export const PiiAccessLogRow = z.object({
+  tenantId: UuidSchema,
+  userId: UuidSchema,
+  workerId: UuidSchema,
+  fields: z.array(z.string()),
+  purpose: z.enum(['view', 'report_generation', 'export', 'support']),
+  at: IsoDateTimeSchema,
+})
+
 export const ApprenticeRecordRow = z.object({
   id: UuidSchema,
   tenantId: UuidSchema,

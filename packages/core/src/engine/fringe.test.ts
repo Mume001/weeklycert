@@ -8,7 +8,7 @@ import {
   ratioExceeded,
   recordCovers,
 } from './apprentice.ts'
-import { allocationsOn, fringePosition, planCredit } from './fringe.ts'
+import { allocationsOn, fringePosition, monthlyPremiumCredit, planCredit } from './fringe.ts'
 import type { AllocationInput, ApprenticeRecordInput, FringePlanInput } from './types.ts'
 
 function plan(partial: Partial<FringePlanInput> = {}): FringePlanInput {
@@ -174,5 +174,25 @@ describe('apprentices', () => {
     expect(ratioExceeded(oneToThree, 2, 3)).toBe(true)
     expect(ratioExceeded(oneToThree, 1, 3)).toBe(false)
     expect(ratioExceeded({ apprentices: 1, journeyworkers: 1 }, 1, 1)).toBe(false)
+  })
+})
+
+describe('a monthly premium as a credit per hour (spec/03 §4.6, golden 6 in spec/01 §5)', () => {
+  it('600 a month over 2,080 hours is 3.46 an hour', () => {
+    const out = monthlyPremiumCredit('600.00', '2080')
+    expect(out && money(out.yearly)).toBe('7200.00')
+    expect(out && rate(out.hourly)).toBe('3.4615')
+    expect(out && money(out.hourly)).toBe('3.46')
+  })
+
+  it('divides by the hours it is given, 1,820 for 7-hour days', () => {
+    const out = monthlyPremiumCredit('600.00', '1820')
+    expect(out && money(out.hourly)).toBe('3.96')
+  })
+
+  it('has no answer without hours above zero or a premium', () => {
+    expect(monthlyPremiumCredit('600.00', '0')).toBeNull()
+    expect(monthlyPremiumCredit('', '2080')).toBeNull()
+    expect(monthlyPremiumCredit('abc', '2080')).toBeNull()
   })
 })

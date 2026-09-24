@@ -110,3 +110,30 @@ export function allocationsOn(
       (allocation.effectiveTo === null || allocation.effectiveTo >= date),
   )
 }
+
+/** What the converter on /fringe-plans shows, step by step (spec/03 §4.6). */
+export interface PremiumCredit {
+  /** The monthly premium times twelve. */
+  yearly: Dec
+  /** What the year is divided by, so the screen can show it. */
+  divisor: Dec
+  hourly: Dec
+}
+
+const MONEY_TEXT = /^\d+(\.\d{1,2})?$/
+const HOURS_TEXT = /^\d+$/
+
+/**
+ * A monthly premium as a credit per hour: twelve months over all hours worked
+ * in a year (29 CFR 5.25(b)). Golden 6 in spec/01 §5: 600 a month over 2,080
+ * hours is 3.46. Null when either value cannot be divided.
+ */
+export function monthlyPremiumCredit(monthly: string, yearHours: string): PremiumCredit | null {
+  const m = monthly.trim()
+  const h = yearHours.trim()
+  if (!MONEY_TEXT.test(m) || !HOURS_TEXT.test(h)) return null
+  const divisor = dec(h)
+  if (divisor.lte(ZERO)) return null
+  const yearly = dec(m).times(12)
+  return { yearly, divisor, hourly: yearly.div(divisor) }
+}

@@ -4,6 +4,7 @@
 import { type Dow, openWeekEndings, weekEndingOf } from '@wc/core'
 import type { OpenWeeksDTO, TenantBrief, TenantDTO, UserDTO } from '../dto/index.ts'
 import { NotYetBuiltError } from '../not-yet.ts'
+import { readPii } from '../pii.ts'
 import type { Repositories } from '../repositories.ts'
 import { mockNow, mockToday } from './clock.ts'
 import { db } from './db.ts'
@@ -42,6 +43,17 @@ import {
   periodFindings,
   weekGrid,
 } from './week-grid.ts'
+import {
+  createFringePlan,
+  createWorker,
+  fringePlans,
+  listWorkers,
+  updateFringePlan,
+  updateWorker,
+  workerForm,
+  workerName,
+  workerNames,
+} from './workers.ts'
 
 const later = (method: string, session: string) => async (): Promise<never> => {
   throw new NotYetBuiltError(method, session)
@@ -282,10 +294,58 @@ export const mockRepositories: Repositories = {
     },
   },
   workers: {
-    list: later('workers.list', 'E (workers, 03 §5 item 5)'),
-    get: later('workers.get', 'E (workers, 03 §5 item 5)'),
+    async list(tenantId, filter) {
+      await delay('workers.list')
+      return listWorkers(tenantId, filter)
+    },
+
+    async names(tenantId, filter) {
+      await delay('workers.names')
+      return workerNames(tenantId, filter)
+    },
+
+    async name(tenantId, workerId) {
+      await delay('workers.name')
+      return workerName(tenantId, workerId)
+    },
+
+    async form(tenantId, workerId) {
+      await delay('workers.form')
+      return workerForm(tenantId, workerId)
+    },
+
+    async create(tenantId, input) {
+      await delay('workers.create')
+      return createWorker(tenantId, input)
+    },
+
+    async update(tenantId, workerId, input) {
+      await delay('workers.update')
+      return updateWorker(tenantId, workerId, input)
+    },
+
+    async readPii(tenantId, workerId, userId, part) {
+      await delay('workers.readPii')
+      return readPii(tenantId, userId, workerId, part)
+    },
   },
-  fringe: { list: later('fringe.list', 'E (fringe plans, 03 §5 item 5)') },
+
+  fringe: {
+    async list(tenantId) {
+      await delay('fringe.list')
+      return fringePlans(tenantId)
+    },
+
+    async create(tenantId, input) {
+      await delay('fringe.create')
+      return createFringePlan(tenantId, input)
+    },
+
+    async update(tenantId, planId, input) {
+      await delay('fringe.update')
+      return updateFringePlan(tenantId, planId, input)
+    },
+  },
   imports: {
     list: later('imports.list', 'E (import, 03 §5 item 7)'),
     preview: later('imports.preview', 'E (import, 03 §5 item 7)'),

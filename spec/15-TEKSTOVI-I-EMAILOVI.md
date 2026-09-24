@@ -409,6 +409,108 @@ Statusi sedmica su značke iz okvira.
 - Šifrovano: `Home address, phone (encrypted, every read is logged)`
 - Duljine: `Address line 1 is limited to 42 characters and city to 40, because the NY portal rejects anything longer.`
 
+Ekrani iz 03 §4.6. Viewer na oba ekrana radnika vidi samo ime i klasifikaciju
+(02 §3), pa za njega nema ni kolona ni sekcija ispod njih.
+
+**Lista** (`/workers`)
+- Naslov je stavka navigacije `Workers` · meta `{n} active worker` / `{n} active workers`
+- Akcije: `Add a worker` · `Import workers`
+- Filter (ime grupe za čitač ekrana `Show workers`): `Active` · `Inactive`
+- Pretraga, labela: `Search by name or worker number`
+- Kolone: `Worker` (broj iz platnog sistema ispod imena) · `Default classification` ·
+  `Level` · `Projects` · `Status` · `Last week with hours`
+- Nivo (`worker_level`), značka i puni naziv: `J` `Journeyworker` · `RA`
+  `Registered apprentice` · `F` `Foreman` · `O` `Owner-operator`
+- Status radnika: `Active` · `Inactive`
+- Bez klasifikacije: `Not set` · bez projekta: `None yet` · bez sati: `No hours yet`
+- Prazan filter: naslov `No workers with this status`, tekst
+  `Inactive workers are listed under their own tab.`, dugme `Show active workers`
+- Pretraga bez pogotka: `No worker matches that name or number.`
+- Prazna lista uopšte: iz tabele praznih stanja (`No workers yet`...), uz
+  dugme `Add a worker`.
+
+**Forma radnika** (`/workers/new` i `/workers/[id]`)
+- Naslov novog: `New worker` · postojeći nosi ime radnika
+- Sekcije: `Basics` · `Identification` · `Home address and phone` ·
+  `Apprenticeship` · `Fringe plans` · `Week history`
+- Dugmad: `Create worker` · `Save changes` · `Cancel`
+- Poslije snimanja: `Changes saved.`
+- Polja i pomoćni tekst ispod polja:
+  - `First name` · `Middle name` / `Written out, not an initial. The portal takes up to 45 characters.` · `Last name`
+  - `Worker number` / `The number in your payroll system. Imports match on it.`
+  - `Default classification` (prazan izbor `None`)
+  - `Level` · `Hire date` · `Status`
+  - `Last 4 of SSN` / `Four digits. Leave it empty if you enter a date of birth.`
+  - `Date of birth` / `Only if you do not have the last four digits of the SSN.`
+  - `Address line 1` · `Address line 2` · `City` · `State` · `ZIP code` · `ZIP+4` · `Phone`
+  - `Program` · `Registrar` · `Registration number` · `Trade` ·
+    `Period` / `The year or period of the apprenticeship.` ·
+    `Percent of the journeyworker rate` · `Valid from` · `Valid to`
+- Registrar (`registrar`): `Office of Apprenticeship (federal)` ·
+  `State Apprenticeship Agency` · `NYSDOL`
+- Skrivena vrijednost se prikazuje tačkama (`••••` i `••••1234`); čitač ekrana
+  čita: `Hidden. Every view is logged.`
+- Dugmad za prikaz: `Show` (za čitač ekrana `Show the last 4 of the SSN` ·
+  `Show the date of birth` · `Show the full address and phone`)
+- Poslije prikaza: `Shown. This view was logged.`
+- Adresa prije prikaza pokazuje grad, državu i ZIP. Bez adrese:
+  `No address on file. The NY portal requires one.`
+- Pripravnik bez programa: `No registered apprenticeship program on file. Until one is added, the full journeyworker rate applies.`
+- Beneficije, kolone: `Plan` · `Credit per hour` · `From` · `To` · bez kraja
+  `No end date` · prazno `No fringe plans for this worker.`
+- Istorija, kolone: `Week ending` · `Project` · `Hours` · prazno `No weeks with hours yet.`
+- Greške ispod polja:
+  - `Enter the first name.` · `Enter the last name.`
+  - `The middle name can be at most 45 characters.`
+  - `Enter exactly four digits. We never store a full Social Security number.`
+  - `Enter the last 4 of the SSN or a date of birth.`
+  - `Enter the last 4 of the SSN or a date of birth, not both. The portal takes one.`
+  - `Another worker already has this worker number: {Worker}.`
+  - `Enter the rest of the address: line 1, city, state and ZIP code.`
+  - `Address line 1 can be at most 42 characters.` · `Address line 2 can be at most 42 characters.`
+  - `City can be at most 40 characters.`
+  - `Enter a five-digit ZIP code.` · `Enter four digits, or leave it empty.`
+  - `Enter the program name.` · `Enter the trade.`
+  - `Enter the period as a whole number.`
+  - `Enter a percent between 40 and 95.`
+  - `Enter the date the registration starts.`
+- Zbir iznad forme isti kao kod projekta: `{n} field needs attention.` / `{n} fields need attention.`
+
+### Planovi beneficija
+
+**Lista i detalj** (`/fringe-plans`)
+- Naslov je stavka navigacije `Fringe plans` · meta `{n} plan` / `{n} plans`
+- Akcija: `Add a fringe plan`
+- Kolone: `Plan` · `Kind` · `Funding` · `Plan number` · `Annualized` · `Workers` ·
+  `Actions` (samo za čitač ekrana)
+- Vrsta (`supplement_kind`, riječi iz 03 §4.6): `Health/Welfare` · `Vacation/Holiday` ·
+  `Apprenticeship/Training` · `Pension` · `Other`
+- Fondiranje: `Plan contribution` · `Cash in lieu`
+- Anualizacija: `Yes` · `No` · bez broja plana `Not set`
+- Akcija u redu: `Edit`
+- Forma plana, naslovi `New fringe plan` · `Edit {Plan}`; dugmad
+  `Create plan` · `Save changes` · `Cancel`; poslije snimanja `Changes saved.`
+- Polja i pomoćni tekst:
+  - `Plan name` · `Kind` · `Funding` · `Plan number` / `The number the fund gave the plan.` · `Provider`
+  - `Credit per hour` / `If the fund states it per hour. Leave it empty to work it out from the yearly cost.`
+  - `Yearly cost` · `Hours worked in a year` / `All hours on all jobs, private ones too. Leave it empty to use the company setting.`
+  - `Annualize this plan` / `Turn off only for a pension plan with immediate participation and vesting.`
+  - `Required by law` / `FICA, workers compensation and unemployment insurance are never fringe credit.`
+- Pretvarač, naslov: `Monthly premium to a credit per hour`
+  - Polja: `Monthly premium` · `Hours worked in a year`
+  - Račun, dva reda: `{monthly} a month is {yearly} a year.` ·
+    `{yearly} divided by {hours} hours is {hourly} per hour.`
+  - Napomena: `Without a record of the hours actually worked, New York counts 2,080 hours a year, or 1,820 for 7-hour days. Count every hour, private jobs too.`
+  - Dugme: `Use this credit`
+- Greške:
+  - `Enter a name for the plan.`
+  - `Enter the amount in dollars and cents.`
+  - `Enter the hours as a whole number above zero.`
+  - `Enter a credit per hour or a yearly cost.`
+- Prazno: naslov `No fringe plans yet`, tekst
+  `Add the benefit plans you pay into, so their credit counts toward the supplement.`,
+  dugme `Add a fringe plan`
+
 ### Uvoz
 - Koraci: `File` · `Mapping` · `Check` · `Reconcile and apply`
 - Brojači: `{n} row in the file` / `{n} rows in the file` · `{n} ready` ·
