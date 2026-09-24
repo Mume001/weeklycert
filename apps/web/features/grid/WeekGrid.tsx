@@ -90,7 +90,11 @@ export interface WeekGridProps {
    * (spec/02 §3); a viewer gets the DTO only and the grid is read-only.
    */
   input?: WeekInput
-  periodId?: string
+  /**
+   * Where autosave and the toolbar PATCH the week: the period and the company
+   * both, because a period id alone says nothing about who may write it.
+   */
+  entriesUrl?: string
   readOnly: boolean
   /** Who signed the week and when, for the locked banner (spec/19 §7). */
   lockedBy?: { name: string; at: IsoDate }
@@ -109,7 +113,7 @@ export interface WeekGridProps {
 export function WeekGrid({
   data,
   input,
-  periodId,
+  entriesUrl,
   readOnly,
   lockedBy,
   reviewHref,
@@ -123,7 +127,7 @@ export function WeekGrid({
   // ST rate, OT rate, Supplement and Gross are read after the hours are typed,
   // so on a narrow grid they start folded away (spec/03 §4.5).
   const [showRates, setShowRates] = useState(false)
-  const autosave = useAutosave(periodId ?? '')
+  const autosave = useAutosave(entriesUrl ?? '')
   const { queue } = autosave
 
   // The engine, in the browser, on every change (spec/19 §6). Without the input
@@ -174,14 +178,14 @@ export function WeekGrid({
 
   const post = useCallback(
     (body: Record<string, unknown>) => {
-      if (!periodId || readOnly) return
-      void fetch(`/api/v1/periods/${periodId}/entries`, {
+      if (!entriesUrl || readOnly) return
+      void fetch(entriesUrl, {
         method: 'PATCH',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify(body),
       }).then(() => window.location.reload())
     },
-    [periodId, readOnly],
+    [entriesUrl, readOnly],
   )
 
   const copyLastWeek = useCallback(() => post({ action: 'copyPreviousWeek' }), [post])

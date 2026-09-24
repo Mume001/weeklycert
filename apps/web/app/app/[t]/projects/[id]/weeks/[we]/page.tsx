@@ -35,7 +35,10 @@ export default async function WeekPage({
   if (!shell) notFound()
 
   const repos = getRepositories()
-  const data = await repos.weeks.grid(id, we)
+  // The company is part of the lookup: another company's project is not
+  // found, the same 404 as one that does not exist (spec/19 §3, Repository).
+  const data = await repos.weeks.grid(shell.tenant.id, id, we)
+  if (!data) notFound()
 
   const week = dateParts(we)
   // The payroll number comes from the data, never from the component: before
@@ -101,7 +104,7 @@ export default async function WeekPage({
 
   const editable = MAY_EDIT.includes(shell.role) && data.lockedReason === undefined
   const readOnly = !editable || forced === 'locked'
-  const input = editable ? await repos.weeks.engineInput(id, we) : undefined
+  const input = editable ? await repos.weeks.engineInput(shell.tenant.id, id, we) : undefined
 
   return (
     <>
@@ -111,7 +114,12 @@ export default async function WeekPage({
           <div className="min-w-0 flex-1">
             <WeekGrid
               data={forced === 'empty' ? { ...data, rows: [], isNoWork: true } : data}
-              {...(input && !readOnly ? { input, periodId: input.period.id } : {})}
+              {...(input && !readOnly
+                ? {
+                    input,
+                    entriesUrl: `/api/v1/periods/${input.period.id}/entries?t=${encodeURIComponent(t)}`,
+                  }
+                : {})}
               readOnly={readOnly}
               {...(data.lockedReason || forced === 'locked'
                 ? { lockedBy: { name: shell.tenant.owner.name, at: we } }

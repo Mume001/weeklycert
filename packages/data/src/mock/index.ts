@@ -37,8 +37,9 @@ import {
   buildWeekInput,
   copyPreviousWeek,
   markNoWork,
+  ownProject,
   patchCell,
-  periodLocation,
+  periodFindings,
   weekGrid,
 } from './week-grid.ts'
 
@@ -188,30 +189,29 @@ export const mockRepositories: Repositories = {
   },
 
   weeks: {
-    async grid(projectId, weekEnding) {
+    async grid(tenantId, projectId, weekEnding) {
       await delay('weeks.grid')
-      return weekGrid(projectId, weekEnding)
+      return ownProject(tenantId, projectId) ? weekGrid(projectId, weekEnding) : null
     },
 
-    async engineInput(projectId, weekEnding) {
+    async engineInput(tenantId, projectId, weekEnding) {
       await delay('weeks.engineInput')
-      return buildWeekInput(projectId, weekEnding)
+      return ownProject(tenantId, projectId) ? buildWeekInput(projectId, weekEnding) : null
     },
 
-    async patchCell(periodId, rowId, day, raw) {
+    async patchCell(tenantId, periodId, rowId, day, raw) {
       await delay('weeks.patchCell')
-      return patchCell(periodId, rowId, day, raw)
+      return patchCell(tenantId, periodId, rowId, day, raw)
     },
 
-    async findings(periodId) {
+    async findings(tenantId, periodId) {
       await delay('weeks.findings')
-      const { projectId, weekEnding } = periodLocation(periodId)
-      return weekGrid(projectId, weekEnding).findings
+      return periodFindings(tenantId, periodId)
     },
 
-    async copyPreviousWeek(periodId) {
+    async copyPreviousWeek(tenantId, periodId) {
       await delay('weeks.copyPreviousWeek')
-      return copyPreviousWeek(periodId)
+      return copyPreviousWeek(tenantId, periodId)
     },
 
     async open(tenantId, projectId, weekEnding) {
@@ -219,9 +219,9 @@ export const mockRepositories: Repositories = {
       return openWeek(tenantId, projectId, weekEnding)
     },
 
-    async markNoWork(periodId) {
+    async markNoWork(tenantId, periodId) {
       await delay('weeks.markNoWork')
-      markNoWork(periodId)
+      markNoWork(tenantId, periodId)
     },
 
     async review(tenantId, projectId, weekEnding) {

@@ -313,7 +313,13 @@ export function reportStatus(tenantId: Uuid, reportId: Uuid): ReportStatusDTO | 
 }
 
 /** Who signs, prefilled from `signers` and the user (spec/03 §4.5). */
-export function signerFor(tenantId: Uuid, userId: Uuid): SignerDTO {
+export function signerFor(tenantId: Uuid, userId: Uuid): SignerDTO | null {
+  // A user who is not a member of this company is not found: another company's
+  // user id must not give out a name and an email (spec/19 §3, Repository).
+  const member = db.memberships.some(
+    (m) => m.tenantId === tenantId && m.userId === userId && m.status === 'active',
+  )
+  if (!member) return null
   const signer = db.signers.find(
     (s) => s.tenantId === tenantId && s.userId === userId && s.isActive,
   )
@@ -354,6 +360,7 @@ export function sign(
   })
 
   const signer = signerFor(tenantId, userId)
+  if (!signer) throw new Error(`Unknown user ${userId}`)
   const report = db.reports
     .filter((r) => r.periodId === periodId && r.kind === 'ny_xml')
     .sort((a, b) => b.version - a.version)[0]

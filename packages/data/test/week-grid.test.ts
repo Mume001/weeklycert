@@ -12,6 +12,7 @@ import {
   weekGrid,
 } from '../src/mock/week-grid.ts'
 
+const TENANT = '01921000-0000-7000-8000-000000000001'
 const PROJECT = '01924000-0000-7000-8000-000000000001'
 const IN_REVIEW = '2026-09-05'
 const OPEN = '2026-09-12'
@@ -106,7 +107,7 @@ describe('editing a cell', () => {
   it('gives back the row the engine recomputed', () => {
     const before = weekGrid(PROJECT, OPEN).rows[0]
     if (!before) throw new Error('no rows')
-    const after = patchCell(OPEN_PERIOD, before.id, 1, '10')
+    const after = patchCell(TENANT, OPEN_PERIOD, before.id, 1, '10')
     expect(after.id).toBe(before.id)
     expect(after.days[1]?.st).not.toBe(before.days[1]?.st)
     expect(Number(after.totalHours)).toBeGreaterThan(Number(before.totalHours))
@@ -115,14 +116,14 @@ describe('editing a cell', () => {
   it('clears the day when the cell is emptied', () => {
     const row = weekGrid(PROJECT, OPEN).rows[0]
     if (!row) throw new Error('no rows')
-    const after = patchCell(OPEN_PERIOD, row.id, 2, '')
+    const after = patchCell(TENANT, OPEN_PERIOD, row.id, 2, '')
     expect(after.days[2]).toEqual({ st: '0.00', ot: '0.00', manual: false, holiday: false })
   })
 
   it('keeps a split the user typed', () => {
     const row = weekGrid(PROJECT, OPEN).rows[0]
     if (!row) throw new Error('no rows')
-    const after = patchCell(OPEN_PERIOD, row.id, 3, '9')
+    const after = patchCell(TENANT, OPEN_PERIOD, row.id, 3, '9')
     expect(Number(after.days[3]?.st) + Number(after.days[3]?.ot)).toBe(9)
   })
 })
@@ -130,7 +131,7 @@ describe('editing a cell', () => {
 describe('copy last week (WCAG 3.3.7, spec/14 §8)', () => {
   it('brings the same crew and the same hours over', () => {
     const previous = weekGrid(PROJECT, IN_REVIEW)
-    const copied = copyPreviousWeek(OPEN_PERIOD)
+    const copied = copyPreviousWeek(TENANT, OPEN_PERIOD)
     expect(copied.rows).toHaveLength(previous.rows.length)
     expect(copied.totals.byDay).toEqual(previous.totals.byDay)
   })
@@ -138,7 +139,7 @@ describe('copy last week (WCAG 3.3.7, spec/14 §8)', () => {
 
 describe('a week with no work', () => {
   it('empties the hours and says so', () => {
-    markNoWork(OPEN_PERIOD)
+    markNoWork(TENANT, OPEN_PERIOD)
     const grid = weekGrid(PROJECT, OPEN)
     expect(grid.isNoWork).toBe(true)
     expect(grid.totals.st).toBe('0.00')

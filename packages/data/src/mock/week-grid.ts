@@ -48,6 +48,19 @@ const payroll = store.__wcPayroll
 
 const editKey = (periodId: Uuid, rowId: string) => `${periodId}|${rowId}`
 
+/**
+ * The company is part of every lookup by id, not only of the guard: another
+ * company's project or week is not found, exactly like one that does not exist
+ * (spec/19 §3, Repository). RLS enforces the same in step 4.
+ */
+export function ownProject(tenantId: Uuid, projectId: Uuid) {
+  return db.projects.find((p) => p.id === projectId && p.tenantId === tenantId)
+}
+
+export function ownPeriod(tenantId: Uuid, periodId: Uuid) {
+  return db.periods.find((p) => p.id === periodId && p.tenantId === tenantId)
+}
+
 function period(projectId: Uuid, weekEnding: IsoDate) {
   // A corrected week is superseded by the row that corrects it, so the newest
   // row for that week ending is the one the grid opens (spec/04 §7.1).
@@ -345,19 +358,24 @@ export function weekGrid(projectId: Uuid, weekEnding: IsoDate): WeekGridDTO {
   return toWeekGridDTO(input, computeWeek(input))
 }
 
-/** Where a period sits, so a route that has only its id can find the week. */
-export function periodLocation(periodId: Uuid): { projectId: Uuid; weekEnding: IsoDate } {
-  const row = db.periods.find((p) => p.id === periodId)
-  if (!row) throw new Error(`Unknown period ${periodId}`)
-  return { projectId: row.projectId, weekEnding: row.weekEnding }
+/** The findings of a week a route knows only by its period id; null when it is not this company's. */
+export function periodFindings(tenantId: Uuid, periodId: Uuid): WeekGridDTO['findings'] | null {
+  const row = ownPeriod(tenantId, periodId)
+  return row ? weekGrid(row.projectId, row.weekEnding).findings : null
 }
 
 /**
  * One cell, as the grid autosaves it. `raw` is already parsed into hours by
  * parseCell in the browser; here it is the total for that day, or "" to clear.
  */
-export function patchCell(periodId: Uuid, rowId: string, day: number, raw: string): GridRow {
-  const row = db.periods.find((p) => p.id === periodId)
+export function patchCell(
+  tenantId: Uuid,
+  periodId: Uuid,
+  rowId: string,
+  day: number,
+  raw: string,
+): GridRow {
+  const row = ownPeriod(tenantId, periodId)
   if (!row) throw new Error(`Unknown period ${periodId}`)
   const current = edits.get(editKey(periodId, rowId)) ??
     db.timeEntries
@@ -381,8 +399,8 @@ export function patchCell(periodId: Uuid, rowId: string, day: number, raw: strin
 }
 
 /** "Copy last week": the same crew and the same hours, one week earlier (spec/14 §8, WCAG 3.3.7). */
-export function copyPreviousWeek(periodId: Uuid): WeekGridDTO {
-  const row = db.periods.find((p) => p.id === periodId)
+export function copyPreviousWeek(tenantId: Uuid, periodId: Uuid): WeekGridDTO {
+  const row = ownPeriod(tenantId, periodId)
   if (!row) throw new Error(`Unknown period ${periodId}`)
   const previous = db.periods
     .filter((p) => p.projectId === row.projectId && p.weekEnding < row.weekEnding)
@@ -396,8 +414,8 @@ export function copyPreviousWeek(periodId: Uuid): WeekGridDTO {
   return weekGrid(row.projectId, row.weekEnding)
 }
 
-export function markNoWork(periodId: Uuid): void {
-  const row = db.periods.find((p) => p.id === periodId)
+export function markNoWork(tenantId: Uuid, periodId: Uuid): void {
+  const row = ownPeriod(tenantId, periodId)
   if (!row) throw new Error(`Unknown period ${periodId}`)
   noWork.set(periodId, true)
   for (const line of rowsOf(periodId)) {

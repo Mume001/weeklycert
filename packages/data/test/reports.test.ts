@@ -61,7 +61,7 @@ describe('the review screen', () => {
     expect(dto.period.status).toBe('in_review')
     const row = weekGrid(DUTCHESS, OPEN_WEEK).rows[0]
     if (!row) throw new Error('fixture')
-    await repos.weeks.patchCell(dto.period.id, row.id, 1, '7')
+    await repos.weeks.patchCell(TENANT, dto.period.id, row.id, 1, '7')
     expect((await reportsOf(DUTCHESS, OPEN_WEEK)).period.status).toBe('open')
   })
 

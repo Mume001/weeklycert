@@ -111,6 +111,7 @@ export async function SignScreen({
   }
 
   const signer = await repos.reports.signer(shell.tenant.id, shell.user.id)
+  if (!signer) notFound()
   const points = attestationPoints({
     hasApprentices: data.hasApprentices,
     hasFringe: data.hasFringe,

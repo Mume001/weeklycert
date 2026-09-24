@@ -83,21 +83,29 @@ export interface Repositories {
     openWeeks(tenantId: Uuid): Promise<OpenWeeksDTO>
   }
   weeks: {
-    grid(projectId: Uuid, weekEnding: IsoDate): Promise<WeekGridDTO>
+    /** Null when the project is not this company's (the page answers 404). */
+    grid(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<WeekGridDTO | null>
     /**
      * The same week as the engine sees it. The grid runs `computeWeek()` in the
      * browser on every keystroke (spec/19 §6), and for that it needs the input,
      * not the result. Only roles that may read worker addresses get it
      * (spec/02 §3); a viewer reads the DTO, which carries no PII.
      */
-    engineInput(projectId: Uuid, weekEnding: IsoDate): Promise<WeekInput>
-    patchCell(periodId: Uuid, rowId: string, day: number, raw: string): Promise<GridRow>
+    engineInput(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<WeekInput | null>
+    /** Throws for a period that is not this company's, the same as for one that does not exist. */
+    patchCell(
+      tenantId: Uuid,
+      periodId: Uuid,
+      rowId: string,
+      day: number,
+      raw: string,
+    ): Promise<GridRow>
     /** The findings the server computed, which are the ones that count (spec/03 §4.5). */
-    findings(periodId: Uuid): Promise<Finding[]>
-    copyPreviousWeek(periodId: Uuid): Promise<WeekGridDTO>
+    findings(tenantId: Uuid, periodId: Uuid): Promise<Finding[] | null>
+    copyPreviousWeek(tenantId: Uuid, periodId: Uuid): Promise<WeekGridDTO>
     /** The week's period, created open if it has none yet (spec/04 §7.1, first row). */
     open(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<Uuid>
-    markNoWork(periodId: Uuid): Promise<void>
+    markNoWork(tenantId: Uuid, periodId: Uuid): Promise<void>
     /** The week as the review screen reads it; null when the project is not this company's. */
     review(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO | null>
     /** Gross for all work, deductions and net for one worker (spec/03 §4.5). */
@@ -110,8 +118,8 @@ export interface Repositories {
     generate(tenantId: Uuid, periodId: Uuid): Promise<{ reportId: Uuid; version: number }>
     /** The generate job's progress, polled by the screen (spec/19 §2). */
     status(tenantId: Uuid, reportId: Uuid): Promise<ReportStatusDTO | null>
-    /** Who signs, prefilled from `signers` (spec/04 §3.2). */
-    signer(tenantId: Uuid, userId: Uuid): Promise<SignerDTO>
+    /** Who signs, prefilled from `signers` (spec/04 §3.2). Null for a user who is not a member. */
+    signer(tenantId: Uuid, userId: Uuid): Promise<SignerDTO | null>
     /** Signs, locks the week and hands out the payroll number (spec/04 §7.1). */
     sign(
       tenantId: Uuid,

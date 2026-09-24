@@ -51,7 +51,7 @@ export async function markNoWorkAction(
   const shell = await requireTenant(slug, PROJECT_WRITERS)
   const repos = getRepositories()
   const periodId = await repos.weeks.open(shell.tenant.id, projectId, WeekEnding.parse(weekEnding))
-  await repos.weeks.markNoWork(periodId)
+  await repos.weeks.markNoWork(shell.tenant.id, periodId)
   revalidatePath('/app/[t]', 'layout')
 }
 

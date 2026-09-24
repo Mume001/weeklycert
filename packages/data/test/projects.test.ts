@@ -164,7 +164,7 @@ describe('the timeline has no gaps (spec/03 §4.4)', () => {
     expect(before.weeks.map((w) => w.expectedPayrollNumber)).toEqual([2, 1])
 
     const periodId = await repos.weeks.open(TENANT, created.id, '2026-09-05')
-    await repos.weeks.markNoWork(periodId)
+    await repos.weeks.markNoWork(TENANT, periodId)
     const after = await timeline(created.id)
     expect(after.weeks[1]).toMatchObject({ periodId, isNoWork: true, noEntries: false })
     // Opening it twice gives the same period, not a second one.

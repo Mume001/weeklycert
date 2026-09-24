@@ -25,7 +25,7 @@ export interface Autosave {
   flush: () => Promise<void>
 }
 
-export function useAutosave(periodId: string): Autosave {
+export function useAutosave(entriesUrl: string): Autosave {
   const [state, setState] = useState<SaveState>('idle')
   const [savedAt, setSavedAt] = useState<string | null>(null)
   const pending = useRef(new Map<string, PendingCell>())
@@ -37,7 +37,7 @@ export function useAutosave(periodId: string): Autosave {
     pending.current.clear()
     setState('saving')
     try {
-      const response = await fetch(`/api/v1/periods/${periodId}/entries`, {
+      const response = await fetch(entriesUrl, {
         method: 'PATCH',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ cells }),
@@ -51,7 +51,7 @@ export function useAutosave(periodId: string): Autosave {
       for (const cell of cells) pending.current.set(`${cell.rowId}:${cell.day}`, cell)
       setState('error')
     }
-  }, [periodId])
+  }, [entriesUrl])
 
   const queue = useCallback(
     (cell: PendingCell) => {

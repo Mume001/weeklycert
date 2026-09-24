@@ -408,3 +408,27 @@ test('every state of spec/19 §7 can be shown from the URL', async ({ page }) =>
   await page.goto(`${OPEN_WEEK}?state=loading`)
   await expect(page.locator('[aria-busy="true"]')).toBeVisible()
 })
+
+// spec/19 §3, Repository: the company is part of the lookup. The bookkeeper is
+// a member of both demo companies, so the guard lets them in under either; only
+// the lookup keeps Hudson's week away from Riverside, and it answers 404, the
+// same as for a week that does not exist, never 403.
+test("another company's week is not found, not forbidden", async ({ page, context, baseURL }) => {
+  await context.addCookies([{ name: 'wc-mock-role', value: 'bookkeeper', url: baseURL ?? '' }])
+  const period = '01928000-0000-7000-8000-000000000018'
+  const body = { data: { cells: [{ rowId: 'x:y', day: 1, raw: '8' }] } }
+  const foreign = await page.request.patch(
+    `/api/v1/periods/${period}/entries?t=riverside-mechanical`,
+    body,
+  )
+  expect(foreign.status()).toBe(404)
+  const findings = await page.request.get(
+    `/api/v1/periods/${period}/findings?t=riverside-mechanical`,
+  )
+  expect(findings.status()).toBe(404)
+  const own = await page.request.get(`/api/v1/periods/${period}/findings?t=hudson-electric`)
+  expect(own.status()).toBe(200)
+
+  const grid = await page.goto(`/app/riverside-mechanical/projects/${PROJECT}/weeks/2026-09-12`)
+  expect(grid?.status()).toBe(404)
+})

@@ -149,7 +149,7 @@ function setup(readOnly = false) {
       <WeekGrid
         data={data}
         input={week}
-        periodId="per-1"
+        entriesUrl="/api/v1/periods/per-1/entries?t=hudson-electric"
         readOnly={readOnly}
         reviewHref="/review"
         correctionHref="/reports"

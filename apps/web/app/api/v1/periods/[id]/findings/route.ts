@@ -2,22 +2,25 @@
 //
 // The browser runs the same engine while the user types (spec/19 §6), but the
 // server's result is the one that counts (spec/03 §4.5). Guarded like every
-// route handler (spec/11 §4); step 4 swaps the mock session for requireTenant().
+// route handler (spec/11 §4). The company is in the query and in the lookup:
+// another company's period answers 404, the same as one that does not exist.
 import { getRepositories } from '@wc/data'
-import { mockRole } from '@/lib/session'
+import { GuardError, loadShell } from '@/lib/session'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(_request: Request, context: { params: Promise<{ id: string }> }) {
-  // TODO(step 4): const ctx = await requireTenant('viewer')
-  const role = await mockRole()
-  if (!role) return Response.json({ error: 'forbidden' }, { status: 403 })
-
-  const { id } = await context.params
+export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
+  const slug = new URL(request.url).searchParams.get('t') ?? ''
   try {
-    const findings = await getRepositories().weeks.findings(id)
+    // Every member reads findings, the viewer too (spec/02 §3).
+    const shell = await loadShell(slug)
+    if (!shell) throw new GuardError(404)
+    const { id } = await context.params
+    const findings = await getRepositories().weeks.findings(shell.tenant.id, id)
+    if (!findings) return Response.json({ error: 'not_found' }, { status: 404 })
     return Response.json({ findings }, { headers: { 'Cache-Control': 'no-store' } })
-  } catch {
-    return Response.json({ error: 'not_found' }, { status: 404 })
+  } catch (error) {
+    const status = error instanceof GuardError ? error.status : 400
+    return Response.json({ error: 'refused' }, { status })
   }
 }

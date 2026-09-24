@@ -308,10 +308,10 @@ export interface Repositories {
   dashboard: { get(tenantId: Uuid): Promise<DashboardDTO> }
   projects:  { list(...): Promise<ProjectRowDTO[]>; timeline(...): Promise<ProjectTimelineDTO> }
   weeks:     {
-    grid(projectId: Uuid, weekEnding: IsoDate): Promise<WeekGridDTO>
-    patchCell(periodId: Uuid, rowId: string, day: number, raw: string): Promise<GridRow>
-    copyPreviousWeek(periodId: Uuid): Promise<WeekGridDTO>
-    markNoWork(periodId: Uuid): Promise<void>
+    grid(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<WeekGridDTO | null>
+    patchCell(tenantId: Uuid, periodId: Uuid, rowId: string, day: number, raw: string): Promise<GridRow>
+    copyPreviousWeek(tenantId: Uuid, periodId: Uuid): Promise<WeekGridDTO>
+    markNoWork(tenantId: Uuid, periodId: Uuid): Promise<void>
   }
   workers: {...}; fringe: {...}; imports: {...}; archive: {...}; admin: {...}
 }
@@ -320,6 +320,15 @@ export function getRepositories(): Repositories   // bira mock ili drizzle
 
 `mock/` implementira ovo nad fixtures u memoriji, s vještačkim kašnjenjem od 120
 do 250 ms da se stanja učitavanja stvarno vide i testiraju.
+
+**Svaka metoda koja prima ID prima i tenantId, i firma je dio pretrage. Tuđi ID
+vraća isto što i nepostojeći.** To je oblik koji RLS nameće u koraku 4. Firma
+dolazi iz sesije (straža), nikad iz ID-a u URL-u, a ruta koja dobije tuđi ID
+odgovara 404, ne 403, jer 403 potvrđuje da taj ID postoji. Jedini izuzetak su
+`users.get` i `tenants.listForUser`: korisnik nije red neke firme, nego sesija
+sama. `packages/data/test/tenant-isolation.test.ts` provjerava pravilo nad
+izvorom interfejsa i za svaku takvu metodu traži red firme A kao firma B; nova
+metoda s ID-om bez `tenantId` ili bez probe obara test.
 
 ---
 
