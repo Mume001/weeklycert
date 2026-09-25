@@ -2,6 +2,7 @@
 // mock/ now, drizzle/ in step 4. apps/web imports only this interface and
 // getRepositories(), never an implementation.
 import type { WeekInput } from '@wc/core'
+import type { Table as ImportTable } from '@wc/core/import'
 import type {
   AdminHealthDTO,
   AllocationInput,
@@ -20,8 +21,12 @@ import type {
   FringePlansDTO,
   FringeSaveResult,
   GridRow,
+  ImportApplyResult,
   ImportBatchDTO,
-  ImportPreviewDTO,
+  ImportDraftDTO,
+  ImportMappingInput,
+  ImportResolveInput,
+  ImportStart,
   IsoDate,
   OnboardingDTO,
   OpenWeeksDTO,
@@ -206,9 +211,30 @@ export interface Repositories {
     create(tenantId: Uuid, input: FringePlanInput): Promise<FringeSaveResult>
     update(tenantId: Uuid, planId: Uuid, input: FringePlanInput): Promise<FringeSaveResult>
   }
+  /** Imports (spec/03 §4.7, spec/06). Reading the file is core's; these keep the batch. */
   imports: {
     list(tenantId: Uuid): Promise<ImportBatchDTO[]>
-    preview(tenantId: Uuid, batchId: Uuid): Promise<ImportPreviewDTO>
+    get(tenantId: Uuid, batchId: Uuid): Promise<ImportBatchDTO | null>
+    /** Step 1: the table read from the upload; full SSNs are cut to four digits here. */
+    start(
+      tenantId: Uuid,
+      userId: Uuid,
+      start: ImportStart,
+      file: { name: string; sha256: string; table: ImportTable },
+    ): Promise<Uuid>
+    draft(tenantId: Uuid, batchId: Uuid): Promise<ImportDraftDTO>
+    setMapping(
+      tenantId: Uuid,
+      batchId: Uuid,
+      input: ImportMappingInput,
+    ): Promise<{ ok: true } | { ok: false; missing: string[] }>
+    resolve(tenantId: Uuid, batchId: Uuid, input: ImportResolveInput): Promise<void>
+    confirmCheck(tenantId: Uuid, batchId: Uuid, skipErrors: boolean): Promise<{ ok: boolean }>
+    apply(tenantId: Uuid, batchId: Uuid, userId: Uuid): Promise<ImportApplyResult>
+    undo(
+      tenantId: Uuid,
+      batchId: Uuid,
+    ): Promise<{ ok: true } | { ok: false; refused: 'locked' | 'expired' }>
   }
   archive: { list(tenantId: Uuid, filter?: ArchiveFilter): Promise<ArchiveRowDTO[]> }
   admin: { health(): Promise<AdminHealthDTO> }

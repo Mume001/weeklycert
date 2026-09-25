@@ -17,6 +17,17 @@ import {
 import { db } from './db.ts'
 import { delay } from './delay.ts'
 import {
+  applyImport,
+  confirmImportCheck,
+  getImport,
+  importDraft,
+  listImports,
+  resolveImport,
+  setImportMapping,
+  startImport,
+  undoImport,
+} from './imports.ts'
+import {
   addClassification,
   addRateVersion,
   createProject,
@@ -391,8 +402,50 @@ export const mockRepositories: Repositories = {
     },
   },
   imports: {
-    list: later('imports.list', 'E (import, 03 §5 item 7)'),
-    preview: later('imports.preview', 'E (import, 03 §5 item 7)'),
+    async list(tenantId) {
+      await delay('imports.list')
+      return listImports(tenantId)
+    },
+
+    async get(tenantId, batchId) {
+      await delay('imports.get')
+      return getImport(tenantId, batchId)
+    },
+
+    async start(tenantId, userId, start, file) {
+      await delay('imports.start')
+      return startImport(tenantId, userId, start, file)
+    },
+
+    async draft(tenantId, batchId) {
+      await delay('imports.draft')
+      return importDraft(tenantId, batchId)
+    },
+
+    async setMapping(tenantId, batchId, input) {
+      await delay('imports.setMapping')
+      return setImportMapping(tenantId, batchId, input)
+    },
+
+    async resolve(tenantId, batchId, input) {
+      await delay('imports.resolve')
+      resolveImport(tenantId, batchId, input)
+    },
+
+    async confirmCheck(tenantId, batchId, skipErrors) {
+      await delay('imports.confirmCheck')
+      return confirmImportCheck(tenantId, batchId, skipErrors)
+    },
+
+    async apply(tenantId, batchId, userId) {
+      await delay('imports.apply')
+      return applyImport(tenantId, batchId, userId)
+    },
+
+    async undo(tenantId, batchId) {
+      await delay('imports.undo')
+      return undoImport(tenantId, batchId)
+    },
   },
   archive: { list: later('archive.list', 'E (archive, 03 §5 item 8)') },
   admin: { health: later('admin.health', 'E (admin, 03 §5 item 12)') },

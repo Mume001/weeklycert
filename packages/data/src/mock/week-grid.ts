@@ -364,6 +364,65 @@ export function periodFindings(tenantId: Uuid, periodId: Uuid): WeekGridDTO['fin
   return row ? weekGrid(row.projectId, row.weekEnding).findings : null
 }
 
+/** The seven days of a row as the grid shows them: this run's edits over the fixtures. */
+function currentDays(periodId: Uuid, rowId: string): (string | null)[] {
+  return (
+    edits.get(editKey(periodId, rowId)) ??
+    db.timeEntries
+      .filter((e) => e.periodId === periodId)
+      .map((e) => ({
+        rowId: `${e.workerId}:${classificationOf(e.projectClassificationId)?.classificationId}`,
+        days: e.days,
+      }))
+      .find((e) => e.rowId === rowId)?.days ?? [null, null, null, null, null, null, null]
+  )
+}
+
+/**
+ * One day of a row written by an import, the way a typed cell is written
+ * (spec/06 §2 step 4). Returns what was there before, for "Undo import".
+ */
+export function writeImportedDay(
+  periodId: Uuid,
+  rowId: string,
+  day: number,
+  hours: string,
+): (string | null)[] | undefined {
+  const row = db.periods.find((p) => p.id === periodId)
+  if (!row) throw new Error(`Unknown period ${periodId}`)
+  const before = edits.get(editKey(periodId, rowId))
+  const next = [...currentDays(periodId, rowId)]
+  next[day] = hours
+  edits.set(editKey(periodId, rowId), next)
+  if (row.status === 'in_review') row.status = 'open'
+  return before
+}
+
+/** Undo of writeImportedDay: the row as it was before the import. */
+export function restoreImportedRow(
+  periodId: Uuid,
+  rowId: string,
+  before: (string | null)[] | undefined,
+): void {
+  if (before) edits.set(editKey(periodId, rowId), before)
+  else edits.delete(editKey(periodId, rowId))
+}
+
+/** A worker's payroll figures for a week, or undefined when none were typed or imported. */
+export function payrollFor(periodId: Uuid, workerId: Uuid): WorkerPayrollInput | undefined {
+  return payroll.get(`${periodId}|${workerId}`)
+}
+
+/** Undo of an imported payroll row: what was there before, or nothing. */
+export function restorePayroll(
+  periodId: Uuid,
+  workerId: Uuid,
+  before: WorkerPayrollInput | undefined,
+): void {
+  if (before) payroll.set(`${periodId}|${workerId}`, before)
+  else payroll.delete(`${periodId}|${workerId}`)
+}
+
 /**
  * One cell, as the grid autosaves it. `raw` is already parsed into hours by
  * parseCell in the browser; here it is the total for that day, or "" to clear.
@@ -377,16 +436,7 @@ export function patchCell(
 ): GridRow {
   const row = ownPeriod(tenantId, periodId)
   if (!row) throw new Error(`Unknown period ${periodId}`)
-  const current = edits.get(editKey(periodId, rowId)) ??
-    db.timeEntries
-      .filter((e) => e.periodId === periodId)
-      .map((e) => ({
-        rowId: `${e.workerId}:${classificationOf(e.projectClassificationId)?.classificationId}`,
-        days: e.days,
-      }))
-      .find((e) => e.rowId === rowId)?.days ?? [null, null, null, null, null, null, null]
-
-  const next = [...current]
+  const next = [...currentDays(periodId, rowId)]
   next[day] = raw === '' ? null : raw
   edits.set(editKey(periodId, rowId), next)
   // spec/04 §7.1: an edit in `in_review` puts the week back to `open`.

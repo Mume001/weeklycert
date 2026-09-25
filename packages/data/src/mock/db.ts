@@ -18,6 +18,7 @@ import timeEntries from './fixtures/time-entries.json'
 import users from './fixtures/users.json'
 import workerPii from './fixtures/worker-pii.json'
 import workers from './fixtures/workers.json'
+import type { ImportBatch, ImportProfile } from './imports.ts'
 import {
   ApprenticeRecordRow,
   AwardingBodyRow,
@@ -76,6 +77,9 @@ function loadAll() {
     primeContractors: [] as z.infer<typeof PrimeContractorRow>[],
     workPauses: [] as z.infer<typeof WorkPauseRow>[],
     piiAccessLog: [] as z.infer<typeof PiiAccessLogRow>[],
+    // Filled by /imports; no fixture rows (spec/04 import_profiles, import_batches).
+    importProfiles: [] as ImportProfile[],
+    importBatches: [] as ImportBatch[],
   }
 }
 

@@ -31,7 +31,26 @@ const REPORT = '0192c000-0000-7000-8000-000000000001'
 const SUBMISSION = '0192d000-0000-7000-8000-000000000001'
 /** A member of company A only. */
 const USER_OF_A = '01922000-0000-7000-8000-000000000004'
-const IMPORT_BATCH = '01930000-0000-7000-8000-000000000001'
+const HOURS_TABLE = {
+  headers: ['Employee', 'Date', 'Hours'],
+  rows: [['1021', '09/08/2026', '8']],
+  format: 'csv' as const,
+}
+
+/**
+ * Company A's own import, made through the repository as A, so the probe asks
+ * for a batch that exists. Its db rows are compared before and after the probe.
+ */
+async function batchOfA(r: Repositories): Promise<string> {
+  const existing = db.importBatches.find((b) => b.tenantId === A)
+  if (existing) return existing.id
+  return r.imports.start(
+    A,
+    USER_OF_A,
+    { kind: 'hours', source: 'other', projectId: PROJECT, weekEnding: OPEN_WEEK },
+    { name: 'a.csv', sha256: 'a', table: HOURS_TABLE },
+  )
+}
 
 /**
  * Methods that take a user id and no company: the user is the signed-in
@@ -139,7 +158,27 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
       annualize: true,
       isLegallyRequired: false,
     }),
-  'imports.preview': (r) => r.imports.preview(B, IMPORT_BATCH),
+  'imports.get': async (r) => r.imports.get(B, await batchOfA(r)),
+  'imports.start': (r) =>
+    r.imports.start(
+      B,
+      USER_OF_A,
+      { kind: 'hours', source: 'other', projectId: PROJECT, weekEnding: OPEN_WEEK },
+      { name: 'x.csv', sha256: 'x', table: HOURS_TABLE },
+    ),
+  'imports.draft': async (r) => r.imports.draft(B, await batchOfA(r)),
+  'imports.setMapping': async (r) =>
+    r.imports.setMapping(B, await batchOfA(r), {
+      mapping: { worker: 0, date: 1, hours: 2 },
+      dateFormat: 'MM/DD/YYYY',
+      lastWins: false,
+      profileName: '',
+    }),
+  'imports.resolve': async (r) =>
+    r.imports.resolve(B, await batchOfA(r), { workers: { 'J. Smith': 'new' }, codes: {} }),
+  'imports.confirmCheck': async (r) => r.imports.confirmCheck(B, await batchOfA(r), true),
+  'imports.apply': async (r) => r.imports.apply(B, await batchOfA(r), USER_OF_A),
+  'imports.undo': async (r) => r.imports.undo(B, await batchOfA(r)),
 }
 
 interface Signature {
@@ -217,6 +256,8 @@ describe("company B asking for company A's rows", () => {
   it.each(Object.keys(PROBES))('%s gets nothing', async (method) => {
     const probe = PROBES[method]
     if (!probe) throw new Error(method)
+    // An import probe needs A's batch to exist before the snapshot.
+    if (method.startsWith('imports.')) await batchOfA(repos)
     const before = JSON.stringify(db)
     const gridBefore = JSON.stringify(weekGrid(PROJECT, OPEN_WEEK))
 
