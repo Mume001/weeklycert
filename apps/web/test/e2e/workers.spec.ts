@@ -200,13 +200,24 @@ test.describe('fringe plans of one worker', () => {
     expect(errors).toEqual([])
   })
 
-  test('the signer reads the plans of a worker and changes none', async ({ page }) => {
+  // spec/02 §3 "Beneficije po radniku": the same roles as the plans themselves.
+  for (const role of ['Signer', 'Bookkeeper'] as const) {
+    test(`the ${role.toLowerCase()} changes the plans of a worker`, async ({ page }) => {
+      await page.goto(`${APP}/workers/${ALVAREZ}`)
+      await switchRole(page, role)
+      await page.goto(`${APP}/workers/${ALVAREZ}`)
+      await expect(
+        page.getByRole('button', { name: 'Edit Electrical Workers Health Fund' }),
+      ).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Add a plan for this worker' })).toBeVisible()
+      await switchRole(page, 'Owner')
+    })
+  }
+
+  test('the viewer changes none', async ({ page }) => {
     await page.goto(`${APP}/workers/${ALVAREZ}`)
-    await switchRole(page, 'Signer')
+    await switchRole(page, 'Viewer')
     await page.goto(`${APP}/workers/${ALVAREZ}`)
-    await expect(
-      page.locator('tbody tr').filter({ hasText: 'Electrical Workers Health Fund' }),
-    ).toBeVisible()
     await expect(page.getByRole('button', { name: 'Add a plan for this worker' })).toHaveCount(0)
     await expect(page.getByRole('button', { name: /^Edit / })).toHaveCount(0)
     await switchRole(page, 'Owner')

@@ -42,6 +42,7 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Radnici: ime, klasifikacija, status | CRUD | CRUD | CRU | CRU | R (samo ime i klasifikacija) | CRU | R |
 | Radnici: adresa, zadnje 4 SSN, datum rođenja | RU | RU | RU | RU | | RU | R (logovano) |
 | Planovi beneficija | CRUD | CRUD | CRU | CRU | R | CRU | R |
+| Beneficije po radniku | CRUD | CRUD | CRU | CRU | R | CRU | R |
 | Sati (mreža) | CRUD | CRUD | CRUD | CRUD | R | CRUD | R |
 | Uvoz CSV, profili mapiranja | X CRUD | X CRUD | X CRUD | X CRUD | | X CRUD | R |
 | Validacija | X | X | X | X | R | X | R |

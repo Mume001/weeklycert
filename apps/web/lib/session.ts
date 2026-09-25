@@ -125,10 +125,11 @@ export async function requireTenant(
 export const PII_READERS: readonly MembershipRole[] = PROJECT_WRITERS
 
 /**
- * Who adds, changes and ends a worker's fringe plans (Mume, 25.9.2026, answer
- * to session G): owner, admin and payroll. Everybody else reads the table.
+ * Who adds, changes and ends a worker's fringe plans: the same roles as the
+ * fringe plans themselves, spec/02 §3 row "Beneficije po radniku" (Mume,
+ * 26.9.2026). permissions.test.ts reads that row.
  */
-export const FRINGE_ALLOCATION_WRITERS: readonly MembershipRole[] = ['owner', 'admin', 'payroll']
+export const FRINGE_ALLOCATION_WRITERS: readonly MembershipRole[] = PROJECT_WRITERS
 
 /** spec/08 §2.4: a paused or cancelled company reads and exports, nothing else. */
 export function isReadOnlyCompany(tenant: TenantDTO): boolean {
