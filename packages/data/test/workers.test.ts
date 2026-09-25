@@ -4,6 +4,8 @@
 // log row for every Show (spec/02 §3 and §4, spec/04 §6, spec/11 §5).
 import { beforeEach, describe, expect, it } from 'vitest'
 import {
+  AllocationInputSchema,
+  allocationErrors,
   FringePlanInputSchema,
   WorkerInputSchema,
   WorkerNameDTOSchema,
@@ -272,5 +274,89 @@ describe('fringe plans (spec/03 §4.6)', () => {
     const result = await repos.fringe.create(TENANT, FringePlanInputSchema.parse(plan))
     expect(result.ok).toBe(true)
     expect((await repos.fringe.list(TENANT)).plans).toHaveLength(6)
+  })
+})
+
+describe('fringe plans per worker (worker_fringe_allocations, spec/03 §4.6)', () => {
+  const DUTCHESS = '01924000-0000-7000-8000-000000000001'
+  const LABORERS = '01929000-0000-7000-8000-000000000003'
+  const allocationsOf = async () =>
+    (await repos.weeks.engineInput(TENANT, DUTCHESS, '2026-09-12'))?.workers.find(
+      (w) => w.id === ALVAREZ,
+    )?.allocations ?? []
+
+  it('adds a plan to a worker, and the engine in the grid gets it', async () => {
+    const before = await allocationsOf()
+    const result = await repos.workers.addAllocation(TENANT, ALVAREZ, {
+      fringePlanId: LABORERS,
+      hourlyCreditOverride: '5.25',
+      effectiveFrom: '2026-09-06',
+      effectiveTo: '',
+    })
+    expect(result).toEqual({ ok: true })
+    const after = await allocationsOf()
+    expect(after).toHaveLength(before.length + 1)
+    expect(after).toContainEqual({
+      planId: LABORERS,
+      hourlyCreditOverride: '5.25',
+      effectiveFrom: '2026-09-06',
+      effectiveTo: null,
+    })
+    const row = (await form(ALVAREZ)).fringe.find((f) => f.planId === LABORERS)
+    expect(row).toMatchObject({ creditPerHour: '5.2500', override: '5.25', to: null })
+  })
+
+  it('ends one with a to date, and the rows before it keep their credit', async () => {
+    const [first] = (await form(ALVAREZ)).fringe
+    if (!first) throw new Error('fixture')
+    const result = await repos.workers.updateAllocation(TENANT, ALVAREZ, first.allocationId, {
+      fringePlanId: first.planId,
+      hourlyCreditOverride: first.override,
+      effectiveFrom: first.from,
+      effectiveTo: '2026-09-05',
+    })
+    expect(result).toEqual({ ok: true })
+    expect((await allocationsOf()).find((a) => a.planId === first.planId)?.effectiveTo).toBe(
+      '2026-09-05',
+    )
+  })
+
+  it('refuses the same plan from the same date twice', async () => {
+    const [first] = (await form(ALVAREZ)).fringe
+    if (!first) throw new Error('fixture')
+    const result = await repos.workers.addAllocation(TENANT, ALVAREZ, {
+      fringePlanId: first.planId,
+      hourlyCreditOverride: '',
+      effectiveFrom: first.from,
+      effectiveTo: '',
+    })
+    expect(result).toEqual({ ok: false, errors: { effectiveFrom: 'allocationTaken' } })
+  })
+
+  it('checks the form: a plan, an amount, a start, an end after the start', () => {
+    const parsed = AllocationInputSchema.safeParse({
+      fringePlanId: '',
+      hourlyCreditOverride: '5.2.5',
+      effectiveFrom: '',
+      effectiveTo: '',
+    })
+    expect(parsed.success).toBe(false)
+    if (!parsed.success) {
+      expect(allocationErrors(parsed.error)).toEqual({
+        fringePlanId: 'planRequired',
+        hourlyCreditOverride: 'amountFormat',
+        effectiveFrom: 'fromRequired',
+      })
+    }
+    const backwards = AllocationInputSchema.safeParse({
+      fringePlanId: LABORERS,
+      hourlyCreditOverride: '',
+      effectiveFrom: '2026-09-06',
+      effectiveTo: '2026-09-01',
+    })
+    expect(backwards.success).toBe(false)
+    if (!backwards.success) {
+      expect(allocationErrors(backwards.error)).toEqual({ effectiveTo: 'toBeforeFrom' })
+    }
   })
 })

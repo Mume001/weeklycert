@@ -24,6 +24,7 @@ const PROJECT = '01924000-0000-7000-8000-000000000001'
 const RATE = '01926000-0000-7000-8000-000000000001'
 const WORKER = '01927000-0000-7000-8000-000000000001'
 const PLAN = '01929000-0000-7000-8000-000000000001'
+const ALLOCATION = '0192a000-0000-7000-8000-000000000001'
 const OPEN_WEEK = '2026-09-12'
 const OPEN_PERIOD = '01928000-0000-7000-8000-000000000018'
 const REPORT = '0192c000-0000-7000-8000-000000000001'
@@ -111,6 +112,20 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
     return r.workers.update(B, WORKER, { ...form.values, firstName: 'Taken over' })
   },
   'workers.readPii': (r) => r.workers.readPii(B, WORKER, USER_OF_A, 'address'),
+  'workers.addAllocation': (r) =>
+    r.workers.addAllocation(B, WORKER, {
+      fringePlanId: PLAN,
+      hourlyCreditOverride: '99.00',
+      effectiveFrom: '2026-09-06',
+      effectiveTo: '',
+    }),
+  'workers.updateAllocation': (r) =>
+    r.workers.updateAllocation(B, WORKER, ALLOCATION, {
+      fringePlanId: PLAN,
+      hourlyCreditOverride: '99.00',
+      effectiveFrom: '2026-01-01',
+      effectiveTo: '',
+    }),
   'fringe.update': (r) =>
     r.fringe.update(B, PLAN, {
       name: 'Taken over',

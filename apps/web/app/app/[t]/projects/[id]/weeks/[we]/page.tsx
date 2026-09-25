@@ -8,7 +8,7 @@ import { FindingsPanel } from '@/features/findings/FindingsPanel'
 import { GridErrorState } from '@/features/grid/GridErrorState'
 import { WeekGrid } from '@/features/grid/WeekGrid'
 import { dateParts } from '@/lib/format'
-import { loadShell } from '@/lib/session'
+import { isReadOnlyCompany, loadShell } from '@/lib/session'
 import { WeekStateProvider } from '@/lib/week-state'
 
 export const metadata = { title: copy.grid.title }
@@ -102,7 +102,13 @@ export default async function WeekPage({
     )
   }
 
-  const editable = MAY_EDIT.includes(shell.role) && data.lockedReason === undefined
+  // spec/08 §2.4: a paused company reads, and the grid says so from the first
+  // paint: the shell banner, locked cells, no generate. The 403 on the server
+  // stays as the second wall, but the screen never leads the user into it.
+  const editable =
+    MAY_EDIT.includes(shell.role) &&
+    data.lockedReason === undefined &&
+    !isReadOnlyCompany(shell.tenant)
   const readOnly = !editable || forced === 'locked'
   const input = editable ? await repos.weeks.engineInput(shell.tenant.id, id, we) : undefined
 

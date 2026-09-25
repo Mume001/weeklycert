@@ -432,3 +432,31 @@ test("another company's week is not found, not forbidden", async ({ page, contex
   const grid = await page.goto(`/app/riverside-mechanical/projects/${PROJECT}/weeks/2026-09-12`)
   expect(grid?.status()).toBe(404)
 })
+
+// spec/08 §2.4: a paused company reads. The grid says so from the first paint,
+// with the banner from spec/15, locked cells and no generate, so the user never
+// reaches the 403 the server keeps as the second wall.
+test('a paused company opens the grid read only, with the banner', async ({
+  page,
+  context,
+  baseURL,
+}) => {
+  const errors = collectErrors(page)
+  await context.addCookies([{ name: 'wc-mock-status', value: 'paused', url: baseURL ?? '' }])
+  await page.goto(OPEN_WEEK)
+  await expect(
+    page.getByText(
+      'Subscription paused. You can read and export everything. Entering hours and generating reports resume when you unpause.',
+    ),
+  ).toBeVisible()
+  const cell = page.locator('#cell-0-1')
+  await expect(cell).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Review and generate' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Copy last week' }).first()).toBeDisabled()
+
+  // The review screen shows Generate switched off, not missing.
+  await page.goto(`${REVIEW_WEEK}/review`)
+  await expect(page.getByRole('button', { name: 'Generate the draft' })).toBeDisabled()
+  expect(errors).toEqual([])
+  await context.clearCookies({ name: 'wc-mock-status' })
+})

@@ -213,11 +213,60 @@ export interface WorkerFormDTO {
   pii: WorkerPiiState
   classifications: { id: string; name: string }[]
   fringe: {
+    allocationId: string
     planId: string
     planName: string
+    /** What the engine credits per hour: the override, or the plan's own credit. */
     creditPerHour: string | null
+    /** The override as stored, "" when the plan's credit applies. */
+    override: string
     from: string
     to: string | null
   }[]
+  /** The company's plans, for "Add a plan for this worker". */
+  plans: { id: string; name: string }[]
   history: { weekEnding: string; projectId: string; projectName: string; hours: string }[]
+}
+
+// ---------------------------------------------------------------------------
+// Fringe plans per worker: worker_fringe_allocations (spec/04 §3.5).
+
+export const ALLOCATION_ERRORS = [
+  'planRequired',
+  'amountFormat',
+  'fromRequired',
+  'toBeforeFrom',
+  'allocationTaken',
+] as const
+export type AllocationErrorCode = (typeof ALLOCATION_ERRORS)[number]
+
+export const AllocationInputSchema = z
+  .object({
+    fringePlanId: z.string().min(1, 'planRequired'),
+    /** numeric(10,4); empty uses the plan's credit. */
+    hourlyCreditOverride: z
+      .string()
+      .trim()
+      .refine((v) => v === '' || /^\d+(\.\d{1,4})?$/.test(v), 'amountFormat'),
+    effectiveFrom: z.string().regex(ISO, 'fromRequired'),
+    effectiveTo: optionalDate,
+  })
+  .refine((a) => a.effectiveTo === '' || a.effectiveTo >= a.effectiveFrom, {
+    message: 'toBeforeFrom',
+    path: ['effectiveTo'],
+  })
+export type AllocationInput = z.infer<typeof AllocationInputSchema>
+
+export type AllocationErrors = Record<string, AllocationErrorCode>
+export type AllocationSaveResult = { ok: true } | { ok: false; errors: AllocationErrors }
+
+export function allocationErrors(error: z.ZodError): AllocationErrors {
+  const out: AllocationErrors = {}
+  for (const issue of error.issues) {
+    const path = issue.path.join('.')
+    if ((ALLOCATION_ERRORS as readonly string[]).includes(issue.message) && !out[path]) {
+      out[path] = issue.message as AllocationErrorCode
+    }
+  }
+  return out
 }

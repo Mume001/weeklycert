@@ -4,6 +4,8 @@
 import type { WeekInput } from '@wc/core'
 import type {
   AdminHealthDTO,
+  AllocationInput,
+  AllocationSaveResult,
   ArchiveFilter,
   ArchiveRowDTO,
   ClassificationEditInput,
@@ -172,6 +174,19 @@ export interface Repositories {
     update(tenantId: Uuid, workerId: Uuid, input: WorkerInput): Promise<WorkerSaveResult>
     /** Show: one PII part, and a row in pii_access_log (spec/04 §6). */
     readPii(tenantId: Uuid, workerId: Uuid, userId: Uuid, part: PiiPart): Promise<PiiValue | null>
+    /** A fringe plan for one worker (worker_fringe_allocations); the engine credits it. */
+    addAllocation(
+      tenantId: Uuid,
+      workerId: Uuid,
+      input: AllocationInput,
+    ): Promise<AllocationSaveResult>
+    /** Changes one, or ends it with a "to" date; the weeks before keep their credit. */
+    updateAllocation(
+      tenantId: Uuid,
+      workerId: Uuid,
+      allocationId: Uuid,
+      input: AllocationInput,
+    ): Promise<AllocationSaveResult>
   }
   fringe: {
     list(tenantId: Uuid): Promise<FringePlansDTO>

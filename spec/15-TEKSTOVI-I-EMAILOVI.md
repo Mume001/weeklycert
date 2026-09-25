@@ -458,6 +458,20 @@ Ekrani iz 03 §4.6. Viewer na oba ekrana radnika vidi samo ime i klasifikaciju
 - Pripravnik bez programa: `No registered apprenticeship program on file. Until one is added, the full journeyworker rate applies.`
 - Beneficije, kolone: `Plan` · `Credit per hour` · `From` · `To` · bez kraja
   `No end date` · prazno `No fringe plans for this worker.`
+- Beneficije po radniku (`worker_fringe_allocations`, 04). Mijenjaju ih owner,
+  admin i payroll; ostali vide samo tabelu.
+  - Dugmad: `Add a plan for this worker` · u redu `Edit` (za čitač ekrana
+    `Edit {Plan}`) · `Add plan` · `Save changes` · `Cancel`
+  - Polja: `Plan` (prazan izbor `Pick a plan`) ·
+    `Credit per hour` / `Leave it empty to use the credit of the plan.` ·
+    `From` · `To` / `Set a date to end this plan for the worker. Weeks before it keep the credit.`
+  - Bez planova u firmi: `The company has no fringe plans yet. Add them on the Fringe plans page.`
+  - Greške:
+    - `Pick a plan.`
+    - `Enter the amount in dollars and cents.`
+    - `Enter the date the plan starts for this worker.`
+    - `The end date is before the start date.`
+    - `This worker already has this plan from that date.`
 - Istorija, kolone: `Week ending` · `Project` · `Hours` · prazno `No weeks with hours yet.`
 - Greške ispod polja:
   - `Enter the first name.` · `Enter the last name.`

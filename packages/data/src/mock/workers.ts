@@ -4,6 +4,8 @@
 // through ../pii.ts and nowhere else.
 import { dec, hours, money, planCredit, rate, sum } from '@wc/core'
 import type {
+  AllocationInput,
+  AllocationSaveResult,
   FringePlanDTO,
   FringePlanInput,
   FringePlansDTO,
@@ -185,15 +187,21 @@ export function workerForm(tenantId: Uuid, workerId: Uuid | null): WorkerFormDTO
             )
             return [
               {
+                allocationId: a.id,
                 planId: plan.id,
                 planName: plan.name,
                 creditPerHour: credit.hourly.isZero() ? null : rate(credit.hourly),
+                override: a.hourlyCreditOverride ?? '',
                 from: a.effectiveFrom,
                 to: a.effectiveTo,
               },
             ]
           })
+          .sort((x, y) => x.planName.localeCompare(y.planName) || x.from.localeCompare(y.from))
       : [],
+    plans: db.fringePlans
+      .filter((p) => p.tenantId === tenantId)
+      .map((p) => ({ id: p.id, name: p.name })),
     history: w ? weeksWorked(w.id) : [],
   }
 }
@@ -345,4 +353,70 @@ export function updateFringePlan(
   if (!plan) throw new Error(`Unknown plan ${planId}`)
   Object.assign(plan, planFields(input))
   return { ok: true, id: planId }
+}
+
+// ---------------------------------------------------------------------------
+// Fringe plans per worker (worker_fringe_allocations, spec/04 §3.5). The engine
+// reads the same rows through buildWeekInput, so a change here is the credit
+// the grid computes with.
+
+function allocationFields(input: AllocationInput) {
+  return {
+    fringePlanId: input.fringePlanId,
+    hourlyCreditOverride: input.hourlyCreditOverride || null,
+    effectiveFrom: input.effectiveFrom,
+    effectiveTo: input.effectiveTo || null,
+  }
+}
+
+/** U (worker_id, fringe_plan_id, effective_from). */
+function allocationTaken(workerId: Uuid, input: AllocationInput, selfId: Uuid | null) {
+  return db.fringeAllocations.some(
+    (a) =>
+      a.id !== selfId &&
+      a.workerId === workerId &&
+      a.fringePlanId === input.fringePlanId &&
+      a.effectiveFrom === input.effectiveFrom,
+  )
+}
+
+function ownPlan(tenantId: Uuid, planId: Uuid): boolean {
+  return db.fringePlans.some((p) => p.id === planId && p.tenantId === tenantId)
+}
+
+export function addAllocation(
+  tenantId: Uuid,
+  workerId: Uuid,
+  input: AllocationInput,
+): AllocationSaveResult {
+  if (!workerOf(tenantId, workerId)) throw new Error(`Unknown worker ${workerId}`)
+  if (!ownPlan(tenantId, input.fringePlanId)) throw new Error(`Unknown plan ${input.fringePlanId}`)
+  if (allocationTaken(workerId, input, null)) {
+    return { ok: false, errors: { effectiveFrom: 'allocationTaken' } }
+  }
+  db.fringeAllocations.push({
+    id: newId('0192a000', db.fringeAllocations.length),
+    tenantId,
+    workerId,
+    ...allocationFields(input),
+  })
+  return { ok: true }
+}
+
+export function updateAllocation(
+  tenantId: Uuid,
+  workerId: Uuid,
+  allocationId: Uuid,
+  input: AllocationInput,
+): AllocationSaveResult {
+  const row = db.fringeAllocations.find(
+    (a) => a.id === allocationId && a.workerId === workerId && a.tenantId === tenantId,
+  )
+  if (!row) throw new Error(`Unknown allocation ${allocationId}`)
+  if (!ownPlan(tenantId, input.fringePlanId)) throw new Error(`Unknown plan ${input.fringePlanId}`)
+  if (allocationTaken(workerId, input, allocationId)) {
+    return { ok: false, errors: { effectiveFrom: 'allocationTaken' } }
+  }
+  Object.assign(row, allocationFields(input))
+  return { ok: true }
 }

@@ -9,11 +9,12 @@ import {
   type OpenWeeksDTO,
   type TenantBrief,
   type TenantDTO,
+  TenantStatusSchema,
   type UserDTO,
 } from '@wc/data'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
-import { ROLE_COOKIE } from './mock-role'
+import { ROLE_COOKIE, STATUS_COOKIE } from './mock-role'
 
 export async function mockRole(): Promise<MembershipRole> {
   const value = (await cookies()).get(ROLE_COOKIE)?.value
@@ -56,6 +57,9 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
   ])
   const membership = tenants.find((t) => t.slug === slug)
   if (!user || !tenant || !membership) return null
+  // Mock only: a test may play a paused or cancelled company (STATUS_COOKIE).
+  const played = TenantStatusSchema.safeParse((await cookies()).get(STATUS_COOKIE)?.value)
+  if (played.success) tenant.status = played.data
   const openWeeks = await repos.projects.openWeeks(tenant.id)
   return {
     user,
@@ -119,6 +123,12 @@ export async function requireTenant(
  * classification only.
  */
 export const PII_READERS: readonly MembershipRole[] = PROJECT_WRITERS
+
+/**
+ * Who adds, changes and ends a worker's fringe plans (Mume, 25.9.2026, answer
+ * to session G): owner, admin and payroll. Everybody else reads the table.
+ */
+export const FRINGE_ALLOCATION_WRITERS: readonly MembershipRole[] = ['owner', 'admin', 'payroll']
 
 /** spec/08 §2.4: a paused or cancelled company reads and exports, nothing else. */
 export function isReadOnlyCompany(tenant: TenantDTO): boolean {

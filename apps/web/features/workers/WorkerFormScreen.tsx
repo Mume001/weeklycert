@@ -16,10 +16,17 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { formatHours, formatMoney } from '@/lib/format'
+import { formatHours } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
-import { isReadOnlyCompany, loadShell, PII_READERS, PROJECT_WRITERS } from '@/lib/session'
+import {
+  FRINGE_ALLOCATION_WRITERS,
+  isReadOnlyCompany,
+  loadShell,
+  PII_READERS,
+  PROJECT_WRITERS,
+} from '@/lib/session'
 import { WorkerForm } from './WorkerForm'
+import { WorkerFringe } from './WorkerFringe'
 
 const f = copy.workers.form
 
@@ -49,44 +56,10 @@ function ReadSection({ title, children }: { title: string; children: ReactNode }
   )
 }
 
-/** Fringe credit per plan and the weeks worked: read here, entered elsewhere. */
-function FringeAndHistory({ form }: { form: WorkerFormDTO }) {
+/** The weeks worked: read here, entered in the grid. */
+function WeekHistory({ form }: { form: WorkerFormDTO }) {
   return (
     <>
-      <ReadSection title={f.sections.fringe}>
-        {form.fringe.length === 0 ? (
-          <p className="text-sm text-text-secondary">{f.noFringe}</p>
-        ) : (
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>{f.fringeColumns.plan}</TableHead>
-                <TableHead className="text-right">{f.fringeColumns.credit}</TableHead>
-                <TableHead>{f.fringeColumns.from}</TableHead>
-                <TableHead>{f.fringeColumns.to}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {form.fringe.map((row) => (
-                <TableRow key={`${row.planId}-${row.from}`}>
-                  <TableCell>{row.planName}</TableCell>
-                  <TableCell className="text-right tabular-nums">
-                    {row.creditPerHour === null
-                      ? copy.fringe.notSet
-                      : formatMoney(row.creditPerHour)}
-                  </TableCell>
-                  <TableCell>
-                    <DateText value={row.from} />
-                  </TableCell>
-                  <TableCell>
-                    {row.to === null ? f.noEndDate : <DateText value={row.to} />}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        )}
-      </ReadSection>
       <ReadSection title={f.sections.history}>
         {form.history.length === 0 ? (
           <p className="text-sm text-text-secondary">{f.noHistory}</p>
@@ -213,7 +186,16 @@ export async function WorkerFormScreen({
     <>
       {paused && <Notice tone="info" title={copy.billing.paused} />}
       <WorkerForm slug={slug} form={shown} readOnly={!writer || paused} cancelHref={base} />
-      {!isNew && <FringeAndHistory form={shown} />}
+      {!isNew && (
+        <>
+          <WorkerFringe
+            slug={slug}
+            form={shown}
+            canEdit={FRINGE_ALLOCATION_WRITERS.includes(shell.role) && !paused}
+          />
+          <WeekHistory form={shown} />
+        </>
+      )}
     </>,
   )
 }

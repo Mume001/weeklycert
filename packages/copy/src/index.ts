@@ -65,7 +65,7 @@ export const copy = {
         action: 'Add a payment method',
       },
       paused: {
-        text: 'Subscription paused. You can read everything, but new reports cannot be generated.',
+        text: 'Subscription paused. You can read and export everything. Entering hours and generating reports resume when you unpause.',
         action: 'Resume subscription',
       },
       pastDue: {
@@ -781,6 +781,34 @@ export const copy = {
       fringeColumns: { plan: 'Plan', credit: 'Credit per hour', from: 'From', to: 'To' },
       noEndDate: 'No end date',
       noFringe: 'No fringe plans for this worker.',
+      allocation: {
+        add: 'Add a plan for this worker',
+        edit: 'Edit',
+        editLabel: 'Edit {Plan}',
+        create: 'Add plan',
+        save: 'Save changes',
+        cancel: 'Cancel',
+        fields: {
+          plan: { label: 'Plan', none: 'Pick a plan' },
+          credit: {
+            label: 'Credit per hour',
+            hint: 'Leave it empty to use the credit of the plan.',
+          },
+          from: { label: 'From' },
+          to: {
+            label: 'To',
+            hint: 'Set a date to end this plan for the worker. Weeks before it keep the credit.',
+          },
+        },
+        noPlans: 'The company has no fringe plans yet. Add them on the Fringe plans page.',
+        errors: {
+          planRequired: 'Pick a plan.',
+          amountFormat: 'Enter the amount in dollars and cents.',
+          fromRequired: 'Enter the date the plan starts for this worker.',
+          toBeforeFrom: 'The end date is before the start date.',
+          allocationTaken: 'This worker already has this plan from that date.',
+        },
+      },
       historyColumns: { weekEnding: 'Week ending', project: 'Project', hours: 'Hours' },
       noHistory: 'No weeks with hours yet.',
       errors: {

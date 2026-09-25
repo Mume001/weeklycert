@@ -161,6 +161,58 @@ test.describe('one worker', () => {
   })
 })
 
+test.describe('fringe plans of one worker', () => {
+  // A worker of its own, so the seeded weeks and their findings stay as they are.
+  async function newWorker(page: Page): Promise<string> {
+    const last = `Fringe${Date.now()}`
+    await page.goto(`${APP}/workers/new`)
+    await page.getByLabel('First name').fill('Ana')
+    await page.getByLabel('Last name').fill(last)
+    await page.getByLabel('Last 4 of SSN').fill('0042')
+    await page.getByRole('button', { name: 'Create worker' }).click()
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(`${last}, Ana`)
+    return page.url()
+  }
+
+  test('owner adds a plan with its credit, then ends it', async ({ page }) => {
+    const errors = collectErrors(page)
+    await newWorker(page)
+    await page.getByRole('button', { name: 'Add a plan for this worker' }).click()
+    await page.getByRole('button', { name: 'Add plan' }).click()
+    await expect(page.getByText('Pick a plan.')).toBeVisible()
+
+    await page.getByLabel('Plan', { exact: true }).selectOption({ label: 'Laborers Benefit Fund' })
+    await page.getByLabel('Credit per hour').fill('5.25')
+    await page.getByLabel('From', { exact: true }).fill('2026-09-06')
+    await page.getByRole('button', { name: 'Add plan' }).click()
+    const row = page.locator('tbody tr').filter({ hasText: 'Laborers Benefit Fund' })
+    await expect(row).toContainText('$5.25')
+    await expect(row).toContainText('No end date')
+    await expectNoSeriousA11y(page)
+
+    await page.getByRole('button', { name: 'Edit Laborers Benefit Fund' }).click()
+    await page.getByLabel('To', { exact: true }).fill('2026-09-01')
+    await page.getByRole('button', { name: 'Save changes' }).last().click()
+    await expect(page.getByText('The end date is before the start date.')).toBeVisible()
+    await page.getByLabel('To', { exact: true }).fill('2026-09-30')
+    await page.getByRole('button', { name: 'Save changes' }).last().click()
+    await expect(row).toContainText('Sep 30, 2026')
+    expect(errors).toEqual([])
+  })
+
+  test('the signer reads the plans of a worker and changes none', async ({ page }) => {
+    await page.goto(`${APP}/workers/${ALVAREZ}`)
+    await switchRole(page, 'Signer')
+    await page.goto(`${APP}/workers/${ALVAREZ}`)
+    await expect(
+      page.locator('tbody tr').filter({ hasText: 'Electrical Workers Health Fund' }),
+    ).toBeVisible()
+    await expect(page.getByRole('button', { name: 'Add a plan for this worker' })).toHaveCount(0)
+    await expect(page.getByRole('button', { name: /^Edit / })).toHaveCount(0)
+    await switchRole(page, 'Owner')
+  })
+})
+
 test.describe('fringe plans', () => {
   test('five plans, and the converter shows the divisor and the 2,080-hour rule', async ({
     page,

@@ -97,6 +97,7 @@ export async function ReviewScreen({
   const locked = data.period.lockedReason !== null || forced === 'locked'
   const writer = PROJECT_WRITERS.includes(shell.role) && !isReadOnlyCompany(shell.tenant)
   const canEdit = writer && !locked
+  const paused = isReadOnlyCompany(shell.tenant)
   const empty = forced === 'empty' || data.period.isNoWork || data.workers.length === 0
 
   // A week with no work is not filed as a file at all (spec/05 §3.4); a week
@@ -148,6 +149,9 @@ export async function ReviewScreen({
       afterDraft
     ) : canEdit ? (
       <GenerateButton slug={slug} periodId={data.period.id} next={afterDraft} />
+    ) : paused && PROJECT_WRITERS.includes(shell.role) && !locked ? (
+      // A paused company sees the button it will have again, switched off (spec/08 §2.4).
+      <Button disabled>{copy.review.generate}</Button>
     ) : null
 
   return (

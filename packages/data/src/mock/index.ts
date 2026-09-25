@@ -44,10 +44,12 @@ import {
   weekGrid,
 } from './week-grid.ts'
 import {
+  addAllocation,
   createFringePlan,
   createWorker,
   fringePlans,
   listWorkers,
+  updateAllocation,
   updateFringePlan,
   updateWorker,
   workerForm,
@@ -327,6 +329,16 @@ export const mockRepositories: Repositories = {
     async readPii(tenantId, workerId, userId, part) {
       await delay('workers.readPii')
       return readPii(tenantId, userId, workerId, part)
+    },
+
+    async addAllocation(tenantId, workerId, input) {
+      await delay('workers.addAllocation')
+      return addAllocation(tenantId, workerId, input)
+    },
+
+    async updateAllocation(tenantId, workerId, allocationId, input) {
+      await delay('workers.updateAllocation')
+      return updateAllocation(tenantId, workerId, allocationId, input)
     },
   },
 
