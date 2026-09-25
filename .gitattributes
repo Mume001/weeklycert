@@ -4,3 +4,5 @@
 *.woff2 binary
 *.png binary
 *.pdf binary
+# Sample import files are exact bytes: CRLF, BOMs and Windows-1252 are what they test (spec/06 §8).
+packages/core/src/import/__fixtures__/** -text
