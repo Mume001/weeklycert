@@ -459,10 +459,13 @@ Povratak s Checkouta zatvara čarobnjak. Detalji u 08 §2.1.
 
 **/app/[t]/workers/[id]**
 - Kartice: Osnovno (ime, ID iz payroll sistema), Identifikacija (zadnje 4 SSN ILI
-  datum rođenja; polje pokazuje samo "••••1234" i traži klik "Prikaži" koji se
-  loguje), Adresa (puna, NY je traži), Pripravnik (program, registrar OA/SAA/NYSDOL,
-  broj, datum registracije, nivo, procenat, omjer, dokument), Beneficije po radniku
-  (kredit po satu po planu), Istorija sedmica.
+  datum rođenja; polje pokazuje "••••" dok se ne klikne "Prikaži", tek onda
+  "••••1234", i svaki klik se loguje), Adresa (puna, NY je traži), Pripravnik
+  (program, registrar OA/SAA/NYSDOL, broj, period, procenat, važi od i do, gdje je
+  "važi od" datum registracije, certifikat od koraka 4 kad postoji skladište
+  fajlova), Beneficije po radniku (plan, kredit po satu, od, do; dodaje se i mijenja
+  ovdje), Istorija sedmica. Omjer pripravnik:majstor nije na radniku nego na
+  klasifikaciji projekta (04, `apprentice_ratio`).
 - Pravila: SSN polje prima tačno 4 cifre, server odbija duže. Nikad ne postoji
   polje za pun SSN.
 

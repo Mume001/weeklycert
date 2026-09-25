@@ -35,8 +35,9 @@ podređen.
 
 ## 1. Pravila faze
 
-Frontend se gradi **prije bilo kakvog backenda**. To nije stil, to je kapija iz
-12: bez 10 uplata backend se ne piše.
+Frontend se gradi **prije bilo kakvog backenda**. Kapija od 10 uplata je ukinuta
+24.9.2026 (12 §KAPIJA), ali redoslijed ostaje: backend počinje tek kad je korak 3
+gotov.
 
 1. `DATA_SOURCE=mock` je jedina vrijednost dok traje ova faza. Nema `.env` s
    bazom, nema Dockera, nema migracije.

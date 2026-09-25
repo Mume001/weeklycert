@@ -89,7 +89,7 @@ po komponenti.
 
 **Traka stanja pretplate**
 - Probni period: `Trial, {n} day left.` / `Trial, {n} days left.` dugme `Add a payment method`
-- Pauzirano: `Subscription paused. You can read everything, but new reports cannot be generated.` dugme `Resume subscription`
+- Pauzirano: `Subscription paused. You can read and export everything. Entering hours and generating reports resume when you unpause.` dugme `Resume subscription`
 - Neuspjela naplata: `The last payment did not go through. Reports keep working for {n} more day.` / `The last payment did not go through. Reports keep working for {n} more days.` dugme `Update card`
 
 **Značka statusa** (redoslijed i riječi su fiksni, mapiranje je u 04 §7.1)

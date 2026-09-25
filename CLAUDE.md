@@ -19,8 +19,9 @@ diraj.
 2. Radi **samo korak** koji ti je Mume rekao. Ne počinji sljedeći.
 3. Spec je izvor istine. Ako misliš da spec griješi: stani, objasni u jednoj
    rečenici, predloži izmjenu spec fajla. Ne mijenjaj ponašanje "usput".
-4. Kapija: koraci 4 i dalje se ne rade dok Mume ne kaže "imamo 10 uplata". Ako te
-   zamoli da preskočiš, podsjeti ga na pravilo jednom, pa uradi šta kaže.
+4. Kapija od 10 uplata je ukinuta 24.9.2026 (spec/12 §KAPIJA). Proizvod se gradi
+   do kraja prije prodaje. Redoslijed koraka iz spec/12 i dalje važi: korak se ne
+   preskače i ne počinje prije nego je prethodni gotov po definiciji gotovog.
 
 ## Pravila koja se ne krše
 

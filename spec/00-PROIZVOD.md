@@ -82,9 +82,12 @@ Kasnije (ne u MVP):
 
 ## Kapija koja stoji iznad svega
 
-Njegovo pravilo: **deset ljudi plati prije prve linije koda proizvoda.** Ovaj paket
-specifikacija postoji da bi izrada, kad krene, trajala 5 do 7 sedmica umjesto 10.
-Nije dozvola da se krene prije kapije.
+Prvobitno pravilo je bilo **deset ljudi plati prije prve linije koda backenda.**
+
+**Odluka od 24.9.2026: kapija od 10 uplata je ukinuta.** Mume je odlučio da se
+proizvod gradi do kraja, uključujući backend, generator XML-a i WH-347, naplatu i
+server, i tek onda ide u prodaju. Redoslijed koraka iz 12 ostaje isti, samo se ne
+čeka između koraka 3 i 4.
 
 ## Brojke koje treba imati na umu
 

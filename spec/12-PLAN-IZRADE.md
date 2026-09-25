@@ -121,11 +121,21 @@ Iz: 16-MARKETING-SAJT, vizual `dizajn/sajt.html`.
 - **Gotovo kad**: LCP ispod 1,5 s na 3G, radi na telefonu, objavljen na
   Cloudflare Pages (19 §9), i Mume može poslati link u hladnom emailu.
 
-## KAPIJA: 10 uplata. Bez toga se ne ide dalje.
+## KAPIJA: ukinuta 24.9.2026
 
-Dok se čeka: prodaja (SISTEM-KONTAKTA), pozivi s kupcima, popravke ekrana po
-njihovim primjedbama. Svaki poziv daje popravke u spec fajlovima, ne u kodu
-backenda.
+**Odluka od 24.9.2026: kapija od 10 uplata je ukinuta.** Mume je odlučio da se
+proizvod gradi do kraja, uključujući backend, generator XML-a i WH-347, naplatu i
+server, i tek onda ide u prodaju. Redoslijed koraka iz 12 ostaje isti, samo se ne
+čeka između koraka 3 i 4.
+
+Šta se time mijenja:
+
+- Korak 4 počinje odmah poslije koraka 3 (sesija O iz spec/20).
+- Prije prodaje dolazi korak 8c: provjera kvaliteta, ne nove funkcije.
+- Jedna stvar se **ne može** provjeriti bez kupca: da NYSDOL portal stvarno
+  prima naš XML. Portal nema API ni probno okruženje (13 A9), pa prvi stvarni
+  upload radi prvi kupac. Zato je prvi kupac pilot, i njegovu prvu predaju
+  radimo zajedno s njim (setup iz 17).
 
 ## Korak 4: Baza i auth (Claude Code, 4 do 5 dana)
 
@@ -205,6 +215,35 @@ Iz: 18-PRAVNO §5 i 17-PODRSKA.
 - **Gotovo kad**: kontrolna lista iz 11 §9 je kompletna i sva četiri dokumenta su
   objavljena.
 
+## Korak 8c: Provjera kvaliteta prije prodaje (Claude Code + Mume, 6 do 8 dana)
+
+Ne pravimo nove funkcije. Samo tražimo i popravljamo greške. Sve se radi na
+stagingu s pravom bazom, ne na mock podacima.
+
+- **Motor**: svaki od 63 nalaza iz 07 ima test koji ga izaziva i test koji ga ne
+  izaziva. Svi XML fajlovi iz testova prolaze XSD iz `izvori/`. WH-347 se poredi
+  s ručno popunjenim službenim PDF-om za iste podatke, polje po polje.
+- **Zlatni primjeri**: najmanje 10 sedmica s ručno izračunatim ispravnim
+  rezultatom (prekovremeni, praznik, više klasifikacija, fringe u novcu, ispravka
+  predate sedmice). Aplikacija mora dati identičan XML i PDF.
+- **Dozvole**: automatski test za svaku rutu × svaku ulogu × tuđi tenant.
+  Očekivani rezultat za svaku kombinaciju je zapisan u tabeli, ne pogađa se.
+- **Sigurnosni pregled**: nezavisan prolaz (posebna Claude Code sesija bez
+  konteksta izgradnje) kroz 11: IDOR, RLS, sesije, rate limit, upload fajlova,
+  tajne u logu, puni SSN nigdje. Plus automatski skener zavisnosti.
+- **E2E**: cijeli put kupca u pravom browseru, od registracije do preuzetog XML-a
+  i potpisa, u Chrome, Safari i Firefox, na 1366, 1920 i telefonu.
+- **Opterećenje**: 50 firmi × 5 projekata × 40 radnika, petak popodne, svi
+  generišu istovremeno. Nijedan zahtjev preko 2 s, nijedna greška.
+- **Oporavak**: vratiti bazu iz backupa na prazan server i provjeriti da su svi
+  podaci tu. Ugasiti worker usred generisanja i provjeriti da se posao završi.
+- **Ljudski test**: Mume i još dvije osobe koje nisu vidjele aplikaciju prođu
+  kroz demo firmu bez uputstva. Svako mjesto gdje zastanu je greška u 15 ili 03.
+- **Gotovo kad**: nula otvorenih grešaka nivoa blokira ili pogrešan izlaz, svi
+  testovi zeleni dva dana zaredom, restore test prošao.
+- **Ostaje za pilota**: stvarni upload na NYSDOL portal (13 A9). Prvu predaju
+  prvog kupca radimo zajedno, uživo.
+
 ## Korak 9: Onboarding prvih 10 kupaca (Mume + Claude Code, 2 do 3 sedmice)
 
 Iz: 17-PODRSKA §6 i §7. Runbook od sedam radnih dana po kupcu, s budžetom sati po
@@ -230,7 +269,6 @@ plan, email-to-import, QuickBooks Time API, NJ.
 | 1 | 1,5 | Claude Code |
 | 2 | 4 | Claude Code |
 | 3 | 12 | Claude Code + Mume pregleda ekrane |
-| kapija | prodaja, 4 do 8 sedmica | Mume |
 | 4 | 5 | Claude Code |
 | 5 | 5 | Claude Code |
 | 6 | 4 | Claude Code |
@@ -239,11 +277,11 @@ plan, email-to-import, QuickBooks Time API, NJ.
 | 6b | 2 | Claude Code |
 | 8 | 2 | Claude Code + Mume (nalozi, DNS) |
 | 8b | 5 | Mume + advokat |
+| 8c | 7 | Claude Code + Mume |
 | 9 | 15 (razvučeno) | oboje |
 
-Ukupno koda: oko 40 radnih dana Claude Codea, uz Mumin sat do dva dnevno za
-pregled i odluke. Prvi kupac s pravim podacima realno 10 do 12 sedmica od
-početka, od čega je pola čekanje na uplate, a ne kod.
+Ukupno koda: oko 47 radnih dana Claude Codea, uz Mumin sat do dva dnevno za
+pregled i odluke. Od 24.9.2026 nema čekanja na uplate između koraka.
 
 ## Kako Mume vodi Claude Code (praktično)
 

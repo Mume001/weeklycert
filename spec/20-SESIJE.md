@@ -1,4 +1,4 @@
-# 20. Preostale sesije do kapije
+# 20. Preostale sesije koraka 3
 
 Ovo je red čekanja za Claude Code poslije sesije E (pregled, potpis,
 izvještaji). Svaka sesija je jedan unos ovdje. Mume otvara sesiju jednom
@@ -54,7 +54,7 @@ Ekrani: `/app/[t]/workers`, `/workers/new`, `/workers/[id]`,
 Obavezno:
 - Polje za SSN prima tačno 4 cifre. Polje za pun SSN ne postoji nigdje.
 - Zadnje 4 SSN ili datum rođenja, jedno od dva, forma to forsira.
-- Vrijednost se prikazuje kao "••••1234"; "Prikaži" se bilježi.
+- Prije "Prikaži" samo "••••", poslije "••••1234"; svaki "Prikaži" se bilježi.
 - U listi radnika nema adresa ni SSN-a.
 - Viewer vidi samo ime i klasifikaciju (02 §3); adrese mu ne idu ni u
   preglednik, isto pravilo kao engineInput() u mreži.
@@ -171,4 +171,5 @@ Obavezno:
 - Video od 90 sekundi bez zvuka, s titlovima, snimljen Playwrightom, u
   docs/demo/.
 
-Poslije sesije O korak 3 je gotov. Dalje se ne ide bez kapije od 10 uplata.
+Poslije sesije O korak 3 je gotov i odmah počinje korak 4 iz spec/12 (kapija je
+ukinuta 24.9.2026). Sesije za korake 4 do 10 se dopisuju ovdje kad korak 3 završi.

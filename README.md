@@ -96,10 +96,9 @@ weeklycert/
 
 ## Kapija
 
-Koraci 1 do 3 (motor, svi ekrani na izmišljenim podacima, sajt) služe za demo i
-prodaju. Backend, koraci 4 do 8, ne piše se dok **10 firmi ne plati** (Founding
-Member 147 $ ili setup naknada). Obrazloženje je u `poslovno/` i u
-`../KONTEKST.md` poglavlje 12.
+Ukinuta 24.9.2026. Proizvod se gradi do kraja, backend uključen, pa tek onda
+prodaja. Detalji i jedini izuzetak (prvi upload u NYSDOL portal) su u
+`spec/12` §KAPIJA.
 
 ## Brojevi koji drže projekat
 
