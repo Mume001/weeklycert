@@ -12,7 +12,10 @@ function leaves(node: unknown, path = 'copy'): [string, string][] {
   if (typeof node === 'string') return [[path, node]]
   if (Array.isArray(node)) return node.flatMap((v, i) => leaves(v, `${path}[${i}]`))
   if (node && typeof node === 'object') {
-    return Object.entries(node).flatMap(([k, v]) => leaves(v, `${path}.${k}`))
+    // `key` names a tier or a row for the code (setupTiers); nobody reads it.
+    return Object.entries(node)
+      .filter(([k]) => k !== 'key')
+      .flatMap(([k, v]) => leaves(v, `${path}.${k}`))
   }
   return []
 }
@@ -164,5 +167,23 @@ describe('plural and count', () => {
     expect(count(copy.shell.tenantSwitcher, 'subtitle', 1, { Role: 'Owner' })).toBe(
       'Owner · 1 active project',
     )
+  })
+})
+
+describe('setup tiers: one set of names on the site and in the app (17 §6.1)', () => {
+  it('the site price table and onboarding step 7 name every tier the same', () => {
+    const site = Object.fromEntries(copy.site.pricing.tiers.map((t) => [t.key, t.name]))
+    const app = Object.fromEntries(
+      Object.entries(copy.onboarding.billing.tiers).map(([key, t]) => [key, t.name]),
+    )
+    expect(site).toEqual(app)
+    expect(app).toEqual(copy.setupTiers)
+  })
+
+  it('uses the names of 17 §6.1, and no longer "Complex"', () => {
+    expect(Object.values(copy.setupTiers).slice(0, 3)).toEqual(['Basic', 'Standard', 'Full'])
+    const all = JSON.stringify(copy)
+    expect(all).not.toContain('Complex')
+    expect(all).not.toContain('Do it yourself')
   })
 })

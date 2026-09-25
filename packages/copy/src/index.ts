@@ -12,7 +12,20 @@
 //   12. no concrete value is written into a string. Not the week day (the firm
 //       picks it), not a time, a date or a name. Those are placeholders.
 
+/**
+ * The setup tiers, named once (spec/17 §6.1, 15 §3). The site's price table and
+ * onboarding step 7 both read these; test/copy.test.ts fails if they drift.
+ */
+const setupTiers = {
+  basic: 'Basic',
+  standard: 'Standard',
+  full: 'Full',
+  waived: 'I will set it up myself',
+} as const
+
 export const copy = {
+  setupTiers,
+
   brand: {
     name: 'WeeklyCert',
   },
@@ -535,23 +548,23 @@ export const copy = {
       group: 'How do you want to start?',
       tiers: {
         basic: {
-          name: 'Basic',
+          name: setupTiers.basic,
           price: '$149',
           detail: 'One company, up to 2 active projects and 10 workers.',
         },
         standard: {
-          name: 'Standard',
+          name: setupTiers.standard,
           price: '$299',
           detail: 'Up to 5 projects, 30 workers and union fringe plans.',
         },
         full: {
-          name: 'Full',
+          name: setupTiers.full,
           price: '$499',
           detail:
             'Up to 12 projects, 75 workers, apprentice ratios and one import from your current system.',
         },
         waived: {
-          name: 'I will set it up myself',
+          name: setupTiers.waived,
           price: '$0',
           detail: 'The product is the same. You start the trial and enter the rest yourself.',
         },
@@ -1309,18 +1322,30 @@ export const copy = {
       setupBody:
         'We build your company, projects, classifications, rates, fringe plans and workers from your files, then file the first week together on a call.',
       tiers: [
-        { name: 'Basic', detail: 'one project, up to 10 workers', price: '$149' },
         {
-          name: 'Standard',
+          key: 'basic',
+          name: setupTiers.basic,
+          detail: 'one project, up to 10 workers',
+          price: '$149',
+        },
+        {
+          key: 'standard',
+          name: setupTiers.standard,
           detail: 'up to 5 projects, 30 workers, union fringe plans, one training call',
           price: '$299',
         },
         {
-          name: 'Complex',
+          key: 'full',
+          name: setupTiers.full,
           detail: 'up to 12 projects, 75 workers, apprentice ratios, 12 weeks of history',
           price: '$499',
         },
-        { name: 'Do it yourself', detail: 'the product is the same', price: '$0' },
+        {
+          key: 'waived',
+          name: setupTiers.waived,
+          detail: 'the product is the same',
+          price: '$0',
+        },
       ],
       guarantee:
         'Full refund of the setup fee if we do not have you live within ten business days.',

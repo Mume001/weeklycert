@@ -740,8 +740,11 @@ navodi dok se ne pročita iz XSD-a.
   `We build your company, projects, classifications, rates, fringe plans and workers from your files, then file the first week together on a call.`
 - Nivoi: `Basic` / `one project, up to 10 workers` / `$149` ·
   `Standard` / `up to 5 projects, 30 workers, union fringe plans, one training call` / `$299` ·
-  `Complex` / `up to 12 projects, 75 workers, apprentice ratios, 12 weeks of history` / `$499` ·
-  `Do it yourself` / `the product is the same` / `$0`
+  `Full` / `up to 12 projects, 75 workers, apprentice ratios, 12 weeks of history` / `$499` ·
+  `I will set it up myself` / `the product is the same` / `$0`
+- Nazivi nivoa su iz 17 §6.1 i isti su na sajtu i u aplikaciji (korak 7
+  onboardinga); u `packages/copy` postoje na jednom mjestu (`setupTiers`), a test
+  pada ako se sajt i aplikacija raziđu. Opisi i cijene ostaju svoji na sajtu.
 - Jamstvo: `Full refund of the setup fee if we do not have you live within ten business days.`
 
 **8 Sigurnost podataka** (16 §4 red 10; ista lista je i stranica `/security`)
