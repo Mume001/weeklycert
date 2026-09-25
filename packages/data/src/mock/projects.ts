@@ -317,7 +317,11 @@ export function projectForm(tenantId: Uuid, projectId: Uuid | null): ProjectForm
         retentionYears: String(p.retentionYears),
         status: p.status,
       }
-    : EMPTY
+    : {
+        ...EMPTY,
+        // The company's usual role on public jobs (03 §4.3 step 1, 04 default_our_role).
+        ourRole: db.tenants.find((t) => t.id === tenantId)?.defaultOurRole ?? EMPTY.ourRole,
+      }
   return {
     projectId: p?.id ?? null,
     values,
@@ -569,7 +573,7 @@ export function addClassification(
     holidayCode: null,
     effectiveFrom: input.effectiveFrom,
     effectiveTo: null,
-    rateSource: 'manual',
+    rateSource: input.rateSource ?? 'manual',
     sourceRateId: null,
   })
   return { ok: true }

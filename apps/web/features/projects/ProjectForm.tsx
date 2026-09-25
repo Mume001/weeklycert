@@ -31,6 +31,12 @@ export interface ProjectFormProps {
   /** A closed project: only the status can change, which is how it is reopened. */
   closed: boolean
   cancelHref: string
+  /**
+   * Where a created one goes, "{id}" standing for its id. The onboarding wizard
+   * sets it so a create lands back in the wizard (spec/03 §4.3); the screen's
+   * own page is the default.
+   */
+  createdHref?: string
 }
 
 function message(error: ProjectFormError | undefined): string | undefined {
@@ -43,7 +49,14 @@ function message(error: ProjectFormError | undefined): string | undefined {
  * week end is the company's and is shown read only (spec/15 §3 explains why).
  * The zod schema is the one the server runs again (spec/09 §4).
  */
-export function ProjectForm({ slug, form, readOnly, closed, cancelHref }: ProjectFormProps) {
+export function ProjectForm({
+  slug,
+  form,
+  readOnly,
+  closed,
+  cancelHref,
+  createdHref,
+}: ProjectFormProps) {
   const router = useRouter()
   const summaryRef = useRef<HTMLDivElement>(null)
   const [errors, setErrors] = useState<ProjectFormErrors>({})
@@ -79,7 +92,8 @@ export function ProjectForm({ slug, form, readOnly, closed, cancelHref }: Projec
         : await updateProjectAction(slug, form.projectId, payload)
     if (!result.ok) return show(result.errors)
     setErrors({})
-    if (isNew) router.push(`/app/${slug}/projects/${result.id}`)
+    if (isNew)
+      router.push(createdHref?.replace('{id}', result.id) ?? `/app/${slug}/projects/${result.id}`)
     else {
       setSaved(true)
       router.refresh()

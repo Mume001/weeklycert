@@ -3,6 +3,7 @@
 export * from './admin-health.ts'
 export * from './archive-row.ts'
 export * from './common.ts'
+export * from './company.ts'
 export * from './dashboard.ts'
 export * from './finding.ts'
 export * from './fringe-plan.ts'

@@ -91,6 +91,8 @@ describe('15 §1 rule 11: a number has a singular and a plural form', () => {
     ['copy.projects.timeline.version', 'identifier, not a count'],
     // The draft's version, likewise a label.
     ['copy.review.ready', 'identifier, not a count'],
+    // The wizard's step, an ordinal: "Step 1 of 7" (15 §3 Onboarding).
+    ['copy.onboarding.meta', 'ordinal, not a count'],
     // No noun that inflects: "1 ready" and "5 ready" are the same words.
     ['copy.imports.ready', '{n} ready'],
     // A fixed trigger from 15 §4.2 (T-3 and T-2), not a computed number.

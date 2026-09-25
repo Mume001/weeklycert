@@ -11,6 +11,9 @@ import type {
   ClassificationEditInput,
   ClassificationInput,
   ClassificationSaveResult,
+  CompanyFormDTO,
+  CompanyInput,
+  CompanySaveResult,
   DashboardDTO,
   Finding,
   FringePlanInput,
@@ -20,6 +23,7 @@ import type {
   ImportBatchDTO,
   ImportPreviewDTO,
   IsoDate,
+  OnboardingDTO,
   OpenWeeksDTO,
   PayrollInput,
   PiiPart,
@@ -35,6 +39,7 @@ import type {
   ReportStatusDTO,
   ReportsDTO,
   ReviewDTO,
+  SetupTier,
   SignerDTO,
   SignInput,
   SubmissionDTO,
@@ -62,6 +67,14 @@ export interface Repositories {
     /** Companies the user is an active member of. */
     listForUser(userId: Uuid): Promise<TenantBrief[]>
     getBySlug(slug: string): Promise<TenantDTO | null>
+    /** The company profile, onboarding step 1 (spec/03 §4.3). */
+    company(tenantId: Uuid): Promise<CompanyFormDTO>
+    updateCompany(tenantId: Uuid, input: CompanyInput): Promise<CompanySaveResult>
+    /** Where the wizard stands; each step is saved as it is done (03 §4.3). */
+    onboarding(tenantId: Uuid): Promise<OnboardingDTO>
+    completeOnboardingStep(tenantId: Uuid, step: number, skipped: boolean): Promise<void>
+    /** Step 7 in the mock phase: the tier is saved, nothing is charged (spec/20 H). */
+    chooseSetupTier(tenantId: Uuid, tier: SetupTier): Promise<void>
   }
   dashboard: { get(tenantId: Uuid): Promise<DashboardDTO> }
   projects: {

@@ -190,6 +190,11 @@ apps/web/
 - Ništa u `app/` ne sadrži logiku. Stranica uvozi iz `features/` i prosljeđuje
   podatke.
 - `features/*` ne uvoze jedni druge osim kroz `components/patterns`.
+  **Jedini izuzetak** (Mume, 25.9.2026): stranica
+  `app/app/[t]/onboarding/page.tsx` slaže čarobnjak od forme iz više
+  feature-a (projekti, radnici, beneficije), jer 20 H traži iste forme, ne
+  nove. Uvoz je u stranici, ne u `features/onboarding`, pa CI pravilo ostaje
+  kako jeste; stranica samo bira šta ide u koji korak, bez druge logike.
 - Jedini `*.css` fajlovi su `globals.css` u obje aplikacije i
   `features/grid/grid.css`.
 - Nijedna hardkodirana heks boja nigdje osim u `packages/ui-tokens`.

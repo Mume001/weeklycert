@@ -421,6 +421,147 @@ export const copy = {
       'Your role can sign certifications, so two-factor authentication is required. It takes two minutes to set up.',
   },
 
+  // 15 §3 Onboarding (03 §4.3)
+  onboarding: {
+    meta: 'Step {n} of 7',
+    progressLabel: 'Setup progress',
+    steps: [
+      'Company',
+      'First project',
+      'Classifications',
+      'Workers',
+      'Fringe plans',
+      'First week',
+      'Billing',
+    ],
+    done: 'done',
+    continue: 'Continue',
+    back: 'Back',
+    skip: 'Skip for now',
+    toDashboard: 'Go to the dashboard',
+    locked: {
+      company:
+        'Only the owner or an administrator can enter the company profile. Ask {Owner name}.',
+      billing: 'Only the owner can choose how to pay. Ask {Owner name}.',
+      missing: 'Still missing: {fields}.',
+    },
+    noProject: 'Create the first project in step 2 first.',
+    company: {
+      intro: 'The company as it appears on your contracts and on every filing.',
+      fields: {
+        legalName: { label: 'Legal name', hint: 'As it appears on your contracts.' },
+        addressLine1: { label: 'Address line 1' },
+        addressLine2: { label: 'Address line 2' },
+        city: { label: 'City' },
+        state: { label: 'State' },
+        zip: { label: 'ZIP code' },
+        fein: {
+          label: 'FEIN',
+          hint: 'Your federal employer identification number, nine digits. It goes on the WH-347 and into the NY file.',
+          onFile: 'On file, ending in {last4}. Leave it empty to keep it.',
+        },
+        nysRegistrationNumber: {
+          label: 'NYS contractor registration number',
+          hint: 'From your Certificate of Contractor Registration.',
+        },
+        nysRegistrationExpiresOn: { label: 'Registration expires on' },
+        defaultOurRole: {
+          label: 'Your usual role on public jobs',
+          hint: 'New projects start with this role. You can change it per project.',
+        },
+        weekEndsOn: {
+          label: 'Weeks end on',
+          hint: 'The last day of your payroll week. It cannot change once a project has its first week.',
+        },
+      },
+      errors: {
+        legalNameRequired: 'Enter the legal name.',
+        addressRequired: 'Enter the address: line 1, city and ZIP code.',
+        zipFormat: 'Enter a five-digit ZIP code.',
+        feinFormat: 'Enter the FEIN as nine digits.',
+        weekEndLocked: 'A project already has weeks, so the week end cannot change.',
+      },
+    },
+    project: { intro: 'Your first project. You can add more later under Projects.' },
+    classifications: {
+      intro:
+        'Add the classifications that work on this project, with the rates from its wage schedule.',
+      paste: {
+        open: 'Paste a table from the wage schedule',
+        label: 'Rows copied from the wage schedule',
+        hint: 'One classification per line: the name, the base rate, the supplement, then the OT codes if the schedule lists them. Nothing is saved until you confirm.',
+        suggest: 'Suggest rows',
+        effectiveFrom: 'Effective from',
+        columns: {
+          line: 'Line',
+          classification: 'Classification',
+          baseRate: 'Base rate',
+          supplement: 'Supplement',
+          otCodes: 'OT codes',
+          status: 'Status',
+        },
+        status: {
+          ready: 'Ready',
+          notOfficial: 'Not on the official NY list',
+          noRate: 'No rate on this line',
+          noOtCodes: 'No OT codes on this line',
+          onProject: 'Already on the project',
+        },
+        add_one: 'Add {n} classification',
+        add_other: 'Add {n} classifications',
+        added_one: '{n} classification added.',
+        added_other: '{n} classifications added.',
+        noneReady: 'No row is ready to add. Check the lines marked above.',
+      },
+    },
+    workers: {
+      intro: 'Add the workers who will be on the first week, or import a list.',
+      import: 'Import workers',
+      count_one: '{n} worker so far',
+      count_other: '{n} workers so far',
+    },
+    fringe: {
+      intro: 'The benefit plans you pay into, then the credit per hour for each worker.',
+      worker: { label: 'Worker', none: 'Pick a worker' },
+    },
+    week: {
+      intro: 'Pick the week to start with. The grid opens on it.',
+      label: 'Week ending',
+      open: 'Open the grid',
+    },
+    billing: {
+      intro:
+        'The subscription is $79 a month after a 14-day trial. Setup is paid once, today, and we build your data for you.',
+      group: 'How do you want to start?',
+      tiers: {
+        basic: {
+          name: 'Basic',
+          price: '$149',
+          detail: 'One company, up to 2 active projects and 10 workers.',
+        },
+        standard: {
+          name: 'Standard',
+          price: '$299',
+          detail: 'Up to 5 projects, 30 workers and union fringe plans.',
+        },
+        full: {
+          name: 'Full',
+          price: '$499',
+          detail:
+            'Up to 12 projects, 75 workers, apprentice ratios and one import from your current system.',
+        },
+        waived: {
+          name: 'I will set it up myself',
+          price: '$0',
+          detail: 'The product is the same. You start the trial and enter the rest yourself.',
+        },
+      },
+      pay: 'Continue to payment',
+      mock: 'Payment is not connected in this demo. Your choice is saved.',
+      complete: 'Setup is complete.',
+    },
+  },
+
   // 15 §3 Kontrolna tabla
   dashboard: {
     title: '{Weekday}, {Month} {D}',

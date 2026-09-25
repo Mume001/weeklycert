@@ -7,6 +7,13 @@ import { NotYetBuiltError } from '../not-yet.ts'
 import { readPii } from '../pii.ts'
 import type { Repositories } from '../repositories.ts'
 import { mockNow, mockToday } from './clock.ts'
+import {
+  chooseSetupTier,
+  companyForm,
+  completeOnboardingStep,
+  onboarding,
+  updateCompany,
+} from './company.ts'
 import { db } from './db.ts'
 import { delay } from './delay.ts'
 import {
@@ -127,6 +134,31 @@ export const mockRepositories: Repositories = {
         timezone: t.timezone,
         owner: ownerOf(t.id),
       } satisfies TenantDTO
+    },
+
+    async company(tenantId) {
+      await delay('tenants.company')
+      return companyForm(tenantId)
+    },
+
+    async updateCompany(tenantId, input) {
+      await delay('tenants.updateCompany')
+      return updateCompany(tenantId, input)
+    },
+
+    async onboarding(tenantId) {
+      await delay('tenants.onboarding')
+      return onboarding(tenantId)
+    },
+
+    async completeOnboardingStep(tenantId, step, skipped) {
+      await delay('tenants.completeOnboardingStep')
+      completeOnboardingStep(tenantId, step, skipped)
+    },
+
+    async chooseSetupTier(tenantId, tier) {
+      await delay('tenants.chooseSetupTier')
+      chooseSetupTier(tenantId, tier)
     },
   },
 

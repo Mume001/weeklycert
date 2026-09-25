@@ -34,6 +34,10 @@ export const TenantRow = z.object({
     .regex(/^\d{2}-\d{7}$/)
     .nullable(),
   nysRegistrationNumber: z.string().nullable(),
+  /** 04 tenants, added 25.9.2026 (03 §4.3 step 1). */
+  nysRegistrationExpiresOn: IsoDateSchema.nullable().default(null),
+  /** 04 tenants default_our_role; a new project starts with it. */
+  defaultOurRole: ProjectRoleSchema.default('sub'),
   addressLine1: z.string().nullable(),
   addressLine2: z.string().nullable(),
   city: z.string().nullable(),
@@ -44,6 +48,10 @@ export const TenantRow = z.object({
   trialEndsAt: IsoDateSchema.nullable(),
   pastDueSince: IsoDateSchema.nullable(),
   onboardingStep: z.number().int().min(0).max(7),
+  /** Steps passed with "Skip for now" (03 §4.3); the dashboard shows them as gaps. */
+  onboardingSkipped: z.array(z.number().int().min(1).max(7)).default([]),
+  /** The setup tier picked in step 7 (17 §6.1). In step 7 of the plan this is Stripe's. */
+  setupTier: z.enum(['basic', 'standard', 'full', 'waived']).nullable().default(null),
   settings: z.object({
     defaultPayFrequency: z.enum(['weekly', 'biweekly']),
     weekEndingDow: DowSchema,

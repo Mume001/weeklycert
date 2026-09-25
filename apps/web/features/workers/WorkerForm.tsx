@@ -42,6 +42,12 @@ export interface WorkerFormProps {
   /** A paused company reads (spec/08 §2.4). Show still works: it is a read. */
   readOnly: boolean
   cancelHref: string
+  /**
+   * Where a created one goes, "{id}" standing for its id. The onboarding wizard
+   * sets it so a create lands back in the wizard (spec/03 §4.3); the screen's
+   * own page is the default.
+   */
+  createdHref?: string
 }
 
 function message(error: WorkerFormError | undefined): string | undefined {
@@ -70,7 +76,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
  * stays as it is. The SSN field takes four digits and nothing else; there is no
  * field for a full SSN anywhere (spec/11 §5).
  */
-export function WorkerForm({ slug, form, readOnly, cancelHref }: WorkerFormProps) {
+export function WorkerForm({ slug, form, readOnly, cancelHref, createdHref }: WorkerFormProps) {
   const router = useRouter()
   const summaryRef = useRef<HTMLDivElement>(null)
   const [errors, setErrors] = useState<WorkerFormErrors>({})
@@ -125,7 +131,8 @@ export function WorkerForm({ slug, form, readOnly, cancelHref }: WorkerFormProps
         : await updateWorkerAction(slug, form.workerId, payload)
     if (!result.ok) return show(result.errors)
     setErrors({})
-    if (isNew) router.push(`/app/${slug}/workers/${result.id}`)
+    if (isNew)
+      router.push(createdHref?.replace('{id}', result.id) ?? `/app/${slug}/workers/${result.id}`)
     else {
       setSaved(true)
       router.refresh()

@@ -124,6 +124,8 @@ Better Auth **ne** upravlja firmama ni članstvima (bez `organization` plugina);
 | address_line1, address_line2 N, city, state_code FK states, zip | text | Adresa firme. |
 | phone | text N | |
 | nys_registration_number | text N | NYS contractor registration number s Certificate of Contractor Registration (Labor Law §220-i). Portal traži ovaj broj plus FEIN; zasebnog "portal ID-a" nema. |
+| nys_registration_expires_on | date N | Istek registracije (03 §4.3 korak 1). Dodato 25.9.2026. |
+| default_our_role | E project_role default 'sub' | Uobičajena uloga firme na poslovima (03 §4.3 korak 1); nov projekat je predlaže. Dodato 25.9.2026. |
 | timezone | text default 'America/New_York' | |
 | status | E tenant_status | trial, active, past_due, paused, cancelled, deleted |
 | trial_ends_at | timestamptz N | |

@@ -90,7 +90,7 @@ zaštita: ruta i dalje provjerava dozvolu i vraća `ForbiddenState` (19 §7).
 | Import | x | x | x | x | | x |
 | Archive | x | x | x | x | x | x |
 | **Company** | | | | | | |
-| Setup | x | x | x (koraci 1 i 7 zaključani) | x (isto) | | x (isto) |
+| Setup | x | x (korak 7 zaključan) | x (koraci 1 i 7 zaključani) | x (isto) | | x (isto) |
 | Settings | x | x | x | x | | x |
 | Help and support | x | x | x | x | x | x |
 
@@ -107,6 +107,8 @@ tačno ono što im §3 dozvoljava: projekti, klasifikacije, radnici, beneficije,
 prva sedmica. Zaključana su samo dva: korak 1 (profil firme, oni ga samo čitaju)
 i korak 7 (naplata, koju ne vide uopšte). Zaključan korak pokazuje šta nedostaje
 i ko to može unijeti, ne prazno polje.
+Korak 7 je zaključan i za `admin`: naplata je u §3 samo vlasnikova (Mume,
+25.9.2026).
 
 **Naplata, Tim, Potpisnici, Dnevnik i Podaci nisu stavke u traci** nego
 pod-stranice Settingsa, i unutar njega se skrivaju po §3. Zato `payroll` vidi

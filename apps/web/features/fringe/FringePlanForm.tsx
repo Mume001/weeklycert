@@ -118,6 +118,7 @@ export function FringePlanForm({
   basis,
   readOnly,
   cancelHref,
+  createdHref,
 }: {
   slug: string
   /** Null for a new plan. */
@@ -126,6 +127,12 @@ export function FringePlanForm({
   basis: string
   readOnly: boolean
   cancelHref: string
+  /**
+   * Where a created one goes, "{id}" standing for its id. The onboarding wizard
+   * sets it so a create lands back in the wizard (spec/03 §4.3); the screen's
+   * own page is the default.
+   */
+  createdHref?: string
 }) {
   const router = useRouter()
   const summaryRef = useRef<HTMLParagraphElement>(null)
@@ -148,7 +155,9 @@ export function FringePlanForm({
     }
     setErrors({})
     setSaved(true)
-    router.push(`/app/${slug}/fringe-plans?plan=${result.id}`)
+    router.push(
+      createdHref?.replace('{id}', result.id) ?? `/app/${slug}/fringe-plans?plan=${result.id}`,
+    )
     router.refresh()
   })
 

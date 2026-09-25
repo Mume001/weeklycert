@@ -167,6 +167,77 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Prazno: `No projects yet. A project is one public job with its own PRC number.`
   Dugme `Add your first project`.
 
+### Onboarding
+
+Čarobnjak iz 03 §4.3 (`/onboarding`, stavka navigacije `Setup`). Koraci 2 do 5
+koriste forme projekta, klasifikacija, radnika i beneficija, pa i njihove
+tekstove odavde; ovdje je samo ono što je samo čarobnjakovo. `Step {n} of 7` je
+redni broj, ne brojanje, pa nema dva oblika (isto kao `will be #{n}`).
+
+- Naslov je stavka navigacije `Setup` · meta `Step {n} of 7`
+- Traka napretka, ime za čitač ekrana `Setup progress`; koraci:
+  `Company` · `First project` · `Classifications` · `Workers` · `Fringe plans` ·
+  `First week` · `Billing`; uz završen korak za čitač ekrana `done`
+- Dugmad: `Continue` · `Back` · `Skip for now` · na kraju `Go to the dashboard`
+- Zaključan korak (02 §5): `Only the owner or an administrator can enter the company profile. Ask {Owner name}.` ·
+  `Only the owner can choose how to pay. Ask {Owner name}.` · ispod `Still missing: {fields}.`
+- Bez projekta (koraci 3 i 6): `Create the first project in step 2 first.`
+
+**Korak 1, Company**
+- Uvod: `The company as it appears on your contracts and on every filing.`
+- Polja i pomoćni tekst:
+  - `Legal name` / `As it appears on your contracts.`
+  - `Address line 1` · `Address line 2` · `City` · `State` · `ZIP code`
+  - `FEIN` / `Your federal employer identification number, nine digits. It goes on the WH-347 and into the NY file.`
+  - Kad je FEIN već unesen: `On file, ending in {last4}. Leave it empty to keep it.`
+  - `NYS contractor registration number` / `From your Certificate of Contractor Registration.`
+  - `Registration expires on`
+  - `Your usual role on public jobs` / `New projects start with this role. You can change it per project.`
+  - `Weeks end on` / `The last day of your payroll week. It cannot change once a project has its first week.`
+- Greške:
+  - `Enter the legal name.`
+  - `Enter the address: line 1, city and ZIP code.`
+  - `Enter a five-digit ZIP code.`
+  - `Enter the FEIN as nine digits.`
+  - `A project already has weeks, so the week end cannot change.`
+
+**Korak 2, First project**
+- Uvod: `Your first project. You can add more later under Projects.`
+
+**Korak 3, Classifications**
+- Uvod: `Add the classifications that work on this project, with the rates from its wage schedule.`
+- Lijepljenje: dugme `Paste a table from the wage schedule` · polje
+  `Rows copied from the wage schedule` / `One classification per line: the name, the base rate, the supplement, then the OT codes if the schedule lists them. Nothing is saved until you confirm.` ·
+  dugme `Suggest rows` · polje `Effective from` za sve redove
+- Predloženi redovi, kolone: `Line` · `Classification` · `Base rate` · `Supplement` · `OT codes` · `Status`
+- Status reda: `Ready` · `Not on the official NY list` · `No rate on this line` ·
+  `No OT codes on this line` · `Already on the project`
+- Potvrda: `Add {n} classification` / `Add {n} classifications`
+- Poslije: `{n} classification added.` / `{n} classifications added.`
+- Nijedan red spreman: `No row is ready to add. Check the lines marked above.`
+
+**Korak 4, Workers**
+- Uvod: `Add the workers who will be on the first week, or import a list.`
+- Dugme za uvoz: `Import workers` · brojač `{n} worker so far` / `{n} workers so far`
+
+**Korak 5, Fringe plans**
+- Uvod: `The benefit plans you pay into, then the credit per hour for each worker.`
+- Izbor radnika za kredit po satu: `Worker` (prazan izbor `Pick a worker`)
+
+**Korak 6, First week**
+- Uvod: `Pick the week to start with. The grid opens on it.`
+- Polje: `Week ending` · dugme `Open the grid`
+
+**Korak 7, Billing** (u mock fazi bez Stripea, 20 H)
+- Uvod: `The subscription is $79 a month after a 14-day trial. Setup is paid once, today, and we build your data for you.`
+- Nivoi (opseg iz 17 §6.1): `Basic` `$149` `One company, up to 2 active projects and 10 workers.` ·
+  `Standard` `$299` `Up to 5 projects, 30 workers and union fringe plans.` ·
+  `Full` `$499` `Up to 12 projects, 75 workers, apprentice ratios and one import from your current system.` ·
+  `I will set it up myself` `$0` `The product is the same. You start the trial and enter the rest yourself.`
+- Ime grupe: `How do you want to start?` · dugme `Continue to payment`
+- Mock napomena: `Payment is not connected in this demo. Your choice is saved.`
+- Kraj: `Setup is complete.` · dugme `Go to the dashboard`
+
 ### Projekti
 
 Ekrani iz 03 §4.4. Lista filtrirana na otvorene sedmice (`?open=1`) ima svoje

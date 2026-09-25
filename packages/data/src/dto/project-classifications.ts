@@ -100,6 +100,8 @@ export const ClassificationInputSchema = z.object({
   otCodes,
   effectiveFrom: date,
   apprenticeRatio: z.string().trim(),
+  /** 'pasted' when the row came from "Paste a table from the wage schedule" (04 rate_source). */
+  rateSource: z.enum(['manual', 'pasted']).optional(),
 })
 export type ClassificationInput = z.infer<typeof ClassificationInputSchema>
 

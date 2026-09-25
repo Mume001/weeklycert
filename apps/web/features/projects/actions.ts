@@ -105,3 +105,31 @@ export async function editClassificationAction(
   if (result.ok) revalidatePath('/app/[t]', 'layout')
   return result
 }
+
+/**
+ * The rows the user confirmed from "Paste a table from the wage schedule"
+ * (spec/03 §4.3 step 3). Each goes through the same schema and the same
+ * checks as one added by hand, marked rate_source = pasted (spec/04). Returns
+ * how many were added.
+ */
+export async function addPastedClassificationsAction(
+  slug: string,
+  projectId: string,
+  raw: unknown,
+): Promise<{ added: number }> {
+  const shell = await requireTenant(slug, PROJECT_WRITERS)
+  const rows = z.array(z.unknown()).parse(raw)
+  const repos = getRepositories()
+  let added = 0
+  for (const row of rows) {
+    const parsed = ClassificationInputSchema.safeParse(row)
+    if (!parsed.success) continue
+    const result = await repos.projects.addClassification(shell.tenant.id, projectId, {
+      ...parsed.data,
+      rateSource: 'pasted',
+    })
+    if (result.ok) added++
+  }
+  if (added > 0) revalidatePath('/app/[t]', 'layout')
+  return { added }
+}

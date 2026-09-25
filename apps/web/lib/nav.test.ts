@@ -100,13 +100,14 @@ describe('buildNav', () => {
     expect(item).toMatchObject({ badge: 3, href: '/app/x/projects?open=1' })
   })
 
-  it('prefetches only the screens that exist: This week, Projects, Workers, Fringe plans (session G)', () => {
+  it('prefetches only the screens that exist, up to Setup (session H)', () => {
     const nav = buildNav({ role: 'owner', slug: 'x', openWeeks: hudson })
     expect(nav.filter((i) => i.prefetch).map((i) => i.key)).toEqual([
       'thisWeek',
       'projects',
       'workers',
       'fringePlans',
+      'setup',
     ])
   })
 
