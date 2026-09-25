@@ -1,0 +1,778 @@
+{
+  "crew": [
+    {
+      "number": "1021",
+      "first": "Miguel",
+      "last": "Alvarez"
+    },
+    {
+      "number": "1027",
+      "first": "David",
+      "last": "Chen"
+    },
+    {
+      "number": "1018",
+      "first": "Anna",
+      "last": "Rossi"
+    },
+    {
+      "number": "1050",
+      "first": "José",
+      "last": "Peña"
+    }
+  ],
+  "week": ["2026-09-07", "2026-09-08", "2026-09-09", "2026-09-10", "2026-09-11"],
+  "official": "Electrician – Inside Wireman",
+  "files": [
+    {
+      "file": "quickbooks_time-1.csv",
+      "source": "quickbooks_time",
+      "kind": "hours",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_time-2.csv",
+      "source": "quickbooks_time",
+      "kind": "hours",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_time-3.csv",
+      "source": "quickbooks_time",
+      "kind": "hours",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_time-4.csv",
+      "source": "quickbooks_time",
+      "kind": "hours",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_time-5.xlsx",
+      "source": "quickbooks_time",
+      "kind": "hours",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_payroll-1.csv",
+      "source": "quickbooks_payroll",
+      "kind": "payroll",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_payroll-2.csv",
+      "source": "quickbooks_payroll",
+      "kind": "payroll",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_payroll-3.csv",
+      "source": "quickbooks_payroll",
+      "kind": "payroll",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_payroll-4.csv",
+      "source": "quickbooks_payroll",
+      "kind": "payroll",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "quickbooks_payroll-5.xlsx",
+      "source": "quickbooks_payroll",
+      "kind": "payroll",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "adp-1.csv",
+      "source": "adp",
+      "kind": "payroll",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "adp-2.csv",
+      "source": "adp",
+      "kind": "payroll",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "adp-3.csv",
+      "source": "adp",
+      "kind": "payroll",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "adp-4.csv",
+      "source": "adp",
+      "kind": "payroll",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "adp-5.xlsx",
+      "source": "adp",
+      "kind": "payroll",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "gusto-1.csv",
+      "source": "gusto",
+      "kind": "payroll",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "gusto-2.csv",
+      "source": "gusto",
+      "kind": "payroll",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "gusto-3.csv",
+      "source": "gusto",
+      "kind": "payroll",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "gusto-4.csv",
+      "source": "gusto",
+      "kind": "payroll",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "gusto-5.xlsx",
+      "source": "gusto",
+      "kind": "payroll",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 4,
+        "gross": "5971.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "paychex-1.csv",
+      "source": "paychex",
+      "kind": "hours",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "paychex-2.csv",
+      "source": "paychex",
+      "kind": "hours",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "paychex-3.csv",
+      "source": "paychex",
+      "kind": "hours",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "paychex-4.csv",
+      "source": "paychex",
+      "kind": "hours",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "paychex-5.xlsx",
+      "source": "paychex",
+      "kind": "hours",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "excel-1.csv",
+      "source": "excel",
+      "kind": "hours",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "excel-2.csv",
+      "source": "excel",
+      "kind": "hours",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "excel-3.csv",
+      "source": "excel",
+      "kind": "hours",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "excel-4.csv",
+      "source": "excel",
+      "kind": "hours",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "excel-5.xlsx",
+      "source": "excel",
+      "kind": "hours",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {}
+    },
+    {
+      "file": "busybusy-1.csv",
+      "source": "busybusy",
+      "kind": "hours",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "busybusy-2.csv",
+      "source": "busybusy",
+      "kind": "hours",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "busybusy-3.csv",
+      "source": "busybusy",
+      "kind": "hours",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "busybusy-4.csv",
+      "source": "busybusy",
+      "kind": "hours",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "busybusy-5.xlsx",
+      "source": "busybusy",
+      "kind": "hours",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "clockshark-1.csv",
+      "source": "clockshark",
+      "kind": "hours",
+      "variant": {
+        "n": 1,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "clockshark-2.csv",
+      "source": "clockshark",
+      "kind": "hours",
+      "variant": {
+        "n": 2,
+        "encoding": "utf-8-bom",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "clockshark-3.csv",
+      "source": "clockshark",
+      "kind": "hours",
+      "variant": {
+        "n": 3,
+        "encoding": "windows-1252",
+        "delimiter": ",",
+        "format": "csv",
+        "names": "lastFirst",
+        "hours": "decimal"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "clockshark-4.csv",
+      "source": "clockshark",
+      "kind": "hours",
+      "variant": {
+        "n": 4,
+        "encoding": "utf-8",
+        "delimiter": ";",
+        "format": "csv",
+        "names": "firstLast",
+        "hours": "comma"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    },
+    {
+      "file": "clockshark-5.xlsx",
+      "source": "clockshark",
+      "kind": "hours",
+      "variant": {
+        "n": 5,
+        "encoding": "utf-8",
+        "delimiter": ",",
+        "format": "xlsx",
+        "names": "firstLast",
+        "hours": "clock"
+      },
+      "expected": {
+        "rows": 20,
+        "hours": "159.25"
+      },
+      "codeMap": {
+        "ELEC-IW": "pc-elec"
+      }
+    }
+  ]
+}

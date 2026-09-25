@@ -35,7 +35,10 @@ vrste uvoza (`import_kind`: hours, payroll), plus treća, jednokratna, `workers`
 ## 2. Tok od 4 koraka (ekran /app/[t]/imports/new)
 
 ### Korak 1: Fajl
-- Drag and drop ili odabir. Prihvata `.csv`, `.tsv`, `.xlsx`, `.xls` do 10 MB.
+- Drag and drop ili odabir. Prihvata `.csv`, `.tsv` i `.xlsx` do 10 MB. Stari
+  `.xls` se odbija s porukom da se sačuva kao `.xlsx` ili `.csv`: `exceljs`
+  (09) ga ne čita, a druga biblioteka nije vrijedna jednog formata (Mume,
+  26.9.2026).
 - Detekcija: kodiranje (UTF-8, UTF-8 BOM, Windows-1252), razdvajač (`,` `;` tab),
   ima li zaglavlje, format datuma (uzorkuje 20 redova: MM/DD/YYYY, YYYY-MM-DD,
   M/D/YY).
@@ -150,7 +153,9 @@ i uploaduje; profil je ugrađen pa nema mapiranja.
 
 - Parseri: 40 primjera fajlova u `core/import/__fixtures__/` (po 5 za svaki od 8
   izvora iz tabele 1, uključujući Windows-1252, `;` razdvajač, h:mm sate, "Prezime,
-  Ime").
+  Ime"). **NEPROVJERENO (13 A16):** dok u `izvori/` nema stvarnih izvoza, fajlove
+  pravi deterministička skripta po kolonama iz tabele 1; stvarni izvozi ih
+  zamjenjuju kad stignu.
 - Test formula injection.
 - Test punog SSN u fajlu → kolona odbijena, fajl nije sačuvan.
 - Test idempotentnosti: isti fajl dva puta → isti entries, bez duplikata.

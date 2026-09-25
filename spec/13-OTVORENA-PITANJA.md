@@ -38,6 +38,7 @@ Ažurirano 15.9.2026.
 | A14 | Gdje tačno gotovina umjesto beneficije ide na WH-347 i u NY XML | 05 §4 | Motor ih od koraka 2 vodi **odvojeno od nadnica**, i to je sigurno tačno jer oba izlaza traže razdvojeno. Otvoreno je samo u koju kolonu i element idu. Zatvara se u koraku 5, kad budu XSD i zvanični PDF u `izvori/`. |
 | A12 | Maksimalna veličina XML fajla u MB | 05 §3.1 | Nije objavljeno. Pitati NYSDOL ili testirati. |
 | A13 | Tačna formulacija OT koda **X** (beneficije na plaćene praznike) | 01 §2.1 | Prepisati s aktuelne platne tabele, zajedno s A10 |
+| A16 | Tačan oblik izvoza iz QuickBooks Time, QuickBooks Online Payroll, ADP, Gusto, Paychex, busybusy i ClockShark (zaglavlja, kodiranje, formati datuma i sati) | 06 §1 i §8, `core/import/__fixtures__` | Po jedan stvarni izvoz iz svakog sistema u `izvori/` (s izmišljenim ljudima). Do tada su fajlovi za testove izmišljeni po kolonama iz 06 §1 i označeni NEPROVJERENO. |
 | A15 | Kako izgleda tekst kopiran iz stvarne NY platne tabele (kolone, razdvajači, gdje su OT kodovi) | 03 §4.3 korak 3, `core` parseScheduleText | Jedna stvarna platna tabela (PDF ili HTML) u `izvori/`. Do tada parser prima red po klasifikaciji, kolone razdvojene tabom ili s dva i više razmaka: naziv, osnovna stopa, dodatak, pa OT kodovi ako ih ima, i sve je označeno NEPROVJERENO. |
 
 ## B. Poslovna pravila koja treba potvrditi s prvim kupcima (korak 9)
