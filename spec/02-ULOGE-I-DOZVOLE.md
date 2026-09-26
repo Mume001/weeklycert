@@ -42,7 +42,7 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Radnici: ime, klasifikacija, status | CRUD | CRUD | CRU | CRU | R (samo ime i klasifikacija) | CRU | R |
 | Radnici: adresa, zadnje 4 SSN, datum rođenja | RU | RU | RU | RU | | RU | R (logovano) |
 | Planovi beneficija | CRUD | CRUD | CRU | CRU | R | CRU | R |
-| Beneficije po radniku | CRUD | CRUD | CRU | CRU | R | CRU | R |
+| Beneficije po radniku | CRUD | CRUD | CRU | CRU | — | CRU | R |
 | Sati (mreža) | CRUD | CRUD | CRUD | CRUD | R | CRUD | R |
 | Uvoz CSV, profili mapiranja | X CRUD | X CRUD | X CRUD | X CRUD | | X CRUD | R |
 | Validacija | X | X | X | X | R | X | R |
@@ -53,6 +53,10 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Ispravka predatog (nova verzija) | X | X | X | X | | X | |
 | Audit log firme | R | R | | | | | R |
 | Podsjetnici i obavještenja | RU | RU | R (svoja) | R (svoja) | | R (svoja) | |
+
+Viewer ne vidi beneficije po radniku ni na jednom ekranu: kredit po satu je
+podatak o plati tog radnika (Mume, 27.9.2026). Planove i dalje čita na
+`/fringe-plans`.
 
 ## 4. Pravila koja se ne krše
 

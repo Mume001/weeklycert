@@ -214,12 +214,15 @@ test.describe('fringe plans of one worker', () => {
     })
   }
 
-  test('the viewer changes none', async ({ page }) => {
+  test('the viewer does not see them at all: the credit per hour is pay (02 §3)', async ({
+    page,
+  }) => {
     await page.goto(`${APP}/workers/${ALVAREZ}`)
     await switchRole(page, 'Viewer')
     await page.goto(`${APP}/workers/${ALVAREZ}`)
+    await expect(page.getByRole('heading', { name: 'Fringe plans' })).toHaveCount(0)
+    expect(await page.content()).not.toContain('Electrical Workers Health Fund')
     await expect(page.getByRole('button', { name: 'Add a plan for this worker' })).toHaveCount(0)
-    await expect(page.getByRole('button', { name: /^Edit / })).toHaveCount(0)
     await switchRole(page, 'Owner')
   })
 })

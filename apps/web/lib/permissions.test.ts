@@ -45,10 +45,14 @@ describe('spec/02 §3 and the role lists agree', () => {
     expect([...FRINGE_ALLOCATION_WRITERS].sort()).toEqual(writers('Beneficije po radniku').sort())
   })
 
-  it('everybody else reads them', () => {
+  it('the viewer does not even read them: the credit per hour is pay (Mume, 27.9.2026)', () => {
     const cells = row('Beneficije po radniku')
     const readers = ROLES.filter((r) => cells[r].includes('R'))
-    expect(readers).toEqual([...ROLES])
+    expect(readers).not.toContain('viewer')
+    // Whoever may read a worker's plans may also change them; nobody only reads.
+    expect(readers.sort()).toEqual([...FRINGE_ALLOCATION_WRITERS].sort())
+    // The plans themselves the viewer still reads, on /fringe-plans.
+    expect(row('Planovi beneficija').viewer).toBe('R')
   })
 
   it('projects are written by PROJECT_WRITERS', () => {
