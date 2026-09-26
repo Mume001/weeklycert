@@ -21,6 +21,7 @@ import {
   confirmImportCheck,
   getImport,
   importDraft,
+  importTemplate,
   listImports,
   resolveImport,
   setImportMapping,
@@ -445,6 +446,11 @@ export const mockRepositories: Repositories = {
     async undo(tenantId, batchId) {
       await delay('imports.undo')
       return undoImport(tenantId, batchId)
+    },
+
+    async template(tenantId, projectId, weekEnding, options) {
+      await delay('imports.template')
+      return importTemplate(tenantId, projectId, weekEnding, options)
     },
   },
   archive: { list: later('archive.list', 'E (archive, 03 §5 item 8)') },

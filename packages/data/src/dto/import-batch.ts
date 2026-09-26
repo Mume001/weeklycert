@@ -11,6 +11,7 @@ export const SOURCE_KINDS = [
   'paychex',
   'busybusy',
   'clockshark',
+  'weeklycert_template',
   'generic_xlsx',
   'other',
 ] as const

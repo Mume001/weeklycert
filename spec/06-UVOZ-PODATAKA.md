@@ -155,7 +155,9 @@ i uploaduje; profil je ugrađen pa nema mapiranja.
   izvora iz tabele 1, uključujući Windows-1252, `;` razdvajač, h:mm sate, "Prezime,
   Ime"). **NEPROVJERENO (13 A16):** dok u `izvori/` nema stvarnih izvoza, fajlove
   pravi deterministička skripta po kolonama iz tabele 1; stvarni izvozi ih
-  zamjenjuju kad stignu.
+  zamjenjuju kad stignu. Uz njih još 10 (27.9.2026): 5 platnih lista u "dugom"
+  formatu i 5 fajlova sati s nazivom klasifikacije koji samo liči na zvanični.
+- Test da naš šablon (§6), CSV i XLSX, prolazi naš uvoz bez ijedne greške.
 - Test formula injection.
 - Test punog SSN u fajlu → kolona odbijena, fajl nije sačuvan.
 - Test idempotentnosti: isti fajl dva puta → isti entries, bez duplikata.

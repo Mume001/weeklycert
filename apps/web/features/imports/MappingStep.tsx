@@ -60,6 +60,7 @@ export function MappingStep({ slug, draft }: { slug: string; draft: ImportDraftD
   return (
     <div className="grid gap-4">
       <p className="text-sm text-text-secondary">{m.intro}</p>
+      {draft.kind === 'payroll' && <p className="text-sm text-text-secondary">{m.longFormat}</p>}
       {draft.profileName && (
         <Notice tone="info" title={fill(m.profileLoaded, { Profile: draft.profileName })} />
       )}

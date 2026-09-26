@@ -641,6 +641,10 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
   - `This file has no rows under its header row.`
   - `We could not read this file. Export it again as CSV.`
 - Isti fajl ponovo: `This file was imported before, on {date}. If you go on, its hours replace the same hours, they are not added twice.`
+- Izvor za naš šablon: `WeeklyCert template`
+- Šablon (06 §6, samo za sate i platnu listu): naslov `Download a template for this week` /
+  `Your workers, the project's classifications and the dates of the week are filled in. Type in the numbers and upload it here; its columns match at once.` ·
+  linkovi `CSV template` · `XLSX template`
 
 **Korak 2, Mapping**
 - Uvod: `Match each field to a column of your file. Fields marked required must have one.`
@@ -652,7 +656,8 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
 - Polja, platna lista: `Worker` · `Gross for all work` · `Net pay` · `Federal income tax` ·
   `State income tax` · `Local income tax` · `Social Security` · `Medicare` ·
   `NY disability (SDI)` · `NY paid family leave` · `Union dues` · `Garnishment` ·
-  `Insurance` · `401(k)` · `Other deductions`
+  `Insurance` · `401(k)` · `Other deductions` · za "dugi" format (06 §2): `Line type` · `Amount`
+- Dugi format: `One line per worker and pay item? Match Line type and Amount, and leave Gross for all work empty.`
 - Polja, radnici: `Full name` · `First name` · `Last name` · `Worker number` ·
   `Classification` · `Address line 1` · `City` · `State` · `ZIP code` · `Last 4 of SSN` ·
   `Date of birth` · `Level` · `Percent of the journeyworker rate`
@@ -679,6 +684,8 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
   - `The SSN column must give four digits.`
   - `Both an SSN and a date of birth. The portal takes one.`
   - `The level must be J or RA.`
+  - `This pay item is not gross, net or a deduction we know.`
+  - `This worker has no gross line in the file.`
 - Poruke, upozorenja:
   - `Outside the week, left out.`
   - `No hours, left out.`
@@ -689,6 +696,9 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
   - `This worker exists already, left out.`
 - Odabir: `Match {Name} to` · `Match {Code} to` · prazan izbor `Pick a worker` /
   `Pick a classification` · `Create this worker` · dugme `Save these matches`
+- Prijedlog po sličnosti naziva (06 §3), `{percent}` je sličnost u procentima:
+  `Suggested: {Classification}, {percent} alike. It is used only if you pick it and save.` ·
+  dugme `Use the suggestion`
 - `Skip the rows with errors` · dugme `Continue to reconcile`
 - Greške još postoje: `{n} row still has an error. Fix it in the file, match it above, or skip it.` /
   `{n} rows still have an error. Fix them in the file, match them above, or skip them.`

@@ -21,21 +21,22 @@ const manifest = JSON.parse(readFileSync(resolve(dir, 'manifest.json'), 'utf8'))
     file: string
     source: string
     kind: ImportKind
-    expected: { rows: number; hours?: string; gross?: string }
+    expected: { rows: number; hours?: string; gross?: string; suggested?: number }
     codeMap: Record<string, string>
   }[]
 }
 
-describe('06 §8: forty sample files, five per source', () => {
-  it('has forty, five for each of the eight sources of 06 §1', () => {
-    expect(manifest.files).toHaveLength(40)
+describe('06 §8: sample files, five per source', () => {
+  it('has forty for the eight sources of 06 §1, and ten for the long format and near names', () => {
+    expect(manifest.files).toHaveLength(50)
     const per = new Map<string, number>()
     for (const f of manifest.files) per.set(f.source, (per.get(f.source) ?? 0) + 1)
-    expect([...per.values()]).toEqual([5, 5, 5, 5, 5, 5, 5, 5])
+    expect([...per.values()]).toEqual([5, 5, 5, 5, 5, 5, 5, 5, 5, 5])
+    expect([...per.keys()].slice(-2)).toEqual(['payroll_long', 'near_miss'])
   })
 
   it.each(manifest.files.map((f) => [f.file, f] as const))(
-    '%s imports without an error',
+    '%s imports as expected',
     async (_, f) => {
       const read = await readUpload(new Uint8Array(readFileSync(resolve(dir, f.file))))
       if (!read.ok) throw new Error(read.reason)
@@ -65,6 +66,12 @@ describe('06 §8: forty sample files, five per source', () => {
         codeMap: f.codeMap,
       }
       const { rows: checked, counts } = checkRows(ctx, rows)
+      if (f.expected.suggested !== undefined) {
+        // Near names: each row waits for the user, and each offers the official name.
+        expect(counts).toMatchObject({ total: f.expected.rows, error: f.expected.suggested })
+        expect(checked.every((r) => r.unresolved?.suggestion?.id === 'pc-elec')).toBe(true)
+        return
+      }
       expect(counts).toMatchObject({ total: f.expected.rows, error: 0 })
       const values = checked.flatMap((r) => (r.value ? [r.value] : []))
       if (f.kind === 'hours') {
@@ -73,8 +80,12 @@ describe('06 §8: forty sample files, five per source', () => {
         expect(money(sum(values.map((v) => dec((v as PayrollValue).grossAllWork))))).toBe(
           f.expected.gross,
         )
-        // Every deduction column was recognised: four per worker.
-        expect(values.every((v) => (v as PayrollValue).deductions.length === 4)).toBe(true)
+        // Every deduction was recognised: four per worker, in columns or in lines.
+        const perWorker = new Map<string, number>()
+        for (const v of values as PayrollValue[]) {
+          perWorker.set(v.workerId, (perWorker.get(v.workerId) ?? 0) + v.deductions.length)
+        }
+        expect([...perWorker.values()].every((n) => n === 4)).toBe(true)
       }
     },
   )

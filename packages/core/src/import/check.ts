@@ -6,9 +6,12 @@ import {
   DEDUCTION_KINDS,
   type DeductionKind,
   type ImportKind,
+  isLongPayroll,
   type Mapping,
+  payLineKind,
   type Target,
 } from './mapping.ts'
+import { suggest } from './similarity.ts'
 import { lastFour } from './ssn.ts'
 import { type DateFormat, nameKey, parseDate, parseHours, parseMoney } from './values.ts'
 
@@ -26,6 +29,8 @@ export type RowError =
   | 'ssnFormat'
   | 'idBoth'
   | 'levelUnknown'
+  | 'kindUnknown'
+  | 'grossMissing'
 /** What goes in anyway, or is left out, with a word to the user. */
 export type RowWarning =
   | 'outsideWeek'
@@ -111,8 +116,12 @@ export interface CheckedRow {
   messages: RowMessage[]
   /** The cell each field read, for the table in step 3. */
   cells: Partial<Record<Target, string>>
-  /** The unresolved name or code, so step 3 can offer a pick (06 §2 step 3). */
-  unresolved?: { worker?: string; code?: string }
+  /**
+   * The unresolved name or code, so step 3 can offer a pick (06 §2 step 3). A
+   * code may come with a suggestion: the closest classification and how alike
+   * it is (06 §3, never applied without the user).
+   */
+  unresolved?: { worker?: string; code?: string; suggestion?: { id: string; score: number } }
   value: HoursValue | PayrollValue | WorkerValue | null
 }
 
@@ -179,6 +188,8 @@ function statusOf(messages: readonly RowMessage[]): CheckedRow['status'] {
     'ssnFormat',
     'idBoth',
     'levelUnknown',
+    'kindUnknown',
+    'grossMissing',
   ]
   if (messages.some((m) => errors.includes(m))) return 'error'
   if (messages.some((m) => (SKIPPING as readonly string[]).includes(m))) return 'skipped'
@@ -209,21 +220,86 @@ function checkHours(ctx: CheckContext, raw: readonly string[], rowNo: number): C
   if (value && ctx.existing?.has(`${value.workerId}|${value.projectClassificationId}|${date}`)) {
     messages.push('overwrites')
   }
+  const code = cells.classification ?? ''
+  const suggestion = !classification && code ? suggest(code, ctx.classifications) : null
   return {
     rowNo,
     status: statusOf(messages),
     messages,
     cells,
-    ...(worker || !cells.worker
-      ? classification || !cells.classification
-        ? {}
-        : { unresolved: { code: cells.classification } }
-      : { unresolved: { worker: cells.worker } }),
+    ...(!worker && cells.worker
+      ? { unresolved: { worker: cells.worker } }
+      : !classification && code
+        ? {
+            unresolved: {
+              code,
+              ...(suggestion
+                ? { suggestion: { id: suggestion.candidate.id, score: suggestion.score } }
+                : {}),
+            },
+          }
+        : {}),
     value,
   }
 }
 
+/**
+ * One line of the long payroll format (06 §2 step 2): worker, kind, amount. It
+ * becomes the same PayrollValue a wide row would, holding only its own line;
+ * lines of one worker add up when applied and in step 4.
+ */
+function checkPayLine(ctx: CheckContext, raw: readonly string[], rowNo: number): CheckedRow {
+  const cells = cellsOf(raw, ctx.mapping)
+  const messages: RowMessage[] = []
+  const worker = findWorker(ctx, cells.worker ?? '')
+  if (!worker) messages.push('workerNotFound')
+  else if (worker.status === 'inactive') messages.push('workerInactive')
+  const kind = payLineKind(cells.lineKind ?? '')
+  if (!kind) messages.push('kindUnknown')
+  const amount = parseMoney(cells.lineAmount ?? '')
+  if (!amount.ok) messages.push('amountUnreadable')
+  const value: PayrollValue | null =
+    worker && kind && amount.ok
+      ? {
+          workerId: worker.id,
+          grossAllWork: kind === 'gross' ? amount.value : '0.00',
+          netPay: kind === 'net' ? amount.value : null,
+          deductions:
+            kind !== 'gross' && kind !== 'net' && !dec(amount.value).isZero()
+              ? [{ kind, amount: amount.value }]
+              : [],
+        }
+      : null
+  return {
+    rowNo,
+    status: statusOf(messages),
+    messages,
+    cells,
+    ...(worker || !cells.worker ? {} : { unresolved: { worker: cells.worker } }),
+    value,
+  }
+}
+
+/** A worker whose lines carry no gross has nothing to compare net and deductions with. */
+function requireGrossLine(rows: CheckedRow[]): void {
+  const withGross = new Set(
+    rows.flatMap((r) =>
+      r.value && payLineKind(r.cells.lineKind ?? '') === 'gross'
+        ? [(r.value as PayrollValue).workerId]
+        : [],
+    ),
+  )
+  for (const row of rows) {
+    const v = row.value as PayrollValue | null
+    if (v && !withGross.has(v.workerId)) {
+      row.messages.push('grossMissing')
+      row.status = statusOf(row.messages)
+    }
+  }
+}
+
 function checkPayroll(ctx: CheckContext, raw: readonly string[], rowNo: number): CheckedRow {
+  if (isLongPayroll(ctx.kind, ctx.mapping)) return checkPayLine(ctx, raw, rowNo)
   const cells = cellsOf(raw, ctx.mapping)
   const messages: RowMessage[] = []
   const worker = findWorker(ctx, cells.worker ?? '')
@@ -349,6 +425,7 @@ export function checkRows(ctx: CheckContext, rows: readonly (readonly string[])[
     ctx.kind === 'hours' ? checkHours : ctx.kind === 'payroll' ? checkPayroll : checkWorker
   const checked = rows.map((raw, i) => check(ctx, raw, i + 2))
   if (ctx.kind === 'hours') mergeDuplicates(checked, ctx.lastWins ?? false)
+  if (isLongPayroll(ctx.kind, ctx.mapping)) requireGrossLine(checked)
   const count = (s: CheckedRow['status']) => checked.filter((r) => r.status === s).length
   return {
     rows: checked,

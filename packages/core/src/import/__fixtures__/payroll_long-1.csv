@@ -1,0 +1,25 @@
+Employee,Pay Item,Amount
+Miguel Alvarez,Gross Pay,"$1,540.00"
+Miguel Alvarez,Federal Income Tax,$150.00
+Miguel Alvarez,Social Security,$95.48
+Miguel Alvarez,Medicare,$22.33
+Miguel Alvarez,NY PFL,$5.90
+Miguel Alvarez,Net Pay,$900.00
+David Chen,Gross Pay,"$1,612.40"
+David Chen,Federal Income Tax,$150.00
+David Chen,Social Security,$95.48
+David Chen,Medicare,$22.33
+David Chen,NY PFL,$5.90
+David Chen,Net Pay,$900.00
+Anna Rossi,Gross Pay,"$1,498.75"
+Anna Rossi,Federal Income Tax,$150.00
+Anna Rossi,Social Security,$95.48
+Anna Rossi,Medicare,$22.33
+Anna Rossi,NY PFL,$5.90
+Anna Rossi,Net Pay,$900.00
+José Peña,Gross Pay,"$1,320.10"
+José Peña,Federal Income Tax,$150.00
+José Peña,Social Security,$95.48
+José Peña,Medicare,$22.33
+José Peña,NY PFL,$5.90
+José Peña,Net Pay,$900.00

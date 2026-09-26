@@ -1,0 +1,25 @@
+﻿Employee,Pay Item,Amount
+"Alvarez, Miguel",Gross Pay,"$1,540.00"
+"Alvarez, Miguel",Federal Income Tax,$150.00
+"Alvarez, Miguel",Social Security,$95.48
+"Alvarez, Miguel",Medicare,$22.33
+"Alvarez, Miguel",NY PFL,$5.90
+"Alvarez, Miguel",Net Pay,$900.00
+"Chen, David",Gross Pay,"$1,612.40"
+"Chen, David",Federal Income Tax,$150.00
+"Chen, David",Social Security,$95.48
+"Chen, David",Medicare,$22.33
+"Chen, David",NY PFL,$5.90
+"Chen, David",Net Pay,$900.00
+"Rossi, Anna",Gross Pay,"$1,498.75"
+"Rossi, Anna",Federal Income Tax,$150.00
+"Rossi, Anna",Social Security,$95.48
+"Rossi, Anna",Medicare,$22.33
+"Rossi, Anna",NY PFL,$5.90
+"Rossi, Anna",Net Pay,$900.00
+"Peña, José",Gross Pay,"$1,320.10"
+"Peña, José",Federal Income Tax,$150.00
+"Peña, José",Social Security,$95.48
+"Peña, José",Medicare,$22.33
+"Peña, José",NY PFL,$5.90
+"Peña, José",Net Pay,$900.00

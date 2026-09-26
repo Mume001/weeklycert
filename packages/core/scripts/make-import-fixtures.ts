@@ -37,6 +37,9 @@ type Source =
   | 'excel'
   | 'busybusy'
   | 'clockshark'
+  // Added 27.9.2026: the long payroll format and names that only resemble the official ones.
+  | 'payroll_long'
+  | 'near_miss'
 
 interface Variant {
   n: number
@@ -92,7 +95,7 @@ interface Sheet {
   kind: 'hours' | 'payroll'
   headers: string[]
   rows: (string | Date)[][]
-  expected: { rows: number; hours?: string; gross?: string }
+  expected: { rows: number; hours?: string; gross?: string; suggested?: number }
   codeMap?: Record<string, string>
 }
 
@@ -245,7 +248,57 @@ function sheetFor(source: Source, v: Variant): Sheet {
         ]),
         expected: grossExpected,
       }
+    case 'payroll_long':
+      // One line per worker and pay item (06 §2 step 2), as payroll journals print them.
+      return {
+        kind: 'payroll',
+        headers: ['Employee', 'Pay Item', 'Amount'],
+        rows: CREW.flatMap((w, i) => [
+          [name(w, v), 'Gross Pay', money(gross[i] ?? '0')],
+          [name(w, v), 'Federal Income Tax', money('150.00')],
+          [name(w, v), 'Social Security', money('95.48')],
+          [name(w, v), 'Medicare', money('22.33')],
+          [name(w, v), 'NY PFL', money('5.90')],
+          [name(w, v), 'Net Pay', money('900.00')],
+        ]),
+        expected: { rows: CREW.length * 6, gross: grossExpected.gross },
+      }
+    case 'near_miss':
+      // A classification written the way a crew writes it: close to the official
+      // name, not the same. Every row waits for the user; each carries a suggestion.
+      return {
+        kind: 'hours',
+        headers: ['Employee', 'Date', 'Classification', 'Hours'],
+        rows: hoursRows((w, i, d) => [
+          name(w, v),
+          date(d),
+          'Electricians Inside Wireman',
+          hoursText(hoursOf(i, d), v),
+        ]),
+        expected: { rows: hoursExpected.rows, suggested: hoursExpected.rows },
+      }
   }
+}
+
+/**
+ * A zip stores each entry's time of writing, so the same workbook written twice
+ * differs. Every local and central header gets the same fixed DOS time
+ * (2026-09-14 00:00), and the files stay the same bytes run after run.
+ */
+function fixedZipTimes(bytes: Uint8Array): Uint8Array {
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength)
+  const date = ((2026 - 1980) << 9) | (9 << 5) | 14
+  for (let i = 0; i + 16 <= bytes.length; i++) {
+    const sig = view.getUint32(i, true)
+    if (sig === 0x04034b50) {
+      view.setUint16(i + 10, 0, true)
+      view.setUint16(i + 12, date, true)
+    } else if (sig === 0x02014b50) {
+      view.setUint16(i + 12, 0, true)
+      view.setUint16(i + 14, date, true)
+    }
+  }
+  return bytes
 }
 
 function encode(text: string, encoding: Variant['encoding']): Uint8Array {
@@ -271,6 +324,8 @@ const SOURCES: Source[] = [
   'excel',
   'busybusy',
   'clockshark',
+  'payroll_long',
+  'near_miss',
 ]
 const manifest: unknown[] = []
 
@@ -285,7 +340,10 @@ for (const source of SOURCES) {
       const ws = book.addWorksheet('Export')
       ws.addRow(sheet.headers)
       for (const row of sheet.rows) ws.addRow(row)
-      writeFileSync(resolve(out, file), new Uint8Array(await book.xlsx.writeBuffer()))
+      writeFileSync(
+        resolve(out, file),
+        fixedZipTimes(new Uint8Array(await book.xlsx.writeBuffer())),
+      )
     } else {
       const lines = [sheet.headers, ...sheet.rows].map((r) =>
         r.map((c) => csvCell(String(c), v.delimiter)).join(v.delimiter),

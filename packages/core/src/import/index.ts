@@ -4,5 +4,7 @@
 export * from './check.ts'
 export * from './file.ts'
 export * from './mapping.ts'
+export * from './similarity.ts'
 export * from './ssn.ts'
+export * from './template.ts'
 export * from './values.ts'

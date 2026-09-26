@@ -27,6 +27,9 @@ const PAYROLL_TARGETS = [
   'gross',
   'net',
   ...DEDUCTION_KINDS.map((k) => `deduction:${k}` as const),
+  // The "long" format of 06 §2 step 2: one line per worker and pay item.
+  'lineKind',
+  'lineAmount',
 ] as const
 const WORKER_TARGETS = [
   'fullName',
@@ -70,9 +73,24 @@ const SYNONYMS: Partial<Record<Target, string[]>> = {
   worker: ['employee', 'worker', 'name', 'emp name', 'employee name', 'team member', 'full name'],
   date: ['date', 'work date', 'day', 'local date', 'shift date'],
   hours: ['hours', 'hrs', 'reg hours', 'total hours', 'duration', 'regular hours'],
-  classification: ['job code', 'classification', 'cost code', 'service item', 'job', 'trade'],
+  classification: [
+    'job code',
+    'classification',
+    'classification or job code',
+    'cost code',
+    'service item',
+    'job',
+    'trade',
+  ],
   note: ['notes', 'note', 'memo', 'comment'],
-  gross: ['gross', 'gross pay', 'gross wages', 'total gross', 'gross earnings'],
+  gross: [
+    'gross',
+    'gross pay',
+    'gross wages',
+    'total gross',
+    'gross earnings',
+    'gross for all work',
+  ],
   net: ['net', 'net pay', 'take home', 'net amount'],
   'deduction:federal_tax': [
     'federal',
@@ -82,16 +100,27 @@ const SYNONYMS: Partial<Record<Target, string[]>> = {
     'federal withholding',
   ],
   'deduction:state_tax': ['state', 'state income tax', 'nys tax', 'sit', 'state withholding'],
-  'deduction:local_tax': ['local', 'city tax', 'nyc tax', 'local tax'],
+  'deduction:local_tax': ['local', 'city tax', 'nyc tax', 'local tax', 'local income tax'],
   'deduction:fica': ['fica', 'social security', 'oasdi', 'ss tax'],
   'deduction:medicare': ['medicare', 'medicare tax'],
-  'deduction:sdi': ['sdi', 'disability', 'ny sdi'],
-  'deduction:pfl': ['pfl', 'paid family leave', 'ny pfl'],
+  'deduction:sdi': ['sdi', 'disability', 'ny sdi', 'ny disability (sdi)'],
+  'deduction:pfl': ['pfl', 'paid family leave', 'ny pfl', 'ny paid family leave'],
   'deduction:union_dues': ['union', 'union dues', 'dues'],
   'deduction:garnishment': ['garnishment', 'child support', 'levy'],
   'deduction:insurance': ['insurance', 'health insurance', 'medical'],
   'deduction:retirement_401k': ['401k', '401(k)', 'retirement'],
   'deduction:other': ['other deduction', 'other deductions', 'misc deduction'],
+  lineKind: [
+    'type',
+    'pay item',
+    'item',
+    'earning or deduction',
+    'description',
+    'category',
+    'line type',
+    'code',
+  ],
+  lineAmount: ['amount', 'current', 'this period', 'current amount', 'value'],
   fullName: ['name', 'full name', 'employee', 'employee name', 'worker'],
   firstName: ['first name', 'first', 'given name'],
   lastName: ['last name', 'last', 'surname', 'family name'],
@@ -149,6 +178,14 @@ export function suggestMapping(
       }
     }
   }
+  // Payroll: a gross column makes it the wide format; without one, a line type
+  // and an amount make it the long one (06 §2 step 2). Never both.
+  if (kind === 'payroll' && mapping.gross !== undefined) {
+    for (const t of ['lineKind', 'lineAmount'] as const) {
+      delete mapping[t]
+      delete confidence[t]
+    }
+  }
   // Workers: a full name and a first and last name are two ways to the same thing.
   if (kind === 'workers' && mapping.firstName !== undefined && mapping.lastName !== undefined) {
     delete mapping.fullName
@@ -158,8 +195,16 @@ export function suggestMapping(
 }
 
 /** The fields a mapping still lacks; empty means it can be checked. */
+/** Payroll in the long format: one line per worker and pay item, no gross column. */
+export function isLongPayroll(kind: ImportKind, mapping: Mapping): boolean {
+  return kind === 'payroll' && mapping.gross === undefined && mapping.lineKind !== undefined
+}
+
 export function missingTargets(kind: ImportKind, mapping: Mapping): Target[] {
-  const missing = REQUIRED[kind].filter((t) => mapping[t] === undefined)
+  const missing = REQUIRED[kind].filter(
+    (t) => mapping[t] === undefined && !(t === 'gross' && isLongPayroll(kind, mapping)),
+  )
+  if (isLongPayroll(kind, mapping) && mapping.lineAmount === undefined) missing.push('lineAmount')
   if (
     kind === 'workers' &&
     mapping.fullName === undefined &&
@@ -168,6 +213,34 @@ export function missingTargets(kind: ImportKind, mapping: Mapping): Target[] {
     missing.push('fullName')
   }
   return missing
+}
+
+/**
+ * What one line of a long payroll file is: gross, net, a deduction, or
+ * nothing known. Read from the same words the wide columns are named with.
+ */
+export function payLineKind(text: string): 'gross' | 'net' | DeductionKind | null {
+  const name = plain(text)
+  if (name === '') return null
+  const targets: Target[] = [
+    'gross',
+    'net',
+    ...DEDUCTION_KINDS.map((k) => `deduction:${k}` as const),
+  ]
+  for (const pass of ['exact', 'contains'] as const) {
+    for (const target of targets) {
+      const words = SYNONYMS[target] ?? []
+      const hit =
+        pass === 'exact'
+          ? words.includes(name)
+          : words.some((w) => w.length > 3 && name.includes(w))
+      if (hit)
+        return target.startsWith('deduction:')
+          ? (target.slice(10) as DeductionKind)
+          : (target as 'gross' | 'net')
+    }
+  }
+  return null
 }
 
 /**

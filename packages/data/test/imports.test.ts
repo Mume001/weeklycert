@@ -236,3 +236,100 @@ describe('workers, and a full SSN in the file (06 §4 and §5)', () => {
     expect(db.workerPii.find((p) => p.workerId === lee?.id)?.ssnLast4).toBe('3456')
   })
 })
+
+describe('06 §3: a suggestion by likeness is shown, and applied only when picked', () => {
+  it('carries the closest classification and its score, and changes nothing by itself', async () => {
+    const id = await hoursImport(
+      table(
+        ['Employee', 'Date', 'Service item', 'Hours'],
+        [['1021', '09/06/2026', 'Electricians Inside Wireman', '8']],
+      ),
+    )
+    const draft = await throughCheck(id)
+    const [unresolved] = draft.check?.unresolvedCodes ?? []
+    expect(unresolved?.code).toBe('Electricians Inside Wireman')
+    expect(unresolved?.suggestion).toMatchObject({ name: WIREMAN })
+    expect(unresolved?.suggestion?.score).toBeGreaterThanOrEqual(0.85)
+    expect(draft.check?.counts.error).toBe(1)
+
+    await repos.imports.resolve(TENANT, id, {
+      workers: {},
+      codes: { 'Electricians Inside Wireman': unresolved?.suggestion?.id ?? '' },
+    })
+    expect((await repos.imports.draft(TENANT, id)).check?.counts.error).toBe(0)
+  })
+})
+
+describe('06 §2: payroll in the long format', () => {
+  it('lines of one worker add up to one week, compared and applied like a wide row', async () => {
+    const id = await repos.imports.start(
+      TENANT,
+      OWNER,
+      { kind: 'payroll', source: 'paychex', projectId: DUTCHESS, weekEnding: OPEN_WEEK },
+      {
+        name: 'journal.csv',
+        sha256: 'long',
+        table: table(
+          ['Employee', 'Pay Item', 'Amount'],
+          [
+            ['Alvarez, Miguel', 'Gross Pay', '2,000.00'],
+            ['Alvarez, Miguel', 'Federal Income Tax', '150.00'],
+            ['Alvarez, Miguel', 'Medicare', '29.00'],
+            ['Alvarez, Miguel', 'Net Pay', '1,821.00'],
+          ],
+        ),
+      },
+    )
+    const draft = await throughCheck(id)
+    expect(draft.fields.find((f) => f.target === 'lineKind')?.column).toBe(1)
+    expect(draft.check?.counts).toMatchObject({ total: 4, error: 0 })
+    await repos.imports.confirmCheck(TENANT, id, false)
+    const [line] = (await repos.imports.draft(TENANT, id)).reconcile
+    expect(line).toMatchObject({ workerId: ALVAREZ, inFile: '2000.00' })
+    await repos.imports.apply(TENANT, id, OWNER)
+    const worker = (await repos.weeks.review(TENANT, DUTCHESS, OPEN_WEEK))?.workers.find(
+      (w) => w.workerId === ALVAREZ,
+    )
+    expect(worker?.grossAllWork).toBe('2000.00')
+    expect(worker?.netPay).toBe('1821.00')
+    expect(worker?.deductions.map((d) => [d.kind, d.amount])).toEqual([
+      ['federal_tax', '150.00'],
+      ['medicare', '29.00'],
+    ])
+  })
+})
+
+describe('06 §6: our template for the week', () => {
+  it('holds the company, the project and the week, and imports without an error once filled', async () => {
+    const headers = {
+      worker: 'Worker',
+      date: 'Date',
+      classification: 'Classification or job code',
+      hours: 'Hours',
+      note: 'Note',
+    }
+    const file = await repos.imports.template(TENANT, DUTCHESS, OPEN_WEEK, {
+      kind: 'hours',
+      format: 'csv',
+      headers,
+    })
+    if (!file) throw new Error('fixture')
+    expect(file.name).toBe('weeklycert-hours-2026-09-12.csv')
+    const lines = new TextDecoder().decode(file.body).trim().split('\r\n')
+    expect(lines[0]).toBe('Worker,Date,Classification or job code,Hours,Note')
+    // Every active worker on each of the seven days.
+    const active = db.workers.filter((w) => w.tenantId === TENANT && w.status === 'active')
+    expect(lines).toHaveLength(1 + active.length * 7)
+
+    const rows = lines.slice(1).map((l) => {
+      const cells =
+        l
+          .match(/("([^"]|"")*"|[^,]*)(,|$)/g)
+          ?.map((c) => c.replace(/,$/, '').replace(/^"|"$/g, '').replace(/""/g, '"')) ?? []
+      return [cells[0] ?? '', cells[1] ?? '', cells[2] ?? '', '8', '']
+    })
+    const id = await hoursImport(table(lines[0]?.split(',') ?? [], rows), OPEN_WEEK, 'template')
+    const draft = await throughCheck(id)
+    expect(draft.check?.counts).toMatchObject({ total: active.length * 7, error: 0 })
+  })
+})

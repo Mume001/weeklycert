@@ -179,6 +179,8 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
   'imports.confirmCheck': async (r) => r.imports.confirmCheck(B, await batchOfA(r), true),
   'imports.apply': async (r) => r.imports.apply(B, await batchOfA(r), USER_OF_A),
   'imports.undo': async (r) => r.imports.undo(B, await batchOfA(r)),
+  'imports.template': (r) =>
+    r.imports.template(B, PROJECT, OPEN_WEEK, { kind: 'hours', format: 'csv', headers: {} }),
 }
 
 interface Signature {

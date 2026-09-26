@@ -42,6 +42,11 @@ export function UploadForm({
   const [error, setError] = useState<UploadError | null>(null)
   const [busy, setBusy] = useState(false)
   const weeks = projects.find((p) => p.id === projectId)?.weeks ?? []
+  const [week, setWeek] = useState(
+    weeks.includes(initial.weekEnding) ? initial.weekEnding : (weeks.at(-1) ?? ''),
+  )
+  const templateHref = (format: 'csv' | 'xlsx') =>
+    `/api/files/${encodeURIComponent(`template:${kind}:${projectId}:${week}:${format}`)}?t=${encodeURIComponent(slug)}`
 
   const fail = (e: UploadError) => {
     setError(e)
@@ -106,7 +111,10 @@ export function UploadForm({
               {...fieldIds('import-project')}
               name="projectId"
               value={projectId}
-              onChange={(e) => setProjectId(e.target.value)}
+              onChange={(e) => {
+                setProjectId(e.target.value)
+                setWeek(projects.find((p) => p.id === e.target.value)?.weeks.at(-1) ?? '')
+              }}
               className={selectClass}
             >
               {projects.map((p) => (
@@ -120,8 +128,8 @@ export function UploadForm({
             <select
               {...fieldIds('import-week')}
               name="weekEnding"
-              key={projectId}
-              defaultValue={weeks.includes(initial.weekEnding) ? initial.weekEnding : weeks.at(-1)}
+              value={week}
+              onChange={(e) => setWeek(e.target.value)}
               className={selectClass}
             >
               {weeks.map((w) => (
@@ -132,6 +140,28 @@ export function UploadForm({
             </select>
           </FormField>
         </div>
+      )}
+
+      {kind !== 'workers' && week !== '' && (
+        // Our template for this week (06 §6): its columns map at once.
+        <section className="grid gap-1.5 rounded-md border border-border-decorative bg-n-50 p-4">
+          <h2 className="text-sm font-semibold text-n-800">{t.template.title}</h2>
+          <p className="text-xs text-text-secondary">{t.template.body}</p>
+          <p className="flex gap-4 text-sm font-semibold">
+            <a
+              href={templateHref('csv')}
+              className="rounded-sm text-teal-700 underline underline-offset-2 focus-visible:focus-ring"
+            >
+              {t.template.csv}
+            </a>
+            <a
+              href={templateHref('xlsx')}
+              className="rounded-sm text-teal-700 underline underline-offset-2 focus-visible:focus-ring"
+            >
+              {t.template.xlsx}
+            </a>
+          </p>
+        </section>
       )}
 
       <FormField id="import-source" label={t.source}>

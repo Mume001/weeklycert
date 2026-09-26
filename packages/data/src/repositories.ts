@@ -235,6 +235,20 @@ export interface Repositories {
       tenantId: Uuid,
       batchId: Uuid,
     ): Promise<{ ok: true } | { ok: false; refused: 'locked' | 'expired' }>
+    /**
+     * Our template for one week (spec/06 §6). `headers` are the column names
+     * the customer reads, from packages/copy. Null for another company's project.
+     */
+    template(
+      tenantId: Uuid,
+      projectId: Uuid,
+      weekEnding: IsoDate,
+      options: {
+        kind: 'hours' | 'payroll'
+        format: 'csv' | 'xlsx'
+        headers: Record<string, string>
+      },
+    ): Promise<{ name: string; contentType: string; body: Uint8Array } | null>
   }
   archive: { list(tenantId: Uuid, filter?: ArchiveFilter): Promise<ArchiveRowDTO[]> }
   admin: { health(): Promise<AdminHealthDTO> }

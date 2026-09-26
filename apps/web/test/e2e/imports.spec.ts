@@ -166,3 +166,78 @@ test('the five states of every import screen, from ?state=', async ({ page }) =>
   await page.goto(`${APP}/imports?state=empty`)
   await expect(page.getByText(/^No imports yet\./)).toBeVisible()
 })
+
+test('our template for the week downloads, and filled in it imports without an error (06 §6)', async ({
+  page,
+}) => {
+  await page.goto(`${APP}/imports/new?kind=hours&project=${DUTCHESS}&week=${OPEN_WEEK}`)
+  const [download] = await Promise.all([
+    page.waitForEvent('download'),
+    page.getByRole('link', { name: 'CSV template' }).click(),
+  ])
+  expect(download.suggestedFilename()).toBe('weeklycert-hours-2026-09-12.csv')
+  const text = await (await download.createReadStream()).toArray()
+  const lines = Buffer.concat(text).toString('utf8').trim().split('\r\n')
+  expect(lines[0]).toBe('Worker,Date,Classification or job code,Hours,Note')
+  // Type 8 hours into the first row only; the rest stay empty and are left out.
+  const filled = [lines[0], lines[1]?.replace(/,,$/, ',8,'), ...lines.slice(2)].join('\r\n')
+
+  await page.getByLabel('File', { exact: true }).setInputFiles({
+    name: 'weeklycert-hours-2026-09-12.csv',
+    mimeType: 'text/csv',
+    buffer: Buffer.from(`${filled}\r\n`),
+  })
+  await page.getByRole('button', { name: 'Upload and continue' }).click()
+  // Every column is matched surely: step 2 is one click.
+  await expect(page.getByText('Sure')).toHaveCount(5)
+  await page.getByRole('button', { name: 'Check the rows' }).click()
+  await expect(page.getByText('0 errors, these block')).toBeVisible()
+  await expect(page.getByText('1 ready')).toBeVisible()
+})
+
+test('a classification that only resembles the official one is suggested, with its score', async ({
+  page,
+}) => {
+  await page.goto(`${APP}/imports/new?kind=hours&project=${DUTCHESS}&week=${OPEN_WEEK}`)
+  await upload(
+    page,
+    'near.csv',
+    csv(['Employee,Date,Service item,Hours', '1021,09/06/2026,Electricians Inside Wireman,8']),
+  )
+  await page.getByRole('button', { name: 'Check the rows' }).click()
+  await expect(page.getByText('1 error, this blocks')).toBeVisible()
+  await expect(
+    page.getByText(
+      /^Suggested: Electrician – Inside Wireman, \d+% alike\. It is used only if you pick it and save\.$/,
+    ),
+  ).toBeVisible()
+  // Nothing is matched by the suggestion alone.
+  await expect(page.getByLabel('Match Electricians Inside Wireman to')).toHaveValue('')
+  await page.getByRole('button', { name: 'Use the suggestion' }).click()
+  await page.getByRole('button', { name: 'Save these matches' }).click()
+  await expect(page.getByText('0 errors, these block')).toBeVisible()
+  await expectNoSeriousA11y(page)
+})
+
+test('payroll in the long format: one line per pay item, the same step 4', async ({ page }) => {
+  await page.goto(`${APP}/imports/new?kind=payroll&project=${DUTCHESS}&week=${OPEN_WEEK}`)
+  await upload(
+    page,
+    'journal.csv',
+    csv([
+      'Employee,Pay Item,Amount',
+      '"Alvarez, Miguel",Gross Pay,"2,000.00"',
+      '"Alvarez, Miguel",Federal Income Tax,150.00',
+      '"Alvarez, Miguel",Net Pay,"1,850.00"',
+    ]),
+  )
+  await expect(page.getByLabel('Line type')).toHaveValue('1')
+  await expect(page.getByLabel('Amount', { exact: true })).toHaveValue('2')
+  await page.getByRole('button', { name: 'Check the rows' }).click()
+  await expect(page.getByText('3 ready')).toBeVisible()
+  await page.getByRole('button', { name: 'Continue to reconcile' }).click()
+  await expect(page.getByRole('heading', { name: 'Gross in the file, by worker' })).toBeVisible()
+  await expect(page.locator('tbody tr').filter({ hasText: 'Alvarez, Miguel' })).toContainText(
+    '$2,000.00',
+  )
+})

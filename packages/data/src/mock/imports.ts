@@ -36,6 +36,10 @@ import {
   TARGETS,
   type Table,
   type Target,
+  type TemplateInput,
+  type TemplateKind,
+  templateCsv,
+  templateXlsx,
   type WorkerValue,
 } from '@wc/core/import'
 import type {
@@ -377,7 +381,15 @@ export function importDraft(tenantId: Uuid, batchId: Uuid): ImportDraftDTO {
         cells: r.cells as Record<string, string>,
       })),
       unresolvedWorkers: unique(checked.rows.map((r) => r.unresolved?.worker)),
-      unresolvedCodes: unique(checked.rows.map((r) => r.unresolved?.code)),
+      unresolvedCodes: unique(checked.rows.map((r) => r.unresolved?.code)).map((code) => {
+        // The suggestion of 06 §3, shown with its score; never applied here.
+        const s = checked.rows.find((r) => r.unresolved?.code === code)?.unresolved?.suggestion
+        const name =
+          s && b.projectId && b.weekEnding
+            ? classificationsFor(b.projectId, b.weekEnding).find((c) => c.id === s.id)?.labels[0]
+            : undefined
+        return { code, suggestion: s && name ? { id: s.id, name, score: s.score } : null }
+      }),
     },
     reconcile:
       checked && (b.status === 'validated' || b.status === 'applied') ? reconcile(b, checked) : [],
@@ -531,30 +543,51 @@ export function applyImport(tenantId: Uuid, batchId: Uuid, userId: Uuid): Import
       return { ok: false, refused: 'locked' }
     }
     const dates = weekDates(b.weekEnding)
-    for (const r of good) {
-      if (b.kind === 'hours') {
-        const v = r.value as HoursValue
-        const catalog = db.projectClassifications.find((c) => c.id === v.projectClassificationId)
-        const rowId = `${v.workerId}:${catalog?.classificationId ?? ''}`
-        const before = writeImportedDay(period.id, rowId, dates.indexOf(v.date), v.hours)
-        // The first "before" of a row is the one undo returns to.
-        if (!undo.some((u) => u.type === 'hours' && u.rowId === rowId)) {
-          undo.push({ type: 'hours', periodId: period.id, rowId, before })
-        }
-      } else {
+    // Payroll lines of one worker (the long format, or a worker twice in a wide
+    // file) are one worker's week: added up first, written once.
+    const perWorker = new Map<Uuid, PayrollValue>()
+    if (b.kind === 'payroll') {
+      for (const r of good) {
         const v = r.value as PayrollValue
-        undo.push({
-          type: 'payroll',
-          periodId: period.id,
-          workerId: v.workerId,
-          before: payrollFor(period.id, v.workerId),
-        })
-        setPayroll(period.id, {
-          workerId: v.workerId,
-          grossAllWork: v.grossAllWork,
-          netPay: v.netPay,
-          deductions: v.deductions.map((d) => ({ kind: d.kind, label: null, amount: d.amount })),
-        })
+        const sofar = perWorker.get(v.workerId)
+        perWorker.set(
+          v.workerId,
+          sofar
+            ? {
+                workerId: v.workerId,
+                grossAllWork: money(dec(sofar.grossAllWork).plus(v.grossAllWork)),
+                netPay:
+                  sofar.netPay === null && v.netPay === null
+                    ? null
+                    : money(dec(sofar.netPay ?? '0').plus(v.netPay ?? '0')),
+                deductions: [...sofar.deductions, ...v.deductions],
+              }
+            : { ...v, deductions: [...v.deductions] },
+        )
+      }
+    }
+    for (const v of perWorker.values()) {
+      undo.push({
+        type: 'payroll',
+        periodId: period.id,
+        workerId: v.workerId,
+        before: payrollFor(period.id, v.workerId),
+      })
+      setPayroll(period.id, {
+        workerId: v.workerId,
+        grossAllWork: v.grossAllWork,
+        netPay: v.netPay,
+        deductions: v.deductions.map((d) => ({ kind: d.kind, label: null, amount: d.amount })),
+      })
+    }
+    for (const r of b.kind === 'hours' ? good : []) {
+      const v = r.value as HoursValue
+      const catalog = db.projectClassifications.find((c) => c.id === v.projectClassificationId)
+      const rowId = `${v.workerId}:${catalog?.classificationId ?? ''}`
+      const before = writeImportedDay(period.id, rowId, dates.indexOf(v.date), v.hours)
+      // The first "before" of a row is the one undo returns to.
+      if (!undo.some((u) => u.type === 'hours' && u.rowId === rowId)) {
+        undo.push({ type: 'hours', periodId: period.id, rowId, before })
       }
     }
   } else {
@@ -693,4 +726,44 @@ export function listImports(tenantId: Uuid): ImportBatchDTO[] {
 export function getImport(tenantId: Uuid, batchId: Uuid): ImportBatchDTO | null {
   const b = db.importBatches.find((x) => x.id === batchId && x.tenantId === tenantId)
   return b ? toDTO(b) : null
+}
+
+/**
+ * One week's template (spec/06 §6): the company's active workers, the project's
+ * classifications for the week and its seven dates, already in. Null when the
+ * project is not this company's.
+ */
+export async function importTemplate(
+  tenantId: Uuid,
+  projectId: Uuid,
+  weekEnding: string,
+  options: { kind: TemplateKind; format: 'csv' | 'xlsx'; headers: Record<string, string> },
+): Promise<{ name: string; contentType: string; body: Uint8Array } | null> {
+  if (!ownProject(tenantId, projectId)) return null
+  const classifications = classificationsFor(projectId, weekEnding)
+  const input: TemplateInput = {
+    kind: options.kind,
+    headers: options.headers,
+    workers: db.workers
+      .filter((w) => w.tenantId === tenantId && w.status === 'active')
+      .sort((a, b) =>
+        `${a.lastName}, ${a.firstName}`.localeCompare(`${b.lastName}, ${b.firstName}`),
+      )
+      .map((w) => ({
+        name: `${w.lastName}, ${w.firstName}`,
+        classification:
+          classifications.find((c) => c.classificationId === w.defaultClassificationId)
+            ?.labels[0] ?? null,
+      })),
+    classifications: classifications.map((c) => c.labels[0] ?? ''),
+    weekDates: weekDates(weekEnding),
+  }
+  const name = `weeklycert-${options.kind}-${weekEnding}.${options.format}`
+  return options.format === 'csv'
+    ? { name, contentType: 'text/csv; charset=utf-8', body: templateCsv(input) }
+    : {
+        name,
+        contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        body: await templateXlsx(input),
+      }
 }

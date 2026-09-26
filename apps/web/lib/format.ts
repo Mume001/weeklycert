@@ -110,3 +110,8 @@ export function initials(name: string): string {
 export function formatWhole(value: string): string {
   return group(new Decimal(value).toFixed(0, Decimal.ROUND_HALF_UP))
 }
+
+/** "93%" for a likeness from 0 to 1, as the import's suggestions show it (spec/06 §3). */
+export function formatPercent(share: number): string {
+  return `${Math.round(share * 100)}%`
+}

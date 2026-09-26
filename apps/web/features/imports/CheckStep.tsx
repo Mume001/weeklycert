@@ -16,6 +16,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatPercent } from '@/lib/format'
 import { confirmCheckAction, resolveAction } from './actions'
 
 const t = copy.imports
@@ -97,21 +98,46 @@ export function CheckStep({ slug, draft }: { slug: string; draft: ImportDraftDTO
               </select>
             </FormField>
           ))}
-          {check.unresolvedCodes.map((code, i) => (
-            <FormField key={code} id={`pick-code-${i}`} label={fill(c.matchCode, { Code: code })}>
-              <select
-                {...fieldIds(`pick-code-${i}`)}
-                value={codes[code] ?? ''}
-                onChange={(e) => setCodes((x) => ({ ...x, [code]: e.target.value }))}
-                className={`${selectClass} max-w-sm`}
-              >
-                <option value="">{c.pickClassification}</option>
-                {draft.classifications.map((k) => (
-                  <option key={k.id} value={k.id}>
-                    {k.name}
-                  </option>
-                ))}
-              </select>
+          {check.unresolvedCodes.map(({ code, suggestion }, i) => (
+            <FormField
+              key={code}
+              id={`pick-code-${i}`}
+              label={fill(c.matchCode, { Code: code })}
+              hint={
+                suggestion
+                  ? fill(c.suggested, {
+                      Classification: suggestion.name,
+                      percent: formatPercent(suggestion.score),
+                    })
+                  : undefined
+              }
+            >
+              <span className="flex flex-wrap items-center gap-2">
+                <select
+                  {...fieldIds(`pick-code-${i}`, suggestion ? c.suggested : undefined)}
+                  value={codes[code] ?? ''}
+                  onChange={(e) => setCodes((x) => ({ ...x, [code]: e.target.value }))}
+                  className={`${selectClass} max-w-sm`}
+                >
+                  <option value="">{c.pickClassification}</option>
+                  {draft.classifications.map((k) => (
+                    <option key={k.id} value={k.id}>
+                      {k.name}
+                    </option>
+                  ))}
+                </select>
+                {suggestion && codes[code] !== suggestion.id && (
+                  // Only fills the pick; nothing is matched until "Save these matches" (06 §3).
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => setCodes((x) => ({ ...x, [code]: suggestion.id }))}
+                  >
+                    {c.useSuggestion}
+                  </Button>
+                )}
+              </span>
             </FormField>
           ))}
           <div>

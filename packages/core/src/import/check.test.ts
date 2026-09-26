@@ -8,6 +8,7 @@ import {
   type WorkerValue,
 } from './check.ts'
 import { headerHash, missingTargets, suggestMapping } from './mapping.ts'
+import { similarity, suggest } from './similarity.ts'
 import { fullSsnColumns, lastFour } from './ssn.ts'
 
 /**
@@ -251,6 +252,96 @@ describe('worker rows (06 §5)', () => {
     expect(rows.map((r) => [r.status, r.messages])).toEqual([
       ['error', ['idBoth']],
       ['skipped', ['workerExists']],
+    ])
+  })
+})
+
+describe('a classification suggested by likeness, never applied (06 §3)', () => {
+  it('scores like pg_trgm, and suggests only from 0.85 up', () => {
+    expect(similarity('ELECTRICIAN INSIDE WIREMAN', 'Electrician – Inside Wireman')).toBe(1)
+    expect(
+      similarity('Electricians Inside Wireman', 'Electrician – Inside Wireman'),
+    ).toBeGreaterThan(0.9)
+    // One letter out is 0.82 in trigrams: below 0.85, so no suggestion (06 §3).
+    expect(similarity('Electrican Inside Wireman', 'Electrician – Inside Wireman')).toBeLessThan(
+      0.85,
+    )
+    expect(suggest('Electrican Inside Wireman', CLASSES)).toBeNull()
+    expect(suggest('Laborer', CLASSES)).toBeNull()
+  })
+
+  it('an unknown code stays an error and carries the suggestion with its score', () => {
+    const { rows } = checkRows(hoursCtx(), [
+      ['1021', '09/08/2026', '8', 'Electricians Inside Wireman'],
+    ])
+    expect(rows[0]?.status).toBe('error')
+    expect(rows[0]?.messages).toEqual(['classificationUnknown'])
+    expect(rows[0]?.value).toBeNull()
+    expect(rows[0]?.unresolved?.code).toBe('Electricians Inside Wireman')
+    expect(rows[0]?.unresolved?.suggestion?.id).toBe('pc-elec')
+    expect(rows[0]?.unresolved?.suggestion?.score).toBeGreaterThanOrEqual(0.85)
+  })
+
+  it('an exact label or a code from the profile wins over any suggestion', () => {
+    const { rows } = checkRows(hoursCtx({ codeMap: { 'Electricians Inside Wireman': 'pc-lab' } }), [
+      ['1021', '09/08/2026', '8', 'Electricians Inside Wireman'],
+      ['1021', '09/09/2026', '8', 'Laborer – Group 1'],
+    ])
+    expect(rows.map((r) => (r.value as HoursValue).projectClassificationId)).toEqual([
+      'pc-lab',
+      'pc-lab',
+    ])
+    expect(rows.every((r) => r.unresolved === undefined)).toBe(true)
+  })
+})
+
+describe('payroll in the long format (06 §2 step 2)', () => {
+  const headers = ['Employee', 'Pay Item', 'Amount']
+  const ctx = (): CheckContext => ({
+    ...hoursCtx(),
+    kind: 'payroll',
+    mapping: suggestMapping(headers, 'payroll').mapping,
+  })
+
+  it('is recognised by a line type and an amount, with no gross column', () => {
+    expect(suggestMapping(headers, 'payroll').mapping).toEqual({
+      worker: 0,
+      lineKind: 1,
+      lineAmount: 2,
+    })
+    expect(missingTargets('payroll', { worker: 0, lineKind: 1 })).toEqual(['lineAmount'])
+    // A gross column makes it the wide format, whatever else is there.
+    expect(suggestMapping(['Employee', 'Gross Pay', 'Type', 'Amount'], 'payroll').mapping).toEqual({
+      worker: 0,
+      gross: 1,
+    })
+  })
+
+  it('each line becomes the same value a wide row gives, and adds up per worker', () => {
+    const { rows, counts } = checkRows(ctx(), [
+      ['1021', 'Gross Pay', '$1,540.00'],
+      ['1021', 'Federal Income Tax', '150.00'],
+      ['1021', 'Medicare', '22.33'],
+      ['1021', 'Net Pay', '1,367.67'],
+    ])
+    expect(counts).toMatchObject({ total: 4, ok: 4, error: 0 })
+    const values = rows.map((r) => r.value as PayrollValue)
+    expect(values.map((v) => v.grossAllWork)).toEqual(['1540.00', '0.00', '0.00', '0.00'])
+    expect(values.flatMap((v) => v.deductions)).toEqual([
+      { kind: 'federal_tax', amount: '150.00' },
+      { kind: 'medicare', amount: '22.33' },
+    ])
+    expect(values.map((v) => v.netPay)).toEqual([null, null, null, '1367.67'])
+  })
+
+  it('an unknown pay item and a worker without a gross line are errors', () => {
+    const { rows } = checkRows(ctx(), [
+      ['1021', 'Mystery', '5.00'],
+      ['Pena, Jose', 'Medicare', '10.00'],
+    ])
+    expect(rows.map((r) => r.messages)).toEqual([
+      ['kindUnknown'],
+      ['workerInactive', 'grossMissing'],
     ])
   })
 })

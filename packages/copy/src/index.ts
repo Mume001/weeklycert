@@ -1135,6 +1135,7 @@ export const copy = {
       paychex: 'Paychex',
       busybusy: 'busybusy',
       clockshark: 'ClockShark',
+      weeklycert_template: 'WeeklyCert template',
       generic_xlsx: 'Your own spreadsheet',
       other: 'Other',
     },
@@ -1162,6 +1163,12 @@ export const copy = {
       },
       duplicate:
         'This file was imported before, on {date}. If you go on, its hours replace the same hours, they are not added twice.',
+      template: {
+        title: 'Download a template for this week',
+        body: "Your workers, the project's classifications and the dates of the week are filled in. Type in the numbers and upload it here; its columns match at once.",
+        csv: 'CSV template',
+        xlsx: 'XLSX template',
+      },
     },
     mapping: {
       intro: 'Match each field to a column of your file. Fields marked required must have one.',
@@ -1202,7 +1209,11 @@ export const copy = {
         dateOfBirth: 'Date of birth',
         level: 'Level',
         pctOfJourney: 'Percent of the journeyworker rate',
+        lineKind: 'Line type',
+        lineAmount: 'Amount',
       },
+      longFormat:
+        'One line per worker and pay item? Match Line type and Amount, and leave Gross for all work empty.',
       dateFormat: 'Date format',
       duplicates: {
         label: 'When a worker and day appear twice',
@@ -1239,6 +1250,8 @@ export const copy = {
         ssnFormat: 'The SSN column must give four digits.',
         idBoth: 'Both an SSN and a date of birth. The portal takes one.',
         levelUnknown: 'The level must be J or RA.',
+        kindUnknown: 'This pay item is not gross, net or a deduction we know.',
+        grossMissing: 'This worker has no gross line in the file.',
         outsideWeek: 'Outside the week, left out.',
         noHours: 'No hours, left out.',
         over16: 'More than 16 hours in one day.',
@@ -1252,6 +1265,9 @@ export const copy = {
       pickWorker: 'Pick a worker',
       pickClassification: 'Pick a classification',
       createWorker: 'Create this worker',
+      suggested:
+        'Suggested: {Classification}, {percent} alike. It is used only if you pick it and save.',
+      useSuggestion: 'Use the suggestion',
       saveMatches: 'Save these matches',
       skipErrors: 'Skip the rows with errors',
       submit: 'Continue to reconcile',
