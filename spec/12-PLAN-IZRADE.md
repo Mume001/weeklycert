@@ -173,7 +173,18 @@ Iz: 05-IZLAZI. Zahtijeva korak 0.
 Iz: 06-UVOZ.
 - Parseri za 8 izvora s 40 fixture fajlova; profili; 4 koraka; worker za velike
   fajlove; poništavanje uvoza; puni SSN odbijen.
-- **Gotovo kad**: uvoz stvarnog fajla prvog kupca radi bez ručne popravke CSV-a.
+- Parseri, profili, 4 koraka, poništavanje i puni SSN su gotovi na mock podacima
+  (sesija I, 20). Dvije stvari mock ne može, pa ostaju ovdje:
+  - **Obrada velikih fajlova u workeru** (06 §3): fajl preko 2.000 redova ide u
+    pg-boss posao, ekran čeka s progres trakom umjesto da server akcija čita sve
+    odjednom.
+  - **Čuvanje originalnog fajla 90 dana u skladištu** (06 §2 i §4): fajl ide u
+    S3 kao `import_source`, posao ga briše poslije 90 dana, kupac ga može
+    obrisati ranije, a fajl s punim SSN se ne čuva uopšte.
+- **Gotovo kad**: uvoz stvarnog fajla prvog kupca radi bez ručne popravke CSV-a;
+  fajl od 50.000 redova se uveze kroz worker a ekran pokazuje napredak; original
+  svakog uvoza je u skladištu, briše ga posao poslije 90 dana, a fajl s punim SSN
+  nikad nije snimljen.
 
 ## Korak 6b: Emailovi i podsjetnici (Claude Code, 2 dana)
 
