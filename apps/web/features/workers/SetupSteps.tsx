@@ -35,9 +35,7 @@ export async function WorkersSetupStep({
       <div className="flex max-w-[880px] flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-text-secondary">{o.workers.intro}</p>
         <Button asChild variant="secondary" size="sm">
-          <Link href={`/app/${slug}/imports/new`} prefetch={false}>
-            {o.workers.import}
-          </Link>
+          <Link href={`/app/${slug}/imports/new?kind=workers`}>{o.workers.import}</Link>
         </Button>
       </div>
       <p className="text-sm font-semibold text-text-primary" role="status">

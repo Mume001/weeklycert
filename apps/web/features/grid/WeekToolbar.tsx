@@ -7,6 +7,7 @@
 import { copy, count, fill } from '@wc/copy'
 import type { DisplayStatus, Finding } from '@wc/data/dto'
 import { CalendarOff, CloudOff, CopyIcon, FileUp, RefreshCw } from 'lucide-react'
+import Link from 'next/link'
 import type { RefObject } from 'react'
 import { StatusBadge } from '@/components/patterns/StatusBadge'
 import { Button } from '@/components/ui/button'
@@ -23,6 +24,8 @@ export interface WeekToolbarProps {
   onCopyLastWeek: () => void
   onMarkNoWork: () => void
   reviewHref: string
+  /** Step 1 of an import, preset to this project and week (spec/03 §4.7). */
+  importHref: string
   /** Everything the panel shows, for the counter that opens it (spec/19 §6). */
   findings: Finding[]
   onOpenFindings: () => void
@@ -72,6 +75,7 @@ export function WeekToolbar({
   onCopyLastWeek,
   onMarkNoWork,
   reviewHref,
+  importHref,
   findings,
   onOpenFindings,
   findingsTriggerRef,
@@ -116,10 +120,19 @@ export function WeekToolbar({
           <CopyIcon aria-hidden="true" />
           {copy.grid.copyLastWeek}
         </Button>
-        <Button variant="secondary" size="sm" disabled={readOnly}>
-          <FileUp aria-hidden="true" />
-          {copy.grid.importCsv}
-        </Button>
+        {readOnly ? (
+          <Button variant="secondary" size="sm" disabled>
+            <FileUp aria-hidden="true" />
+            {copy.grid.importCsv}
+          </Button>
+        ) : (
+          <Button variant="secondary" size="sm" asChild>
+            <Link href={importHref}>
+              <FileUp aria-hidden="true" />
+              {copy.grid.importCsv}
+            </Link>
+          </Button>
+        )}
         <Button variant="secondary" size="sm" onClick={onMarkNoWork} disabled={readOnly}>
           <CalendarOff aria-hidden="true" />
           {copy.grid.markNoWork}

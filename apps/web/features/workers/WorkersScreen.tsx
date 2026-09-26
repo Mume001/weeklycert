@@ -59,9 +59,7 @@ export async function WorkersScreen({
         canWrite ? (
           <div className="flex gap-2">
             <Button asChild variant="secondary">
-              <Link href={`/app/${slug}/imports/new`} prefetch={false}>
-                {t.import}
-              </Link>
+              <Link href={`/app/${slug}/imports/new?kind=workers`}>{t.import}</Link>
             </Button>
             <Button asChild>
               <Link href={`${base}/new`}>{t.add}</Link>

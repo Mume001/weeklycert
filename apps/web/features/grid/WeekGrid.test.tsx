@@ -152,6 +152,7 @@ function setup(readOnly = false) {
         entriesUrl="/api/v1/periods/per-1/entries?t=hudson-electric"
         readOnly={readOnly}
         reviewHref="/review"
+        importHref="/imports/new"
         correctionHref="/reports"
       />
     </WeekStateProvider>,

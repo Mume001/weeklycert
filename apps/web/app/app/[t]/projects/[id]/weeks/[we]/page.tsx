@@ -131,6 +131,7 @@ export default async function WeekPage({
                 ? { lockedBy: { name: shell.tenant.owner.name, at: we } }
                 : {})}
               reviewHref={`/app/${t}/projects/${id}/weeks/${we}/review`}
+              importHref={`/app/${t}/imports/new?kind=hours&project=${id}&week=${we}`}
               correctionHref={`/app/${t}/projects/${id}/weeks/${we}/reports`}
               {...(forced === 'conflict'
                 ? { conflict: { by: shell.tenant.owner.name, minutesAgo: 2 } }

@@ -32,7 +32,7 @@ export interface NavItem {
 /**
  * Items whose every target is a screen that is already built. "This week" goes
  * to the grid or to /projects?open=1, both built (sessions C and F); workers and
- * fringe plans are session G, setup session H.
+ * fringe plans are session G, setup session H, import session I.
  */
 const BUILT: ReadonlySet<NavKey> = new Set([
   'thisWeek',
@@ -40,6 +40,7 @@ const BUILT: ReadonlySet<NavKey> = new Set([
   'workers',
   'fringePlans',
   'setup',
+  'import',
 ])
 
 const ALL: readonly MembershipRole[] = [

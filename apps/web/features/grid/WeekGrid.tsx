@@ -100,6 +100,8 @@ export interface WeekGridProps {
   lockedBy?: { name: string; at: IsoDate }
   /** Where "Review and generate" goes. */
   reviewHref: string
+  /** Where "Import CSV" goes: step 1 of an import, preset to this week. */
+  importHref: string
   /**
    * Where "Create a correction" goes. The correction itself is made on the
    * reports screen (spec/03 §4.5), which is a later session; the locked week
@@ -117,6 +119,7 @@ export function WeekGrid({
   readOnly,
   lockedBy,
   reviewHref,
+  importHref,
   correctionHref,
   conflict,
 }: WeekGridProps) {
@@ -296,6 +299,7 @@ export function WeekGrid({
       onCopyLastWeek={copyLastWeek}
       onMarkNoWork={markNoWork}
       reviewHref={reviewHref}
+      importHref={importHref}
       findings={findings}
       onOpenFindings={() => week.setPanelOpen(true)}
       findingsTriggerRef={week.panelTriggerRef}

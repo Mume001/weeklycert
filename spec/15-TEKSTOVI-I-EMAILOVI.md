@@ -612,6 +612,102 @@ Ekrani iz 03 §4.6. Viewer na oba ekrana radnika vidi samo ime i klasifikaciju
   jednom jeziku. Tri kratka reda su i čitljivija: oko skenira brojeve, ne
   rečenicu.
 
+Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
+
+**Istorija** (`/imports`)
+- Akcija: `Start an import` (iz praznih stanja)
+- Kolone: `When` · `File` · `What` · `Week ending` · `Rows` · `Status` · `Actions` (samo za čitač ekrana)
+- Vrsta (`import_kind`): `Hours by day` · `Payroll` · `Workers`
+- Status: `Uploaded` · `Mapped` · `Checked` · `Applied` · `Undone`
+- Ispod naziva fajla: `by {Name}` · u redu `Open`
+- Radnici nemaju sedmicu: `Not for a week`
+
+**Novi uvoz, korak 1** (`/imports/new`)
+- Naslov: `New import`
+- Polja: `What are you importing?` · `Project` · `Week ending` ·
+  `Where is the file from?` · `File` / `CSV or XLSX, up to 10 MB. Nothing in the file is ever run.`
+- Opis vrsta: `Hours by day` / `Worker, date and hours, from a time-tracking export.` ·
+  `Payroll` / `Gross, deductions and net per worker, from your payroll system.` ·
+  `Workers` / `Your crew: names, numbers, classifications and addresses.`
+- Izvori: `QuickBooks Time` · `QuickBooks Online Payroll` · `ADP` · `Gusto` · `Paychex` ·
+  `busybusy` · `ClockShark` · `Your own spreadsheet` · `Other`
+- Dugme: `Upload and continue`
+- Greške: `Pick a project.` · `Pick the week ending.` · `Choose a file.`
+- Odbijen fajl:
+  - `This file is over 10 MB. Export one week at a time, or fewer columns.`
+  - `This is an old Excel file (.xls). Save it as .xlsx or .csv and upload again.`
+  - `This workbook contains macros. Save it as a plain .xlsx or .csv and upload again.`
+  - `This workbook unpacks to more than 50 MB, far more than hours or payroll ever need. Export it again with only the columns you use.`
+  - `This file has no rows under its header row.`
+  - `We could not read this file. Export it again as CSV.`
+- Isti fajl ponovo: `This file was imported before, on {date}. If you go on, its hours replace the same hours, they are not added twice.`
+
+**Korak 2, Mapping**
+- Uvod: `Match each field to a column of your file. Fields marked required must have one.`
+- Kolone tabele: `Field` · `Column in your file` · `First rows`
+- Sigurnost prijedloga: `Sure` · `Likely` · `Check`
+- Prazan izbor: `Not in this file` · oznaka `Required`
+- Profil učitan: `These columns were matched from your profile {Profile}.`
+- Polja, sati: `Worker` · `Date` · `Hours` · `Classification or job code` · `Note`
+- Polja, platna lista: `Worker` · `Gross for all work` · `Net pay` · `Federal income tax` ·
+  `State income tax` · `Local income tax` · `Social Security` · `Medicare` ·
+  `NY disability (SDI)` · `NY paid family leave` · `Union dues` · `Garnishment` ·
+  `Insurance` · `401(k)` · `Other deductions`
+- Polja, radnici: `Full name` · `First name` · `Last name` · `Worker number` ·
+  `Classification` · `Address line 1` · `City` · `State` · `ZIP code` · `Last 4 of SSN` ·
+  `Date of birth` · `Level` · `Percent of the journeyworker rate`
+- Podešavanja: `Date format` · `When a worker and day appear twice` s izborom
+  `Add the hours together` · `Keep the last row` · `Save as a profile` / `Profile name`
+- Greška: `Pick a column for {Field}.`
+- Dugme: `Check the rows`
+
+**Korak 3, Check**
+- Brojači su gore (`{n} rows in the file` ...), plus `{n} skipped`: `{n} row skipped` / `{n} rows skipped`
+- Kolone: `Row` · `Worker` · `Date` · `Hours` · `Gross` · `Status` · `Message`
+- Status reda: `Ready` · `Warning` · `Error` · `Skipped`
+- `The first 50 rows are shown.`
+- Poruke, greške:
+  - `No worker with this name or number.`
+  - `This date cannot be read.`
+  - `These hours cannot be read.`
+  - `Hours cannot be negative.`
+  - `More than 24 hours in one day.`
+  - `This classification or job code is not on the project.`
+  - `The gross cannot be read.`
+  - `An amount cannot be read.`
+  - `The name is missing.`
+  - `The SSN column must give four digits.`
+  - `Both an SSN and a date of birth. The portal takes one.`
+  - `The level must be J or RA.`
+- Poruke, upozorenja:
+  - `Outside the week, left out.`
+  - `No hours, left out.`
+  - `More than 16 hours in one day.`
+  - `This worker is inactive.`
+  - `The same worker, day and classification appear more than once.`
+  - `Replaces hours already in the week.`
+  - `This worker exists already, left out.`
+- Odabir: `Match {Name} to` · `Match {Code} to` · prazan izbor `Pick a worker` /
+  `Pick a classification` · `Create this worker` · dugme `Save these matches`
+- `Skip the rows with errors` · dugme `Continue to reconcile`
+- Greške još postoje: `{n} row still has an error. Fix it in the file, match it above, or skip it.` /
+  `{n} rows still have an error. Fix them in the file, match them above, or skip them.`
+
+**Korak 4, Reconcile and apply**
+- Naslovi: `Hours in the file, by worker` · `Gross in the file, by worker`
+- Kolone: `Worker` · `In the file` · `On this project` · `Last week` · `Difference`
+- Napomena: `Check the difference before you confirm. The most common import mistake is a missing paycheck.`
+- Bez podatka: `None`
+- Dugme: `Confirm the import` · poslije `Open the week`
+- Sedmica zaključana: `This week is signed, so nothing can be imported into it. Create a correction first.`
+
+**Jedan uvoz** (`/imports/[id]`)
+- Dugme: `Undo this import`
+- Potvrda: naslov `Undo this import?` · tekst `What it brought in is taken out again. Hours typed by hand stay.` · dugme `Undo import`
+- Poslije: `Import undone.`
+- Ne može: `This week is signed, so the import cannot be undone. Create a correction instead.` ·
+  `An import can be undone for 90 days.`
+
 ### Naplata
 - Trial: `{n} day left in your trial. Your card is on file and will be charged $79 on {date}.` /
   `{n} days left in your trial. Your card is on file and will be charged $79 on {date}.`
