@@ -5,7 +5,12 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type { MembershipRole } from '@wc/data/dto'
 import { describe, expect, it } from 'vitest'
-import { FRINGE_ALLOCATION_WRITERS, PII_READERS, PROJECT_WRITERS } from './session'
+import {
+  ARCHIVE_FILE_READERS,
+  FRINGE_ALLOCATION_WRITERS,
+  PII_READERS,
+  PROJECT_WRITERS,
+} from './session'
 
 // A plain path, not new URL(): under jsdom the global URL is jsdom's.
 const here = dirname(fileURLToPath(import.meta.url))
@@ -63,5 +68,14 @@ describe('spec/02 §3 and the role lists agree', () => {
     const cells = row('Radnici: adresa, zadnje 4 SSN, datum rođenja')
     const readers = ROLES.filter((r) => cells[r].includes('R'))
     expect([...PII_READERS].sort()).toEqual(readers.sort())
+  })
+
+  it('the viewer reads the archive but downloads only the PDF, from step 5 (Mume, 27.9.2026)', () => {
+    const cells = row('Arhiva: pregled i skidanje')
+    expect(ROLES.every((r) => cells[r].startsWith('R'))).toBe(true)
+    expect(cells.viewer).toContain('samo PDF')
+    expect(cells.viewer).toContain('od koraka 5')
+    // XML, CSV and the export: every role but the viewer, and until step 5 there is no PDF.
+    expect([...ARCHIVE_FILE_READERS].sort()).toEqual(ROLES.filter((r) => r !== 'viewer').sort())
   })
 })

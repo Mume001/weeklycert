@@ -108,6 +108,9 @@ test('the viewer reads the archive, without files or the export', async ({ page 
   await page.goto(`${APP}/archive?query=${DUTCHESS_PRC}`)
   await expect(rows(page).first()).toBeVisible()
   await expect(page.getByRole('columnheader', { name: 'Files' })).toHaveCount(0)
+  // Not only hidden: the files route refuses the viewer the XML and the export (02 §3).
+  const exportUrl = `/api/files/${encodeURIComponent('archive:01924000-0000-7000-8000-000000000001')}?t=hudson-electric`
+  expect((await page.request.get(exportUrl)).status()).toBe(403)
   await expect(page.getByRole('link', { name: 'Export everything for this project' })).toHaveCount(
     0,
   )

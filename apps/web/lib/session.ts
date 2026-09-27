@@ -125,6 +125,14 @@ export async function requireTenant(
 export const PII_READERS: readonly MembershipRole[] = PROJECT_WRITERS
 
 /**
+ * Who downloads the archive's NY XML, CSV summary and "Export everything"
+ * (spec/02 §3, Mume 27.9.2026): they carry the last 4 of the SSN and
+ * addresses, so never the viewer. The viewer gets only the generated PDF, from
+ * step 5; until then no file at all.
+ */
+export const ARCHIVE_FILE_READERS: readonly MembershipRole[] = PII_READERS
+
+/**
  * Who adds, changes and ends a worker's fringe plans: the same roles as the
  * fringe plans themselves, spec/02 §3 row "Beneficije po radniku" (Mume,
  * 26.9.2026). permissions.test.ts reads that row.

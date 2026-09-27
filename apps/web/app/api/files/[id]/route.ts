@@ -8,14 +8,15 @@
 import { copy } from '@wc/copy'
 import { getRepositories } from '@wc/data'
 import { z } from 'zod'
-import { GuardError, PII_READERS, requireTenant } from '@/lib/session'
+import { ARCHIVE_FILE_READERS, GuardError, requireTenant } from '@/lib/session'
 
 export const dynamic = 'force-dynamic'
 
 export async function GET(request: Request, context: { params: Promise<{ id: string }> }) {
   const slug = new URL(request.url).searchParams.get('t') ?? ''
   try {
-    const shell = await requireTenant(slug, PII_READERS, 'read')
+    // Report files, templates and the archive export carry SSN4 and addresses: never the viewer (02 §3).
+    const shell = await requireTenant(slug, ARCHIVE_FILE_READERS, 'read')
     const id = decodeURIComponent((await context.params).id)
     // The company comes from the session, never from the id in the URL: the
     // guard says who is asking, the lookup says what they may ask for.

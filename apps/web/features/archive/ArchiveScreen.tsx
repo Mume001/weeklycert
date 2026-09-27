@@ -14,7 +14,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { screenState } from '@/lib/screen-state'
-import { isReadOnlyCompany, loadShell, PII_READERS } from '@/lib/session'
+import { ARCHIVE_FILE_READERS, isReadOnlyCompany, loadShell } from '@/lib/session'
 import { ArchiveTable } from './ArchiveTable'
 
 const t = copy.archive
@@ -49,8 +49,8 @@ export async function ArchiveScreen({ slug, search }: { slug: string; search: Se
   const base = `/app/${slug}/archive`
   const filter = filterOf(search)
   const filtered = Object.keys(filter).length > 0
-  // The viewer sees addresses only in the PDF (02 §2); the example XML is all there is yet.
-  const downloads = PII_READERS.includes(shell.role)
+  // The viewer gets only the PDF, from step 5 (02 §3); the example XML is all there is yet.
+  const downloads = ARCHIVE_FILE_READERS.includes(shell.role)
 
   const dto =
     forced === 'loading' || forced === 'error' || forced === 'forbidden'

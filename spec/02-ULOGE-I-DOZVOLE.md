@@ -49,7 +49,7 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Generisati izvještaj (nacrt) | X | X | X | X | | X | |
 | **Potpisati izjavu** | X | X | | X | | X ako uključeno | |
 | Označiti kao predato, unijeti potvrdu portala | X | X | X | X | | X | |
-| Arhiva: pregled i skidanje | R | R | R | R | R | R | R (logovano) |
+| Arhiva: pregled i skidanje | R | R | R | R | R (skidanje samo PDF, od koraka 5) | R | R (logovano) |
 | Ispravka predatog (nova verzija) | X | X | X | X | | X | |
 | Audit log firme | R | R | | | | | R |
 | Podsjetnici i obavještenja | RU | RU | R (svoja) | R (svoja) | | R (svoja) | |
@@ -57,6 +57,11 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 Viewer ne vidi beneficije po radniku ni na jednom ekranu: kredit po satu je
 podatak o plati tog radnika (Mume, 27.9.2026). Planove i dalje čita na
 `/fringe-plans`.
+
+Viewer u arhivi čita sve, ali od fajlova dobija **samo generisani PDF, i to od
+koraka 5**. NY XML, CSV sažetak i "Export everything for this project" nikad,
+jer nose zadnje 4 SSN i adrese (Mume, 27.9.2026). Do koraka 5 viewer nema
+nijedan fajl.
 
 ## 4. Pravila koja se ne krše
 
