@@ -1303,6 +1303,56 @@ export const copy = {
     },
   },
 
+  // 15 §3 Arhiva (03 §4.8)
+  archive: {
+    meta_one: '{n} filed version',
+    meta_other: '{n} filed versions',
+    filters: {
+      label: 'Filter the archive',
+      query: 'PRC or project',
+      project: 'Project',
+      allProjects: 'All projects',
+      year: 'Year',
+      allYears: 'All years',
+      status: 'Status',
+      allStatuses: 'All statuses',
+      versions: 'Versions',
+      everyVersion: 'Every version',
+      latestOnly: 'Latest version only',
+      worker: { label: 'Worker', hint: 'The weeks this worker appears in.' },
+      show: 'Show',
+      clear: 'Clear filters',
+    },
+    columns: {
+      project: 'Project',
+      weekEnding: 'Week ending',
+      payrollNo: 'Payroll no.',
+      version: 'Version',
+      status: 'Status',
+      signedBy: 'Signed by',
+      submitted: 'Submitted',
+      files: 'Files',
+    },
+    everythingFor: 'Everything for PRC {prc}',
+    notSubmitted: 'Not submitted',
+    confirmation: 'Confirmation {ref}',
+    export: 'Export everything for this project',
+    exportNote:
+      'In this demo the export holds examples, not your filed files. Every file in it is named EXAMPLE.',
+    exportReadme:
+      'This is an example export from the WeeklyCert demo. In the product this archive holds every PDF and XML filed for the project, with this summary.',
+    exportColumns: [
+      'Week ending',
+      'Payroll no.',
+      'Version',
+      'Status',
+      'Signed by',
+      'Submitted',
+      'Confirmation',
+    ],
+    emptyFilter: 'No filed version matches these filters.',
+  },
+
   // 15 §3 Naplata
   billing: {
     trial_one:

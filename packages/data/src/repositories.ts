@@ -7,8 +7,9 @@ import type {
   AdminHealthDTO,
   AllocationInput,
   AllocationSaveResult,
+  ArchiveDTO,
   ArchiveFilter,
-  ArchiveRowDTO,
+  ArchiveStatus,
   ClassificationEditInput,
   ClassificationInput,
   ClassificationSaveResult,
@@ -250,7 +251,20 @@ export interface Repositories {
       },
     ): Promise<{ name: string; contentType: string; body: Uint8Array } | null>
   }
-  archive: { list(tenantId: Uuid, filter?: ArchiveFilter): Promise<ArchiveRowDTO[]> }
+  /** The archive (spec/03 §4.8): every signed version, and the export of one project. */
+  archive: {
+    list(tenantId: Uuid, filter?: ArchiveFilter): Promise<ArchiveDTO>
+    /**
+     * "Export everything for this project". In the mock phase an EXAMPLE zip from
+     * the fixtures (spec/20 J); `texts` are the words in it, from packages/copy.
+     * Null for another company's project.
+     */
+    export(
+      tenantId: Uuid,
+      projectId: Uuid,
+      texts: { readme: string; headers: string[]; statuses: Record<ArchiveStatus, string> },
+    ): Promise<{ name: string; contentType: string; body: Uint8Array<ArrayBuffer> } | null>
+  }
   admin: { health(): Promise<AdminHealthDTO> }
 }
 

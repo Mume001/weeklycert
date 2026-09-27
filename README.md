@@ -90,8 +90,8 @@ weeklycert/
   404 greškama, a definicija gotovog traži konzolu bez ijedne greške
   (spec/19 §10 stavka 1). **Vraća se stavku po stavku, kako ekrani nastaju:**
   svaka sesija dodaje svoje stavke u listu `BUILT` u `apps/web/lib/nav.ts`.
-  Poslije sesije I prefetch imaju `This week`, `Projects`, `Workers`,
-  `Fringe plans`, `Import` i `Setup`. Kad su sve stavke
+  Poslije sesije J prefetch imaju `This week`, `Projects`, `Workers`,
+  `Fringe plans`, `Import`, `Archive` i `Setup`. Kad su sve stavke
   u listi, briše se lista, `prefetch={false}` i ovaj pasus.
 
 ## Kapija

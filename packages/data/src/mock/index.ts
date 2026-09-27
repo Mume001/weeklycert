@@ -6,6 +6,7 @@ import type { OpenWeeksDTO, TenantBrief, TenantDTO, UserDTO } from '../dto/index
 import { NotYetBuiltError } from '../not-yet.ts'
 import { readPii } from '../pii.ts'
 import type { Repositories } from '../repositories.ts'
+import { exportArchive, listArchive } from './archive.ts'
 import { mockNow, mockToday } from './clock.ts'
 import {
   chooseSetupTier,
@@ -453,6 +454,16 @@ export const mockRepositories: Repositories = {
       return importTemplate(tenantId, projectId, weekEnding, options)
     },
   },
-  archive: { list: later('archive.list', 'E (archive, 03 §5 item 8)') },
+  archive: {
+    async list(tenantId, filter) {
+      await delay('archive.list')
+      return listArchive(tenantId, filter)
+    },
+
+    async export(tenantId, projectId, texts) {
+      await delay('archive.export')
+      return exportArchive(tenantId, projectId, texts)
+    },
+  },
   admin: { health: later('admin.health', 'E (admin, 03 §5 item 12)') },
 }

@@ -102,9 +102,7 @@ describe('open weeks (spec/19 §4: exactly three)', () => {
 
 describe('later sessions', () => {
   it('throws NotYetBuiltError instead of pretending', async () => {
-    // The grid, the projects, the reports and the workers are built; the
-    // dashboard is not (03 §5 item 9), and neither is the archive (item 8).
+    // Everything up to the archive is built; the dashboard is not (03 §5 item 9).
     await expect(repos.dashboard.get('x')).rejects.toBeInstanceOf(NotYetBuiltError)
-    await expect(repos.archive.list('x')).rejects.toBeInstanceOf(NotYetBuiltError)
   })
 })

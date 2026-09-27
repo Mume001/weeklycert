@@ -718,6 +718,28 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
 - Ne može: `This week is signed, so the import cannot be undone. Create a correction instead.` ·
   `An import can be undone for 90 days.`
 
+### Arhiva
+
+Ekran iz 03 §4.8 (`/archive`). Jedan red je jedna potpisana verzija jedne
+sedmice. Statusi su značke sedmice (`Signed` · `Submitted` · `Rejected` ·
+`Corrected`), verzija je `v{n}` kao na vremenskoj liniji.
+
+- Naslov je stavka navigacije `Archive` · meta `{n} filed version` / `{n} filed versions`
+- Filteri (ime grupe za čitač ekrana `Filter the archive`): `PRC or project` ·
+  `Project` (prazan izbor `All projects`) · `Year` (`All years`) ·
+  `Status` (`All statuses`) · `Versions` (`Every version` · `Latest version only`) ·
+  `Worker` / `The weeks this worker appears in.` · dugmad `Show` · `Clear filters`
+- Kolone: `Project` · `Week ending` · `Payroll no.` · `Version` · `Status` ·
+  `Signed by` · `Submitted` · `Files`
+- PRC ispod naziva projekta je link na sve za taj PRC; za čitač ekrana `Everything for PRC {prc}`
+- Nije predato: `Not submitted` · ispod datuma predaje `Confirmation {ref}`
+- Izvoz: dugme `Export everything for this project` · napomena u mock fazi
+  `In this demo the export holds examples, not your filed files. Every file in it is named EXAMPLE.`
+- Sadržaj izvoza: napomena u fajlu `This is an example export from the WeeklyCert demo. In the product this archive holds every PDF and XML filed for the project, with this summary.` ·
+  kolone sažetka `Week ending` · `Payroll no.` · `Version` · `Status` · `Signed by` · `Submitted` · `Confirmation`
+- Prazan filter: naslov `No filed version matches these filters.` · dugme `Clear filters`
+- Prazna arhiva uopšte: iz tabele praznih stanja (`Nothing filed yet...`).
+
 ### Naplata
 - Trial: `{n} day left in your trial. Your card is on file and will be charged $79 on {date}.` /
   `{n} days left in your trial. Your card is on file and will be charged $79 on {date}.`
