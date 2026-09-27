@@ -1,10 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import {
+  DEFAULT_PAY_LAG_DAYS,
   expectedPayrollNumbers,
+  federalDueDate,
   isOpenPeriodStatus,
   isWeekOpen,
   nextStateFilingDeadline,
   openWeekEndings,
+  payDateOf,
+  stateDeadlineLevel,
   timelineWeekEndings,
 } from './weeks.ts'
 
@@ -115,5 +119,32 @@ describe('payroll number a week will get (spec/04 §7.1, 01 §2.5)', () => {
     expect(expectedPayrollNumbers([{ weekEnding: '2026-08-29', payrollNumber: 21 }], 22).size).toBe(
       0,
     )
+  })
+})
+
+describe('the pay date and the WH-347 deadline (spec/01 §2.9)', () => {
+  it('is the week end plus the company setting, 6 by default: the Friday after a Saturday', () => {
+    expect(payDateOf('2026-09-12', DEFAULT_PAY_LAG_DAYS, null)).toEqual({
+      date: '2026-09-18',
+      source: 'company',
+    })
+  })
+
+  it('a pay date entered for the week wins over the setting', () => {
+    expect(payDateOf('2026-09-12', 6, '2026-09-16')).toEqual({ date: '2026-09-16', source: 'week' })
+  })
+
+  it('the WH-347 is due 7 days after the pay date (29 CFR 3.4(a))', () => {
+    expect(federalDueDate('2026-09-18')).toBe('2026-09-25')
+  })
+})
+
+describe('how late a NY filing is (spec/05 §2, 03 §4.3)', () => {
+  it('counts down, is late the day after, and past 14 days of grace a penalty is possible', () => {
+    expect(stateDeadlineLevel(10)).toBe('ok')
+    expect(stateDeadlineLevel(0)).toBe('ok')
+    expect(stateDeadlineLevel(-1)).toBe('late')
+    expect(stateDeadlineLevel(-14)).toBe('late')
+    expect(stateDeadlineLevel(-15)).toBe('penalty')
   })
 })

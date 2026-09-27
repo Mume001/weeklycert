@@ -31,6 +31,7 @@ export type RowError =
   | 'levelUnknown'
   | 'kindUnknown'
   | 'grossMissing'
+  | 'payDateMixed'
 /** What goes in anyway, or is left out, with a word to the user. */
 export type RowWarning =
   | 'outsideWeek'
@@ -127,6 +128,8 @@ export interface CheckedRow {
 
 export interface CheckResult {
   rows: CheckedRow[]
+  /** Payroll: the one pay date the file carries, or null (spec/01 §2.9). */
+  payDate: string | null
   counts: { total: number; ok: number; warn: number; error: number; skipped: number }
 }
 
@@ -190,6 +193,7 @@ function statusOf(messages: readonly RowMessage[]): CheckedRow['status'] {
     'levelUnknown',
     'kindUnknown',
     'grossMissing',
+    'payDateMixed',
   ]
   if (messages.some((m) => errors.includes(m))) return 'error'
   if (messages.some((m) => (SKIPPING as readonly string[]).includes(m))) return 'skipped'
@@ -258,6 +262,7 @@ function checkPayLine(ctx: CheckContext, raw: readonly string[], rowNo: number):
   if (!kind) messages.push('kindUnknown')
   const amount = parseMoney(cells.lineAmount ?? '')
   if (!amount.ok) messages.push('amountUnreadable')
+  checkPayDate(ctx, cells, messages)
   const value: PayrollValue | null =
     worker && kind && amount.ok
       ? {
@@ -278,6 +283,32 @@ function checkPayLine(ctx: CheckContext, raw: readonly string[], rowNo: number):
     ...(worker || !cells.worker ? {} : { unresolved: { worker: cells.worker } }),
     value,
   }
+}
+
+function checkPayDate(
+  ctx: CheckContext,
+  cells: Partial<Record<Target, string>>,
+  messages: RowMessage[],
+): void {
+  if (cells.payDate && !parseDate(cells.payDate, ctx.dateFormat)) messages.push('dateUnreadable')
+}
+
+/**
+ * The pay date of the file: one for the whole week. Rows that disagree with
+ * the others are all errors, so no week gets a date picked at random.
+ */
+function filePayDate(ctx: CheckContext, rows: CheckedRow[]): string | null {
+  const dates = rows.map((r) =>
+    r.cells.payDate ? parseDate(r.cells.payDate, ctx.dateFormat) : null,
+  )
+  const distinct = [...new Set(dates.filter((d): d is string => d !== null))]
+  if (distinct.length <= 1) return distinct[0] ?? null
+  rows.forEach((row, i) => {
+    if (dates[i] === null) return
+    row.messages.push('payDateMixed')
+    row.status = statusOf(row.messages)
+  })
+  return null
 }
 
 /** A worker whose lines carry no gross has nothing to compare net and deductions with. */
@@ -309,6 +340,7 @@ function checkPayroll(ctx: CheckContext, raw: readonly string[], rowNo: number):
   if (!gross.ok) messages.push('grossUnreadable')
   const net = cells.net ? parseMoney(cells.net) : null
   if (net && !net.ok) messages.push('amountUnreadable')
+  checkPayDate(ctx, cells, messages)
   const deductions: PayrollValue['deductions'] = []
   for (const kind of DEDUCTION_KINDS) {
     const text = cells[`deduction:${kind}`]
@@ -426,9 +458,11 @@ export function checkRows(ctx: CheckContext, rows: readonly (readonly string[])[
   const checked = rows.map((raw, i) => check(ctx, raw, i + 2))
   if (ctx.kind === 'hours') mergeDuplicates(checked, ctx.lastWins ?? false)
   if (isLongPayroll(ctx.kind, ctx.mapping)) requireGrossLine(checked)
+  const payDate = ctx.kind === 'payroll' ? filePayDate(ctx, checked) : null
   const count = (s: CheckedRow['status']) => checked.filter((r) => r.status === s).length
   return {
     rows: checked,
+    payDate,
     counts: {
       total: checked.length,
       ok: count('ok'),

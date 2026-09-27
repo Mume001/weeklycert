@@ -93,3 +93,38 @@ export function expectedPayrollNumbers(
     .sort()
   return new Map(unsigned.map((we, i) => [we, nextPayrollNumber + i]))
 }
+
+/** tenant_settings.pay_lag_days by default: the Friday after a Saturday week end (spec/04). */
+export const DEFAULT_PAY_LAG_DAYS = 6
+/** 29 CFR 3.4(a): the WH-347 within 7 days of the pay date (spec/01 §2.9). */
+export const FEDERAL_DUE_DAYS = 7
+/** spec/05 §2: past this many days late, the $100 a day penalty is legally possible. */
+export const STATE_GRACE_DAYS = 14
+
+/**
+ * The pay date of a week (spec/01 §2.9): the one entered for the week, else
+ * the week end plus the company's pay lag. The source goes on the dashboard.
+ */
+export function payDateOf(
+  weekEnding: string,
+  payLagDays: number,
+  entered: string | null,
+): { date: string; source: 'week' | 'company' } {
+  return entered
+    ? { date: entered, source: 'week' }
+    : { date: addDays(weekEnding, payLagDays), source: 'company' }
+}
+
+export function federalDueDate(payDate: string): string {
+  return addDays(payDate, FEDERAL_DUE_DAYS)
+}
+
+/**
+ * How a NY deadline stands (spec/05 §2, 03 §4.3): on time up to the day,
+ * late after it, and past the 14 days of grace the penalty is possible, which
+ * the dashboard shows darker.
+ */
+export function stateDeadlineLevel(daysLeft: number): 'ok' | 'late' | 'penalty' {
+  if (daysLeft >= 0) return 'ok'
+  return daysLeft < -STATE_GRACE_DAYS ? 'penalty' : 'late'
+}

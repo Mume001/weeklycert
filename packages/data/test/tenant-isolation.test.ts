@@ -105,6 +105,7 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
       netPay: '1.00',
       deductions: [],
     }),
+  'weeks.setPayDate': (r) => r.weeks.setPayDate(B, OPEN_PERIOD, '2026-09-25'),
   'reports.list': (r) => r.reports.list(B, PROJECT, OPEN_WEEK),
   'reports.generate': (r) => r.reports.generate(B, OPEN_PERIOD),
   'reports.status': (r) => r.reports.status(B, REPORT),

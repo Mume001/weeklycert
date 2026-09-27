@@ -55,6 +55,7 @@ describe('step 1, the company', () => {
       nysRegistrationExpiresOn: '',
       defaultOurRole: 'sub',
       weekEndsOn: 6,
+      payLagDays: 40,
     })
     expect(parsed.success).toBe(false)
     if (!parsed.success) {
@@ -62,6 +63,7 @@ describe('step 1, the company', () => {
         legalName: 'legalNameRequired',
         zip: 'zipFormat',
         fein: 'feinFormat',
+        payLagDays: 'payLagFormat',
         addressLine1: 'addressRequired',
       })
     }

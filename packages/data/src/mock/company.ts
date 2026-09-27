@@ -37,6 +37,7 @@ function valuesOf(t: TenantRow): CompanyFormDTO['values'] {
     nysRegistrationExpiresOn: t.nysRegistrationExpiresOn ?? '',
     defaultOurRole: t.defaultOurRole,
     weekEndsOn: t.settings.weekEndingDow,
+    payLagDays: t.settings.payLagDays,
   }
 }
 
@@ -68,6 +69,7 @@ export function updateCompany(tenantId: Uuid, input: CompanyInput): CompanySaveR
     defaultOurRole: input.defaultOurRole,
   })
   t.settings.weekEndingDow = input.weekEndsOn
+  t.settings.payLagDays = input.payLagDays
   return { ok: true }
 }
 

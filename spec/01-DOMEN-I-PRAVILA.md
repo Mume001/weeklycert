@@ -204,6 +204,17 @@ UI prikazuje "Fringe OK" ili "manjak 5,00 $/h, oko 200 $ ove sedmice".
 - Proizvod: tipkano puno ime + naslov + vrijeme + IP + verzija teksta izjave, sve u
   audit log. Crtani potpis nije potreban.
 
+### 2.9 Datum isplate i rok WH-347
+
+- Federalni WH-347 se predaje **u roku od 7 dana od datuma isplate** (29 CFR
+  3.4(a)): rok = datum isplate + 7 dana.
+- Datum isplate sedmice je `payroll_periods.pay_date` ako je unesen (na pregledu
+  sedmice ili iz uvoza platne liste), inače kraj sedmice +
+  `tenant_settings.pay_lag_days` (podrazumijevano 6: petak poslije subote kraja
+  sedmice). Odluka Mume, 27.9.2026.
+- Kontrolna tabla uz rok kaže i odakle je datum: iz postavke firme ili unesen za
+  tu sedmicu.
+
 ## 3. Odluke o nadnicama: odakle podaci
 
 ### NY

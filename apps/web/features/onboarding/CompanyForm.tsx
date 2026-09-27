@@ -160,6 +160,27 @@ export function CompanyForm({
           ))}
         </select>
       </FormField>
+      <FormField
+        id="company-payLagDays"
+        label={fields.payLagDays.label}
+        hint={fields.payLagDays.hint}
+        error={errors.payLagDays && c.errors[errors.payLagDays]}
+      >
+        <Input
+          {...fieldIds(
+            'company-payLagDays',
+            fields.payLagDays.hint,
+            errors.payLagDays && c.errors[errors.payLagDays],
+          )}
+          type="number"
+          min={0}
+          max={31}
+          inputMode="numeric"
+          disabled={readOnly}
+          className="w-24"
+          {...register('payLagDays', { valueAsNumber: true })}
+        />
+      </FormField>
       {!readOnly && (
         <div className="sm:col-span-2">
           <Button type="submit" disabled={formState.isSubmitting}>

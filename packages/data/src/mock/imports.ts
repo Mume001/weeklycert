@@ -9,8 +9,10 @@
 import {
   addDays,
   computeWeek,
+  DEFAULT_PAY_LAG_DAYS,
   dec,
   money,
+  payDateOf,
   sum,
   hours as toHours,
   type WorkerPayrollInput,
@@ -87,6 +89,7 @@ type Undo =
   | { type: 'hours'; periodId: Uuid; rowId: string; before: (string | null)[] | undefined }
   | { type: 'payroll'; periodId: Uuid; workerId: Uuid; before: WorkerPayrollInput | undefined }
   | { type: 'worker'; workerId: Uuid }
+  | { type: 'payDate'; periodId: Uuid; before: string | null }
 
 /** 04 import_batches with its import_rows, as the mock keeps them. */
 export interface ImportBatch {
@@ -337,6 +340,16 @@ function reconcile(b: ImportBatch, checked: CheckResult): ImportDraftDTO['reconc
   })
 }
 
+/** The pay date the week has now: its own, or the company's setting (spec/01 §2.9). */
+function currentPayDate(tenantId: Uuid, b: ImportBatch): string {
+  const weekEnding = b.weekEnding ?? ''
+  const period = db.periods.find(
+    (p) => p.projectId === b.projectId && p.weekEnding === weekEnding && p.status !== 'corrected',
+  )
+  const lag = db.tenants.find((t) => t.id === tenantId)?.settings.payLagDays ?? DEFAULT_PAY_LAG_DAYS
+  return payDateOf(weekEnding, lag, period?.payDate ?? null).date
+}
+
 export function importDraft(tenantId: Uuid, batchId: Uuid): ImportDraftDTO {
   const b = batchOf(tenantId, batchId)
   const project = ownProject(tenantId, b.projectId)
@@ -393,6 +406,10 @@ export function importDraft(tenantId: Uuid, batchId: Uuid): ImportDraftDTO {
     },
     reconcile:
       checked && (b.status === 'validated' || b.status === 'applied') ? reconcile(b, checked) : [],
+    payDate:
+      checked?.payDate && b.weekEnding && (b.status === 'validated' || b.status === 'applied')
+        ? { inFile: checked.payDate, current: currentPayDate(tenantId, b) }
+        : null,
     workers: db.workers
       .filter((w) => w.tenantId === tenantId)
       .map((w) => ({ id: w.id, name: `${w.lastName}, ${w.firstName}` }))
@@ -566,6 +583,10 @@ export function applyImport(tenantId: Uuid, batchId: Uuid, userId: Uuid): Import
         )
       }
     }
+    if (checked.payDate) {
+      undo.push({ type: 'payDate', periodId: period.id, before: period.payDate })
+      period.payDate = checked.payDate
+    }
     for (const v of perWorker.values()) {
       undo.push({
         type: 'payroll',
@@ -677,7 +698,10 @@ export function undoImport(
   for (const u of [...b.undo].reverse()) {
     if (u.type === 'hours') restoreImportedRow(u.periodId, u.rowId, u.before)
     else if (u.type === 'payroll') restorePayroll(u.periodId, u.workerId, u.before)
-    else {
+    else if (u.type === 'payDate') {
+      const period = db.periods.find((p) => p.id === u.periodId)
+      if (period) period.payDate = u.before
+    } else {
       db.workers.splice(
         db.workers.findIndex((w) => w.id === u.workerId),
         1,

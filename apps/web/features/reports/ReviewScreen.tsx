@@ -19,6 +19,7 @@ import { WeekStateProvider } from '@/lib/week-state'
 import { FindingsCount } from './FindingsCount'
 import { GenerateButton } from './GenerateButton'
 import { OutputSamples } from './OutputSamples'
+import { PayDateForm } from './PayDateForm'
 import { PayrollSection } from './PayrollSection'
 import { ReviewSummary } from './ReviewSummary'
 
@@ -186,6 +187,12 @@ export async function ReviewScreen({
               </div>
             </div>
 
+            <PayDateForm
+              slug={slug}
+              periodId={data.period.id}
+              payDate={data.period.payDate}
+              readOnly={!canEdit}
+            />
             <ReviewSummary workers={data.workers} showPayroll={shell.role !== 'viewer'} />
             {shell.role !== 'viewer' && (
               <PayrollSection

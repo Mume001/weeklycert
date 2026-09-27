@@ -103,6 +103,11 @@ export interface ImportDraftDTO {
     /** inFile minus lastWeek, or minus onProject for payroll. */
     difference: string | null
   }[]
+  /**
+   * Payroll: the pay date the file carries, against the one the week has now
+   * (spec/01 §2.9). The file's date replaces it when the import is confirmed.
+   */
+  payDate: { inFile: string; current: string } | null
   /** Pick lists for step 3. */
   workers: { id: string; name: string }[]
   classifications: { id: string; name: string }[]

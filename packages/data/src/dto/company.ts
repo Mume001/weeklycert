@@ -11,6 +11,7 @@ export const COMPANY_FORM_ERRORS = [
   'zipFormat',
   'feinFormat',
   'weekEndLocked',
+  'payLagFormat',
 ] as const
 export type CompanyFormErrorCode = (typeof COMPANY_FORM_ERRORS)[number]
 
@@ -35,6 +36,10 @@ export const CompanyInputSchema = z
     nysRegistrationExpiresOn: z.string().refine((v) => v === '' || ISO.test(v)),
     defaultOurRole: ProjectRoleSchema,
     weekEndsOn: z.coerce.number().pipe(DowSchema),
+    /** Days from the week end to payday (04 tenant_settings.pay_lag_days, 01 §2.9). Required. */
+    payLagDays: z.coerce
+      .number()
+      .refine((n) => Number.isInteger(n) && n >= 0 && n <= 31, 'payLagFormat'),
   })
   .superRefine((c, ctx) => {
     if (!c.addressLine1 || !c.city || !c.zip) {

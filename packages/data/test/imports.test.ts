@@ -211,6 +211,37 @@ describe('payroll (06 §2 step 4)', () => {
   })
 })
 
+describe('the pay date in a payroll file (spec/01 §2.9)', () => {
+  it('shows it against the week, writes it on confirm, and undo takes it back', async () => {
+    const id = await repos.imports.start(
+      TENANT,
+      OWNER,
+      { kind: 'payroll', source: 'gusto', projectId: DUTCHESS, weekEnding: OPEN_WEEK },
+      {
+        name: 'payroll-dated.csv',
+        sha256: 'pay-dated',
+        table: table(
+          ['Employee Name', 'Gross Earnings', 'Check Date'],
+          [['Alvarez, Miguel', '$2,000.00', '09/17/2026']],
+        ),
+      },
+    )
+    await throughCheck(id)
+    await repos.imports.confirmCheck(TENANT, id, false)
+    // 12 September plus the company's 6 days is 18 September.
+    expect((await repos.imports.draft(TENANT, id)).payDate).toEqual({
+      inFile: '2026-09-17',
+      current: '2026-09-18',
+    })
+    await repos.imports.apply(TENANT, id, OWNER)
+    const after = await repos.weeks.review(TENANT, DUTCHESS, OPEN_WEEK)
+    expect(after?.period.payDate).toEqual({ date: '2026-09-17', source: 'week' })
+    await repos.imports.undo(TENANT, id)
+    const undone = await repos.weeks.review(TENANT, DUTCHESS, OPEN_WEEK)
+    expect(undone?.period.payDate).toEqual({ date: '2026-09-18', source: 'company' })
+  })
+})
+
 describe('workers, and a full SSN in the file (06 §4 and §5)', () => {
   it('keeps only the last four digits, says which column it was, and creates the worker', async () => {
     const id = await repos.imports.start(

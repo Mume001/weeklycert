@@ -31,6 +31,18 @@ export async function savePayrollAction(
   refresh()
 }
 
+/** The week's own pay date, or null for the company's setting (spec/01 §2.9). */
+export async function setPayDateAction(
+  slug: string,
+  periodId: string,
+  raw: unknown,
+): Promise<void> {
+  const shell = await requireTenant(slug, PROJECT_WRITERS)
+  const date = z.iso.date().nullable().parse(raw)
+  await getRepositories().weeks.setPayDate(shell.tenant.id, periodId, date)
+  refresh()
+}
+
 export type GenerateResult = { ok: true; reportId: string; version: number } | { ok: false }
 
 /** Queues the draft. It refuses while a blocking finding is open (spec/07 §1). */

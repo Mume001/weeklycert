@@ -90,6 +90,8 @@ export const ReviewDTOSchema = z.object({
     /** When the certification was signed, and the name on it. */
     signedAt: IsoDateTimeSchema.nullable(),
     signedBy: z.string().nullable(),
+    /** The pay date and where it comes from (spec/01 §2.9): entered for this week, or the company's setting. */
+    payDate: z.object({ date: IsoDateSchema, source: z.enum(['week', 'company']) }),
   }),
   project: z.object({
     id: UuidSchema,

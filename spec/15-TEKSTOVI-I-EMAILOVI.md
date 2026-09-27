@@ -194,12 +194,14 @@ redni broj, ne brojanje, pa nema dva oblika (isto kao `will be #{n}`).
   - `Registration expires on`
   - `Your usual role on public jobs` / `New projects start with this role. You can change it per project.`
   - `Weeks end on` / `The last day of your payroll week. It cannot change once a project has its first week.`
+  - `Days to payday` / `From the end of the week to payday. 6 is the Friday after a Saturday. The WH-347 is due 7 days after payday.` (01 §2.9)
 - Greške:
   - `Enter the legal name.`
   - `Enter the address: line 1, city and ZIP code.`
   - `Enter a five-digit ZIP code.`
   - `Enter the FEIN as nine digits.`
   - `A project already has weeks, so the week end cannot change.`
+  - `Enter the days to payday as a whole number from 0 to 31.`
 
 **Korak 2, First project**
 - Uvod: `Your first project. You can add more later under Projects.`
@@ -465,6 +467,11 @@ Statusi sedmica su značke iz okvira.
   polje `What is being corrected` · greška `Say what is being corrected.`
 - Greška pri predaji: `Enter the confirmation number the portal gave you.`
 
+- Datum isplate na pregledu sedmice (01 §2.9): polje `Pay date` · pomoćni tekst
+  `From the company setting. Change it if this week was paid on another day.` ili
+  `Entered for this week.` · dugmad `Save pay date` · `Use the company setting` ·
+  poslije `Pay date saved.` · zaključana sedmica ga samo pokazuje
+
 ### Predaja
 - Naslov: `Submit`
 - Koraci: `Open mpwr-public.labor.ny.gov and sign in.` /
@@ -656,7 +663,8 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
 - Polja, platna lista: `Worker` · `Gross for all work` · `Net pay` · `Federal income tax` ·
   `State income tax` · `Local income tax` · `Social Security` · `Medicare` ·
   `NY disability (SDI)` · `NY paid family leave` · `Union dues` · `Garnishment` ·
-  `Insurance` · `401(k)` · `Other deductions` · za "dugi" format (06 §2): `Line type` · `Amount`
+  `Insurance` · `401(k)` · `Other deductions` · za "dugi" format (06 §2): `Line type` · `Amount` ·
+  datum isplate (01 §2.9): `Pay date`
 - Dugi format: `One line per worker and pay item? Match Line type and Amount, and leave Gross for all work empty.`
 - Polja, radnici: `Full name` · `First name` · `Last name` · `Worker number` ·
   `Classification` · `Address line 1` · `City` · `State` · `ZIP code` · `Last 4 of SSN` ·
@@ -686,6 +694,7 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
   - `The level must be J or RA.`
   - `This pay item is not gross, net or a deduction we know.`
   - `This worker has no gross line in the file.`
+  - `This file has more than one pay date. Import one pay date at a time.`
 - Poruke, upozorenja:
   - `Outside the week, left out.`
   - `No hours, left out.`
@@ -710,6 +719,7 @@ Ekrani iz 03 §4.7 i 06 §2. Naslov liste je stavka navigacije `Import`.
 - Bez podatka: `None`
 - Dugme: `Confirm the import` · poslije `Open the week`
 - Sedmica zaključana: `This week is signed, so nothing can be imported into it. Create a correction first.`
+- Datum isplate iz fajla (01 §2.9): `Pay date in the file: {date}. The week has {current} now; the file's date replaces it when you confirm.`
 
 **Jedan uvoz** (`/imports/[id]`)
 - Dugme: `Undo this import`

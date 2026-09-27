@@ -76,6 +76,26 @@ describe('the review screen', () => {
   })
 })
 
+describe('the pay date (spec/01 §2.9)', () => {
+  it("comes from the company's setting, and the week's own date wins", async () => {
+    const before = await review(DUTCHESS, OPEN_WEEK)
+    // Saturday 12 September plus the default 6 days is Friday 18 September.
+    expect(before.period.payDate).toEqual({ date: '2026-09-18', source: 'company' })
+    await repos.weeks.setPayDate(TENANT, before.period.id, '2026-09-17')
+    expect((await review(DUTCHESS, OPEN_WEEK)).period.payDate).toEqual({
+      date: '2026-09-17',
+      source: 'week',
+    })
+    await repos.weeks.setPayDate(TENANT, before.period.id, null)
+    expect((await review(DUTCHESS, OPEN_WEEK)).period.payDate.source).toBe('company')
+  })
+
+  it('stays as it was once the week is signed', async () => {
+    const signed = await review(DUTCHESS, SIGNED_WEEK)
+    await expect(repos.weeks.setPayDate(TENANT, signed.period.id, '2026-09-01')).rejects.toThrow()
+  })
+})
+
 describe('the payroll side the hours cannot know (spec/03 §4.5)', () => {
   it('takes gross for all work, deductions and net, and the engine uses them', async () => {
     const dto = await review(DUTCHESS, IN_REVIEW)

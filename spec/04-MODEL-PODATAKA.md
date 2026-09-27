@@ -141,6 +141,7 @@ Better Auth **ne** upravlja firmama ni članstvima (bez `organization` plugina);
 |---|---|---|
 | tenant_id | uuid PK FK | |
 | default_pay_frequency | E pay_frequency | weekly, biweekly |
+| pay_lag_days | smallint default 6 | Koliko dana poslije kraja sedmice je isplata (6: petak poslije subote). Obavezno u koraku 1 onboardinga. Iz nje se izvodi datum isplate kad sedmica nema svoj `pay_date` (01 §2.9). Dodato 27.9.2026. |
 | week_ending_dow | smallint default 6 | Dan u sedmici kad završava radna sedmica (0 nedjelja, 6 subota). |
 | federal_ot_enabled | boolean default true | Da li se uz NY pravila računa i federalni prag od 40 sati. NY prekovremeni NIKAD ne dolaze odavde nego iz OT kodova klasifikacije (01 §2.1). |
 | annual_hours_basis | numeric(6,0) default 2080 | Za anualizaciju fringe. |
@@ -401,6 +402,7 @@ U (worker_id, fringe_plan_id, effective_from).
 | is_no_work | boolean default false | |
 | is_final | boolean default false | Završni izvještaj za projekat. |
 | payroll_number | int N | NULL dok period nije potpisan; dodjeljuje se pri potpisu i više se ne mijenja. Ispravka nasljeđuje broj ispravljenog perioda. |
+| pay_date | date N | Datum isplate za tu sedmicu, ako se razlikuje od postavke firme. Ima prednost nad `tenant_settings.pay_lag_days`. Mijenja se na pregledu sedmice ili dolazi iz uvoza platne liste (06). Osnova za rok WH-347 (01 §2.9). Dodato 27.9.2026. |
 | corrects_period_id | uuid FK payroll_periods N | Ako je ispravka ranije sedmice. |
 | locked_at | timestamptz N | Kad je potpisan; sati se više ne mijenjaju bez "Ispravka". |
 | created_at, updated_at | | |

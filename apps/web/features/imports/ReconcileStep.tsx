@@ -83,6 +83,14 @@ export function ReconcileStep({ slug, draft }: { slug: string; draft: ImportDraf
             {payroll ? r.titlePayroll : r.titleHours}
           </h2>
           <p className="text-sm text-text-secondary">{r.note}</p>
+          {draft.payDate && (
+            <p className="text-sm text-text-primary">
+              {fill(r.payDate, {
+                date: formatDate(draft.payDate.inFile),
+                current: formatDate(draft.payDate.current),
+              })}
+            </p>
+          )}
           <div className="overflow-hidden rounded-lg border border-border-decorative bg-white shadow-sm">
             <Table>
               <TableHeader>

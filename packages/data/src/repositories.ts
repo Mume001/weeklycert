@@ -140,6 +140,11 @@ export interface Repositories {
     review(tenantId: Uuid, projectId: Uuid, weekEnding: IsoDate): Promise<ReviewDTO | null>
     /** Gross for all work, deductions and net for one worker (spec/03 §4.5). */
     savePayroll(tenantId: Uuid, periodId: Uuid, input: PayrollInput): Promise<void>
+    /**
+     * The week's own pay date (spec/01 §2.9); null goes back to the company's
+     * setting. Refused once the week is locked.
+     */
+    setPayDate(tenantId: Uuid, periodId: Uuid, date: IsoDate | null): Promise<void>
   }
   /** Generating, signing and filing one week (spec/03 §4.5). */
   reports: {

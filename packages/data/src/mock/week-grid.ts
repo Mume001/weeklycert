@@ -7,6 +7,7 @@ import {
   addDays,
   computeWeek,
   expectedPayrollNumbers,
+  payDateOf,
   timelineWeekEndings,
   type WeekInput,
   type WeekResult,
@@ -100,6 +101,7 @@ export function ensurePeriod(projectId: Uuid, weekEnding: IsoDate) {
     payrollNumber: null,
     correctsPeriodId: null,
     lockedAt: null,
+    payDate: null,
     summary: null,
   }
   db.periods.push(row)
@@ -286,7 +288,8 @@ export function buildWeekInput(projectId: Uuid, weekEnding: IsoDate): WeekInput 
     payroll: payrollOf(row.id),
     context: {
       today: mockToday(),
-      payDate: null,
+      // The pay date of the week (01 §2.9), so FEDERAL_DUE_T2 counts from it.
+      payDate: payDateOf(weekEnding, tenant.settings.payLagDays, row.payDate).date,
       priorWeeks: db.periods
         .filter((p) => p.projectId === projectId && p.weekEnding < weekEnding)
         .map((p) => ({ weekEnding: p.weekEnding, status: p.status })),

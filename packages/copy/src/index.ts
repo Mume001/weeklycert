@@ -486,6 +486,10 @@ export const copy = {
           label: 'Weeks end on',
           hint: 'The last day of your payroll week. It cannot change once a project has its first week.',
         },
+        payLagDays: {
+          label: 'Days to payday',
+          hint: 'From the end of the week to payday. 6 is the Friday after a Saturday. The WH-347 is due 7 days after payday.',
+        },
       },
       errors: {
         legalNameRequired: 'Enter the legal name.',
@@ -493,6 +497,7 @@ export const copy = {
         zipFormat: 'Enter a five-digit ZIP code.',
         feinFormat: 'Enter the FEIN as nine digits.',
         weekEndLocked: 'A project already has weeks, so the week end cannot change.',
+        payLagFormat: 'Enter the days to payday as a whole number from 0 to 31.',
       },
     },
     project: { intro: 'Your first project. You can add more later under Projects.' },
@@ -666,6 +671,14 @@ export const copy = {
   // 15 §3 Pregled i potpis
   review: {
     title: 'Review and certify',
+    payDate: {
+      label: 'Pay date',
+      fromCompany: 'From the company setting. Change it if this week was paid on another day.',
+      entered: 'Entered for this week.',
+      save: 'Save pay date',
+      useCompany: 'Use the company setting',
+      saved: 'Pay date saved.',
+    },
     success_one: 'No errors. {n} warning was confirmed by you on {date}.',
     success_other: 'No errors. {n} warnings were confirmed by you on {date}.',
     xmlCard: 'NY XML for the portal',
@@ -1211,6 +1224,7 @@ export const copy = {
         pctOfJourney: 'Percent of the journeyworker rate',
         lineKind: 'Line type',
         lineAmount: 'Amount',
+        payDate: 'Pay date',
       },
       longFormat:
         'One line per worker and pay item? Match Line type and Amount, and leave Gross for all work empty.',
@@ -1252,6 +1266,7 @@ export const copy = {
         levelUnknown: 'The level must be J or RA.',
         kindUnknown: 'This pay item is not gross, net or a deduction we know.',
         grossMissing: 'This worker has no gross line in the file.',
+        payDateMixed: 'This file has more than one pay date. Import one pay date at a time.',
         outsideWeek: 'Outside the week, left out.',
         noHours: 'No hours, left out.',
         over16: 'More than 16 hours in one day.',
@@ -1291,6 +1306,8 @@ export const copy = {
       submit: 'Confirm the import',
       openWeek: 'Open the week',
       locked: 'This week is signed, so nothing can be imported into it. Create a correction first.',
+      payDate:
+        "Pay date in the file: {date}. The week has {current} now; the file's date replaces it when you confirm.",
     },
     detail: {
       undo: 'Undo this import',

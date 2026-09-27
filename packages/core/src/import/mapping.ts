@@ -26,6 +26,8 @@ const PAYROLL_TARGETS = [
   'worker',
   'gross',
   'net',
+  // The week's pay date, when the file has it (spec/01 §2.9).
+  'payDate',
   ...DEDUCTION_KINDS.map((k) => `deduction:${k}` as const),
   // The "long" format of 06 §2 step 2: one line per worker and pay item.
   'lineKind',
@@ -92,6 +94,7 @@ const SYNONYMS: Partial<Record<Target, string[]>> = {
     'gross for all work',
   ],
   net: ['net', 'net pay', 'take home', 'net amount'],
+  payDate: ['pay date', 'check date', 'pay day', 'payday', 'payment date', 'paid on'],
   'deduction:federal_tax': [
     'federal',
     'federal income tax',

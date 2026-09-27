@@ -9,9 +9,11 @@ import {
   attestationPoints,
   attestationText,
   computeWeek,
+  DEFAULT_PAY_LAG_DAYS,
   dec,
   hours,
   money,
+  payDateOf,
   type WeekResult,
   type WorkerPayrollInput,
 } from '@wc/core'
@@ -89,7 +91,12 @@ function periodBrief(
     lockedReason: lockedReasonOf(row.status),
     signedAt: signature?.signedAt ?? null,
     signedBy: signature?.signedName ?? signer?.fullName ?? null,
+    payDate: payDateOf(row.weekEnding, lagOf(row.tenantId), row.payDate),
   }
+}
+
+function lagOf(tenantId: Uuid): number {
+  return db.tenants.find((t) => t.id === tenantId)?.settings.payLagDays ?? DEFAULT_PAY_LAG_DAYS
 }
 
 function projectBrief(projectId: Uuid) {
@@ -198,6 +205,14 @@ export function savePayroll(tenantId: Uuid, periodId: Uuid, input: PayrollInput)
       .map((d) => ({ kind: d.kind, label: d.label || null, amount: money(d.amount) })),
   })
   if (row.status === 'in_review' || row.status === 'generated') row.status = 'open'
+}
+
+/** The week's own pay date wins over the company's setting (spec/01 §2.9). */
+export function setPayDate(tenantId: Uuid, periodId: Uuid, date: IsoDate | null): void {
+  const row = periodOf(tenantId, periodId)
+  if (!row) throw new Error(`Unknown period ${periodId}`)
+  if (lockedReasonOf(row.status) !== null) throw new Error(`Period ${periodId} is locked`)
+  row.payDate = date
 }
 
 // ---------------------------------------------------------------------------
@@ -461,6 +476,8 @@ export function createCorrection(tenantId: Uuid, periodId: Uuid, note: string): 
     payrollNumber: row.payrollNumber,
     correctsPeriodId: row.id,
     lockedAt: null,
+    // The same week, paid on the same day.
+    payDate: row.payDate,
     summary: row.summary,
   }
   db.periods.push(correction)

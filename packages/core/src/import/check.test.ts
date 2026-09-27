@@ -214,6 +214,39 @@ describe('payroll rows (06 §1 and §2)', () => {
     const { rows } = checkRows(ctx, [['1021', 'n/a', '', '', '']])
     expect(rows[0]?.messages).toEqual(['grossUnreadable'])
   })
+  it('finds a pay date or check date column (spec/01 §2.9)', () => {
+    expect(suggestMapping(['Employee', 'Gross Pay', 'Check Date'], 'payroll').mapping).toEqual({
+      worker: 0,
+      gross: 1,
+      payDate: 2,
+    })
+  })
+
+  it('takes the one pay date of the file', () => {
+    const withDate = { ...ctx, mapping: { worker: 0, gross: 1, payDate: 2 } }
+    const result = checkRows(withDate, [
+      ['1021', '100.00', '09/18/2026'],
+      ['1021', '50.00', '09/18/2026'],
+    ])
+    expect(result.payDate).toBe('2026-09-18')
+    expect(result.counts.error).toBe(0)
+  })
+
+  it('refuses a file with two pay dates, on every row that has one', () => {
+    const withDate = { ...ctx, mapping: { worker: 0, gross: 1, payDate: 2 } }
+    const result = checkRows(withDate, [
+      ['1021', '100.00', '09/18/2026'],
+      ['1021', '50.00', '09/19/2026'],
+      ['1021', '20.00', ''],
+    ])
+    expect(result.payDate).toBeNull()
+    expect(result.rows.map((r) => r.status)).toEqual(['error', 'error', 'ok'])
+    expect(result.rows[0]?.messages).toContain('payDateMixed')
+  })
+
+  it('without the column the file has no pay date', () => {
+    expect(checkRows(ctx, [['1021', '1.00', '', '', '']]).payDate).toBeNull()
+  })
 })
 
 describe('worker rows (06 §5)', () => {

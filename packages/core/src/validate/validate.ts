@@ -9,14 +9,11 @@ import type { CellModel, RowModel, WeekModel, WorkerModel } from '../engine/mode
 import { makeupCodes, weekendCodes } from '../engine/ot-codes.ts'
 import type { Finding } from '../engine/types.ts'
 import { type Dec, dec, equalWithinCent, hours, money, ZERO } from '../money.ts'
+import { FEDERAL_DUE_DAYS, STATE_GRACE_DAYS } from '../weeks.ts'
 import { FINDINGS, type FindingCode, type Severity } from './codes.ts'
 
 /** The NY filing interval: every 30 days from the start or the last acceptance. */
 const STATE_INTERVAL_DAYS = 30
-/** After 14 days over the deadline a penalty of $100 a day becomes possible. */
-const STATE_GRACE_DAYS = 14
-/** Federal: 7 days from the pay date (29 CFR 3.4(a)); warn 2 days before. */
-const FEDERAL_DUE_DAYS = 7
 const MAX_WORKERS_PER_FILE = 500
 const MAX_DEDUCTIONS = 10
 const MONDAY = 1

@@ -59,6 +59,8 @@ export const TenantRow = z.object({
     annualHoursBasis: z.string(),
     mergeDeductions: z.boolean(),
     strictPii: z.boolean(),
+    /** 04 tenant_settings.pay_lag_days: days from the week end to payday (01 §2.9). */
+    payLagDays: z.number().int().min(0).max(31).default(6),
   }),
 })
 
@@ -285,6 +287,8 @@ export const PeriodRow = z.object({
   payrollNumber: z.number().int().positive().nullable(),
   correctsPeriodId: UuidSchema.nullable(),
   lockedAt: IsoDateTimeSchema.nullable(),
+  /** 04 payroll_periods.pay_date: entered for this week; wins over the company's pay lag (01 §2.9). */
+  payDate: IsoDateSchema.nullable().default(null),
   /** Historical weeks carry only totals (19 §4); detailed weeks are computed by core. */
   summary: z
     .object({ totalHours: HoursSchema, workerCount: z.number().int(), gross: MoneySchema })

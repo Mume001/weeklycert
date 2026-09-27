@@ -51,6 +51,7 @@ import {
   review,
   sampleFile,
   savePayroll,
+  setPayDate,
   sign,
   signerFor,
 } from './reports.ts'
@@ -291,6 +292,11 @@ export const mockRepositories: Repositories = {
     async savePayroll(tenantId, periodId, input) {
       await delay('weeks.savePayroll')
       savePayroll(tenantId, periodId, input)
+    },
+
+    async setPayDate(tenantId, periodId, date) {
+      await delay('weeks.setPayDate')
+      setPayDate(tenantId, periodId, date)
     },
   },
 
