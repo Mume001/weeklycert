@@ -84,7 +84,7 @@ export interface ImportDraftDTO {
     }[]
     /** Names and codes nothing matched, each once, for the picks. */
     unresolvedWorkers: string[]
-    /** Codes nothing matched, each with the closest classification if one is 0.85 alike or more (06 §3). */
+    /** Codes nothing matched, each with the closest classification if one is 0.75 alike or more (06 §3). */
     unresolvedCodes: {
       code: string
       suggestion: { id: string; name: string; score: number } | null

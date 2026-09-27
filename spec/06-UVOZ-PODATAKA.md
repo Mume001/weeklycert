@@ -105,7 +105,9 @@ vrste uvoza (`import_kind`: hours, payroll), plus treća, jednokratna, `workers`
   godina → 20xx.
 - Novac: uklanja `$`, razmake, zareze hiljada; zagrade ili minus su negativno.
 - Klasifikacija: prvo `code_map` iz profila, pa `classification_catalog.aliases`,
-  pa trigram sličnost ≥ 0,85 kao prijedlog (nikad automatski).
+  pa trigram sličnost ≥ 0,75 kao prijedlog (nikad automatski, uvijek s
+  postotkom). Prag je spušten s 0,85 na 0,75 (Mume, 27.9.2026), da jedno
+  pogrešno slovo, koje u trigramima daje oko 0,82, ipak dobije prijedlog.
 - Duplikati u fajlu (isti radnik, datum, klasifikacija): sabiraju se uz upozorenje,
   osim ako profil kaže "posljednji pobjeđuje".
 - CSV formula injection: svaka ćelija koja počinje s `=`, `+`, `-`, `@`, tab ili

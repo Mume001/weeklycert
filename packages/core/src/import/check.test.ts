@@ -8,7 +8,7 @@ import {
   type WorkerValue,
 } from './check.ts'
 import { headerHash, missingTargets, suggestMapping } from './mapping.ts'
-import { similarity, suggest } from './similarity.ts'
+import { SUGGESTION_THRESHOLD, similarity, suggest } from './similarity.ts'
 import { fullSsnColumns, lastFour } from './ssn.ts'
 
 /**
@@ -257,17 +257,32 @@ describe('worker rows (06 §5)', () => {
 })
 
 describe('a classification suggested by likeness, never applied (06 §3)', () => {
-  it('scores like pg_trgm, and suggests only from 0.85 up', () => {
+  it('scores like pg_trgm, and suggests only from 0.75 up', () => {
+    expect(SUGGESTION_THRESHOLD).toBe(0.75)
     expect(similarity('ELECTRICIAN INSIDE WIREMAN', 'Electrician – Inside Wireman')).toBe(1)
     expect(
       similarity('Electricians Inside Wireman', 'Electrician – Inside Wireman'),
     ).toBeGreaterThan(0.9)
-    // One letter out is 0.82 in trigrams: below 0.85, so no suggestion (06 §3).
-    expect(similarity('Electrican Inside Wireman', 'Electrician – Inside Wireman')).toBeLessThan(
-      0.85,
-    )
-    expect(suggest('Electrican Inside Wireman', CLASSES)).toBeNull()
-    expect(suggest('Laborer', CLASSES)).toBeNull()
+  })
+
+  // The three cases of 27.9.2026: they decide where the line is.
+  it('one wrong letter gets a suggestion', () => {
+    const s = suggest('Electrican Inside Wireman', CLASSES)
+    expect(s?.candidate.id).toBe('pc-elec')
+    expect(s?.score).toBe(0.82)
+  })
+
+  it('the same words in another order get a suggestion', () => {
+    const s = suggest('Inside Wireman Electrician', CLASSES)
+    expect(s?.candidate.id).toBe('pc-elec')
+    expect(s?.score).toBeGreaterThanOrEqual(0.75)
+  })
+
+  it('a different classification gets none', () => {
+    expect(similarity('Laborer', 'Electrician Inside Wireman')).toBe(0)
+    expect(
+      suggest('Laborer', [{ id: 'pc-elec', labels: ['Electrician Inside Wireman'] }]),
+    ).toBeNull()
   })
 
   it('an unknown code stays an error and carries the suggestion with its score', () => {

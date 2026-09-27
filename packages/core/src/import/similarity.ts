@@ -1,10 +1,10 @@
-// "Trigram similarity ≥ 0.85 as a suggestion, never automatic" (spec/06 §3):
+// "Trigram similarity ≥ 0.75 as a suggestion, never automatic" (spec/06 §3):
 // a classification or job code nothing matched exactly is compared with the
 // project's classifications, and the closest one is offered with how alike it
 // is. The user confirms it or not; nothing here decides.
 
-/** 06 §3: below this, no suggestion at all. */
-export const SUGGESTION_THRESHOLD = 0.85
+/** 06 §3: below this, no suggestion at all. 0.85 until 27.9.2026, when one wrong letter (0.82) fell under it. */
+export const SUGGESTION_THRESHOLD = 0.75
 
 function words(text: string): string[] {
   return text

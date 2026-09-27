@@ -249,7 +249,7 @@ describe('06 §3: a suggestion by likeness is shown, and applied only when picke
     const [unresolved] = draft.check?.unresolvedCodes ?? []
     expect(unresolved?.code).toBe('Electricians Inside Wireman')
     expect(unresolved?.suggestion).toMatchObject({ name: WIREMAN })
-    expect(unresolved?.suggestion?.score).toBeGreaterThanOrEqual(0.85)
+    expect(unresolved?.suggestion?.score).toBeGreaterThanOrEqual(0.75)
     expect(draft.check?.counts.error).toBe(1)
 
     await repos.imports.resolve(TENANT, id, {
