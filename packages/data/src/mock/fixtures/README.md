@@ -17,7 +17,7 @@ used for a real calculation or a real filing.
 | Project | Weeks | Rows | Detail |
 |---|---|---|---|
 | Dutchess County Courthouse Lighting | 23 | 24 | 2026-08-08 has v1 `corrected` and v2 `submitted` |
-| Kingston WTP Electrical Upgrade (federal) | 15 | 15 | 2026-08-29 is a no-work week |
+| Kingston WTP Electrical Upgrade (federal) | 15 | 15 | 2026-08-29 is a no-work week; every week filed on the portal also has its WH-347 recorded (`submissions.channel = wh347`), 09-05 has neither yet |
 | Beacon HS Fire Alarm Replacement (completed) | 24 | 24 | last week is final |
 
 Historical weeks carry only totals (`summary`). Time entries exist only for the

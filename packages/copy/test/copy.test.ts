@@ -36,6 +36,10 @@ describe('packages/copy is spec/15, nothing invented', () => {
     expect(all.filter(([, s]) => /[–—]/.test(s))).toEqual([])
   })
 
+  it('never dodges a plural with "(s)" (15 §1 rule 11)', () => {
+    expect(all.filter(([, s]) => s.includes('(s)')).map(([p]) => p)).toEqual([])
+  })
+
   it('has no exclamation marks and no forbidden openers (15 §1 rules 2 and 6)', () => {
     expect(all.filter(([, s]) => s.includes('!'))).toEqual([])
     expect(all.filter(([, s]) => /Oops|Uh oh|Something went wrong/i.test(s))).toEqual([])

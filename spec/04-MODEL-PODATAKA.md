@@ -495,7 +495,7 @@ N`, `acknowledged_by uuid N`, `acknowledged_at N`. Meki nalazi mogu biti potvrđ
 |---|---|---|
 | id | uuid PK | |
 | tenant_id, period_id, report_id | | |
-| channel | E submission_channel | ny_portal_manual, email_to_prime, portal_other, download_only |
+| channel | E submission_channel | ny_portal_manual, wh347, email_to_prime, portal_other, download_only. NY predaja i WH-347 se prate odvojeno: samo `ny_portal_manual` zatvara NY sedmicu i pomjera 30 dana, samo `wh347` (WH-347 poslan agenciji ili glavnom izvođaču) zatvara federalni rok iz 01 §2.9. Projekat koji je i državni i federalni treba obje (Mume, 27.9.2026). |
 | submitted_at | timestamptz | |
 | submitted_by | uuid FK users | |
 | confirmation_ref | text N | Broj potvrde iz portala. |
@@ -617,7 +617,7 @@ rate_source: manual, pasted, cache
 report_kind: ny_xml, wh347_pdf, statement_pdf, bundle_zip
 report_status: draft, final, superseded, failed
 severity: hard, soft, info
-submission_channel: ny_portal_manual, email_to_prime, portal_other, download_only
+submission_channel: ny_portal_manual, wh347, email_to_prime, portal_other, download_only
 submission_outcome: pending, accepted, rejected
 import_kind: hours, payroll, workers
 registrar: oa, saa, nysdol

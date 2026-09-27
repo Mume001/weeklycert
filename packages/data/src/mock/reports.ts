@@ -33,7 +33,7 @@ import type {
 } from '../dto/index.ts'
 import { displayStatusOf, lockedReasonOf } from '../dto/week-grid.ts'
 import { mockNow } from './clock.ts'
-import { db } from './db.ts'
+import { db, NY_PORTAL } from './db.ts'
 import { SAMPLE_NY_XML } from './fixtures/sample-ny-payroll.ts'
 import { buildWeekInput, ensurePeriod, setPayroll, weekGrid } from './week-grid.ts'
 
@@ -74,7 +74,9 @@ function periodBrief(
   result: { findings: { severity: string }[] },
   expected: number | null,
 ) {
-  const outcome = db.submissions.find((s) => s.periodId === row.id)?.outcome
+  const outcome = db.submissions.find(
+    (s) => s.periodId === row.id && s.channel === NY_PORTAL,
+  )?.outcome
   const hard = result.findings.filter((f) => f.severity === 'hard').length
   const signature = db.reports
     .filter((r) => r.periodId === row.id && r.signedAt !== null)
@@ -258,7 +260,8 @@ function submissionsOf(periodId: Uuid): SubmissionDTO[] {
       outcome: s.outcome,
       outcomeAt: s.outcomeAt,
       rejectionReason: s.rejectionReason,
-      recipient: null,
+      // Who it went to, for the two channels that go to a person (notes in the mock).
+      recipient: s.channel === 'email_to_prime' || s.channel === 'wh347' ? s.notes : null,
     }))
 }
 
@@ -448,7 +451,8 @@ export function recordOutcome(
   submission.rejectionReason = outcome === 'rejected' ? reason || null : null
   const period = db.periods.find((p) => p.id === submission.periodId)
   const project = period && db.projects.find((p) => p.id === period.projectId)
-  if (outcome === 'accepted' && period && project) {
+  // Only the NYSDOL portal answers, and only its acceptance moves the 30 days (05 §2).
+  if (outcome === 'accepted' && submission.channel === NY_PORTAL && period && project) {
     project.lastAcceptedSubmissionAt = submission.submittedAt.slice(0, 10)
   }
 }

@@ -96,6 +96,14 @@ const store = globalThis as typeof globalThis & { __wcDb?: MockDb }
 if (!store.__wcDb) store.__wcDb = loadAll()
 export const db: MockDb = store.__wcDb
 
+/**
+ * The two filings are tracked apart (spec/04 submissions.channel): the NYSDOL
+ * portal closes the NY week and moves the 30 days, a WH-347 sent to the agency
+ * or the general contractor closes the federal week. One never closes the other.
+ */
+export const NY_PORTAL = 'ny_portal_manual'
+export const WH347 = 'wh347'
+
 /** Only for tests: put every table back to the fixtures on disk. */
 export function resetMockDb(): void {
   const fresh = loadAll()

@@ -13,16 +13,23 @@ import {
 import type { DashboardDTO, FirmNextDTO, IsoDate, TimelineWeek, Uuid } from '../dto/index.ts'
 import { statusOf } from './archive.ts'
 import { mockToday } from './clock.ts'
-import { db } from './db.ts'
+import { db, NY_PORTAL, WH347 } from './db.ts'
 import { nextDeadline, weeksOf } from './projects.ts'
 
 type ProjectRow = (typeof db.projects)[number]
 
 const RECENT = 5
 
-/** A week that still owes a filing: not submitted, or submitted and refused. */
+/** A week that still owes its NYSDOL filing: not submitted, or submitted and refused. */
 const unfiled = (w: TimelineWeek) =>
   !w.isNoWork && (w.status !== 'submitted' || w.displayStatus === 'rejected')
+
+/**
+ * A week that still owes its WH-347: only a WH-347 sent to the agency or the
+ * general contractor closes it, never the NYSDOL filing (spec/04 submissions).
+ */
+const wh347Due = (w: TimelineWeek) =>
+  !w.isNoWork && !db.submissions.some((s) => s.periodId === w.periodId && s.channel === WH347)
 
 /** NY rates are published for a year from 1 July (03 §4.3 point 4). */
 function lastJulyFirst(today: IsoDate): IsoDate {
@@ -102,7 +109,7 @@ export function dashboard(tenantId: Uuid): DashboardDTO {
     .filter((p) => p.federalReporting)
     .flatMap((p) =>
       weeksOfProject(p)
-        .filter(unfiled)
+        .filter(wh347Due)
         .map((w) => {
           const row = w.periodId ? db.periods.find((x) => x.id === w.periodId) : undefined
           const pay = payDateOf(w.weekEnding, tenant.settings.payLagDays, row?.payDate ?? null)
@@ -156,6 +163,7 @@ export function dashboard(tenantId: Uuid): DashboardDTO {
   const accepted = db.submissions.filter(
     (s) =>
       s.tenantId === tenantId &&
+      s.channel === NY_PORTAL &&
       s.outcome === 'accepted' &&
       (s.outcomeAt ?? s.submittedAt).startsWith(year),
   ).length

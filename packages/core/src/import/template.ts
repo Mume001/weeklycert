@@ -24,7 +24,7 @@ export const TEMPLATE_DEDUCTIONS: readonly DeductionKind[] = [
 
 export interface TemplateInput {
   kind: TemplateKind
-  /** Column names by field: worker, date, classification, hours, note, gross, net, deduction:<kind>. */
+  /** Column names by field: worker, date, classification, hours, note, gross, net, payDate, deduction:<kind>. */
   headers: Readonly<Record<string, string>>
   /** "Last, First", with the classification the row starts with. */
   workers: readonly { name: string; classification: string | null }[]
@@ -40,7 +40,8 @@ const US = (iso: string) => `${iso.slice(5, 7)}/${iso.slice(8, 10)}/${iso.slice(
 export function templateFields(kind: TemplateKind): string[] {
   return kind === 'hours'
     ? ['worker', 'date', 'classification', 'hours', 'note']
-    : ['worker', 'gross', 'net', ...TEMPLATE_DEDUCTIONS.map((k) => `deduction:${k}`)]
+    : // The pay date too: it sets the WH-347 deadline of the week (spec/01 §2.9).
+      ['worker', 'gross', 'net', 'payDate', ...TEMPLATE_DEDUCTIONS.map((k) => `deduction:${k}`)]
 }
 
 function table(input: TemplateInput): { headers: string[]; rows: string[][] } {

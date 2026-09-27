@@ -159,8 +159,11 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 
 ### Kontrolna tabla
 - Naslov: `{Weekday}, {Month} {D}` · pod njim `week ending {WeekEndDay} {Month} {D}`
-- Kartice: `project past the 30-day deadline` · `weeks waiting for hours` ·
-  `report waiting for signature` · `filings accepted this year`
+- Kartice (broj iznad teksta, pa jednina i množina po pravilu 11):
+  `project past the 30-day deadline` / `projects past the 30-day deadline` ·
+  `week waiting for hours` / `weeks waiting for hours` ·
+  `report waiting for signature` / `reports waiting for signature` ·
+  `filing accepted this year` / `filings accepted this year`
 - Sekcija rokova: `State filing deadlines` / podnaslov
   `NYSDOL requires a submission at least every 30 days per project`
 - Statusi: `{n} day left` / `{n} days left` · `{n} day late` / `{n} days late` · `due today`
@@ -171,8 +174,8 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Upozorenje kad je projekat u kašnjenju:
   `{Project} is {n} day past its 30-day state deadline` /
   `{Project} is {n} days past its 30-day state deadline`.
-  Tijelo u grejsu: `NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} day of grace left.` /
-  `NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} days of grace left.`
+  Tijelo u grejsu: `NYSDOL can assess $100 per day once a filing is more than 14 days late. You have {n} day of grace left.` /
+  `NYSDOL can assess $100 per day once a filing is more than 14 days late. You have {n} days of grace left.`
   Tijelo poslije grejsa: `The 14 days of grace are over. NYSDOL can assess $100 for each day the filing is late.`
 - Tabela rokova, kolone: `Project` · `PRC` · `Last accepted` · `Deadline` ·
   `Status` · `Unfiled weeks`. Bez prihvaćene predaje: `None yet`. Poslije
@@ -202,7 +205,7 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 
 ### Moje firme
 - Naslov: `Your companies` (isti kao u biraču firme).
-- Kartica: ime firme, pod njim `{Role} · {n} active project(s)` iz birača firme.
+- Kartica: ime firme, pod njim `{Role} · {n} active project` / `{Role} · {n} active projects` iz birača firme.
   `Next deadline` · `{Project}, {date}` i status roka iz kontrolne table.
   `Current week` sa statusom sedmice. Bez roka: `No filing due`. Dugme `Open`.
 - Prazno: `You have no company yet. Create your own, or wait for an invitation.`
@@ -503,6 +506,12 @@ Statusi sedmica su značke iz okvira.
 - Odgovor portala: `Portal response` · dugmad `Accepted` · `Rejected` ·
   polje `What the portal said`
 - Glavnom izvođaču: `Record as sent to the general contractor` · polje `Email`
+- WH-347, samo federalni projekat (prati se odvojeno od NYSDOL predaje, 04
+  `submissions.channel`): naslov `Federal WH-347` · tekst
+  `The WH-347 goes to the contracting agency or the general contractor within 7 days of the pay date. The NYSDOL filing does not count for it.` ·
+  polje `Sent to` s napomenom `The agency or the general contractor.` · dugme
+  `Record WH-347 sent` · zabilježeno `WH-347 sent to {recipient} on {date}.` ·
+  greška `Say who the WH-347 went to.`
 - Ispravka: `A correction is a new version of this week. The old one stays.` ·
   polje `What is being corrected` · greška `Say what is being corrected.`
 - Greška pri predaji: `Enter the confirmation number the portal gave you.`

@@ -194,11 +194,19 @@ export async function DashboardScreen({
       ))}
 
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Stat n={data.cards.projectsPastDeadline} label={t.cards.pastDeadline} tone="error" />
-        <Stat n={data.cards.weeksWaitingForHours} label={t.cards.waitingForHours} tone="warning" />
+        <Stat
+          n={data.cards.projectsPastDeadline}
+          label={plural(t.cards, 'pastDeadline', data.cards.projectsPastDeadline)}
+          tone="error"
+        />
+        <Stat
+          n={data.cards.weeksWaitingForHours}
+          label={plural(t.cards, 'waitingForHours', data.cards.weeksWaitingForHours)}
+          tone="warning"
+        />
         <Stat
           n={data.cards.reportsWaitingForSignature}
-          label={t.cards.waitingForSignature}
+          label={plural(t.cards, 'waitingForSignature', data.cards.reportsWaitingForSignature)}
           tone="neutral"
           href={
             firstToSign && shell.canSign && !paused
@@ -208,7 +216,7 @@ export async function DashboardScreen({
         />
         <Stat
           n={data.cards.filingsAcceptedThisYear}
-          label={t.cards.acceptedThisYear}
+          label={plural(t.cards, 'acceptedThisYear', data.cards.filingsAcceptedThisYear)}
           tone="success"
         />
       </div>

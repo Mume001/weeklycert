@@ -1,7 +1,7 @@
 // Imports over the fixtures (spec/03 §4.7, spec/06, session I): a file through
 // the four steps into the grid, and back out with undo.
 import { dec } from '@wc/core'
-import type { Table } from '@wc/core/import'
+import { readUpload, type Table } from '@wc/core/import'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { getRepositories } from '../src/index.ts'
 import { db, resetMockDb } from '../src/mock/db.ts'
@@ -363,4 +363,63 @@ describe('06 §6: our template for the week', () => {
     const draft = await throughCheck(id)
     expect(draft.check?.counts).toMatchObject({ total: active.length * 7, error: 0 })
   })
+})
+
+describe('06 §6: the payroll template carries the pay date (spec/01 §2.9)', () => {
+  // The column names of packages/copy (imports.mapping.targets).
+  const headers = {
+    worker: 'Worker',
+    gross: 'Gross for all work',
+    net: 'Net pay',
+    payDate: 'Pay date',
+    'deduction:federal_tax': 'Federal income tax',
+  }
+
+  for (const format of ['csv', 'xlsx'] as const) {
+    it(`${format}: filled with a pay date, it imports and writes the date on confirm`, async () => {
+      const file = await repos.imports.template(TENANT, DUTCHESS, OPEN_WEEK, {
+        kind: 'payroll',
+        format,
+        headers,
+      })
+      if (!file) throw new Error('fixture')
+      const read = await readUpload(file.body)
+      if (!read.ok) throw new Error(read.reason)
+      expect(read.table.headers).toContain('Pay date')
+      const at = (name: string) => read.table.headers.indexOf(name)
+      // Every worker's gross, and the one pay date of the week.
+      const rows = read.table.rows.map((r) => {
+        const row = [...r]
+        row[at('Gross for all work')] = '1000.00'
+        row[at('Pay date')] = '09/17/2026'
+        return row
+      })
+      const id = await repos.imports.start(
+        TENANT,
+        OWNER,
+        {
+          kind: 'payroll',
+          source: 'weeklycert_template',
+          projectId: DUTCHESS,
+          weekEnding: OPEN_WEEK,
+        },
+        { name: file.name, sha256: `pay-${format}`, table: { ...read.table, rows } },
+      )
+      const draft = await throughCheck(id)
+      // The column maps by itself.
+      expect(draft.fields.find((f) => f.target === 'payDate')).toMatchObject({
+        column: at('Pay date'),
+        confidence: 'sure',
+      })
+      expect(draft.check?.counts.error).toBe(0)
+      await repos.imports.confirmCheck(TENANT, id, false)
+      expect((await repos.imports.draft(TENANT, id)).payDate).toEqual({
+        inFile: '2026-09-17',
+        current: '2026-09-18',
+      })
+      expect((await repos.imports.apply(TENANT, id, OWNER)).ok).toBe(true)
+      const review = await repos.weeks.review(TENANT, DUTCHESS, OPEN_WEEK)
+      expect(review?.period.payDate).toEqual({ date: '2026-09-17', source: 'week' })
+    })
+  }
 })

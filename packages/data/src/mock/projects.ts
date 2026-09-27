@@ -35,7 +35,7 @@ import type {
 import { parseOtCodes } from '../dto/project-classifications.ts'
 import { displayStatusOf, lockedReasonOf } from '../dto/week-grid.ts'
 import { mockToday } from './clock.ts'
-import { db } from './db.ts'
+import { db, NY_PORTAL } from './db.ts'
 import { ensurePeriod, weekGrid } from './week-grid.ts'
 
 type ProjectRow = (typeof db.projects)[number]
@@ -128,7 +128,9 @@ function weekOf(
     }
   }
 
-  const outcome = db.submissions.find((s) => s.periodId === row.id)?.outcome
+  const outcome = db.submissions.find(
+    (s) => s.periodId === row.id && s.channel === NY_PORTAL,
+  )?.outcome
   if (row.summary) {
     const total = row.summary.totalHours
     return {

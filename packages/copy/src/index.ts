@@ -585,10 +585,14 @@ export const copy = {
     title: '{Weekday}, {Month} {D}',
     subtitle: 'week ending {WeekEndDay} {Month} {D}',
     cards: {
-      pastDeadline: 'project past the 30-day deadline',
-      waitingForHours: 'weeks waiting for hours',
-      waitingForSignature: 'report waiting for signature',
-      acceptedThisYear: 'filings accepted this year',
+      pastDeadline_one: 'project past the 30-day deadline',
+      pastDeadline_other: 'projects past the 30-day deadline',
+      waitingForHours_one: 'week waiting for hours',
+      waitingForHours_other: 'weeks waiting for hours',
+      waitingForSignature_one: 'report waiting for signature',
+      waitingForSignature_other: 'reports waiting for signature',
+      acceptedThisYear_one: 'filing accepted this year',
+      acceptedThisYear_other: 'filings accepted this year',
     },
     deadlines: {
       title: 'State filing deadlines',
@@ -605,9 +609,9 @@ export const copy = {
       title_one: '{Project} is {n} day past its 30-day state deadline',
       title_other: '{Project} is {n} days past its 30-day state deadline',
       grace_one:
-        'NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} day of grace left.',
+        'NYSDOL can assess $100 per day once a filing is more than 14 days late. You have {n} day of grace left.',
       grace_other:
-        'NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} days of grace left.',
+        'NYSDOL can assess $100 per day once a filing is more than 14 days late. You have {n} days of grace left.',
       penalty:
         'The 14 days of grace are over. NYSDOL can assess $100 for each day the filing is late.',
     },
@@ -893,6 +897,15 @@ export const copy = {
     toPrime: {
       record: 'Record as sent to the general contractor',
       email: 'Email',
+    },
+    wh347: {
+      title: 'Federal WH-347',
+      note: 'The WH-347 goes to the contracting agency or the general contractor within 7 days of the pay date. The NYSDOL filing does not count for it.',
+      sentTo: 'Sent to',
+      sentToHint: 'The agency or the general contractor.',
+      record: 'Record WH-347 sent',
+      sent: 'WH-347 sent to {recipient} on {date}.',
+      required: 'Say who the WH-347 went to.',
     },
     correction: {
       note: 'A correction is a new version of this week. The old one stays.',

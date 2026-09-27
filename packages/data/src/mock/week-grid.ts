@@ -17,7 +17,7 @@ import {
 import type { GridRow, IsoDate, Uuid, WeekGridDTO } from '../dto/index.ts'
 import { displayStatusOf, gridRowFromLine, lockedReasonOf } from '../dto/week-grid.ts'
 import { mockToday } from './clock.ts'
-import { db } from './db.ts'
+import { db, NY_PORTAL } from './db.ts'
 
 /**
  * Cells edited during this run of the demo. The fixtures on disk stay as they
@@ -328,7 +328,9 @@ function expectedNumbers(projectId: Uuid): Map<IsoDate, number> {
 /** The engine result, shaped into what the screen reads (spec/19 §3). */
 export function toWeekGridDTO(input: WeekInput, result: WeekResult): WeekGridDTO {
   const projectRow = db.projects.find((p) => p.id === input.project.id)
-  const submission = db.submissions.find((s) => s.periodId === input.period.id)
+  const submission = db.submissions.find(
+    (s) => s.periodId === input.period.id && s.channel === NY_PORTAL,
+  )
   const hard = result.findings.filter((f) => f.severity === 'hard').length
   const outcome = submission?.outcome
   const lockedReason = lockedReasonOf(input.period.status)

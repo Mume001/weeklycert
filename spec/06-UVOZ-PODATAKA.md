@@ -143,6 +143,11 @@ validacijom ćelija (padajuće liste radnika i klasifikacija se generišu po fir
 na dugme "Preuzmi šablon za ovu sedmicu", s već upisanim datumima). Kupac popuni
 i uploaduje; profil je ugrađen pa nema mapiranja.
 
+Šablon platne liste ima i kolonu `Pay date` (naziv iz packages/copy, pa se
+mapira sam). Kad je popunjena, datum se upisuje na potvrdu uvoza kao datum
+isplate sedmice (01 §2.9), s istim poređenjem kao iz bilo kojeg fajla (Mume,
+27.9.2026).
+
 ## 7. Kasnije (ne sada)
 
 - Direktne integracije: QuickBooks Time API (OAuth), Gusto API, ADP Marketplace.

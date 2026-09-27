@@ -183,7 +183,7 @@ export type ReportVersion = z.infer<typeof ReportVersionSchema>
 export const SubmissionDTOSchema = z.object({
   id: UuidSchema,
   version: z.number().int().positive().nullable(),
-  channel: z.enum(['ny_portal_manual', 'email_to_prime', 'portal_other', 'download_only']),
+  channel: z.enum(['ny_portal_manual', 'wh347', 'email_to_prime', 'portal_other', 'download_only']),
   submittedAt: IsoDateTimeSchema,
   confirmationRef: z.string().nullable(),
   outcome: SubmissionOutcomeSchema,

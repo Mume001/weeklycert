@@ -24,7 +24,13 @@ import {
 import { formatClock, formatDate } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
-import { CreateCorrection, PortalResponse, RecordFiling, SendToPrime } from './FilingForms'
+import {
+  CreateCorrection,
+  PortalResponse,
+  RecordFiling,
+  RecordWh347,
+  SendToPrime,
+} from './FilingForms'
 import { weekMeta } from './ReviewScreen'
 
 const t = copy.reports
@@ -88,6 +94,7 @@ export async function ReportsScreen({
   const versions = forced === 'empty' ? [] : data.versions
   const filings = data.submissions.filter((s) => s.channel === 'ny_portal_manual')
   const latestFiling = filings[0]
+  const wh347 = data.submissions.filter((s) => s.channel === 'wh347')
 
   if (data.period.isNoWork) {
     return frame(
@@ -214,6 +221,11 @@ export async function ReportsScreen({
       {canWrite && latestFiling && latestFiling.outcome === 'pending' && (
         <PortalResponse slug={slug} submission={latestFiling} />
       )}
+      {data.project.federallyFunded &&
+        data.period.payrollNumber !== null &&
+        (canWrite || wh347.length > 0) && (
+          <RecordWh347 readOnly={!canWrite} slug={slug} periodId={data.period.id} sent={wh347} />
+        )}
       {canWrite && versions.length > 0 && <SendToPrime slug={slug} periodId={data.period.id} />}
       {canWrite && data.period.lockedReason !== null && (
         <CreateCorrection slug={slug} periodId={data.period.id} weekHref={week} />

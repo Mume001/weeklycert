@@ -2,7 +2,7 @@
 // week, with what happened to it. One row is one version; the filters are the
 // ones an auditor asks with ("everything for PRC 2010008390 in 2026").
 import type { ArchiveDTO, ArchiveFilter, ArchiveRowDTO, ArchiveStatus, Uuid } from '../dto/index.ts'
-import { db } from './db.ts'
+import { db, NY_PORTAL } from './db.ts'
 import { SAMPLE_NY_XML } from './fixtures/sample-ny-payroll.ts'
 import { storedZip } from './zip.ts'
 
@@ -10,7 +10,7 @@ type ReportRow = (typeof db.reports)[number]
 
 export function statusOf(r: ReportRow): ArchiveStatus {
   if (r.status === 'superseded') return 'corrected'
-  const submission = db.submissions.find((s) => s.reportId === r.id)
+  const submission = db.submissions.find((s) => s.reportId === r.id && s.channel === NY_PORTAL)
   if (submission?.outcome === 'rejected') return 'rejected'
   return submission ? 'submitted' : 'signed'
 }
@@ -23,7 +23,7 @@ function allRows(tenantId: Uuid): ArchiveRowDTO[] {
       const period = db.periods.find((p) => p.id === r.periodId)
       const project = period && db.projects.find((p) => p.id === period.projectId)
       if (!period || !project) return []
-      const submission = db.submissions.find((s) => s.reportId === r.id)
+      const submission = db.submissions.find((s) => s.reportId === r.id && s.channel === NY_PORTAL)
       return [
         {
           reportId: r.id,

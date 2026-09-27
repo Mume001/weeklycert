@@ -12,11 +12,13 @@ import { useState, useTransition } from 'react'
 import { FormField, fieldIds } from '@/components/patterns/FormField'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { formatDate } from '@/lib/format'
 import {
   createCorrectionAction,
   recordOutcomeAction,
   recordSentToPrimeAction,
   recordSubmissionAction,
+  recordWh347Action,
 } from './actions'
 
 const t = copy.reports
@@ -154,6 +156,74 @@ export function SendToPrime({ slug, periodId }: { slug: string; periodId: string
           {t.toPrime.record}
         </Button>
       </div>
+    </Card>
+  )
+}
+
+export function RecordWh347({
+  slug,
+  periodId,
+  sent,
+  readOnly,
+}: {
+  slug: string
+  periodId: string
+  /** WH-347s already recorded for this week, newest first. */
+  sent: SubmissionDTO[]
+  readOnly: boolean
+}) {
+  const router = useRouter()
+  const [pending, start] = useTransition()
+  const [sentTo, setSentTo] = useState('')
+  const [error, setError] = useState<string | undefined>(undefined)
+  const w = t.wh347
+
+  return (
+    <Card title={w.title}>
+      <p className="text-sm text-text-secondary">{w.note}</p>
+      {sent.length > 0 && (
+        <ul className="grid gap-1 text-sm" data-testid="wh347-sent">
+          {sent.map((s) => (
+            <li key={s.id}>
+              {fill(w.sent, {
+                recipient: s.recipient ?? '',
+                date: formatDate(s.submittedAt.slice(0, 10)),
+              })}
+            </li>
+          ))}
+        </ul>
+      )}
+      {!readOnly && (
+        <div className="flex flex-wrap items-end gap-3">
+          <div className="min-w-[260px]">
+            <FormField id="wh347-to" label={w.sentTo} hint={w.sentToHint} error={error}>
+              <Input
+                {...fieldIds('wh347-to', w.sentToHint, error)}
+                value={sentTo}
+                onChange={(e) => setSentTo(e.target.value)}
+              />
+            </FormField>
+          </div>
+          <Button
+            variant="secondary"
+            disabled={pending}
+            onClick={() =>
+              start(async () => {
+                const result = await recordWh347Action(slug, periodId, sentTo)
+                if (!result.ok) {
+                  setError(w.required)
+                  return
+                }
+                setError(undefined)
+                setSentTo('')
+                router.refresh()
+              })
+            }
+          >
+            {w.record}
+          </Button>
+        </div>
+      )}
     </Card>
   )
 }

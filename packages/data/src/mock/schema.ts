@@ -320,7 +320,7 @@ export const SubmissionRow = z.object({
   periodId: UuidSchema,
   /** Null for a no-work week: nothing is uploaded, the box is ticked in the portal. */
   reportId: UuidSchema.nullable(),
-  channel: z.enum(['ny_portal_manual', 'email_to_prime', 'portal_other', 'download_only']),
+  channel: z.enum(['ny_portal_manual', 'wh347', 'email_to_prime', 'portal_other', 'download_only']),
   submittedAt: IsoDateTimeSchema,
   submittedBy: UuidSchema,
   confirmationRef: z.string().nullable(),

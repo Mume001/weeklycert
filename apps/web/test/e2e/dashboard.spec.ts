@@ -37,7 +37,8 @@ test('what is on fire this week, with no console or a11y errors', async ({ page 
   await page.goto(DASHBOARD)
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Tuesday, September 15')
 
-  await expect(page.getByText('weeks waiting for hours')).toBeVisible()
+  // One week, so the singular (15 §1 rule 11).
+  await expect(page.getByText('week waiting for hours', { exact: true })).toBeVisible()
   await expect(page.getByText('filings accepted this year')).toBeVisible()
   // Nothing waits for a signature in the fixtures, so the card is not a link.
   await expect(page.getByRole('link', { name: /report waiting for signature/ })).toHaveCount(0)
@@ -84,7 +85,7 @@ test('the main action: open a week to close, by keyboard', async ({ page }) => {
 test('the pay date of a week: the company setting, or one entered on the review', async ({
   page,
 }) => {
-  // Dutchess, because its open week has hours; Kingston's has none, so no review.
+  // A week with hours; the week without any is the next test.
   const review = `${APP}/projects/${DUTCHESS}/weeks/2026-09-12/review`
   await page.goto(review)
   const field = page.getByLabel('Pay date')
@@ -100,6 +101,28 @@ test('the pay date of a week: the company setting, or one entered on the review'
   await page.getByRole('button', { name: 'Use the company setting' }).click()
   await expect(page.getByText(/^From the company setting\./)).toBeVisible()
   await expect(field).toHaveValue('2026-09-18')
+})
+
+test('a week without hours takes a pay date too, and the dashboard says where it came from', async ({
+  page,
+}) => {
+  const review = `${APP}/projects/${KINGSTON}/weeks/2026-09-12/review`
+  await page.goto(review)
+  await expect(page.getByText(/^No hours yet for this week\./)).toBeVisible()
+  await page.getByLabel('Pay date').fill('2026-09-16')
+  await page.getByRole('button', { name: 'Save pay date' }).click()
+  await expect(page.getByText('Pay date saved.')).toBeVisible()
+
+  await page.goto(DASHBOARD)
+  const row = page.getByTestId('federal-row').filter({ hasText: 'W/E Sep 12' })
+  await expect(row).toContainText('paid Sep 16')
+  await expect(row).toContainText('Pay date entered for this week')
+  await expect(row).toContainText('8 days left')
+
+  // Back to the company setting, as the fixtures had it.
+  await page.goto(review)
+  await page.getByRole('button', { name: 'Use the company setting' }).click()
+  await expect(page.getByText(/^From the company setting\./)).toBeVisible()
 })
 
 test('the viewer reads the dashboard, and gets "Open week" in place of "Enter hours"', async ({
@@ -171,4 +194,22 @@ test('/app goes to the only company, or to /firms when there are more', async ({
   await expect(page).toHaveURL('/firms')
   await page.goto(DASHBOARD)
   await switchRole(page, 'Owner')
+})
+
+// Last in the file: it leaves Kingston's 5 September WH-347 recorded.
+test('a WH-347 sent closes the federal row, and leaves the NYSDOL week open', async ({ page }) => {
+  await page.goto(`${APP}/projects/${KINGSTON}/weeks/2026-09-05/reports`)
+  await expect(page.getByText(/^The WH-347 goes to the contracting agency/)).toBeVisible()
+  await page.getByRole('button', { name: 'Record WH-347 sent' }).click()
+  await expect(page.getByText('Say who the WH-347 went to.')).toBeVisible()
+  await page.getByLabel('Sent to').fill('Ulster County DPW')
+  await page.getByRole('button', { name: 'Record WH-347 sent' }).click()
+  await expect(page.getByTestId('wh347-sent')).toHaveText(
+    'WH-347 sent to Ulster County DPW on Sep 15, 2026.',
+  )
+
+  await page.goto(DASHBOARD)
+  await expect(page.getByTestId('federal-row')).toHaveText([/W\/E Sep 12/])
+  const kingston = page.getByTestId('deadline-row').filter({ hasText: 'Kingston' })
+  await expect(kingston).toContainText('Sep 5, Sep 12')
 })

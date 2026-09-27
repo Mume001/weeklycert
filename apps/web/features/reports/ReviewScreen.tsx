@@ -101,11 +101,22 @@ export async function ReviewScreen({
   const paused = isReadOnlyCompany(shell.tenant)
   const empty = forced === 'empty' || data.period.isNoWork || data.workers.length === 0
 
+  const payDate = (
+    <PayDateForm
+      slug={slug}
+      periodId={data.period.id}
+      payDate={data.period.payDate}
+      readOnly={!canEdit}
+    />
+  )
+
   // A week with no work is not filed as a file at all (spec/05 §3.4); a week
-  // that simply has no hours yet is a different thing and says so.
+  // that simply has no hours yet is a different thing and says so. The pay
+  // date is there either way: the WH-347 deadline counts from it (01 §2.9).
   if (empty) {
     return frame(
       <>
+        {payDate}
         {data.period.isNoWork && (
           <Notice tone="info" title={copy.submit.noWorkTitle}>
             {copy.submit.noWorkBody}
@@ -187,12 +198,7 @@ export async function ReviewScreen({
               </div>
             </div>
 
-            <PayDateForm
-              slug={slug}
-              periodId={data.period.id}
-              payDate={data.period.payDate}
-              readOnly={!canEdit}
-            />
+            {payDate}
             <ReviewSummary workers={data.workers} showPayroll={shell.role !== 'viewer'} />
             {shell.role !== 'viewer' && (
               <PayrollSection

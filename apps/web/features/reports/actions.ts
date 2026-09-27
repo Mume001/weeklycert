@@ -120,6 +120,24 @@ export async function recordSentToPrimeAction(
   refresh()
 }
 
+/** The WH-347, tracked apart from the NYSDOL filing (spec/04 submissions.channel). */
+export async function recordWh347Action(
+  slug: string,
+  periodId: string,
+  sentTo: string,
+): Promise<{ ok: boolean }> {
+  const shell = await requireTenant(slug, PROJECT_WRITERS)
+  const recipient = z.string().trim().parse(sentTo)
+  if (recipient === '') return { ok: false }
+  await getRepositories().reports.recordSubmission(shell.tenant.id, periodId, {
+    channel: 'wh347',
+    confirmationRef: '',
+    recipient,
+  })
+  refresh()
+  return { ok: true }
+}
+
 export async function recordOutcomeAction(
   slug: string,
   submissionId: string,

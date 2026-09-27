@@ -82,6 +82,49 @@ describe('the deadlines (spec/03 §4.3 point 1, 05 §2)', () => {
   })
 })
 
+describe('a project both state and federal: two filings, tracked apart (04 submissions)', () => {
+  const SEP_5 = '2026-09-05'
+  const nyUnfiled = async () =>
+    (await repos.dashboard.get(HUDSON)).deadlines.find((d) => d.projectId === KINGSTON)
+      ?.unfiledWeeks
+  const federalWeeks = async () =>
+    (await repos.dashboard.get(HUDSON)).federal.map((f) => f.weekEnding)
+
+  it('the NYSDOL filing does not close the WH-347', async () => {
+    const week = await repos.weeks.review(HUDSON, KINGSTON, SEP_5)
+    if (!week) throw new Error('fixture')
+    await repos.reports.recordSubmission(HUDSON, week.period.id, {
+      channel: 'ny_portal_manual',
+      confirmationRef: 'A870555',
+    })
+    expect(await nyUnfiled()).toEqual(['2026-09-12'])
+    expect(await federalWeeks()).toEqual([SEP_5, '2026-09-12'])
+    // The portal accepts it: the 30 days move, the WH-347 is still owed.
+    const filed = await repos.reports.list(HUDSON, KINGSTON, SEP_5)
+    const ny = filed?.submissions.find((s) => s.channel === 'ny_portal_manual')
+    await repos.reports.recordOutcome(HUDSON, ny?.id ?? '', 'accepted', '')
+    const dto = await repos.dashboard.get(HUDSON)
+    expect(dto.deadlines.find((d) => d.projectId === KINGSTON)?.lastAcceptedAt).toBe('2026-09-15')
+    expect(dto.federal.map((f) => f.weekEnding)).toEqual([SEP_5, '2026-09-12'])
+  })
+
+  it('the WH-347 does not close the NYSDOL week, nor move its 30 days', async () => {
+    const week = await repos.weeks.review(HUDSON, KINGSTON, SEP_5)
+    if (!week) throw new Error('fixture')
+    await repos.reports.recordSubmission(HUDSON, week.period.id, {
+      channel: 'wh347',
+      confirmationRef: '',
+      recipient: 'Ulster County DPW',
+    })
+    expect(await federalWeeks()).toEqual(['2026-09-12'])
+    expect(await nyUnfiled()).toEqual([SEP_5, '2026-09-12'])
+    const dto = await repos.dashboard.get(HUDSON)
+    expect(dto.deadlines.find((d) => d.projectId === KINGSTON)?.lastAcceptedAt).toBe('2026-09-02')
+    const list = await repos.reports.list(HUDSON, KINGSTON, SEP_5)
+    expect(list?.submissions[0]).toMatchObject({ channel: 'wh347', recipient: 'Ulster County DPW' })
+  })
+})
+
 describe('the cards and the lists', () => {
   it('has the four numbers of the fixtures', async () => {
     expect((await repos.dashboard.get(HUDSON)).cards).toEqual({

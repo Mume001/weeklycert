@@ -214,6 +214,9 @@ UI prikazuje "Fringe OK" ili "manjak 5,00 $/h, oko 200 $ ove sedmice".
   sedmice). Odluka Mume, 27.9.2026.
 - Kontrolna tabla uz rok kaže i odakle je datum: iz postavke firme ili unesen za
   tu sedmicu.
+- Rok WH-347 se zatvara samo bilježenjem WH-347 poslanog agenciji ili glavnom
+  izvođaču (`submissions.channel = wh347`, 04). Predaja na NYSDOL portal ga ne
+  zatvara, i obrnuto: projekat koji je i državni i federalni ima oba roka.
 
 ## 3. Odluke o nadnicama: odakle podaci
 
