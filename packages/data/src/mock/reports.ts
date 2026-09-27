@@ -35,6 +35,7 @@ import { displayStatusOf, lockedReasonOf } from '../dto/week-grid.ts'
 import { mockNow } from './clock.ts'
 import { db, NY_PORTAL } from './db.ts'
 import { SAMPLE_NY_XML } from './fixtures/sample-ny-payroll.ts'
+import { audit } from './settings.ts'
 import { buildWeekInput, ensurePeriod, setPayroll, weekGrid } from './week-grid.ts'
 
 type PeriodRow = (typeof db.periods)[number]
@@ -407,6 +408,7 @@ export function sign(
       old.status = 'superseded'
     }
   }
+  audit(tenantId, userId, 'signature', 'report.sign', `${project.name}, ${row.weekEnding}`)
   return { payrollNumber }
 }
 

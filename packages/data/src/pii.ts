@@ -87,6 +87,35 @@ export function readPii(
   return value
 }
 
+/**
+ * Every worker's details for "Export everything" (spec/03 §4.9): one
+ * pii_access_log row per worker with purpose export, never the values.
+ */
+type PiiRow = (typeof db.workerPii)[number]
+export type PiiExport = Pick<PiiRow, 'ssnLast4' | 'dateOfBirth' | 'address' | 'phone'>
+
+export function exportPii(tenantId: Uuid, userId: Uuid): Map<Uuid, PiiExport> {
+  const out = new Map<Uuid, PiiExport>()
+  for (const row of db.workerPii.filter((r) => r.tenantId === tenantId)) {
+    if (!ownWorker(tenantId, row.workerId)) continue
+    out.set(row.workerId, {
+      ssnLast4: row.ssnLast4,
+      dateOfBirth: row.dateOfBirth,
+      address: row.address,
+      phone: row.phone,
+    })
+    db.piiAccessLog.push({
+      tenantId,
+      userId,
+      workerId: row.workerId,
+      fields: ['ssnLast4', 'dateOfBirth', 'address', 'phone'],
+      purpose: 'export',
+      at: mockNow(),
+    })
+  }
+  return out
+}
+
 /** Writes the parts the form sent; a part left undefined stays as it is. */
 export function writePii(
   tenantId: Uuid,

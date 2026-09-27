@@ -31,6 +31,11 @@ const REPORT = '0192c000-0000-7000-8000-000000000001'
 const SUBMISSION = '0192d000-0000-7000-8000-000000000001'
 /** A member of company A only. */
 const USER_OF_A = '01922000-0000-7000-8000-000000000004'
+/** The outside bookkeeper, a member of both: a real member of B asking for A's rows. */
+const IN_BOTH = '01922000-0000-7000-8000-000000000006'
+const VIEWER_MEMBERSHIP_OF_A = '01923000-0000-7000-8000-000000000005'
+const BOOKKEEPER_MEMBERSHIP_OF_A = '01923000-0000-7000-8000-000000000006'
+const SIGNER_OF_A = '0192f000-0000-7000-8000-000000000001'
 const HOURS_TABLE = {
   headers: ['Employee', 'Date', 'Hours'],
   rows: [['1021', '09/08/2026', '8']],
@@ -50,6 +55,14 @@ async function batchOfA(r: Repositories): Promise<string> {
     { kind: 'hours', source: 'other', projectId: PROJECT, weekEnding: OPEN_WEEK },
     { name: 'a.csv', sha256: 'a', table: HOURS_TABLE },
   )
+}
+
+/** Company A's invitation, made as A before the snapshot. */
+async function invitationOfA(r: Repositories): Promise<string> {
+  const existing = db.invitations.find((i) => i.tenantId === A)
+  if (existing) return existing.id
+  await r.settings.invite(A, USER_OF_A, { email: 'invited@example.test', role: 'payroll' })
+  return db.invitations.find((i) => i.tenantId === A)?.id ?? ''
 }
 
 /**
@@ -186,6 +199,30 @@ const PROBES: Record<string, (r: Repositories) => Promise<unknown>> = {
       headers: [],
       statuses: { signed: '', submitted: '', rejected: '', corrected: '' },
     }),
+  'settings.invite': (r) =>
+    r.settings.invite(B, USER_OF_A, { email: 'someone@example.test', role: 'payroll' }),
+  'settings.revokeInvitation': async (r) =>
+    r.settings.revokeInvitation(B, IN_BOTH, await invitationOfA(r)),
+  'settings.changeRole': (r) => r.settings.changeRole(B, IN_BOTH, VIEWER_MEMBERSHIP_OF_A, 'admin'),
+  'settings.removeMember': (r) => r.settings.removeMember(B, IN_BOTH, VIEWER_MEMBERSHIP_OF_A),
+  'settings.addSigner': (r) =>
+    r.settings.addSigner(B, IN_BOTH, { userId: USER_OF_A, fullName: 'Taken over', title: 'X' }),
+  'settings.setSignerActive': (r) => r.settings.setSignerActive(B, IN_BOTH, SIGNER_OF_A, false),
+  'settings.setBookkeeperCanSign': (r) =>
+    r.settings.setBookkeeperCanSign(B, IN_BOTH, BOOKKEEPER_MEMBERSHIP_OF_A, true),
+  'settings.pause': (r) => r.settings.pause(B, USER_OF_A, 1),
+  'settings.unpause': (r) => r.settings.unpause(B, USER_OF_A),
+  'settings.cancel': (r) => r.settings.cancel(B, USER_OF_A, { reason: 'price', note: '' }),
+  'settings.keepSubscription': (r) => r.settings.keepSubscription(B, USER_OF_A),
+  'settings.setCompanyExtras': (r) =>
+    r.settings.setCompanyExtras(B, USER_OF_A, { timezone: 'America/Denver' }),
+  'settings.exportAll': (r) =>
+    r.settings.exportAll(B, USER_OF_A, {
+      readme: 'x',
+      headers: [],
+      statuses: { signed: '', submitted: '', rejected: '', corrected: '' },
+    }),
+  'settings.requestDeletion': (r) => r.settings.requestDeletion(B, USER_OF_A),
   'imports.template': (r) =>
     r.imports.template(B, PROJECT, OPEN_WEEK, { kind: 'hours', format: 'csv', headers: {} }),
 }
@@ -267,6 +304,7 @@ describe("company B asking for company A's rows", () => {
     if (!probe) throw new Error(method)
     // An import probe needs A's batch to exist before the snapshot.
     if (method.startsWith('imports.')) await batchOfA(repos)
+    if (method === 'settings.revokeInvitation') await invitationOfA(repos)
     const before = JSON.stringify(db)
     const gridBefore = JSON.stringify(weekGrid(PROJECT, OPEN_WEEK))
 

@@ -7,10 +7,20 @@ import type { MembershipRole } from '@wc/data/dto'
 import { describe, expect, it } from 'vitest'
 import {
   ARCHIVE_FILE_READERS,
+  AUDIT_READERS,
+  BILLING_ROLES,
+  COMPANY_WRITERS,
+  DATA_OWNERS,
   FRINGE_ALLOCATION_WRITERS,
+  MEMBER_MANAGERS,
+  MEMBER_REMOVERS,
+  NOTIFICATION_READERS,
+  NOTIFICATION_WRITERS,
   PII_READERS,
   PROJECT_WRITERS,
+  SIGNER_MANAGERS,
 } from './session'
+import { settingsSections } from './settings-sections'
 
 // A plain path, not new URL(): under jsdom the global URL is jsdom's.
 const here = dirname(fileURLToPath(import.meta.url))
@@ -77,5 +87,68 @@ describe('spec/02 §3 and the role lists agree', () => {
     expect(cells.viewer).toContain('od koraka 5')
     // XML, CSV and the export: every role but the viewer, and until step 5 there is no PDF.
     expect([...ARCHIVE_FILE_READERS].sort()).toEqual(ROLES.filter((r) => r !== 'viewer').sort())
+  })
+
+  // Settings, session L (spec/03 §4.9): one list per row.
+  const sorted = (xs: readonly MembershipRole[]) => [...xs].sort()
+  const having = (resource: string, letter: string) =>
+    ROLES.filter((r) => row(resource)[r].includes(letter)).sort()
+
+  it('the company profile is written by COMPANY_WRITERS and read by every role', () => {
+    expect(sorted(COMPANY_WRITERS)).toEqual(writers('Firma: profil, FEIN, registracija').sort())
+    expect(having('Firma: profil, FEIN, registracija', 'R')).toEqual(sorted(ROLES))
+  })
+
+  it('members are managed by MEMBER_MANAGERS, removed only by MEMBER_REMOVERS', () => {
+    expect(sorted(MEMBER_MANAGERS)).toEqual(
+      writers('Članovi: pozvati, ukloniti, promijeniti ulogu').sort(),
+    )
+    expect(sorted(MEMBER_REMOVERS)).toEqual(
+      having('Članovi: pozvati, ukloniti, promijeniti ulogu', 'D'),
+    )
+  })
+
+  it('signers are kept by SIGNER_MANAGERS, the bookkeeper switch by the owner', () => {
+    const resource = 'Potpisnici: ko potpisuje, ime i naziv na izjavi'
+    expect(sorted(SIGNER_MANAGERS)).toEqual(writers(resource).sort())
+    expect(row(resource).admin).toContain('bez prekidača za knjigovođu')
+  })
+
+  it('billing, and deleting or exporting the company, are the owner alone', () => {
+    expect(sorted(BILLING_ROLES)).toEqual(
+      having('Naplata: plan, kartica, računi, pauza, otkaz', 'R'),
+    )
+    expect(sorted(DATA_OWNERS)).toEqual(having('Firma: brisanje, izvoz svega', 'D'))
+  })
+
+  it('the audit log is read by AUDIT_READERS', () => {
+    expect(sorted(AUDIT_READERS)).toEqual(having('Audit log firme', 'R'))
+  })
+
+  it('notifications: NOTIFICATION_WRITERS change them, the rest read their own', () => {
+    const resource = 'Podsjetnici i obavještenja'
+    expect(sorted(NOTIFICATION_WRITERS)).toEqual(writers(resource).sort())
+    expect(sorted(NOTIFICATION_READERS)).toEqual(having(resource, 'R'))
+  })
+
+  it('hides every settings page a role may not open, and the viewer has none (02 §5)', () => {
+    expect(settingsSections('viewer')).toEqual([])
+    expect(settingsSections('payroll')).toEqual(['company', 'notifications'])
+    expect(settingsSections('owner')).toEqual([
+      'company',
+      'team',
+      'signers',
+      'billing',
+      'notifications',
+      'audit',
+      'data',
+    ])
+    expect(settingsSections('admin')).toEqual([
+      'company',
+      'team',
+      'signers',
+      'notifications',
+      'audit',
+    ])
   })
 })

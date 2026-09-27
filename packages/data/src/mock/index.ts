@@ -56,6 +56,7 @@ import {
   sign,
   signerFor,
 } from './reports.ts'
+import * as settings from './settings.ts'
 import {
   buildWeekInput,
   copyPreviousWeek,
@@ -481,5 +482,96 @@ export const mockRepositories: Repositories = {
       return exportArchive(tenantId, projectId, texts)
     },
   },
+  settings: {
+    async team(tenantId) {
+      await delay('settings.team')
+      return settings.team(tenantId)
+    },
+    async invite(tenantId, actorUserId, input) {
+      await delay('settings.invite')
+      return settings.invite(tenantId, actorUserId, input)
+    },
+    async revokeInvitation(tenantId, actorUserId, invitationId) {
+      await delay('settings.revokeInvitation')
+      settings.revokeInvitation(tenantId, actorUserId, invitationId)
+    },
+    async changeRole(tenantId, actorUserId, membershipId, role) {
+      await delay('settings.changeRole')
+      settings.changeRole(tenantId, actorUserId, membershipId, role)
+    },
+    async removeMember(tenantId, actorUserId, membershipId) {
+      await delay('settings.removeMember')
+      settings.removeMember(tenantId, actorUserId, membershipId)
+    },
+    async signers(tenantId) {
+      await delay('settings.signers')
+      return settings.signers(tenantId)
+    },
+    async addSigner(tenantId, actorUserId, input) {
+      await delay('settings.addSigner')
+      settings.addSigner(tenantId, actorUserId, input)
+    },
+    async setSignerActive(tenantId, actorUserId, signerId, active) {
+      await delay('settings.setSignerActive')
+      settings.setSignerActive(tenantId, actorUserId, signerId, active)
+    },
+    async setBookkeeperCanSign(tenantId, actorUserId, membershipId, canSign) {
+      await delay('settings.setBookkeeperCanSign')
+      settings.setBookkeeperCanSign(tenantId, actorUserId, membershipId, canSign)
+    },
+    async billing(tenantId) {
+      await delay('settings.billing')
+      return settings.billing(tenantId)
+    },
+    async pause(tenantId, actorUserId, months) {
+      await delay('settings.pause')
+      settings.pause(tenantId, actorUserId, months)
+    },
+    async unpause(tenantId, actorUserId) {
+      await delay('settings.unpause')
+      settings.unpause(tenantId, actorUserId)
+    },
+    async cancel(tenantId, actorUserId, input) {
+      await delay('settings.cancel')
+      settings.cancel(tenantId, actorUserId, input)
+    },
+    async keepSubscription(tenantId, actorUserId) {
+      await delay('settings.keepSubscription')
+      settings.keepSubscription(tenantId, actorUserId)
+    },
+    async notifications(tenantId) {
+      await delay('settings.notifications')
+      return settings.notifications(tenantId)
+    },
+    async saveNotifications(tenantId, input) {
+      await delay('settings.saveNotifications')
+      settings.saveNotifications(tenantId, input)
+    },
+    async setSms(tenantId, input, consentText) {
+      await delay('settings.setSms')
+      settings.setSms(tenantId, input, consentText)
+    },
+    async auditLog(tenantId, filter) {
+      await delay('settings.auditLog')
+      return settings.auditLog(tenantId, filter)
+    },
+    async companyExtras(tenantId) {
+      await delay('settings.companyExtras')
+      return settings.companyExtras(tenantId)
+    },
+    async setCompanyExtras(tenantId, actorUserId, input) {
+      await delay('settings.setCompanyExtras')
+      settings.setCompanyExtras(tenantId, actorUserId, input)
+    },
+    async exportAll(tenantId, actorUserId, texts) {
+      await delay('settings.exportAll')
+      return settings.exportAll(tenantId, actorUserId, texts)
+    },
+    async requestDeletion(tenantId, actorUserId) {
+      await delay('settings.requestDeletion')
+      settings.requestDeletion(tenantId, actorUserId)
+    },
+  },
+
   admin: { health: later('admin.health', 'E (admin, 03 §5 item 12)') },
 }

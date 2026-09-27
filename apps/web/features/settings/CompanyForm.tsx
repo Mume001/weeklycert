@@ -21,7 +21,8 @@ const c = copy.onboarding.company
 const fields = c.fields
 
 /**
- * Step 1, the company (spec/03 §4.3, spec/04 tenants). The FEIN is never sent
+ * The company profile: onboarding step 1 and /settings/company (spec/03 §4.3
+ * and §4.9, spec/04 tenants). The FEIN is never sent
  * to the browser: the field is empty and says which four digits are on file.
  */
 export function CompanyForm({
@@ -29,12 +30,15 @@ export function CompanyForm({
   form,
   readOnly,
   nextHref,
+  submitLabel = copy.onboarding.continue,
 }: {
   slug: string
   form: CompanyFormDTO
   readOnly: boolean
-  /** Where a save goes: the next step. */
+  /** Where a save goes: the next step, or the settings page again. */
   nextHref: string
+  /** "Continue" in the wizard, "Save" in the settings. */
+  submitLabel?: string
 }) {
   const router = useRouter()
   const summaryRef = useRef<HTMLParagraphElement>(null)
@@ -184,7 +188,7 @@ export function CompanyForm({
       {!readOnly && (
         <div className="sm:col-span-2">
           <Button type="submit" disabled={formState.isSubmitting}>
-            {copy.onboarding.continue}
+            {submitLabel}
           </Button>
         </div>
       )}

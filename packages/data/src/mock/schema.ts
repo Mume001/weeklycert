@@ -61,7 +61,20 @@ export const TenantRow = z.object({
     strictPii: z.boolean(),
     /** 04 tenant_settings.pay_lag_days: days from the week end to payday (01 §2.9). */
     payLagDays: z.number().int().min(0).max(31).default(6),
+    /** 04 tenant_settings.deadline_reminder_days: 0 is the day of the deadline. */
+    deadlineReminderDays: z.array(z.number().int().min(0).max(30)).default([10, 5, 2, 0]),
+    /** 04 tenant_settings.reminder_day: the weekly nudge, 1 is Monday. */
+    reminderDay: DowSchema.default(1),
+    /** SMS only with the consent on record (spec/11, TCPA). */
+    smsPhone: z.string().nullable().default(null),
+    smsConsentAt: z.string().nullable().default(null),
+    smsConsentText: z.string().nullable().default(null),
   }),
+  /** 04 tenants.timezone lives above; the logo is tenant_settings.logo_file_id. */
+  logo: z.object({ contentType: z.string(), base64: z.string() }).nullable().default(null),
+  cancelledAt: IsoDateSchema.nullable().default(null),
+  /** cancelled_at + 30 days (04 tenants.purge_after). */
+  purgeAfter: IsoDateSchema.nullable().default(null),
 })
 
 export const UserRow = z.object({
@@ -79,6 +92,59 @@ export const MembershipRow = z.object({
   role: MembershipRoleSchema,
   canSign: z.boolean(),
   status: z.enum(['active', 'suspended']),
+  /** 04 memberships.notify_*: who gets which notification (Mume, 28.9.2026). */
+  notifyDeadline: z.boolean().default(true),
+  notifyMissingWeek: z.boolean().default(true),
+  notifyBilling: z.boolean().default(false),
+  notifyNewMember: z.boolean().default(false),
+})
+
+/** 04 invitations. The mock keeps no token: nothing is emailed in this phase. */
+export const InvitationRow = z.object({
+  id: UuidSchema,
+  tenantId: UuidSchema,
+  email: z.email(),
+  role: MembershipRoleSchema.exclude(['owner']),
+  expiresAt: IsoDateSchema,
+  acceptedAt: IsoDateSchema.nullable(),
+  invitedBy: UuidSchema,
+})
+
+/** 04 subscriptions, the part the billing screen reads. Stripe's in step 7. */
+export const SubscriptionRow = z.object({
+  id: UuidSchema,
+  tenantId: UuidSchema,
+  plan: z.enum(['standard_79', 'yearly_790', 'custom']),
+  isFounding: z.boolean(),
+  setupPaidAt: IsoDateSchema.nullable(),
+  currentPeriodEnd: IsoDateSchema.nullable(),
+  cancelAtPeriodEnd: z.boolean(),
+  cancelReason: z.string().nullable(),
+  pauseResumesAt: IsoDateSchema.nullable(),
+})
+
+/**
+ * 04 audit_log, append-only. `kind` is the group the log is filtered by
+ * (03 §4.9); `detail` is data (a name, a week), never a sentence.
+ */
+export const AuditRow = z.object({
+  id: z.number().int().positive(),
+  tenantId: UuidSchema,
+  actorUserId: UuidSchema.nullable(),
+  kind: z.enum([
+    'sign_in',
+    'member',
+    'pii',
+    'report',
+    'download',
+    'signature',
+    'correction',
+    'billing',
+    'company',
+  ]),
+  action: z.string(),
+  detail: z.string(),
+  at: IsoDateTimeSchema,
 })
 
 export const SignerRow = z.object({

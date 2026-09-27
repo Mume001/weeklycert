@@ -2,6 +2,7 @@
 // startup with the zod message, not three screens later.
 import { z } from 'zod'
 import apprenticeRecords from './fixtures/apprentice-records.json'
+import auditLog from './fixtures/audit-log.json'
 import awardingBodies from './fixtures/awarding-bodies.json'
 import classificationCatalog from './fixtures/classification-catalog.json'
 import fringeAllocations from './fixtures/fringe-allocations.json'
@@ -13,6 +14,7 @@ import projects from './fixtures/projects.json'
 import reports from './fixtures/reports.json'
 import signers from './fixtures/signers.json'
 import submissions from './fixtures/submissions.json'
+import subscriptions from './fixtures/subscriptions.json'
 import tenants from './fixtures/tenants.json'
 import timeEntries from './fixtures/time-entries.json'
 import users from './fixtures/users.json'
@@ -21,10 +23,12 @@ import workers from './fixtures/workers.json'
 import type { ImportBatch, ImportProfile } from './imports.ts'
 import {
   ApprenticeRecordRow,
+  AuditRow,
   AwardingBodyRow,
   CatalogRow,
   FringeAllocationRow,
   FringePlanRow,
+  type InvitationRow,
   MembershipRow,
   PeriodRow,
   type PiiAccessLogRow,
@@ -34,6 +38,7 @@ import {
   ReportRow,
   SignerRow,
   SubmissionRow,
+  SubscriptionRow,
   TenantRow,
   TimeEntryRow,
   UserRow,
@@ -73,6 +78,9 @@ function loadAll() {
     reports: load('reports', ReportRow, reports),
     submissions: load('submissions', SubmissionRow, submissions),
     timeEntries: load('time-entries', TimeEntryRow, timeEntries),
+    subscriptions: load('subscriptions', SubscriptionRow, subscriptions),
+    auditLog: load('audit-log', AuditRow, auditLog),
+    invitations: [] as z.infer<typeof InvitationRow>[],
     // Tables of spec/04 that have no fixture rows: the screens fill them.
     primeContractors: [] as z.infer<typeof PrimeContractorRow>[],
     workPauses: [] as z.infer<typeof WorkPauseRow>[],

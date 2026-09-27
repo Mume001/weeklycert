@@ -92,6 +92,10 @@ Better Auth **ne** upravlja firmama ni članstvima (bez `organization` plugina);
 | user_id | uuid FK users | |
 | role | E membership_role | owner, admin, payroll, signer, viewer, bookkeeper |
 | can_sign | boolean default false | Samo za bookkeeper; vlasnik uključuje. |
+| notify_deadline | boolean default true | Dobija podsjetnike na 30-dnevni rok (03 §4.9). Dodato 28.9.2026 (Mume: kolone na memberships). |
+| notify_missing_week | boolean default true | Dobija ponedjeljkom sedmice bez unosa. |
+| notify_billing | boolean default false | Dobija neuspjelu naplatu; smisla ima samo za vlasnika, kome je true pri kreiranju firme. |
+| notify_new_member | boolean default false | Dobija obavijest o novom članu; true za vlasnika i administratora pri kreiranju. |
 | status | E membership_status | active, suspended |
 | invited_by | uuid FK users N | |
 | created_at, updated_at | | |
@@ -146,6 +150,7 @@ Better Auth **ne** upravlja firmama ni članstvima (bez `organization` plugina);
 | federal_ot_enabled | boolean default true | Da li se uz NY pravila računa i federalni prag od 40 sati. NY prekovremeni NIKAD ne dolaze odavde nego iz OT kodova klasifikacije (01 §2.1). |
 | annual_hours_basis | numeric(6,0) default 2080 | Za anualizaciju fringe. |
 | reminder_day | smallint default 1 | Ponedjeljak. |
+| deadline_reminder_days | smallint[] default '{10,5,2,0}' | Koliko dana prije 30-dnevnog roka ide podsjetnik; 0 je dan roka. Ko ga dobija: `memberships.notify_deadline`. Dodato 28.9.2026. |
 | reminder_email | boolean default true | |
 | reminder_sms | boolean default false | Samo uz zabilježen pristanak. |
 | sms_consent_at | timestamptz N | |
@@ -181,6 +186,8 @@ Better Auth **ne** upravlja firmama ni članstvima (bez `organization` plugina);
 | status | E sub_status | trialing, active, past_due, paused, canceled, incomplete |
 | current_period_end | timestamptz N | |
 | cancel_at_period_end | boolean | |
+| cancel_reason | text N | Razlog iz toka otkaza (03 §4.9). Dodato 28.9.2026. |
+| pause_resumes_at | timestamptz N | Pauza traje najviše 3 mjeseca, pa se sama nastavlja (08 §2.3). Dodato 28.9.2026. |
 | price_cents | int | Zamrznuta cijena za tu firmu (stari kupci zadržavaju cijenu pri poskupljenju). |
 | created_at, updated_at | | |
 

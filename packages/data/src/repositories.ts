@@ -10,6 +10,10 @@ import type {
   ArchiveDTO,
   ArchiveFilter,
   ArchiveStatus,
+  AuditDTO,
+  AuditFilter,
+  BillingDTO,
+  CancelInput,
   ClassificationEditInput,
   ClassificationInput,
   ClassificationSaveResult,
@@ -29,7 +33,12 @@ import type {
   ImportMappingInput,
   ImportResolveInput,
   ImportStart,
+  InvitableRole,
+  InviteInput,
+  InviteResult,
   IsoDate,
+  NotificationsDTO,
+  NotificationsInput,
   OnboardingDTO,
   OpenWeeksDTO,
   PayrollInput,
@@ -48,10 +57,15 @@ import type {
   ReviewDTO,
   SetupTier,
   SignerDTO,
+  SignerInput,
+  SignersDTO,
   SignInput,
+  SmsInput,
   SubmissionDTO,
+  TeamDTO,
   TenantBrief,
   TenantDTO,
+  Timezone,
   UserDTO,
   Uuid,
   WeekGridDTO,
@@ -63,6 +77,13 @@ import type {
   WorkerSaveResult,
 } from './dto/index.ts'
 import { mockRepositories } from './mock/index.ts'
+
+/** The words inside an archive export, from packages/copy (spec/20 J). */
+export type ArchiveExportTexts = {
+  readme: string
+  headers: string[]
+  statuses: Record<ArchiveStatus, string>
+}
 
 export interface Repositories {
   /** Today in the tenant's time zone. MOCK_TODAY in the mock phase. */
@@ -272,8 +293,64 @@ export interface Repositories {
     export(
       tenantId: Uuid,
       projectId: Uuid,
-      texts: { readme: string; headers: string[]; statuses: Record<ArchiveStatus, string> },
+      texts: ArchiveExportTexts,
     ): Promise<{ name: string; contentType: string; body: Uint8Array<ArrayBuffer> } | null>
+  }
+  /** The settings of a company (spec/03 §4.9). Every write takes who acts, for the audit log. */
+  settings: {
+    team(tenantId: Uuid): Promise<TeamDTO>
+    invite(tenantId: Uuid, actorUserId: Uuid, input: InviteInput): Promise<InviteResult>
+    revokeInvitation(tenantId: Uuid, actorUserId: Uuid, invitationId: Uuid): Promise<void>
+    /** Never the owner's row, never to owner (spec/02 §3). */
+    changeRole(
+      tenantId: Uuid,
+      actorUserId: Uuid,
+      membershipId: Uuid,
+      role: InvitableRole,
+    ): Promise<void>
+    removeMember(tenantId: Uuid, actorUserId: Uuid, membershipId: Uuid): Promise<void>
+    signers(tenantId: Uuid): Promise<SignersDTO>
+    addSigner(tenantId: Uuid, actorUserId: Uuid, input: SignerInput): Promise<void>
+    setSignerActive(
+      tenantId: Uuid,
+      actorUserId: Uuid,
+      signerId: Uuid,
+      active: boolean,
+    ): Promise<void>
+    setBookkeeperCanSign(
+      tenantId: Uuid,
+      actorUserId: Uuid,
+      membershipId: Uuid,
+      canSign: boolean,
+    ): Promise<void>
+    billing(tenantId: Uuid): Promise<BillingDTO>
+    pause(tenantId: Uuid, actorUserId: Uuid, months: number): Promise<void>
+    unpause(tenantId: Uuid, actorUserId: Uuid): Promise<void>
+    /** At the end of the period (spec/08 §2.3). */
+    cancel(tenantId: Uuid, actorUserId: Uuid, input: CancelInput): Promise<void>
+    keepSubscription(tenantId: Uuid, actorUserId: Uuid): Promise<void>
+    notifications(tenantId: Uuid): Promise<NotificationsDTO>
+    saveNotifications(tenantId: Uuid, input: NotificationsInput): Promise<void>
+    /** Null turns text messages off; on, the exact consent text is kept (spec/11, TCPA). */
+    setSms(tenantId: Uuid, input: SmsInput | null, consentText: string): Promise<void>
+    auditLog(tenantId: Uuid, filter?: AuditFilter): Promise<AuditDTO>
+    companyExtras(tenantId: Uuid): Promise<{
+      timezone: string
+      logo: { contentType: string; base64: string } | null
+    }>
+    setCompanyExtras(
+      tenantId: Uuid,
+      actorUserId: Uuid,
+      input: { timezone: Timezone; logo?: { contentType: string; base64: string } | null },
+    ): Promise<void>
+    /** "Export everything": JSON and the archives; reading PII logs purpose export. */
+    exportAll(
+      tenantId: Uuid,
+      actorUserId: Uuid,
+      archiveTexts: ArchiveExportTexts,
+    ): Promise<{ name: string; contentType: string; body: Uint8Array<ArrayBuffer> }>
+    /** 30 days of grace, read-only with export, then the purge. */
+    requestDeletion(tenantId: Uuid, actorUserId: Uuid): Promise<void>
   }
   admin: { health(): Promise<AdminHealthDTO> }
 }

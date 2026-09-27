@@ -4,35 +4,13 @@
 // one guard (CLAUDE.md). A step is saved the moment it is done; the counter in
 // tenants.onboarding_step only moves forward, and a skipped step is kept as a
 // gap for the dashboard.
-import {
-  CompanyInputSchema,
-  type CompanySaveResult,
-  companyFormErrors,
-  getRepositories,
-  SETUP_TIERS,
-} from '@wc/data'
+import { getRepositories, SETUP_TIERS } from '@wc/data'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 import { PROJECT_WRITERS, requireTenant } from '@/lib/session'
 import { canManageBilling } from '@/lib/subscription'
 import { stepAllowed, stepHref } from './steps'
-
-/** Step 1 is the company profile: the owner and the administrator (spec/02 §3 and §5). */
-const COMPANY_WRITERS = ['owner', 'admin'] as const
-
-export async function saveCompanyAction(slug: string, raw: unknown): Promise<CompanySaveResult> {
-  const shell = await requireTenant(slug, COMPANY_WRITERS)
-  const parsed = CompanyInputSchema.safeParse(raw)
-  if (!parsed.success) return { ok: false, errors: companyFormErrors(parsed.error) }
-  const repos = getRepositories()
-  const result = await repos.tenants.updateCompany(shell.tenant.id, parsed.data)
-  if (result.ok) {
-    await repos.tenants.completeOnboardingStep(shell.tenant.id, 1, false)
-    revalidatePath('/app/[t]', 'layout')
-  }
-  return result
-}
 
 const Step = z.number().int().min(1).max(7)
 

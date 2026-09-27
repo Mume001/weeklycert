@@ -143,3 +143,31 @@ export const FRINGE_ALLOCATION_WRITERS: readonly MembershipRole[] = PROJECT_WRIT
 export function isReadOnlyCompany(tenant: TenantDTO): boolean {
   return tenant.status === 'paused' || tenant.status === 'cancelled'
 }
+
+// Settings (spec/03 §4.9). Each list is one row of the matrix in spec/02 §3;
+// permissions.test.ts reads that row. The viewer has no Settings at all (02 §5).
+
+/** "Firma: profil, FEIN, registracija": the owner and the administrator write. */
+export const COMPANY_WRITERS: readonly MembershipRole[] = ['owner', 'admin']
+/** "Članovi": the owner, and the administrator for everyone but the owner. */
+export const MEMBER_MANAGERS: readonly MembershipRole[] = ['owner', 'admin']
+/** "Članovi": only the owner removes (the administrator has CRU, no D). */
+export const MEMBER_REMOVERS: readonly MembershipRole[] = ['owner']
+/** "Potpisnici": the same as the members; the bookkeeper switch is the owner's. */
+export const SIGNER_MANAGERS: readonly MembershipRole[] = ['owner', 'admin']
+/** "Naplata": the owner alone. */
+export const BILLING_ROLES: readonly MembershipRole[] = ['owner']
+/** "Firma: brisanje, izvoz svega": the owner alone. */
+export const DATA_OWNERS: readonly MembershipRole[] = ['owner']
+/** "Audit log firme": the owner and the administrator read it. */
+export const AUDIT_READERS: readonly MembershipRole[] = ['owner', 'admin']
+/** "Podsjetnici i obavještenja": the owner and the administrator change them. */
+export const NOTIFICATION_WRITERS: readonly MembershipRole[] = ['owner', 'admin']
+/** "Podsjetnici i obavještenja": payroll, signer and bookkeeper read their own. */
+export const NOTIFICATION_READERS: readonly MembershipRole[] = [
+  'owner',
+  'admin',
+  'payroll',
+  'signer',
+  'bookkeeper',
+]

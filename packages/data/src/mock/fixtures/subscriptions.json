@@ -1,0 +1,24 @@
+[
+  {
+    "id": "01930000-0000-7000-8000-000000000001",
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "plan": "standard_79",
+    "isFounding": false,
+    "setupPaidAt": "2026-04-01",
+    "currentPeriodEnd": "2026-10-01",
+    "cancelAtPeriodEnd": false,
+    "cancelReason": null,
+    "pauseResumesAt": null
+  },
+  {
+    "id": "01930000-0000-7000-8000-000000000002",
+    "tenantId": "01921000-0000-7000-8000-000000000002",
+    "plan": "standard_79",
+    "isFounding": false,
+    "setupPaidAt": null,
+    "currentPeriodEnd": "2026-09-24",
+    "cancelAtPeriodEnd": false,
+    "cancelReason": null,
+    "pauseResumesAt": null
+  }
+]

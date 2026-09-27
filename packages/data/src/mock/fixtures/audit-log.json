@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000001",
+    "kind": "billing",
+    "action": "billing.setup",
+    "detail": "Standard",
+    "at": "2026-04-01T13:00:00Z"
+  },
+  {
+    "id": 2,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000001",
+    "kind": "company",
+    "action": "company.update",
+    "detail": "Hudson Electric LLC",
+    "at": "2026-04-01T13:05:00Z"
+  },
+  {
+    "id": 3,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000001",
+    "kind": "member",
+    "action": "member.invite",
+    "detail": "payroll@hudson-electric.test",
+    "at": "2026-04-01T13:20:00Z"
+  },
+  {
+    "id": 4,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000002",
+    "kind": "member",
+    "action": "member.role",
+    "detail": "viewer@hudson-electric.test",
+    "at": "2026-05-12T15:40:00Z"
+  },
+  {
+    "id": 5,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000003",
+    "kind": "correction",
+    "action": "report.correct",
+    "detail": "Dutchess County Courthouse Lighting, 2026-08-08",
+    "at": "2026-08-18T10:00:00Z"
+  },
+  {
+    "id": 6,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000003",
+    "kind": "pii",
+    "action": "pii.read",
+    "detail": "Alvarez, Miguel",
+    "at": "2026-08-24T14:02:00Z"
+  },
+  {
+    "id": 7,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000003",
+    "kind": "report",
+    "action": "report.generate",
+    "detail": "Dutchess County Courthouse Lighting, 2026-08-29",
+    "at": "2026-09-01T16:10:00Z"
+  },
+  {
+    "id": 8,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000001",
+    "kind": "signature",
+    "action": "report.sign",
+    "detail": "Dutchess County Courthouse Lighting, 2026-08-29",
+    "at": "2026-09-02T12:30:00Z"
+  },
+  {
+    "id": 9,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000006",
+    "kind": "download",
+    "action": "file.download",
+    "detail": "EXAMPLE_2010008390_2026-08-22_v1.xml",
+    "at": "2026-09-03T09:15:00Z"
+  },
+  {
+    "id": 10,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000004",
+    "kind": "signature",
+    "action": "report.sign",
+    "detail": "Kingston WTP Electrical Upgrade, 2026-09-05",
+    "at": "2026-09-09T18:45:00Z"
+  },
+  {
+    "id": 11,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000003",
+    "kind": "sign_in",
+    "action": "session.start",
+    "detail": "",
+    "at": "2026-09-14T12:58:00Z"
+  },
+  {
+    "id": 12,
+    "tenantId": "01921000-0000-7000-8000-000000000001",
+    "actorUserId": "01922000-0000-7000-8000-000000000001",
+    "kind": "sign_in",
+    "action": "session.start",
+    "detail": "",
+    "at": "2026-09-15T11:02:00Z"
+  }
+]

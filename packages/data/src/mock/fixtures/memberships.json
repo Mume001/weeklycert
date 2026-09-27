@@ -5,7 +5,9 @@
     "userId": "01922000-0000-7000-8000-000000000001",
     "role": "owner",
     "canSign": false,
-    "status": "active"
+    "status": "active",
+    "notifyBilling": true,
+    "notifyNewMember": true
   },
   {
     "id": "01923000-0000-7000-8000-000000000002",
@@ -13,7 +15,8 @@
     "userId": "01922000-0000-7000-8000-000000000002",
     "role": "admin",
     "canSign": false,
-    "status": "active"
+    "status": "active",
+    "notifyNewMember": true
   },
   {
     "id": "01923000-0000-7000-8000-000000000003",
@@ -53,7 +56,9 @@
     "userId": "01922000-0000-7000-8000-000000000008",
     "role": "owner",
     "canSign": false,
-    "status": "active"
+    "status": "active",
+    "notifyBilling": true,
+    "notifyNewMember": true
   },
   {
     "id": "01923000-0000-7000-8000-000000000008",

@@ -806,6 +806,124 @@ sedmice. Statusi su značke sedmice (`Signed` · `Submitted` · `Rejected` ·
 - Pauza: `Paused. You can read and export everything. Entering hours and generating reports resume when you unpause.`
 - Otkaz: `Cancelled. You have read-only access and full export until {date}, 30 days from now. New York requires you to keep these records for six years, so export before then.`
 
+### Postavke
+
+Tekstove napisao Claude Code u sesiji L (Mume, 28.9.2026: "ja pišem u 15, ti
+pregledaš"). Tekst pristanka na SMS je pravni tekst i treba ga provjeriti
+(13, TCPA).
+
+**Podmeni** (lista sekcija, sakriva se po 02 §3): naziv liste `Settings sections` ·
+`Company` · `Team` · `Signers` · `Billing` · `Notifications` · `Audit log` · `Your data`
+
+**Company**
+- Naslov: `Company`
+- Samo čitanje: `Only the owner or an administrator can change the company profile.`
+- Polja iz koraka 1 onboardinga, plus: `Time zone` s napomenom
+  `Deadlines and reminders use this time zone.` Vrijednosti:
+  `Eastern (New York)` · `Central (Chicago)` · `Mountain (Denver)` · `Pacific (Los Angeles)`
+- `Logo` s napomenom `PNG or JPEG, up to 1 MB. Shown in the app only, never on a report.`
+  Dugmad `Upload logo` · `Remove logo`. Greške `The logo is larger than 1 MB.` ·
+  `Use a PNG or JPEG file.`
+- Snimljeno: `Company saved.`
+
+**Team**
+- Naslov: `Team`, pod njim `{n} person` / `{n} people`
+- Kolone: `Person` · `Role` · `Actions`. Uz sebe: `You`.
+- Promjena uloge: polje `Role`, dugme `Change role`, poruka `Role changed.`
+  Vlasnik se ovdje ne mijenja: `The owner cannot be changed here.`
+- Uklanjanje: dugme `Remove`, potvrda `Remove {Name} from the team?`, tekst
+  `They lose access to this company at once. Their name stays on everything they signed.`,
+  dugme `Remove from team`
+- Poziv: naslov `Invite someone`, polja `Email` · `Role`, dugme `Send invitation`,
+  poruka `Invitation sent to {email}.` Napomena u demu:
+  `In this demo no email is sent. The invitation shows below.`
+  Greške: `Enter an email address.` · `This person is already on the team.` ·
+  `This email has an invitation waiting.`
+- Pozivnice na čekanju: naslov `Invitations waiting`, kolone `Email` · `Role` ·
+  `Expires`, dugme `Revoke`, prazno `No invitations waiting.`
+- Objašnjenje uloga: naslov `What each role can do`, pa opisi uloga iz Okvira aplikacije.
+
+**Signers**
+- Naslov: `Signers`, uvod
+  `Who may sign the certification of compliance, with the name and title printed on it.`
+- Kolone: `Name on the certification` · `Title` · `Contact` · `Status`.
+  Statusi `Active` · `Inactive`. Dugmad `Deactivate` · `Activate`.
+- Dodavanje: naslov `Add a signer`, polja `Team member` ·
+  `Name on the certification` · `Title`, dugme `Add signer`. Kad nema koga:
+  `Every team member who may sign is a signer already.`
+  Greške: `Enter the name as it appears on the certification.` ·
+  `Enter the title, for example President.`
+- Knjigovođa: naslov `Outside bookkeeper`, prekidač `May sign in this company`,
+  napomena `Only the owner can turn this on.`
+- Prazno: `No signers yet. Add the person who signs the certification.`
+
+**Billing**
+- Naslov: `Billing and plan`
+- Plan: `Plan` · `$79/month` · `Unlimited projects and workers.` ·
+  `Next charge {date}.` · `Trial ends {date}.`
+- Statusi: `Trial` · `Active` · `Payment failed` · `Paused` · `Cancelled`
+- Postavka: `Setup` · `{Tier}, {price}, paid {date}` · kad je nema
+  `None, you set up yourself`
+- Stripe portal: dugme `Manage billing`, napomena
+  `Card, invoices and the yearly plan are in the Stripe billing portal. In this demo there is no Stripe, so the button does nothing.`
+- Pauza: dugme `Pause for the winter`, naslov `Pause the subscription?`, tekst
+  `No charge while paused. You can read and export everything. Entering hours and generating reports stop until you unpause. Up to 3 months.`,
+  polje `Resume after` s izborom `{n} month` / `{n} months`, dugme `Pause`.
+  Za vrijeme pauze: `Paused until {date}.` i dugme `Unpause now`.
+- Otkaz, tri koraka: dugme `Cancel subscription`.
+  1. `Why are you leaving?` · `No public work right now` · `Too expensive` ·
+     `Moving to another tool` · `Something is missing` · `Another reason` ·
+     polje `Anything we should know? (optional)`. Greška `Pick a reason.`
+  2. `Export your records first` ·
+     `New York requires certified payroll records to be kept for six years. After the 30 days of read-only access we delete everything.` ·
+     dugme `Export everything now`
+  3. `Confirm` · `Type {Company name} to confirm.` (iz Potvrda) · dugme
+     `Cancel at the end of the period` · greška `The name does not match.`
+  Poslije: `Your subscription ends on {date}. After that you keep read-only access and full export for 30 days.`
+  i dugme `Keep my subscription`.
+- Kartica o zapisima: `Your records if you leave` ·
+  `NY Labor Law requires certified payroll records to be kept for six years. If you cancel, you keep read-only access and full export for 30 days, and we email you three reminders before it closes.`
+
+**Notifications**
+- Naslov: `Notifications`. Samo čitanje:
+  `Only the owner or an administrator can change who gets what.`
+- Rok: `State deadline reminders`, napomena
+  `Days before the 30-day deadline. 0 is the day itself.`, izbori
+  `{n} day before` / `{n} days before` i `On the day`
+- Sedmica bez unosa: `Weekly nudge for weeks without entries`, napomena
+  `Sent at {time} in the company time zone.`, polje `Day`
+- Ko šta dobija: naslov `Who gets what`, kolone `Person` · `Deadline reminders` ·
+  `Weeks without entries` · `Payment failed` · `New team member`
+- Kanali: naslov `Channels` · `Email` · `Always on.` · `Text messages` ·
+  `Off. Text messages need written consent first.` · polje `Mobile number` ·
+  greška `Enter a ten-digit US mobile number.` · pristanak (checkbox, pun tekst):
+  `I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above: two days before a deadline and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase.`
+  · greška `Check the box to give consent, or leave text messages off.` ·
+  `Consent recorded on {date}.` · `Text messages go to {phone}, two days before a deadline and on the day.` ·
+  dugme `Turn on text messages` · `Turn off text messages`
+- Snimljeno: `Notifications saved.`
+
+**Audit log**
+- Naslov: `Audit log`
+- Filteri: `Person` · `Everyone` · `Kind` · `All kinds` · dugme `Show`
+- Kolone: `When` · `Person` · `What` · `Detail`
+- Vrste: `Sign-in` · `Team and roles` · `Worker details viewed` ·
+  `Report generated` · `File downloaded` · `Signature` · `Correction` ·
+  `Billing` · `Company profile`
+- Dugme `Export CSV`. Prazno: `Nothing matches these filters.`
+
+**Your data**
+- Naslov: `Your data`
+- Izvoz: `Export everything` ·
+  `One ZIP with all your data as JSON and every file: projects, workers with their addresses, weeks, reports and filings.` ·
+  dugme `Export everything` · u demu `In this demo the files in the export are examples.`
+- Brisanje: `Delete the company` ·
+  `Deleting starts 30 days of grace with read-only access and full export. Then everything is deleted for good, and it cannot be brought back.` ·
+  `New York requires you to keep certified payroll records for six years. Export them before you delete.` ·
+  potvrda `Delete {Company}?`, polje iz Potvrda, dugme `Delete the company`,
+  greška `The name does not match.` Poslije:
+  `This company will be deleted on {date}. Until then you can read and export everything.`
+
 ### Prazna stanja, sva
 | Ekran | Tekst | Dugme |
 |---|---|---|

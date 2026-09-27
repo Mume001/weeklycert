@@ -37,6 +37,7 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Firma: brisanje, izvoz svega | D X | | | | | | X (na zahtjev, logovano) |
 | Naplata: plan, kartica, računi, pauza, otkaz | RU X | | | | | | R |
 | Članovi: pozvati, ukloniti, promijeniti ulogu | CRUD | CRU (ne owner) | | | | | R |
+| Potpisnici: ko potpisuje, ime i naziv na izjavi | CRUD | CRU (bez prekidača za knjigovođu) | | | | | R |
 | Projekti | CRUD | CRUD | CRU | CRU | R | CRU | R |
 | Klasifikacije i stope po projektu | CRUD | CRUD | CRU | CRU | R | CRU | R |
 | Radnici: ime, klasifikacija, status | CRUD | CRUD | CRU | CRU | R (samo ime i klasifikacija) | CRU | R |
@@ -53,6 +54,10 @@ Legenda: C = kreira, R = čita, U = mijenja, D = briše, X = izvršava. Prazno =
 | Ispravka predatog (nova verzija) | X | X | X | X | | X | |
 | Audit log firme | R | R | | | | | R |
 | Podsjetnici i obavještenja | RU | RU | R (svoja) | R (svoja) | | R (svoja) | |
+
+Potpisnike vodi ko vodi i članove: vlasnik i administrator. Prekidač "smije
+potpisivati u ovoj firmi" za knjigovođu uključuje samo vlasnik (04 memberships
+`can_sign`). Red dodat u sesiji L, 28.9.2026.
 
 Viewer ne vidi beneficije po radniku ni na jednom ekranu: kredit po satu je
 podatak o plati tog radnika (Mume, 27.9.2026). Planove i dalje čita na

@@ -1,12 +1,14 @@
 // The one page that puts several features together (spec/19 §2, the
 // exception of 25.9.2026): the onboarding wizard reuses the forms of sessions
-// F and G rather than making new ones (spec/20 H). This file only chooses what
+// F, G and L rather than making new ones (spec/20 H); step 1 is the company
+// profile of /settings/company. This file only chooses what
 // goes into which step.
 import { copy } from '@wc/copy'
 import type { Metadata } from 'next'
 import { FringeSetupStep } from '@/features/fringe/SetupSteps'
 import { OnboardingScreen, type StepContext } from '@/features/onboarding/OnboardingScreen'
 import { ClassificationsSetupStep, ProjectSetupStep } from '@/features/projects/SetupSteps'
+import { CompanyStep } from '@/features/settings/CompanyStep'
 import { WorkerFringeSetupStep, WorkersSetupStep } from '@/features/workers/SetupSteps'
 
 export const metadata: Metadata = { title: copy.nav.setup }
@@ -14,6 +16,16 @@ export const metadata: Metadata = { title: copy.nav.setup }
 function stepBody(ctx: StepContext) {
   const { slug, tenantId, projectId, role, readOnly } = ctx
   switch (ctx.step) {
+    case 1:
+      return (
+        <CompanyStep
+          slug={slug}
+          tenantId={tenantId}
+          readOnly={readOnly}
+          emptied={ctx.forcedEmpty}
+          nextHref={ctx.next}
+        />
+      )
     case 2:
       return (
         <ProjectSetupStep

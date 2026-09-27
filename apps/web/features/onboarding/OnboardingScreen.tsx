@@ -16,7 +16,6 @@ import { formatDate } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
 import { chooseSetupTierAction, completeStepAction, openFirstWeekAction } from './actions'
-import { CompanyForm } from './CompanyForm'
 import { currentStep, DONE_STEP, lockedFor, stepAllowed, stepHref } from './steps'
 
 const o = copy.onboarding
@@ -33,6 +32,10 @@ export interface StepContext {
   search: Record<string, string | undefined>
   /** The URL of this step, for a create that should land back in the wizard. */
   here: (extra?: Record<string, string>) => string
+  /** The next step's URL, where step 1 goes on save. */
+  next: string
+  /** ?state=empty: step 1 shows a company with nothing filled in (spec/19 §7). */
+  forcedEmpty: boolean
 }
 
 function Progress({
@@ -293,24 +296,12 @@ export async function OnboardingScreen({
       // "{id}" is a placeholder the form fills in; it must survive the encoding.
       return `/app/${slug}/onboarding?${query}`.replaceAll('%7Bid%7D', '{id}')
     },
+    next,
+    forcedEmpty: forced === 'empty',
   }
 
   let content: ReactNode
-  if (step === 1) {
-    const company = await repos.tenants.company(shell.tenant.id)
-    content = (
-      <CompanyForm
-        slug={slug}
-        form={
-          forced === 'empty'
-            ? { ...company, values: { ...company.values, legalName: '' }, feinLast4: null }
-            : company
-        }
-        readOnly={readOnly}
-        nextHref={next}
-      />
-    )
-  } else if (step === 6) {
+  if (step === 6) {
     content = (
       <WeekStep slug={slug} tenantId={shell.tenant.id} projectId={projectId} readOnly={readOnly} />
     )

@@ -23,7 +23,8 @@
       "annualHoursBasis": "2080",
       "mergeDeductions": true,
       "strictPii": false
-    }
+    },
+    "setupTier": "standard"
   },
   {
     "id": "01921000-0000-7000-8000-000000000002",
