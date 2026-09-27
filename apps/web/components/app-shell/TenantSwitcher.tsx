@@ -83,8 +83,7 @@ export function TenantSwitcher({ tenants, activeId, onNavigate }: TenantSwitcher
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          {/* /firms is a later screen: no prefetch until it exists (see Sidebar). */}
-          <Link href="/firms" prefetch={false} onClick={onNavigate}>
+          <Link href="/firms" onClick={onNavigate}>
             {copy.shell.tenantSwitcher.seeAll}
           </Link>
         </DropdownMenuItem>

@@ -191,8 +191,15 @@ test.describe('the whole way, on a week of its own', () => {
     await expect(generate).toBeEnabled()
     await generate.click()
     await expect(page.getByText(/Draft v1 is ready\./)).toBeVisible({ timeout: 20000 })
+    await expect(page.getByRole('link', { name: 'Sign and lock this week' })).toBeVisible()
 
-    await page.getByRole('link', { name: 'Sign and lock this week' }).click()
+    // The signer's queue is the dashboard card, and it leads straight to the
+    // sign screen (spec/02 §5, session K).
+    await page.goto(`${APP}/dashboard`)
+    const queue = page.getByRole('link', { name: /1\s*report waiting for signature/ })
+    await expect(queue).toBeVisible()
+    await queue.click()
+    await expect(page).toHaveURL(`${week(DUTCHESS, CORRECTED)}/sign`)
     await expect(page.getByRole('heading', { level: 1 })).toContainText('Certify this week')
     await expect(
       page.getByText(/The payroll information submitted with this statement/),

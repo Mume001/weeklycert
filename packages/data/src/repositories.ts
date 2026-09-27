@@ -18,6 +18,7 @@ import type {
   CompanySaveResult,
   DashboardDTO,
   Finding,
+  FirmNextDTO,
   FringePlanInput,
   FringePlansDTO,
   FringeSaveResult,
@@ -82,7 +83,11 @@ export interface Repositories {
     /** Step 7 in the mock phase: the tier is saved, nothing is charged (spec/20 H). */
     chooseSetupTier(tenantId: Uuid, tier: SetupTier): Promise<void>
   }
-  dashboard: { get(tenantId: Uuid): Promise<DashboardDTO> }
+  dashboard: {
+    get(tenantId: Uuid): Promise<DashboardDTO>
+    /** The company's nearest deadline, for its card on /firms (spec/03 §4.2). */
+    firmNext(tenantId: Uuid): Promise<FirmNextDTO>
+  }
   projects: {
     list(tenantId: Uuid, filter?: ProjectListFilter): Promise<ProjectRowDTO[]>
     /** Null when the project does not exist in this company (the page answers 404). */

@@ -601,6 +601,93 @@ export const copy = {
     },
     empty: 'No projects yet. A project is one public job with its own PRC number.',
     emptyAction: 'Add your first project',
+    late: {
+      title_one: '{Project} is {n} day past its 30-day state deadline',
+      title_other: '{Project} is {n} days past its 30-day state deadline',
+      grace_one:
+        'NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} day of grace left.',
+      grace_other:
+        'NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} days of grace left.',
+      penalty:
+        'The 14 days of grace are over. NYSDOL can assess $100 for each day the filing is late.',
+    },
+    deadlineTable: {
+      columns: {
+        project: 'Project',
+        prc: 'PRC',
+        lastAccepted: 'Last accepted',
+        deadline: 'Deadline',
+        status: 'Status',
+        unfiled: 'Unfiled weeks',
+      },
+      noneYet: 'None yet',
+      penaltyPossible: 'Penalty possible',
+      open: 'Open',
+    },
+    openWeeks: {
+      title: 'Weeks to close',
+      meta_one: '{n} open week',
+      meta_other: '{n} open weeks',
+      columns: {
+        weekEnding: 'Week ending',
+        project: 'Project',
+        status: 'Status',
+        findings: 'Findings',
+      },
+      noHours: 'No hours entered',
+      open: 'Open week',
+      empty: 'Nothing open. Every week is signed or filed.',
+    },
+    federal: {
+      title: 'Federal WH-347',
+      subtitle: 'due within 7 days of the pay date',
+      row: 'W/E {week} · paid {payDate}',
+      fromCompany: 'Pay date from the company setting',
+      fromWeek: 'Pay date entered for this week',
+      review: 'Review',
+    },
+    missing: {
+      title: 'Weeks without entries',
+      subtitle: 'No hours and no no-work mark for the week ending {date}.',
+      enterHours: 'Enter hours',
+      empty: 'Every project has hours or a no-work mark for this week.',
+    },
+    recent: {
+      title: 'Recent reports',
+      columns: {
+        project: 'Project',
+        weekEnding: 'Week ending',
+        version: 'Version',
+        status: 'Status',
+      },
+      empty: 'No reports yet.',
+    },
+    health: {
+      title: 'Data health',
+      worker_no_classification_one: '{n} worker without a classification',
+      worker_no_classification_other: '{n} workers without a classification',
+      project_no_prc_one: '{n} project without a PRC number',
+      project_no_prc_other: '{n} projects without a PRC number',
+      rate_expired_one: '{n} classification with an expired rate',
+      rate_expired_other: '{n} classifications with an expired rate',
+      apprentice_unregistered_one: '{n} apprentice without a registration',
+      apprentice_unregistered_other: '{n} apprentices without a registration',
+      empty: 'Nothing to fix.',
+    },
+    startHere: {
+      title: 'Start here',
+      body: 'Set up your company, your first project and your crew. Each step is saved as you go.',
+      action: 'Start setup',
+    },
+  },
+
+  // 15 §3 Moje firme
+  firms: {
+    nextDeadline: 'Next deadline',
+    deadlineOf: '{Project}, {date}',
+    currentWeek: 'Current week',
+    open: 'Open',
+    empty: 'You have no company yet. Create your own, or wait for an invitation.',
   },
 
   // 15 §3 Mreža sati

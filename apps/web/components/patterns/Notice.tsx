@@ -7,6 +7,12 @@ const TONE = {
     icon: Info,
     className: 'border-info-100 bg-info-50 text-info-600 shadow-[inset_3px_0_0_var(--info-500)]',
   },
+  // A 30-day deadline that has passed (spec/03 §4.3): the red strip of dizajn/aplikacija.html.
+  error: {
+    icon: TriangleAlert,
+    className:
+      'border-error-100 bg-error-50 text-error-600 shadow-[inset_3px_0_0_var(--error-500)]',
+  },
   warning: {
     icon: TriangleAlert,
     className:

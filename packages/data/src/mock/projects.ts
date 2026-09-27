@@ -57,7 +57,7 @@ function projectOf(tenantId: Uuid, projectId: Uuid): ProjectRow | undefined {
   return db.projects.find((p) => p.id === projectId && p.tenantId === tenantId)
 }
 
-const isClosed = (p: ProjectRow) => p.status === 'completed' || p.status === 'archived'
+export const isClosed = (p: ProjectRow) => p.status === 'completed' || p.status === 'archived'
 
 function timeline(p: ProjectRow): IsoDate[] {
   return timelineWeekEndings({
@@ -68,7 +68,7 @@ function timeline(p: ProjectRow): IsoDate[] {
   })
 }
 
-function nextDeadline(p: ProjectRow): IsoDate | null {
+export function nextDeadline(p: ProjectRow): IsoDate | null {
   if (isClosed(p)) return null
   return nextStateFilingDeadline({
     startDate: p.startDate,
@@ -78,7 +78,10 @@ function nextDeadline(p: ProjectRow): IsoDate | null {
 
 /** The version that counts for a week: the correction once there is one (spec/04 §7.1). */
 function currentPeriod(rows: PeriodRow[]): PeriodRow | undefined {
-  return rows.find((r) => r.status !== 'corrected') ?? rows.at(-1)
+  // The same row the grid opens (week-grid.ts period()): a correction in
+  // progress is the week, even before signing it marks the original corrected.
+  const live = rows.filter((r) => r.status !== 'corrected')
+  return live.findLast((r) => r.correctsPeriodId !== null) ?? live[0] ?? rows.at(-1)
 }
 
 const isLocked = (status: PeriodRow['status']) => lockedReasonOf(status) !== null
@@ -89,8 +92,15 @@ const isOpen = (status: PeriodRow['status']) => !isLocked(status)
  * totals (spec/19 §4); every other week is computed by the engine, the same
  * way the grid computes it, so the two screens never disagree.
  */
-function weekOf(p: ProjectRow, weekEnding: IsoDate, expected: Map<IsoDate, number>): TimelineWeek {
-  const rows = db.periods.filter((r) => r.projectId === p.id && r.weekEnding === weekEnding)
+function weekOf(
+  p: ProjectRow,
+  weekEnding: IsoDate,
+  expected: Map<IsoDate, number>,
+  brief: boolean,
+  /** The project's periods, read once for all its weeks. */
+  periods: PeriodRow[],
+): TimelineWeek {
+  const rows = periods.filter((r) => r.weekEnding === weekEnding)
   const row = currentPeriod(rows)
   const base = {
     weekEnding,
@@ -137,9 +147,28 @@ function weekOf(p: ProjectRow, weekEnding: IsoDate, expected: Map<IsoDate, numbe
     }
   }
 
+  const open = isOpen(row.status)
+  // The dashboard needs only the status of a locked week, and the engine costs
+  // about 2 ms a week; on 50 projects that is the 500 ms budget (spec/03 §4.3).
+  if (brief && !open) {
+    return {
+      ...base,
+      periodId: row.id,
+      status: row.status,
+      displayStatus: displayStatusOf(row.status, outcome, 0),
+      payrollNumber: row.payrollNumber,
+      isNoWork: row.isNoWork || inPause,
+      noEntries: false,
+      totalHours: null,
+      workerCount: null,
+      gross: null,
+      findings: { hard: 0, soft: 0 },
+      locked: true,
+    }
+  }
+
   const grid = weekGrid(p.id, weekEnding)
   const total = dec(grid.totals.st).plus(grid.totals.ot)
-  const open = isOpen(row.status)
   // Findings matter while the week can still change; a signed week was
   // checked when it was signed.
   const hard = open ? grid.findings.filter((f) => f.severity === 'hard').length : 0
@@ -160,18 +189,19 @@ function weekOf(p: ProjectRow, weekEnding: IsoDate, expected: Map<IsoDate, numbe
   }
 }
 
-function weeksOf(p: ProjectRow): TimelineWeek[] {
+/** `brief`: locked weeks without their totals, for the dashboard. */
+export function weeksOf(p: ProjectRow, brief = false): TimelineWeek[] {
   const endings = timeline(p)
+  const periods = db.periods.filter((r) => r.projectId === p.id)
   const expected = expectedPayrollNumbers(
     endings.map((we) => ({
       weekEnding: we,
       payrollNumber:
-        currentPeriod(db.periods.filter((r) => r.projectId === p.id && r.weekEnding === we))
-          ?.payrollNumber ?? null,
+        currentPeriod(periods.filter((r) => r.weekEnding === we))?.payrollNumber ?? null,
     })),
     p.nextPayrollNumber,
   )
-  return endings.map((we) => weekOf(p, we, expected))
+  return endings.map((we) => weekOf(p, we, expected, brief, periods))
 }
 
 const refOf = (w: TimelineWeek): WeekRef => ({

@@ -8,7 +8,7 @@ import { storedZip } from './zip.ts'
 
 type ReportRow = (typeof db.reports)[number]
 
-function statusOf(r: ReportRow): ArchiveStatus {
+export function statusOf(r: ReportRow): ArchiveStatus {
   if (r.status === 'superseded') return 'corrected'
   const submission = db.submissions.find((s) => s.reportId === r.id)
   if (submission?.outcome === 'rejected') return 'rejected'

@@ -166,6 +166,46 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Statusi: `{n} day left` / `{n} days left` · `{n} day late` / `{n} days late` · `due today`
 - Prazno: `No projects yet. A project is one public job with its own PRC number.`
   Dugme `Add your first project`.
+- Kartica `report waiting for signature` je link na ekran potpisa najstarije
+  sedmice koja čeka (02 §5). Kad ništa ne čeka, nije link.
+- Upozorenje kad je projekat u kašnjenju:
+  `{Project} is {n} day past its 30-day state deadline` /
+  `{Project} is {n} days past its 30-day state deadline`.
+  Tijelo u grejsu: `NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} day of grace left.` /
+  `NYSDOL assesses $100 per day once a filing is more than 14 days late. You have {n} days of grace left.`
+  Tijelo poslije grejsa: `The 14 days of grace are over. NYSDOL can assess $100 for each day the filing is late.`
+- Tabela rokova, kolone: `Project` · `PRC` · `Last accepted` · `Deadline` ·
+  `Status` · `Unfiled weeks`. Bez prihvaćene predaje: `None yet`. Poslije
+  grejsa ispod statusa: `Penalty possible`. Dugme u redu: `Open`.
+- Sedmice koje nisu zatvorene: naslov `Weeks to close`, pod njim
+  `{n} open week` / `{n} open weeks`. Kolone: `Week ending` · `Project` · `Status` · `Findings`.
+  Sedmica bez sati: `No hours entered`. Dugme: `Open week`. Prazno:
+  `Nothing open. Every week is signed or filed.`
+- Federalni red: naslov `Federal WH-347`, pod njim
+  `due within 7 days of the pay date`. Red: `W/E {week} · paid {payDate}`, a
+  ispod izvor datuma: `Pay date from the company setting` ili
+  `Pay date entered for this week`. Dugme: `Review`.
+- Sedmice bez unosa: naslov `Weeks without entries`, pod njim
+  `No hours and no no-work mark for the week ending {date}.` Dugme
+  `Enter hours`. Prazno: `Every project has hours or a no-work mark for this week.`
+- Nedavno: naslov `Recent reports`. Kolone: `Project` · `Week ending` ·
+  `Version` · `Status`. Prazno: `No reports yet.`
+- Zdravlje podataka: naslov `Data health`. Stavke:
+  `{n} worker without a classification` / `{n} workers without a classification` ·
+  `{n} project without a PRC number` / `{n} projects without a PRC number` ·
+  `{n} classification with an expired rate` / `{n} classifications with an expired rate` ·
+  `{n} apprentice without a registration` / `{n} apprentices without a registration`.
+  Kad nema ništa: `Nothing to fix.`
+- Nova firma bez projekta: kartica `Start here`, tekst
+  `Set up your company, your first project and your crew. Each step is saved as you go.`
+  Dugme `Start setup`.
+
+### Moje firme
+- Naslov: `Your companies` (isti kao u biraču firme).
+- Kartica: ime firme, pod njim `{Role} · {n} active project(s)` iz birača firme.
+  `Next deadline` · `{Project}, {date}` i status roka iz kontrolne table.
+  `Current week` sa statusom sedmice. Bez roka: `No filing due`. Dugme `Open`.
+- Prazno: `You have no company yet. Create your own, or wait for an invitation.`
 
 ### Onboarding
 

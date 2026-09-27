@@ -15,6 +15,7 @@ import {
   onboarding,
   updateCompany,
 } from './company.ts'
+import { dashboard, firmNext } from './dashboard.ts'
 import { db } from './db.ts'
 import { delay } from './delay.ts'
 import {
@@ -176,7 +177,16 @@ export const mockRepositories: Repositories = {
     },
   },
 
-  dashboard: { get: later('dashboard.get', 'E (dashboard, 03 §5 item 9)') },
+  dashboard: {
+    async get(tenantId) {
+      await delay('dashboard.get')
+      return dashboard(tenantId)
+    },
+    async firmNext(tenantId) {
+      await delay('dashboard.firmNext')
+      return firmNext(tenantId)
+    },
+  },
 
   projects: {
     async list(tenantId, filter) {

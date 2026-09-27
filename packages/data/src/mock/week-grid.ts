@@ -62,10 +62,10 @@ export function ownPeriod(tenantId: Uuid, periodId: Uuid) {
   return db.periods.find((p) => p.id === periodId && p.tenantId === tenantId)
 }
 
-function period(projectId: Uuid, weekEnding: IsoDate) {
+function period(projectId: Uuid, weekEnding: IsoDate, of = db.periods) {
   // A corrected week is superseded by the row that corrects it, so the newest
   // row for that week ending is the one the grid opens (spec/04 §7.1).
-  const rows = db.periods.filter((p) => p.projectId === projectId && p.weekEnding === weekEnding)
+  const rows = of.filter((p) => p.projectId === projectId && p.weekEnding === weekEnding)
   return rows.find((p) => p.correctsPeriodId !== null) ?? rows[0]
 }
 
@@ -311,6 +311,8 @@ function expectedNumbers(projectId: Uuid): Map<IsoDate, number> {
   const project = db.projects.find((p) => p.id === projectId)
   const tenant = project && db.tenants.find((t) => t.id === project.tenantId)
   if (!project || !tenant) return new Map()
+  // The project's rows once, not the whole table once a week.
+  const rows = db.periods.filter((p) => p.projectId === projectId)
   const weeks = timelineWeekEndings({
     startDate: project.startDate,
     endDate: project.actualEndDate,
@@ -318,7 +320,7 @@ function expectedNumbers(projectId: Uuid): Map<IsoDate, number> {
     today: addDays(mockToday(), 7),
   }).map((weekEnding) => ({
     weekEnding,
-    payrollNumber: period(projectId, weekEnding)?.payrollNumber ?? null,
+    payrollNumber: period(projectId, weekEnding, rows)?.payrollNumber ?? null,
   }))
   return expectedPayrollNumbers(weeks, project.nextPayrollNumber)
 }

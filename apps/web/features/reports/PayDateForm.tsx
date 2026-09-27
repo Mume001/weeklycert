@@ -41,10 +41,7 @@ export function PayDateForm({
     })
 
   return (
-    <section
-      aria-label={t.label}
-      className="flex flex-wrap items-end gap-3 rounded-lg border border-border-decorative bg-white p-4 shadow-sm"
-    >
+    <section className="flex flex-wrap items-end gap-3 rounded-lg border border-border-decorative bg-white p-4 shadow-sm">
       <FormField id="pay-date" label={t.label} hint={hint}>
         <Input
           {...fieldIds('pay-date', hint)}
