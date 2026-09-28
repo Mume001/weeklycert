@@ -488,6 +488,14 @@ export const mockRepositories: Repositories = {
       await delay('auth.signIn')
       return auth.signIn(email, password)
     },
+    async verifyTwoFactor(code) {
+      await delay('auth.verifyTwoFactor')
+      return auth.verifyTwoFactor(code)
+    },
+    async checkPassword(userId, password) {
+      await delay('auth.checkPassword')
+      return auth.checkPassword(userId, password)
+    },
     async issueToken(kind, email) {
       await delay('auth.issueToken')
       return auth.issueToken(kind, email)

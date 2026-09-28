@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 import { copy, count, fill, plural } from '../src/index.ts'
@@ -34,6 +34,18 @@ describe('packages/copy is spec/15, nothing invented', () => {
 
   it('has no em or en dash (15 §1 rule 7)', () => {
     expect(all.filter(([, s]) => /[–—]/.test(s))).toEqual([])
+  })
+
+  it('has no em or en dash anywhere in its source either, comments included', () => {
+    const dir = fileURLToPath(new URL('../src/', import.meta.url))
+    const hits = readdirSync(dir)
+      .filter((f) => f.endsWith('.ts'))
+      .flatMap((f) =>
+        readFileSync(`${dir}${f}`, 'utf8')
+          .split('\n')
+          .flatMap((line, i) => (/[–—]/.test(line) ? [`${f}:${i + 1}`] : [])),
+      )
+    expect(hits).toEqual([])
   })
 
   it('never dodges a plural with "(s)" (15 §1 rule 11)', () => {

@@ -14,7 +14,7 @@ import {
 } from '@wc/data'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
-import { ROLE_COOKIE, STATUS_COOKIE } from './mock-role'
+import { ROLE_COOKIE, STATUS_COOKIE, USER_COOKIE } from './mock-role'
 
 export async function mockRole(): Promise<MembershipRole> {
   const value = (await cookies()).get(ROLE_COOKIE)?.value
@@ -22,8 +22,17 @@ export async function mockRole(): Promise<MembershipRole> {
   return parsed.success ? parsed.data : 'owner'
 }
 
+/**
+ * The signed-in user: the one who signed in (USER_COOKIE), or else the demo
+ * user of the picked role. Whoever it is, a company opens only through its
+ * membership (loadShell), so nobody becomes another company's owner.
+ */
 export async function mockSession(): Promise<{ userId: string; pickedRole: MembershipRole }> {
   const pickedRole = await mockRole()
+  const signedIn = (await cookies()).get(USER_COOKIE)?.value
+  if (signedIn && (await getRepositories().users.get(signedIn))) {
+    return { userId: signedIn, pickedRole }
+  }
   return { userId: demoUserIdForRole(pickedRole), pickedRole }
 }
 

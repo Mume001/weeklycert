@@ -224,3 +224,58 @@ test('loading, error, locked and an expired link from ?state=', async ({ page })
       .or(page.getByRole('link', { name: 'Send a new link' })),
   ).toBeVisible()
 })
+
+// A company opens only to its members (session M follow-up): anyone else gets
+// the 404 a foreign id gets (spec/11 §6), however they signed in.
+const HUDSON = '/app/hudson-electric/dashboard'
+
+async function withCode(page: Page) {
+  await expect(page).toHaveURL('/2fa')
+  await page.getByLabel('Code').fill('123456')
+  await page.getByRole('button', { name: 'Verify' }).click()
+}
+
+test('a user with no company lands on /firms, empty, and Hudson is a 404', async ({ page }) => {
+  await page.goto('/register')
+  await page.getByLabel('Your name').fill('Sam Porter')
+  await page.getByLabel('Work email').fill('sam@porter-electric.test')
+  await page.getByLabel('Password').fill('a long enough password')
+  await page.getByLabel('Company name').fill('Porter Electric LLC')
+  await page.getByLabel(/^I agree to the Terms of Service/).check()
+  await page.getByRole('button', { name: 'Create account' }).click()
+  const verify = await page.getByRole('link', { name: 'Open the link' }).getAttribute('href')
+  if (!verify) throw new Error('no link')
+  await page.goto(verify)
+  await page.getByRole('button', { name: 'Confirm my email' }).click()
+  await expect(page.getByText('Your email is confirmed.')).toBeVisible()
+
+  await page.goto('/login')
+  await signIn(page, 'sam@porter-electric.test', 'demo')
+  await expect(page).toHaveURL('/firms')
+  await expect(
+    page.getByText('You have no company yet. Create your own, or wait for an invitation.'),
+  ).toBeVisible()
+  const res = await page.goto(HUDSON)
+  expect(res?.status()).toBe(404)
+})
+
+test('the platform admin goes to /admin and is no owner of Hudson', async ({ page }) => {
+  await page.goto('/login')
+  await signIn(page, 'super@weeklycert.test', 'demo')
+  await withCode(page)
+  await expect(page).toHaveURL('/admin')
+  const res = await page.goto(HUDSON)
+  expect(res?.status()).toBe(404)
+})
+
+test('a member of another company opens only that one; Hudson is a 404', async ({ page }) => {
+  await page.goto('/login')
+  await signIn(page, 'owner@riverside-mechanical.test', 'demo')
+  await withCode(page)
+  await expect(page).toHaveURL('/app/riverside-mechanical/dashboard')
+  const res = await page.goto(HUDSON)
+  expect(res?.status()).toBe(404)
+  const firms = await page.goto('/firms')
+  expect(firms?.status()).toBe(200)
+  await expect(page.getByTestId('firm-card')).toHaveCount(1)
+})

@@ -310,6 +310,10 @@ export interface Repositories {
    */
   auth: {
     signIn(email: string, password: string): Promise<SignInResult>
+    /** The code after the password (11 §3). */
+    verifyTwoFactor(code: string): Promise<boolean>
+    /** The current password, before a new one on /account/security. */
+    checkPassword(userId: Uuid, password: string): Promise<boolean>
     issueToken(kind: TokenKind, email: string): Promise<string>
     /** Reads without using: opening a link is not clicking it (03 §4.1). */
     peekToken(kind: TokenKind, token: string): Promise<{ email: string } | null>

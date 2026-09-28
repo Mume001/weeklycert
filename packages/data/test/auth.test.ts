@@ -3,6 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { RegisterInputSchema } from '../src/dto/index.ts'
 import { getRepositories } from '../src/index.ts'
 import { db, resetMockDb } from '../src/mock/db.ts'
+import { mockRepositories } from '../src/mock/index.ts'
 
 const repos = getRepositories()
 const OWNER = '01922000-0000-7000-8000-000000000001'
@@ -71,6 +72,10 @@ describe('links that would be emailed', () => {
     expect(await repos.auth.register(input, true)).toEqual({ ok: false, error: 'emailTaken' })
     await repos.auth.consumeToken('verify', done.token)
     expect(db.pendingAccounts).toEqual([])
+    // Confirmed: the account exists, still in no company.
+    const signedIn = await repos.auth.signIn('ana@example.test', 'demo')
+    expect(signedIn).toMatchObject({ ok: true, role: null, needsTwoFactor: false })
+    if (signedIn.ok) expect(await repos.tenants.listForUser(signedIn.userId)).toEqual([])
     expect(RegisterInputSchema.safeParse({ ...input, password: 'short' }).success).toBe(false)
   })
 
@@ -97,4 +102,38 @@ describe('the account (03 §4.2)', () => {
     await repos.auth.signOutEverywhere(OWNER)
     expect((await repos.auth.account(OWNER))?.sessions).toHaveLength(1)
   })
+})
+
+describe('the demo sign-in works only with DATA_SOURCE=mock (19 §4)', () => {
+  // The mock called straight, as a real data source that reached it would.
+  const direct = mockRepositories.auth
+  const withSource = async <T>(source: string | undefined, run: () => Promise<T>) => {
+    const was = process.env.DATA_SOURCE
+    if (source === undefined) delete process.env.DATA_SOURCE
+    else process.env.DATA_SOURCE = source
+    try {
+      return await run()
+    } finally {
+      process.env.DATA_SOURCE = was
+    }
+  }
+
+  it('lets "demo" and six digits through in the mock', async () => {
+    expect((await direct.signIn('payroll@hudson-electric.test', 'demo')).ok).toBe(true)
+    expect(await direct.verifyTwoFactor('123 456')).toBe(true)
+    expect(await direct.checkPassword(OWNER, 'demo')).toBe(true)
+  })
+
+  for (const source of ['postgres', 'drizzle', undefined]) {
+    it(`refuses both with DATA_SOURCE=${source ?? '(unset)'}`, async () => {
+      await withSource(source, async () => {
+        expect(await direct.signIn('payroll@hudson-electric.test', 'demo')).toEqual({
+          ok: false,
+          error: 'mismatch',
+        })
+        expect(await direct.verifyTwoFactor('123456')).toBe(false)
+        expect(await direct.checkPassword(OWNER, 'demo')).toBe(false)
+      })
+    })
+  }
 })

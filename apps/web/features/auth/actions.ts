@@ -15,12 +15,14 @@ import {
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { PENDING_2FA_COOKIE, ROLE_COOKIE } from '@/lib/mock-role'
+import { PENDING_2FA_COOKIE, ROLE_COOKIE, USER_COOKIE } from '@/lib/mock-role'
 
 const Email = z.string().trim().toLowerCase()
 
-async function signedInAs(role: MembershipRole | null): Promise<never> {
+/** The session is that user (USER_COOKIE); /app then sends each one where they belong. */
+async function signedInAs(userId: string, role: MembershipRole | null): Promise<never> {
   const jar = await cookies()
+  jar.set(USER_COOKIE, userId, { path: '/', sameSite: 'lax' })
   if (role) jar.set(ROLE_COOKIE, role, { path: '/', sameSite: 'lax' })
   jar.delete(PENDING_2FA_COOKIE)
   redirect('/app')
@@ -39,28 +41,26 @@ export async function signInAction(form: FormData): Promise<SignInState> {
   if (!result.ok) return result
   if (result.needsTwoFactor) {
     // Half a session: the password was right, the code is next (11 §3).
-    ;(await cookies()).set(PENDING_2FA_COOKIE, result.role ?? 'none', {
+    ;(await cookies()).set(PENDING_2FA_COOKIE, `${result.userId}:${result.role ?? ''}`, {
       path: '/',
       sameSite: 'lax',
     })
     redirect('/2fa')
   }
-  return signedInAs(result.role)
+  return signedInAs(result.userId, result.role)
 }
 
 export type TwoFactorState = { failed: boolean }
 
-/** Mock: any six digits (19 §4). Without the half session there is nothing to finish. */
+/** The code is checked in the data layer (19 §4). Without the half session there is nothing to finish. */
 export async function twoFactorAction(form: FormData): Promise<TwoFactorState> {
   const pending = (await cookies()).get(PENDING_2FA_COOKIE)?.value
   if (!pending) redirect('/login')
-  const code = z
-    .string()
-    .parse(form.get('code') ?? '')
-    .replace(/\s/g, '')
-  if (!/^\d{6}$/.test(code)) return { failed: true }
-  const role = MembershipRoleSchema.safeParse(pending)
-  return signedInAs(role.success ? role.data : null)
+  const code = z.string().parse(form.get('code') ?? '')
+  if (!(await getRepositories().auth.verifyTwoFactor(code))) return { failed: true }
+  const [userId = '', rawRole] = pending.split(':')
+  const role = MembershipRoleSchema.safeParse(rawRole)
+  return signedInAs(userId, role.success ? role.data : null)
 }
 
 /** Magic link, reset and a new confirmation: the same answer whether the account exists (11 §4). */
@@ -77,7 +77,7 @@ export async function sendLinkAction(
 export async function consumeMagicLinkAction(token: string): Promise<{ ok: false }> {
   const used = await getRepositories().auth.consumeToken('magic', z.string().parse(token))
   if (!used?.userId) return { ok: false }
-  return signedInAs(used.role)
+  return signedInAs(used.userId, used.role)
 }
 
 export async function confirmEmailAction(token: string): Promise<{ ok: boolean }> {

@@ -13,6 +13,9 @@ export const ROLE_COOKIE = 'wc-mock-role'
 export const STATUS_COOKIE = 'wc-mock-status'
 
 export function setMockRole(role: MembershipRole): void {
+  // Picking a role acts as that role's demo user, not as whoever signed in.
+  // biome-ignore lint/suspicious/noDocumentCookie: demo role picker only, gone in step 4
+  document.cookie = `${USER_COOKIE}=; path=/; max-age=0; samesite=lax`
   // biome-ignore lint/suspicious/noDocumentCookie: demo role picker only, gone in step 4
   document.cookie = `${ROLE_COOKIE}=${role}; path=/; samesite=lax`
 }
@@ -29,3 +32,10 @@ export const FLAGS_COOKIE = 'wc-mock-flags'
  * not yet the two-factor code, as "role". Gone in step 4.
  */
 export const PENDING_2FA_COOKIE = 'wc-mock-2fa'
+
+/**
+ * Who signed in (session M, 19 §4): the user's own id, so a sign-in as someone
+ * outside Hudson Electric is that person and never its owner. RoleSwitcher
+ * clears it and acts as the picked role's demo user again. Gone in step 4.
+ */
+export const USER_COOKIE = 'wc-mock-user'

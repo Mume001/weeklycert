@@ -26,10 +26,12 @@ export async function saveProfileAction(raw: unknown): Promise<ProfileResult> {
 
 export type PasswordResult = { ok: true } | { ok: false; error: 'wrong' | 'short' }
 
-/** Mock: the current password is "demo" (19 §4); a change signs out every other session (11 §3). */
+/** The current password is checked in the data layer (19 §4); a change signs out every other session (11 §3). */
 export async function changePasswordAction(current: string, next: string): Promise<PasswordResult> {
   const { user } = await requireSession()
-  if (current !== 'demo') return { ok: false, error: 'wrong' }
+  if (!(await getRepositories().auth.checkPassword(user.id, current))) {
+    return { ok: false, error: 'wrong' }
+  }
   if (next.length < 12) return { ok: false, error: 'short' }
   await getRepositories().auth.signOutEverywhere(user.id)
   revalidatePath('/account/security')

@@ -10,7 +10,11 @@ import { mockSession } from '@/lib/session'
  */
 export default async function AppPage() {
   const { userId } = await mockSession()
-  const tenants = await getRepositories().tenants.listForUser(userId)
+  const repos = getRepositories()
+  // The platform admin is no member of any company: /admin, and a company
+  // only through impersonation (03 §4.10, 11 §4).
+  if ((await repos.users.get(userId))?.isSuperAdmin) redirect('/admin')
+  const tenants = await repos.tenants.listForUser(userId)
   const only = tenants.length === 1 ? tenants[0] : undefined
   redirect(only ? `/app/${only.slug}/dashboard` : '/firms')
 }

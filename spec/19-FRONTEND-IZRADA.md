@@ -368,8 +368,16 @@ koje već koristi referentni vizual `dizajn/aplikacija.html`.
 inače navigacija po ulogama (02 §5) ne može provjeriti.
 
 **Prijava u mocku** (sesija M): svaki korisnik iz tabele se prijavljuje lozinkom
-`demo`, a dvofaktorski kod je bilo kojih šest cifara. Prijava postavlja ulogu tog
-korisnika u Hudson Electric, kao RoleSwitcher. Nema Better Autha; forme samo
+`demo`, a dvofaktorski kod je bilo kojih šest cifara. **To radi samo kad je
+`DATA_SOURCE=mock`, izričito postavljeno** (Mume, 28.9.2026): provjera
+`demoSignInAllowed()` u `packages/data/src/mock/auth.ts` stoji ispred lozinke
+`demo`, šest cifara i provjere trenutne lozinke na /account/security, pa ih
+nijedan drugi izvor podataka ne može dozvati; test pokazuje da s drugim ili
+nepostavljenim `DATA_SOURCE` sva tri odbijaju. Web ne sadrži nijednu demo
+provjeru. Prijava je sesija tog korisnika (kolačić s njegovim id-jem, ne
+uloga): firma se otvara samo preko članstva, nečlan dobija 404, korisnik bez
+firme ide na /firms, a super-admin na /admin (u firmu samo impersonacijom, 03
+§4.10 i 11). Nema Better Autha; forme samo
 navigiraju (20 M). Tokeni za magic link, potvrdu emaila i novu lozinku žive u
 memoriji servera i troše se jednom.
 

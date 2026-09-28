@@ -73,6 +73,7 @@ const USER_SCOPED = new Set([
   'users.get',
   'tenants.listForUser',
   'auth.account',
+  'auth.checkPassword',
   'auth.renameUser',
   'auth.signOutSession',
   'auth.signOutEverywhere',

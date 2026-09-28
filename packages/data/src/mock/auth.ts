@@ -18,6 +18,30 @@ import { db } from './db.ts'
 
 /** 19 §4: the one password of the demo. */
 const DEMO_PASSWORD = 'demo'
+
+/**
+ * The demo sign-in works only with DATA_SOURCE=mock, said out loud (19 §4).
+ * Every demo shortcut below asks this first, so a real data source can never
+ * reach the password "demo" or the six-digit code, even if it called here.
+ */
+export function demoSignInAllowed(): boolean {
+  return process.env.DATA_SOURCE === 'mock'
+}
+
+/** The demo's password check: never true outside the mock. */
+function demoPassword(password: string): boolean {
+  return demoSignInAllowed() && password === DEMO_PASSWORD
+}
+
+/** 19 §4: in the demo any six digits pass; outside the mock, none. */
+export function verifyTwoFactor(code: string): boolean {
+  return demoSignInAllowed() && /^\d{6}$/.test(code.replace(/\s/g, ''))
+}
+
+/** The current password on /account/security; the demo's, and only in the mock. */
+export function checkPassword(userId: Uuid, password: string): boolean {
+  return db.users.some((u) => u.id === userId) && demoPassword(password)
+}
 const DEMO_TENANT = 'hudson-electric'
 
 const norm = (email: string) => email.trim().toLowerCase()
@@ -41,8 +65,8 @@ export function signIn(email: string, password: string): SignInResult {
   }
   const pending = db.pendingAccounts.find((p) => p.email === key)
   const user = userByEmail(key)
-  if (password === DEMO_PASSWORD && pending) return { ok: false, error: 'unverified', email: key }
-  if (!user || password !== DEMO_PASSWORD) {
+  if (demoPassword(password) && pending) return { ok: false, error: 'unverified', email: key }
+  if (!user || !demoPassword(password)) {
     const row = failures ?? { email: key, count: 0, lockedUntil: null as string | null }
     if (!failures) db.signInFailures.push(row)
     row.count += 1
@@ -85,8 +109,21 @@ export function consumeToken(
   if (!row) return null
   row.usedAt = mockNow()
   if (kind === 'verify') {
+    // The email is confirmed: the account exists now, still without a company
+    // (making the company is registration's real work in step 4, 03 §4.1).
     const at = db.pendingAccounts.findIndex((p) => p.email === row.email)
-    if (at >= 0) db.pendingAccounts.splice(at, 1)
+    const pending = db.pendingAccounts[at]
+    if (pending) {
+      db.pendingAccounts.splice(at, 1)
+      db.users.push({
+        id: `01922000-0000-7000-9000-${String(db.users.length + 1).padStart(12, '0')}`,
+        email: pending.email,
+        name: pending.name,
+        isSuperAdmin: false,
+        lastActiveTenantId: null,
+        twoFactor: false,
+      })
+    }
   }
   const user = userByEmail(row.email)
   return { email: row.email, userId: user?.id ?? null, role: user ? roleInDemo(user.id) : null }
