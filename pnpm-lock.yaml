@@ -35,6 +35,9 @@ importers:
       '@wc/copy':
         specifier: workspace:*
         version: link:../../packages/copy
+      '@wc/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@wc/ui-tokens':
         specifier: workspace:*
         version: link:../../packages/ui-tokens

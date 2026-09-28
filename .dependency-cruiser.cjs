@@ -43,10 +43,18 @@ module.exports = {
     },
     {
       name: 'site-shares-only-tokens-copy-config',
-      comment: 'spec/19 §2: apps/site shares ui-tokens, copy and config, nothing else.',
+      comment:
+        'spec/19 §2: apps/site shares ui-tokens, copy and config; core only for the interactive demo (Mume, 28.9.2026).',
       severity: 'error',
-      from: { path: '^apps/site/' },
+      from: { path: '^apps/site/', pathNot: '^apps/site/components/DemoGrid\.tsx$' },
       to: { path: '^(packages/(core|data|db)|apps/(web|worker))/' },
+    },
+    {
+      name: 'site-demo-takes-only-core',
+      comment: 'spec/19 §2: the demo takes the pure engine, never the data package or the app.',
+      severity: 'error',
+      from: { path: '^apps/site/components/DemoGrid\.tsx$' },
+      to: { path: '^(packages/(data|db)|apps/(web|worker))/' },
     },
     {
       name: 'features-do-not-import-each-other',

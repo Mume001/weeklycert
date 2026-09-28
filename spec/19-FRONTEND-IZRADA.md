@@ -76,6 +76,14 @@ Dijele `packages/ui-tokens`, `packages/copy` i `packages/config`. Ne dijele
 komponente, jer marketing komponente i aplikacijske komponente nemaju istu
 publiku ni iste mjere.
 
+**Jedini izuzetak** (Mume, 28.9.2026, sesija O): `apps/site` smije uvesti
+`packages/core`, i to samo za interaktivni demo (16 §4 red 7), da mreža u demu
+računa pravim motorom. `core` je čist, bez I/O, pa na sajt ne donosi ništa od
+baze ni mreže. Sedmica demoa je JSON izveden iz mock fixtura bez ličnih
+podataka (`packages/data` test ga poredi s fixturama), a demo se učitava kao
+poseban chunk da hero ostane u 1,5 s na 3G. `packages/data`, `packages/db` i
+`apps/web` sajt i dalje ne uvozi.
+
 ### `apps/site`
 
 ```

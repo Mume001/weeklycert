@@ -229,3 +229,40 @@ test('no phone number and no postal address reached the build (spec/19 §8)', as
     expect(html).not.toMatch(/[čćžšđ]/i)
   }
 })
+
+test('the interactive demo: change hours, the checks run, it ends on the review (16 §4 row 7)', async ({
+  page,
+}) => {
+  const errors = collectErrors(page)
+  await page.goto('/#demo')
+  const rows = page.getByTestId('demo-row')
+  await expect(rows.first()).toBeVisible()
+  await expect(page.getByText('Demo data. Every name and number is made up.')).toBeVisible()
+  // No form: nothing asks for a name or an email before the demo.
+  await expect(page.locator('#demo input[type="email"]')).toHaveCount(0)
+
+  const first = rows.first()
+  const total = first.getByTestId('demo-total')
+  const before = Number(await total.textContent())
+  const cell = first.getByRole('textbox').first()
+  const was = Number((await cell.inputValue()) || 0)
+  await cell.fill(String(was + 3))
+  await expect(total).toHaveText(String(before + 3))
+
+  // A day over 24 hours is an error, and an error blocks the review (07).
+  await cell.fill('25')
+  await expect(page.getByTestId('demo-counts')).toContainText(/^[1-9]\d* errors?/)
+  await expect(page.getByRole('button', { name: 'Review the week' })).toBeDisabled()
+  await cell.fill(String(was || ''))
+  await expect(page.getByTestId('demo-counts')).toContainText(/^0 errors/)
+
+  await page.getByRole('button', { name: 'Review the week' }).click()
+  await expect(page.getByRole('heading', { name: 'The week, ready to sign' })).toBeVisible()
+  await expect(page.getByTestId('demo-gross')).toContainText('$')
+  const axe = await new AxeBuilder({ page }).include('#demo').analyze()
+  const serious = axe.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical')
+  expect(serious.map((v) => `${v.id}: ${v.help}`)).toEqual([])
+  await page.getByRole('button', { name: 'Back to the grid' }).click()
+  await expect(rows.first()).toBeVisible()
+  expect(errors).toEqual([])
+})
