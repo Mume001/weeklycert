@@ -172,6 +172,7 @@ export const AUDIT_KINDS = [
   'correction',
   'billing',
   'company',
+  'support',
 ] as const
 export type AuditKind = (typeof AUDIT_KINDS)[number]
 

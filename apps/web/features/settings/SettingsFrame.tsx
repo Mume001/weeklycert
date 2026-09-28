@@ -11,6 +11,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { type ScreenState, screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, type ShellContext } from '@/lib/session'
 import { SECTION_ROLES, type SettingsSection, settingsSections } from '@/lib/settings-sections'
+import { readOnlyTitle } from '@/lib/subscription'
 
 const n = copy.settings.nav
 
@@ -109,7 +110,7 @@ export async function settingsPage(
         frame(
           <>
             {paused && shell.tenant.status !== 'cancelled' && (
-              <Notice tone="info" title={copy.billing.paused} />
+              <Notice tone="info" title={readOnlyTitle(shell.tenant)} />
             )}
             {body}
           </>,

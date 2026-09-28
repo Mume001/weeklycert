@@ -1,0 +1,38 @@
+[
+  {
+    "id": "01934000-0000-7000-8000-000000000001",
+    "kind": "ny_prc",
+    "reference": "2010008390",
+    "fetchedAt": "2026-07-02T09:00:00Z",
+    "parseStatus": "approved",
+    "rateCount": 42,
+    "approvedBy": "01922000-0000-7000-8000-000000000007"
+  },
+  {
+    "id": "01934000-0000-7000-8000-000000000002",
+    "kind": "ny_prc",
+    "reference": "2026001122",
+    "fetchedAt": "2026-07-02T09:05:00Z",
+    "parseStatus": "approved",
+    "rateCount": 38,
+    "approvedBy": "01922000-0000-7000-8000-000000000007"
+  },
+  {
+    "id": "01934000-0000-7000-8000-000000000003",
+    "kind": "federal_wd",
+    "reference": "NY20260012 mod 3",
+    "fetchedAt": "2026-09-01T09:00:00Z",
+    "parseStatus": "needs_review",
+    "rateCount": 17,
+    "approvedBy": null
+  },
+  {
+    "id": "01934000-0000-7000-8000-000000000004",
+    "kind": "ny_prc",
+    "reference": "2026004401",
+    "fetchedAt": "2026-09-15T06:00:00Z",
+    "parseStatus": "failed",
+    "rateCount": 0,
+    "approvedBy": null
+  }
+]

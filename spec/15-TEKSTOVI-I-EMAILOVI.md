@@ -995,6 +995,39 @@ zastavice `sms_reminders` (04 feature_flags) dok se SMS ne uključi u koraku 10
   greška `The name does not match.` Poslije:
   `This company will be deleted on {date}. Until then you can read and export everything.`
 
+### Admin
+
+Tekstove napisao Claude Code u sesiji N (kao u L i M, Mume ih pregleda). Admin
+čita samo Mume, ali pravilo je isto: tekst dolazi iz 15.
+
+- Naziv: `WeeklyCert admin` · meni `Overview` · `Companies` · `Jobs` ·
+  `Wage schedules` · `Classifications`
+- Zabranjeno: naslov iz ForbiddenState, tekst
+  `This page is for the platform administrator, with two-factor authentication on.`
+- Pregled: `Companies` · `Active subscriptions` · `MRR` · `Reports this week` ·
+  red poslova `Waiting` · `Running` · `Failed` · greške: `Recent errors` ·
+  `Errors go to Sentry from step 4. There is nothing to show in the demo.`
+- Firme: pretraga `Search by name or slug` · dugme `Search` · kolone `Company` ·
+  `Status` · `Plan` · `Active projects` · `Last activity` · dugme `Open` ·
+  prazno `No company matches that.`
+- Detalj firme: `Owner` · `Members` · `Created` · pristup podršci:
+  `Support access` · tekst
+  `Opens the company read only for 30 minutes. The owner sees it in the audit log, with your reason.` ·
+  polje `Reason` · greška `Give the reason for the access.` · dugme
+  `Open with support access`
+- Traka u firmi za vrijeme pristupa:
+  `Support access to {Company}, read only, until {time}.` · dugme `End support access`
+- Vrsta u dnevniku firme: `Support access`
+- Poslovi: kolone `Queue` · `State` · `Created` · `Error` · stanja `Waiting` ·
+  `Running` · `Done` · `Failed` · dugmad `Retry` · `Discard` · prazno `No jobs.`
+- Platne tabele: kolone `PRC` · `WD` · `Fetched` · `Status` · `Rates` · stanja
+  `Parsed, waiting for approval` · `Approved` · `Could not be read` · dugme
+  `Approve rates` · napomena
+  `Rates reach the companies only after this approval.`
+- Klasifikacije: `Official list` · `Version {version}` · `{n} classification` /
+  `{n} classifications` · `Changes on the official page` · `Added` · `Removed` ·
+  prazno `The list matches the official page.`
+
 ### Prazna stanja, sva
 | Ekran | Tekst | Dugme |
 |---|---|---|

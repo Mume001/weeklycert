@@ -101,6 +101,32 @@ export const MembershipRow = z.object({
   notifyNewMember: z.boolean().default(false),
 })
 
+/** pg-boss jobs as /admin/jobs lists them (03 §4.10); pg-boss keeps them in step 4. */
+export const JobRow = z.object({
+  id: UuidSchema,
+  queue: z.string(),
+  state: z.enum(['created', 'active', 'completed', 'failed']),
+  createdOn: IsoDateTimeSchema,
+  error: z.string().nullable(),
+})
+
+/** 04 wage_schedule_cache, the part the admin approves (03 §4.10). */
+export const WageScheduleRow = z.object({
+  id: UuidSchema,
+  kind: z.enum(['ny_prc', 'federal_wd']),
+  reference: z.string(),
+  fetchedAt: IsoDateTimeSchema,
+  parseStatus: z.enum(['needs_review', 'approved', 'failed']),
+  rateCount: z.number().int().nonnegative(),
+  approvedBy: UuidSchema.nullable(),
+})
+
+export const CatalogDiffRow = z.object({
+  version: z.string(),
+  added: z.array(z.string()),
+  removed: z.array(z.string()),
+})
+
 /** 04 feature_flags (09 §4): a row without a tenant is the global default. */
 export const FeatureFlagRow = z.object({
   id: UuidSchema,
@@ -151,6 +177,7 @@ export const AuditRow = z.object({
     'correction',
     'billing',
     'company',
+    'support',
   ]),
   action: z.string(),
   detail: z.string(),

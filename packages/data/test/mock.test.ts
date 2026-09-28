@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { demoUserIdForRole, getRepositories, NotYetBuiltError } from '../src/index.ts'
+import { demoUserIdForRole, getRepositories } from '../src/index.ts'
 import { DEFAULT_MOCK_TODAY } from '../src/mock/clock.ts'
 import { delayFor } from '../src/mock/delay.ts'
 
@@ -97,12 +97,5 @@ describe('open weeks (spec/19 §4: exactly three)', () => {
       ['Dutchess County Courthouse Lighting', ['2026-09-05', '2026-09-12']],
       ['Kingston WTP Electrical Upgrade', ['2026-09-12']],
     ])
-  })
-})
-
-describe('later sessions', () => {
-  it('throws NotYetBuiltError instead of pretending', async () => {
-    // Everything up to the dashboard is built; the admin screens are not (03 §5 item 12).
-    await expect(repos.admin.health()).rejects.toBeInstanceOf(NotYetBuiltError)
   })
 })

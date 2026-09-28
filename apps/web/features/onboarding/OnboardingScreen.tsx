@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { formatDate } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { chooseSetupTierAction, completeStepAction, openFirstWeekAction } from './actions'
 import { currentStep, DONE_STEP, lockedFor, stepAllowed, stepHref } from './steps'
 
@@ -334,7 +335,7 @@ export async function OnboardingScreen({
   return frame(
     <>
       {progressBar}
-      {paused && <Notice tone="info" title={copy.billing.paused} />}
+      {paused && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       {lockNotice}
       {content}
       <div className="flex max-w-[880px] flex-wrap items-center gap-2">

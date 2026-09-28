@@ -1,11 +1,10 @@
-// Mock implementation over the fixtures, in memory (spec/19 §3).
-// Session A implements what the app shell reads. Everything else throws
-// NotYetBuiltError naming the session that builds it (spec/19 §10).
+// Mock implementation over the fixtures, in memory (spec/19 §3). Every
+// method is built; NotYetBuiltError stays for what a later step adds.
 import { type Dow, openWeekEndings, weekEndingOf } from '@wc/core'
 import type { OpenWeeksDTO, TenantBrief, TenantDTO, UserDTO } from '../dto/index.ts'
-import { NotYetBuiltError } from '../not-yet.ts'
 import { readPii } from '../pii.ts'
 import type { Repositories } from '../repositories.ts'
+import * as admin from './admin.ts'
 import { exportArchive, listArchive } from './archive.ts'
 import * as auth from './auth.ts'
 import { mockNow, mockToday } from './clock.ts'
@@ -80,10 +79,6 @@ import {
   workerName,
   workerNames,
 } from './workers.ts'
-
-const later = (method: string, session: string) => async (): Promise<never> => {
-  throw new NotYetBuiltError(method, session)
-}
 
 function activeProjectsOf(tenantId: string) {
   return db.projects.filter((p) => p.tenantId === tenantId && p.status === 'active')
@@ -634,5 +629,54 @@ export const mockRepositories: Repositories = {
     },
   },
 
-  admin: { health: later('admin.health', 'E (admin, 03 §5 item 12)') },
+  admin: {
+    async health() {
+      await delay('admin.health')
+      return admin.health()
+    },
+    async tenants(query) {
+      await delay('admin.tenants')
+      return admin.tenants(query)
+    },
+    async tenant(tenantId, superUserId) {
+      await delay('admin.tenant')
+      return admin.tenant(tenantId, superUserId)
+    },
+    async startSupportAccess(tenantId, superUserId, reason) {
+      await delay('admin.startSupportAccess')
+      return admin.startSupportAccess(tenantId, superUserId, reason)
+    },
+    async endSupportAccess(tenantId, superUserId) {
+      await delay('admin.endSupportAccess')
+      admin.endSupportAccess(tenantId, superUserId)
+    },
+    async supportAccess(tenantId, superUserId) {
+      await delay('admin.supportAccess')
+      return admin.supportAccess(tenantId, superUserId)
+    },
+    async jobs() {
+      await delay('admin.jobs')
+      return admin.jobs()
+    },
+    async retryJob(jobId, superUserId) {
+      await delay('admin.retryJob')
+      admin.retryJob(jobId, superUserId)
+    },
+    async discardJob(jobId, superUserId) {
+      await delay('admin.discardJob')
+      admin.discardJob(jobId, superUserId)
+    },
+    async wageSchedules() {
+      await delay('admin.wageSchedules')
+      return admin.wageSchedules()
+    },
+    async approveWageSchedule(scheduleId, superUserId) {
+      await delay('admin.approveWageSchedule')
+      admin.approveWageSchedule(scheduleId, superUserId)
+    },
+    async classifications() {
+      await delay('admin.classifications')
+      return admin.classifications()
+    },
+  },
 }

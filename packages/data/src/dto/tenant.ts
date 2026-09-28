@@ -15,5 +15,10 @@ export const TenantDTOSchema = z.object({
   timezone: z.string(),
   /** Named in ForbiddenState ("Ask {Owner name} for access", spec/15 §3). */
   owner: z.object({ name: z.string(), email: z.email() }),
+  /**
+   * Set while the platform admin looks in through support access: read only
+   * until then (03 §4.10, 11 §2). Never set for a member.
+   */
+  supportUntil: z.string().optional(),
 })
 export type TenantDTO = z.infer<typeof TenantDTOSchema>

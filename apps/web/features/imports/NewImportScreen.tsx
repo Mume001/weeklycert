@@ -12,6 +12,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { formatDate } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { CheckStep } from './CheckStep'
 import { MappingStep } from './MappingStep'
 import { ReconcileStep } from './ReconcileStep'
@@ -109,7 +110,7 @@ export async function NewImportScreen({
   if (forced === 'loading') return frame(<LoadingTable columns={4} rows={6} />)
   if (forced === 'error') return frame(<RetryErrorState />)
   // A paused company reads and exports; it does not import (spec/08 §2.4).
-  if (paused) return frame(<Notice tone="info" title={copy.billing.paused} />)
+  if (paused) return frame(<Notice tone="info" title={readOnlyTitle(shell.tenant)} />)
 
   if (!draft) {
     const active = forced === 'empty' ? [] : await repos.projects.list(shell.tenant.id)

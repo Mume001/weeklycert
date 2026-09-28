@@ -12,6 +12,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { UndoImport } from './UndoImport'
 
 const t = copy.imports
@@ -83,7 +84,7 @@ export async function ImportScreen({
 
   return frame(
     <>
-      {paused && <Notice tone="info" title={copy.billing.paused} />}
+      {paused && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <section className="grid max-w-[880px] gap-4 rounded-lg border border-border-decorative bg-white p-5 shadow-sm">
         <dl className="grid gap-3 text-sm sm:grid-cols-2">
           {facts.map(([label, value]) => (

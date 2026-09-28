@@ -1592,6 +1592,84 @@ export const copy = {
       'Cancelled. You have read-only access and full export until {date}, 30 days from now. New York requires you to keep these records for six years, so export before then.',
   },
 
+  // 15 §3 Admin (session N)
+  admin: {
+    name: 'WeeklyCert admin',
+    nav: {
+      overview: 'Overview',
+      tenants: 'Companies',
+      jobs: 'Jobs',
+      wageSchedules: 'Wage schedules',
+      classifications: 'Classifications',
+    },
+    forbidden: 'This page is for the platform administrator, with two-factor authentication on.',
+    overview: {
+      tenants: 'Companies',
+      activeSubscriptions: 'Active subscriptions',
+      mrr: 'MRR',
+      reportsThisWeek: 'Reports this week',
+      waiting: 'Waiting',
+      running: 'Running',
+      failed: 'Failed',
+      errors: 'Recent errors',
+      errorsDemo: 'Errors go to Sentry from step 4. There is nothing to show in the demo.',
+    },
+    tenants: {
+      search: 'Search by name or slug',
+      submit: 'Search',
+      columns: {
+        company: 'Company',
+        status: 'Status',
+        plan: 'Plan',
+        projects: 'Active projects',
+        lastActivity: 'Last activity',
+      },
+      open: 'Open',
+      empty: 'No company matches that.',
+    },
+    tenant: {
+      owner: 'Owner',
+      members: 'Members',
+      created: 'Created',
+      support: {
+        title: 'Support access',
+        body: 'Opens the company read only for 30 minutes. The owner sees it in the audit log, with your reason.',
+        reason: 'Reason',
+        reasonRequired: 'Give the reason for the access.',
+        start: 'Open with support access',
+      },
+    },
+    supportBanner: 'Support access to {Company}, read only, until {time}.',
+    endSupport: 'End support access',
+    jobs: {
+      columns: { queue: 'Queue', state: 'State', created: 'Created', error: 'Error' },
+      states: { created: 'Waiting', active: 'Running', completed: 'Done', failed: 'Failed' },
+      retry: 'Retry',
+      discard: 'Discard',
+      empty: 'No jobs.',
+    },
+    wageSchedules: {
+      columns: { prc: 'PRC', wd: 'WD', fetched: 'Fetched', status: 'Status', rates: 'Rates' },
+      states: {
+        needs_review: 'Parsed, waiting for approval',
+        approved: 'Approved',
+        failed: 'Could not be read',
+      },
+      approve: 'Approve rates',
+      note: 'Rates reach the companies only after this approval.',
+    },
+    classifications: {
+      title: 'Official list',
+      version: 'Version {version}',
+      count_one: '{n} classification',
+      count_other: '{n} classifications',
+      changes: 'Changes on the official page',
+      added: 'Added',
+      removed: 'Removed',
+      same: 'The list matches the official page.',
+    },
+  },
+
   // 15 §3 Postavke (session L)
   settings: {
     nav: {
@@ -1814,6 +1892,7 @@ export const copy = {
         correction: 'Correction',
         billing: 'Billing',
         company: 'Company profile',
+        support: 'Support access',
       },
       export: 'Export CSV',
       empty: 'Nothing matches these filters.',

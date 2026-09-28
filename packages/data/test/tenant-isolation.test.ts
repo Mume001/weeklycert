@@ -79,6 +79,22 @@ const USER_SCOPED = new Set([
   'auth.signOutEverywhere',
 ])
 
+/**
+ * The platform admin's methods (spec/03 §4.10): cross-company by design, for
+ * the super-admin alone (requireSuperAdmin, and each write checks the admin
+ * in the mock). Not a company's row asked for by another company.
+ */
+const PLATFORM_SCOPED = new Set([
+  'admin.tenant',
+  'admin.startSupportAccess',
+  'admin.endSupportAccess',
+  'admin.supportAccess',
+  'admin.retryJob',
+  'admin.discardJob',
+  'admin.approveWageSchedule',
+])
+const outsideCompanies = (method: string) => USER_SCOPED.has(method) || PLATFORM_SCOPED.has(method)
+
 const rates = { baseRate: '50.00', supplement: '30.00', otCodes: '', effectiveFrom: '2026-10-03' }
 
 /** Company B asking for company A's rows, one probe per method that takes an id. */
@@ -292,14 +308,14 @@ describe('the interface (spec/19 §3, Repository)', () => {
 
   it('takes tenantId first in every method that takes an id', () => {
     const missing = signatures()
-      .filter((s) => takesId(s) && !USER_SCOPED.has(s.method) && s.params[0] !== 'tenantId')
+      .filter((s) => takesId(s) && !outsideCompanies(s.method) && s.params[0] !== 'tenantId')
       .map((s) => s.method)
     expect(missing).toEqual([])
   })
 
   it('has a cross-company probe below for every method that takes an id', () => {
     const needProbe = signatures()
-      .filter((s) => takesId(s) && !USER_SCOPED.has(s.method))
+      .filter((s) => takesId(s) && !outsideCompanies(s.method))
       .map((s) => s.method)
       .sort()
     expect(Object.keys(PROBES).sort()).toEqual(needProbe)

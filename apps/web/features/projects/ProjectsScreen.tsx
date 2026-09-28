@@ -14,6 +14,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { ProjectsTable } from './ProjectsTable'
 
 const t = copy.projects.list
@@ -131,7 +132,7 @@ export async function ProjectsScreen({
 
   return frame(
     <>
-      {forced === 'locked' && <Notice tone="info" title={copy.billing.paused} />}
+      {forced === 'locked' && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       {openMode ? (
         <div className="flex flex-wrap items-center justify-between gap-3">
           <p className="text-sm text-text-secondary">{copy.projectsOpen.subtitle}</p>

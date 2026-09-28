@@ -13,6 +13,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { FringePlanForm } from './FringePlanForm'
 import { FringePlansTable } from './FringePlansTable'
 
@@ -97,7 +98,7 @@ export async function FringePlansScreen({
 
   return frame(
     <>
-      {locked && <Notice tone="info" title={copy.billing.paused} />}
+      {locked && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <FringePlansTable slug={slug} plans={plans} canEdit={canWrite} empty={empty} />
       {(isNew || selected) && (
         <div className="max-w-[880px]">

@@ -44,3 +44,10 @@ import; and a test in session B has to prove that this week yields exactly
 
 The portal rejection text on 2026-08-15 is invented; the real format of the
 portal's error messages is not verified.
+
+## Admin (session N)
+
+`jobs.json`, `wage-schedules.json` and `catalog-diff.json` are invented for the
+admin screens: pg-boss has no queue in the mock, no schedule was fetched, and
+the "Teledata Technician" change on the official list is an example.
+NEPROVJERENO (spec/13): the real official list and its changes come in step 8.

@@ -6,6 +6,8 @@ import type { Table as ImportTable } from '@wc/core/import'
 import type {
   AccountDTO,
   AdminHealthDTO,
+  AdminTenantDTO,
+  AdminTenantRowDTO,
   AllocationInput,
   AllocationSaveResult,
   ArchiveDTO,
@@ -15,6 +17,7 @@ import type {
   AuditFilter,
   BillingDTO,
   CancelInput,
+  CatalogAdminDTO,
   ClassificationEditInput,
   ClassificationInput,
   ClassificationSaveResult,
@@ -40,6 +43,7 @@ import type {
   InviteInput,
   InviteResult,
   IsoDate,
+  JobDTO,
   MembershipRole,
   NotificationsDTO,
   NotificationsInput,
@@ -76,6 +80,7 @@ import type {
   TokenKind,
   UserDTO,
   Uuid,
+  WageScheduleDTO,
   WeekGridDTO,
   WorkerFormDTO,
   WorkerInput,
@@ -389,7 +394,26 @@ export interface Repositories {
     /** 30 days of grace, read-only with export, then the purge. */
     requestDeletion(tenantId: Uuid, actorUserId: Uuid): Promise<void>
   }
-  admin: { health(): Promise<AdminHealthDTO> }
+  /**
+   * The platform admin (spec/03 §4.10): cross-company by design, behind
+   * requireSuperAdmin. Every write checks that the one acting is the admin.
+   */
+  admin: {
+    health(): Promise<AdminHealthDTO>
+    tenants(query?: string): Promise<AdminTenantRowDTO[]>
+    tenant(tenantId: Uuid, superUserId: Uuid): Promise<AdminTenantDTO | null>
+    /** Read only for 30 minutes, in the company's audit log with the reason (11 §2). */
+    startSupportAccess(tenantId: Uuid, superUserId: Uuid, reason: string): Promise<string>
+    endSupportAccess(tenantId: Uuid, superUserId: Uuid): Promise<void>
+    /** The end of an open support access, or null. */
+    supportAccess(tenantId: Uuid, superUserId: Uuid): Promise<string | null>
+    jobs(): Promise<JobDTO[]>
+    retryJob(jobId: Uuid, superUserId: Uuid): Promise<void>
+    discardJob(jobId: Uuid, superUserId: Uuid): Promise<void>
+    wageSchedules(): Promise<WageScheduleDTO[]>
+    approveWageSchedule(scheduleId: Uuid, superUserId: Uuid): Promise<void>
+    classifications(): Promise<CatalogAdminDTO>
+  }
 }
 
 /** Picks the implementation. In the mock phase `mock` is the only value (spec/19 §1). */

@@ -4,10 +4,12 @@ import { z } from 'zod'
 import apprenticeRecords from './fixtures/apprentice-records.json'
 import auditLog from './fixtures/audit-log.json'
 import awardingBodies from './fixtures/awarding-bodies.json'
+import catalogDiff from './fixtures/catalog-diff.json'
 import classificationCatalog from './fixtures/classification-catalog.json'
 import featureFlags from './fixtures/feature-flags.json'
 import fringeAllocations from './fixtures/fringe-allocations.json'
 import fringePlans from './fixtures/fringe-plans.json'
+import jobs from './fixtures/jobs.json'
 import memberships from './fixtures/memberships.json'
 import periods from './fixtures/periods.json'
 import projectClassifications from './fixtures/project-classifications.json'
@@ -19,6 +21,7 @@ import subscriptions from './fixtures/subscriptions.json'
 import tenants from './fixtures/tenants.json'
 import timeEntries from './fixtures/time-entries.json'
 import users from './fixtures/users.json'
+import wageSchedules from './fixtures/wage-schedules.json'
 import workerPii from './fixtures/worker-pii.json'
 import workers from './fixtures/workers.json'
 import type { ImportBatch, ImportProfile } from './imports.ts'
@@ -26,11 +29,13 @@ import {
   ApprenticeRecordRow,
   AuditRow,
   AwardingBodyRow,
+  CatalogDiffRow,
   CatalogRow,
   FeatureFlagRow,
   FringeAllocationRow,
   FringePlanRow,
   type InvitationRow,
+  JobRow,
   MembershipRow,
   PeriodRow,
   type PiiAccessLogRow,
@@ -44,6 +49,7 @@ import {
   TenantRow,
   TimeEntryRow,
   UserRow,
+  WageScheduleRow,
   WorkerPiiRow,
   WorkerRow,
   type WorkPauseRow,
@@ -83,6 +89,18 @@ function loadAll() {
     subscriptions: load('subscriptions', SubscriptionRow, subscriptions),
     auditLog: load('audit-log', AuditRow, auditLog),
     featureFlags: load('feature-flags', FeatureFlagRow, featureFlags),
+    jobs: load('jobs', JobRow, jobs),
+    wageSchedules: load('wage-schedules', WageScheduleRow, wageSchedules),
+    // One row: every table here is an array, so a reset can refill it in place.
+    catalogDiff: [CatalogDiffRow.parse(catalogDiff)],
+    // Support access by the platform admin (03 §4.10, 11 §2): in memory.
+    supportAccess: [] as {
+      tenantId: string
+      superUserId: string
+      reason: string
+      until: string
+      endedAt: string | null
+    }[],
     invitations: [] as z.infer<typeof InvitationRow>[],
     // Sign-in in the mock (19 §4, session M): in memory, never in a fixture.
     authTokens: [] as {

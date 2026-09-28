@@ -25,6 +25,7 @@ import {
   PII_READERS,
   PROJECT_WRITERS,
 } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { WorkerForm } from './WorkerForm'
 import { WorkerFringe } from './WorkerFringe'
 
@@ -184,7 +185,7 @@ export async function WorkerFormScreen({
 
   return frame(
     <>
-      {paused && <Notice tone="info" title={copy.billing.paused} />}
+      {paused && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <WorkerForm slug={slug} form={shown} readOnly={!writer || paused} cancelHref={base} />
       {!isNew && (
         <>

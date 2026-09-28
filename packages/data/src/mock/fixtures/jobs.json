@@ -1,0 +1,37 @@
+[
+  {
+    "id": "01933000-0000-7000-8000-000000000001",
+    "queue": "reports.generate",
+    "state": "completed",
+    "createdOn": "2026-09-14T15:02:00Z",
+    "error": null
+  },
+  {
+    "id": "01933000-0000-7000-8000-000000000002",
+    "queue": "billing.process_event",
+    "state": "completed",
+    "createdOn": "2026-09-14T16:40:00Z",
+    "error": null
+  },
+  {
+    "id": "01933000-0000-7000-8000-000000000003",
+    "queue": "wage_schedule.fetch",
+    "state": "failed",
+    "createdOn": "2026-09-15T06:00:00Z",
+    "error": "Timed out after 30 s fetching the PRC page."
+  },
+  {
+    "id": "01933000-0000-7000-8000-000000000004",
+    "queue": "email.send",
+    "state": "active",
+    "createdOn": "2026-09-15T12:40:00Z",
+    "error": null
+  },
+  {
+    "id": "01933000-0000-7000-8000-000000000005",
+    "queue": "reminders.deadline",
+    "state": "created",
+    "createdOn": "2026-09-15T12:41:00Z",
+    "error": null
+  }
+]

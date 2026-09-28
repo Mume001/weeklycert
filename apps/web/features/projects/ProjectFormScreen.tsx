@@ -10,6 +10,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Skeleton } from '@/components/ui/skeleton'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { ProjectForm } from './ProjectForm'
 
 /** Skeleton in the shape of the form (spec/19 §7), no spinner. */
@@ -106,7 +107,7 @@ export async function ProjectFormScreen({
 
   return frame(
     <>
-      {isNew && forced === 'locked' && <Notice tone="info" title={copy.billing.paused} />}
+      {isNew && forced === 'locked' && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       {closed && <ClosedNotice href="#project-status" />}
       <ProjectForm
         slug={slug}

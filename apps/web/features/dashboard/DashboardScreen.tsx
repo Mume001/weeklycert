@@ -27,6 +27,7 @@ import {
 import { dateParts, formatDayMonth } from '@/lib/format'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 
 const t = copy.dashboard
 
@@ -180,7 +181,7 @@ export async function DashboardScreen({
 
   return frame(
     <>
-      {paused && <Notice tone="info" title={copy.billing.paused} />}
+      {paused && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       {late.map((d) => (
         <Notice
           key={d.projectId}

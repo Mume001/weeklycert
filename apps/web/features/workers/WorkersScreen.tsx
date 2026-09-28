@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PII_READERS, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { WorkerNamesTable, WorkersTable } from './WorkersTable'
 
 const t = copy.workers.list
@@ -130,7 +131,7 @@ export async function WorkersScreen({
 
   return frame(
     <>
-      {forced === 'locked' && <Notice tone="info" title={copy.billing.paused} />}
+      {forced === 'locked' && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <nav aria-label={t.filterLabel} className="flex gap-1">
           {STATUSES.map((s) => (

@@ -13,6 +13,7 @@ import { RetryErrorState } from '@/components/patterns/RetryErrorState'
 import { Button } from '@/components/ui/button'
 import { screenState } from '@/lib/screen-state'
 import { isReadOnlyCompany, loadShell, PROJECT_WRITERS } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { ImportsTable } from './ImportsTable'
 
 /** /app/[t]/imports: the import history (spec/03 §4.7). The viewer has no import (02 §5). */
@@ -61,7 +62,7 @@ export async function ImportsScreen({
   const rows = forced === 'empty' ? [] : await getRepositories().imports.list(shell.tenant.id)
   return frame(
     <>
-      {locked && <Notice tone="info" title={copy.billing.paused} />}
+      {locked && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <ImportsTable
         slug={slug}
         rows={rows}

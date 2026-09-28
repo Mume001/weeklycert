@@ -2,12 +2,14 @@ import { DEMO_TENANT_SLUG } from '@wc/data'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { AppShell } from '@/components/app-shell/AppShell'
+import { SupportBanner } from '@/features/admin/AdminForms'
 import { buildNav } from '@/lib/nav'
 import { loadShell } from '@/lib/session'
 import { subscriptionBanner } from '@/lib/subscription'
 
 // AppShell for every company route (spec/19 §2). A company the user is not a
-// member of answers 404, never 403 (spec/11 §6).
+// member of answers 404, never 403 (spec/11 §6); the platform admin comes in
+// only through support access, under its banner (03 §4.10).
 export default async function TenantLayout({
   children,
   params,
@@ -30,6 +32,13 @@ export default async function TenantLayout({
       subscription={subscriptionBanner(shell.tenant, shell.today)}
       demoHomeHref={`/app/${DEMO_TENANT_SLUG}/dashboard`}
     >
+      {shell.tenant.supportUntil && (
+        <SupportBanner
+          tenantId={shell.tenant.id}
+          company={shell.tenant.legalName}
+          until={shell.tenant.supportUntil}
+        />
+      )}
       {children}
     </AppShell>
   )

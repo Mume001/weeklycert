@@ -65,7 +65,14 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
     repos.tenants.listForUser(userId),
   ])
   const membership = tenants.find((t) => t.slug === slug)
-  if (!user || !tenant || !membership) return null
+  if (!user || !tenant) return null
+  // The platform admin is no member (02 §1): in only through an open support
+  // access, read only, seen as the owner would see it (03 §4.10, 11 §2).
+  const supportUntil =
+    !membership && user.isSuperAdmin ? await repos.admin.supportAccess(tenant.id, user.id) : null
+  if (!membership && !supportUntil) return null
+  if (supportUntil) tenant.supportUntil = supportUntil
+  const role: MembershipRole = membership?.role ?? 'owner'
   // Mock only: a test may play a paused or cancelled company (STATUS_COOKIE).
   const played = TenantStatusSchema.safeParse((await cookies()).get(STATUS_COOKIE)?.value)
   if (played.success) tenant.status = played.data
@@ -74,10 +81,12 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
     user,
     tenant,
     tenants,
-    role: membership.role,
+    role,
+    // Support access never signs (11 §2: read only).
     canSign:
-      SIGNING_ROLES.includes(membership.role) &&
-      (membership.role !== 'bookkeeper' || membership.canSign),
+      membership !== undefined &&
+      SIGNING_ROLES.includes(role) &&
+      (role !== 'bookkeeper' || membership.canSign),
     pickedRole,
     openWeeks,
     today: repos.today(),
@@ -150,7 +159,19 @@ export const FRINGE_ALLOCATION_WRITERS: readonly MembershipRole[] = PROJECT_WRIT
 
 /** spec/08 §2.4: a paused or cancelled company reads and exports, nothing else. */
 export function isReadOnlyCompany(tenant: TenantDTO): boolean {
-  return tenant.status === 'paused' || tenant.status === 'cancelled'
+  // Support access is read only too (11 §2).
+  return tenant.status === 'paused' || tenant.status === 'cancelled' || !!tenant.supportUntil
+}
+
+/**
+ * The guard of /admin (spec/11 §4): the super-admin flag, with two-factor on.
+ * The IP allowlist is step 4's (Cloudflare Access or middleware).
+ */
+export async function requireSuperAdmin(): Promise<{ user: UserDTO }> {
+  const { user } = await requireSession()
+  const account = await getRepositories().auth.account(user.id)
+  if (!user.isSuperAdmin || !account?.twoFactor) throw new GuardError(403)
+  return { user }
 }
 
 // Settings (spec/03 §4.9). Each list is one row of the matrix in spec/02 §3;

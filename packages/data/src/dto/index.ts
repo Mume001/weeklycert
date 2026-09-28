@@ -1,5 +1,6 @@
 // Client-safe entry: types and zod schemas only, no data access.
 // Components import from '@wc/data/dto'; server code may use '@wc/data'.
+export * from './admin.ts'
 export * from './admin-health.ts'
 export * from './archive-row.ts'
 export * from './auth.ts'

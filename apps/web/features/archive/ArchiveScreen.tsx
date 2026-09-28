@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { screenState } from '@/lib/screen-state'
 import { ARCHIVE_FILE_READERS, isReadOnlyCompany, loadShell } from '@/lib/session'
+import { readOnlyTitle } from '@/lib/subscription'
 import { ArchiveTable } from './ArchiveTable'
 
 const t = copy.archive
@@ -102,7 +103,7 @@ export async function ArchiveScreen({ slug, search }: { slug: string; search: Se
 
   return frame(
     <>
-      {paused && <Notice tone="info" title={copy.billing.paused} />}
+      {paused && <Notice tone="info" title={readOnlyTitle(shell.tenant)} />}
       <form
         action={base}
         aria-label={f.label}
