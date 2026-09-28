@@ -482,6 +482,15 @@ export const mockRepositories: Repositories = {
       return exportArchive(tenantId, projectId, texts)
     },
   },
+  flags: {
+    async isOn(tenantId, key) {
+      await delay('flags.isOn')
+      const rows = db.featureFlags.filter((f) => f.key === key)
+      const row = rows.find((f) => f.tenantId === tenantId) ?? rows.find((f) => f.tenantId === null)
+      return row?.enabled ?? false
+    },
+  },
+
   settings: {
     async team(tenantId) {
       await delay('settings.team')

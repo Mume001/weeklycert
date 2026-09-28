@@ -306,6 +306,11 @@ sigurnosni upitnici glavnih izvođača najčešće pitaju.
    izričitim uputstvom da pogleda: granicu odgovornosti naspram izloženosti kazni
    od 100 $ dnevno, odricanje odgovornosti za potpis i savjet, klauzulu o
    automatskom obnavljanju, i izvršivost arbitraže za firmu u stranom vlasništvu.
+6. U isti pregled ide **tekst pristanka na SMS** iz 15 §3 (Postavke,
+   Notifications): da li zadovoljava TCPA (izričit pisani pristanak, ko šalje,
+   koliko poruka, STOP i HELP, "nije uslov kupovine") i zahtjeve za registraciju
+   10DLC kampanje (primjer poruke, opis pristanka, linkovi na uslove i
+   privatnost). SMS se ne uključuje prije tog pregleda (Mume, 28.9.2026).
 
 ### Gdje je advokat stvarno potreban
 

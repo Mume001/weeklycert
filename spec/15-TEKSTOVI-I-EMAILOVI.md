@@ -809,8 +809,11 @@ sedmice. Statusi su značke sedmice (`Signed` · `Submitted` · `Rejected` ·
 ### Postavke
 
 Tekstove napisao Claude Code u sesiji L (Mume, 28.9.2026: "ja pišem u 15, ti
-pregledaš"). Tekst pristanka na SMS je pravni tekst i treba ga provjeriti
-(13, TCPA).
+pregledaš"). Tekst pristanka na SMS je odredio Mume 28.9.2026; `{termsUrl}` i
+`{privacyUrl}` su https://weeklycert.com/legal/terms i /legal/privacy (03 §2).
+Ide na advokatski pregled (18 §5, TCPA i 10DLC). Cijeli SMS dio je skriven iza
+zastavice `sms_reminders` (04 feature_flags) dok se SMS ne uključi u koraku 10
+(12); dok je zastavica isključena, na ekranu nema ni pomena SMS-a.
 
 **Podmeni** (lista sekcija, sakriva se po 02 §3): naziv liste `Settings sections` ·
 `Company` · `Team` · `Signers` · `Billing` · `Notifications` · `Audit log` · `Your data`
@@ -897,7 +900,7 @@ pregledaš"). Tekst pristanka na SMS je pravni tekst i treba ga provjeriti
 - Kanali: naslov `Channels` · `Email` · `Always on.` · `Text messages` ·
   `Off. Text messages need written consent first.` · polje `Mobile number` ·
   greška `Enter a ten-digit US mobile number.` · pristanak (checkbox, pun tekst):
-  `I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above: two days before a deadline and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase.`
+  `I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above. Up to 2 messages per deadline: two days before and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase. Terms: {termsUrl}. Privacy: {privacyUrl}.`
   · greška `Check the box to give consent, or leave text messages off.` ·
   `Consent recorded on {date}.` · `Text messages go to {phone}, two days before a deadline and on the day.` ·
   dugme `Turn on text messages` · `Turn off text messages`

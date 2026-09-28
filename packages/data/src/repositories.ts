@@ -23,6 +23,7 @@ import type {
   DashboardDTO,
   Finding,
   FirmNextDTO,
+  FlagKey,
   FringePlanInput,
   FringePlansDTO,
   FringeSaveResult,
@@ -296,6 +297,8 @@ export interface Repositories {
       texts: ArchiveExportTexts,
     ): Promise<{ name: string; contentType: string; body: Uint8Array<ArrayBuffer> } | null>
   }
+  /** 04 feature_flags: the company's own row wins over the global one (09 §4). */
+  flags: { isOn(tenantId: Uuid, key: FlagKey): Promise<boolean> }
   /** The settings of a company (spec/03 §4.9). Every write takes who acts, for the audit log. */
   settings: {
     team(tenantId: Uuid): Promise<TeamDTO>

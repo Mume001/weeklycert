@@ -28,6 +28,13 @@ export const TIMEZONES = [
 ] as const
 export type Timezone = (typeof TIMEZONES)[number]
 
+/**
+ * Feature flags (04 feature_flags, 09 §4). sms_reminders: text messages stay
+ * hidden until the first customers (spec/12 step 10, Mume 28.9.2026).
+ */
+export const FLAG_KEYS = ['sms_reminders'] as const
+export type FlagKey = (typeof FLAG_KEYS)[number]
+
 // ---------------------------------------------------------------------------
 // Team
 

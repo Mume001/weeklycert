@@ -1,5 +1,7 @@
 import { copy } from '@wc/copy'
 import { getRepositories } from '@wc/data'
+import { flag } from '@/lib/flags'
+import { smsConsentText } from '@/lib/legal'
 import { NOTIFICATION_WRITERS } from '@/lib/session'
 import { ChannelsForm, NotificationsForm } from './NotificationsForms'
 import { settingsPage } from './SettingsFrame'
@@ -20,6 +22,7 @@ export async function NotificationsScreen({
   const { shell, forced, paused, frame } = page.ctx
   const writer = NOTIFICATION_WRITERS.includes(shell.role)
   const dto = await getRepositories().settings.notifications(shell.tenant.id)
+  const smsEnabled = await flag('sms_reminders', shell.tenant.id)
   const readOnly = paused || !writer
 
   return frame(
@@ -33,7 +36,14 @@ export async function NotificationsScreen({
         readOnly={readOnly}
         onlyUserId={writer ? null : shell.user.id}
       />
-      <ChannelsForm slug={slug} sms={forced === 'empty' ? null : dto.sms} readOnly={readOnly} />
+      <ChannelsForm
+        slug={slug}
+        sms={forced === 'empty' ? null : dto.sms}
+        readOnly={readOnly}
+        smsEnabled={smsEnabled}
+        // Off, not even the words go to the browser.
+        consentText={smsEnabled ? smsConsentText() : ''}
+      />
     </>,
   )
 }

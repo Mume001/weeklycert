@@ -99,6 +99,14 @@ export const MembershipRow = z.object({
   notifyNewMember: z.boolean().default(false),
 })
 
+/** 04 feature_flags (09 §4): a row without a tenant is the global default. */
+export const FeatureFlagRow = z.object({
+  id: UuidSchema,
+  tenantId: UuidSchema.nullable(),
+  key: z.enum(['sms_reminders']),
+  enabled: z.boolean(),
+})
+
 /** 04 invitations. The mock keeps no token: nothing is emailed in this phase. */
 export const InvitationRow = z.object({
   id: UuidSchema,

@@ -5,6 +5,7 @@ import apprenticeRecords from './fixtures/apprentice-records.json'
 import auditLog from './fixtures/audit-log.json'
 import awardingBodies from './fixtures/awarding-bodies.json'
 import classificationCatalog from './fixtures/classification-catalog.json'
+import featureFlags from './fixtures/feature-flags.json'
 import fringeAllocations from './fixtures/fringe-allocations.json'
 import fringePlans from './fixtures/fringe-plans.json'
 import memberships from './fixtures/memberships.json'
@@ -26,6 +27,7 @@ import {
   AuditRow,
   AwardingBodyRow,
   CatalogRow,
+  FeatureFlagRow,
   FringeAllocationRow,
   FringePlanRow,
   type InvitationRow,
@@ -80,6 +82,7 @@ function loadAll() {
     timeEntries: load('time-entries', TimeEntryRow, timeEntries),
     subscriptions: load('subscriptions', SubscriptionRow, subscriptions),
     auditLog: load('audit-log', AuditRow, auditLog),
+    featureFlags: load('feature-flags', FeatureFlagRow, featureFlags),
     invitations: [] as z.infer<typeof InvitationRow>[],
     // Tables of spec/04 that have no fixture rows: the screens fill them.
     primeContractors: [] as z.infer<typeof PrimeContractorRow>[],

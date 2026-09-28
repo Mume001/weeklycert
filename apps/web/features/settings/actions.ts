@@ -4,7 +4,6 @@
 // guard (CLAUDE.md, spec/11 §4), with the role list of its row in spec/02 §3.
 // Billing and the company's data run in a paused or cancelled company too
 // (mode 'read'): the owner has to be able to unpause, export and delete there.
-import { copy } from '@wc/copy'
 import {
   CancelInputSchema,
   CompanyInputSchema,
@@ -23,10 +22,13 @@ import {
 } from '@wc/data'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { flag } from '@/lib/flags'
+import { smsConsentText } from '@/lib/legal'
 import {
   BILLING_ROLES,
   COMPANY_WRITERS,
   DATA_OWNERS,
+  GuardError,
   MEMBER_MANAGERS,
   MEMBER_REMOVERS,
   NOTIFICATION_WRITERS,
@@ -243,6 +245,8 @@ export type SmsResult = { ok: true } | { ok: false; errors: Record<string, strin
 /** On only with the consent, and the exact words of it are kept (spec/11, TCPA). */
 export async function setSmsAction(slug: string, raw: unknown): Promise<SmsResult> {
   const shell = await requireTenant(slug, NOTIFICATION_WRITERS)
+  // Hidden until step 10 (spec/12): with the flag off there is no SMS at all.
+  if (!(await flag('sms_reminders', shell.tenant.id))) throw new GuardError(403)
   if (raw === null) {
     await getRepositories().settings.setSms(shell.tenant.id, null, '')
     refresh()
@@ -254,11 +258,7 @@ export async function setSmsAction(slug: string, raw: unknown): Promise<SmsResul
     for (const issue of parsed.error.issues) errors[issue.path.join('.')] ??= issue.message
     return { ok: false, errors }
   }
-  await getRepositories().settings.setSms(
-    shell.tenant.id,
-    parsed.data,
-    copy.settings.notifications.channels.consent,
-  )
+  await getRepositories().settings.setSms(shell.tenant.id, parsed.data, smsConsentText())
   refresh()
   return { ok: true }
 }

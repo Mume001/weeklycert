@@ -146,6 +146,25 @@ describe('notifications (03 §4.9, 04 memberships.notify_*)', () => {
   })
 })
 
+describe('the sms_reminders flag (04 feature_flags, spec/12 step 10)', () => {
+  it('is off for everyone until the first customers', async () => {
+    expect(await repos.flags.isOn(HUDSON, 'sms_reminders')).toBe(false)
+  })
+
+  it("a company's own row wins over the global one", async () => {
+    db.featureFlags.push({
+      id: '01932000-0000-7000-9000-000000000001',
+      tenantId: HUDSON,
+      key: 'sms_reminders',
+      enabled: true,
+    })
+    expect(await repos.flags.isOn(HUDSON, 'sms_reminders')).toBe(true)
+    expect(await repos.flags.isOn('01921000-0000-7000-8000-000000000002', 'sms_reminders')).toBe(
+      false,
+    )
+  })
+})
+
 describe('audit log (03 §4.9, 11 §5)', () => {
   it('has the fixture rows newest first, the reads of worker details, and filters', async () => {
     await repos.workers.readPii(HUDSON, ALVAREZ, ADMIN, 'address')

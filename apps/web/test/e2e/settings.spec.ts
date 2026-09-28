@@ -138,10 +138,38 @@ test('notifications: who gets what is saved; text messages need the consent', as
   await deadline.check()
   await page.getByRole('button', { name: 'Save' }).click()
   await expect(page.getByText('Notifications saved.')).toBeVisible()
+})
 
+test('text messages: not a word of them while sms_reminders is off (spec/12 step 10)', async ({
+  page,
+}) => {
+  await page.goto(`${S}/notifications`)
+  await expect(page.getByRole('heading', { name: 'Channels' })).toBeVisible()
+  await expect(page.getByText('Always on.')).toBeVisible()
+  expect(await page.locator('body').innerText()).not.toMatch(
+    /text message|SMS|mobile number|consent/i,
+  )
+  // Not even in what the server sends: the consent's words stay on the server.
+  expect(await page.content()).not.toContain('I agree to receive text messages')
+  await expect(page.getByLabel('Mobile number')).toHaveCount(0)
+})
+
+test('text messages with sms_reminders on: the consent, with its links, is required', async ({
+  page,
+  context,
+}) => {
+  await context.addCookies([
+    { name: 'wc-mock-flags', value: 'sms_reminders', url: 'http://localhost:3100' },
+  ])
+  await page.goto(`${S}/notifications`)
   await expect(page.getByTestId('sms-state')).toHaveText(
     'Off. Text messages need written consent first.',
   )
+  await expect(
+    page.getByText(
+      'I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above. Up to 2 messages per deadline: two days before and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase. Terms: https://weeklycert.com/legal/terms. Privacy: https://weeklycert.com/legal/privacy.',
+    ),
+  ).toBeVisible()
   await page.getByLabel('Mobile number').fill('845 555 0101')
   await page.getByRole('button', { name: 'Turn on text messages' }).click()
   await expect(

@@ -581,7 +581,7 @@ report_failed, invite, billing_failed, signature_needed, retention_notice)`,
 `error N`.
 
 **feature_flags**: `id`, `tenant_id N` (NULL = globalno), `key text`, `enabled
-boolean`, U (tenant_id, key). Helper `flag(key, tenantId)` (09 §4).
+boolean`, U (tenant_id, key). Helper `flag(key, tenantId)` (09 §4). Zastavice u upotrebi: `sms_reminders`, globalno isključena dok SMS ne krene u koraku 10 (12); dok je isključena, Notifications ne pominje SMS (Mume, 28.9.2026).
 
 **finding_acknowledgements** (potvrde mekih nalaza koje preživljavaju
 rekalkulaciju): `id`, `tenant_id`, `project_id`, `worker_id N`, `code text`,

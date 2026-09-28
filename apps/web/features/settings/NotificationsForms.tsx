@@ -184,10 +184,16 @@ export function ChannelsForm({
   slug,
   sms,
   readOnly,
+  smsEnabled,
+  consentText,
 }: {
   slug: string
   sms: NotificationsDTO['sms']
   readOnly: boolean
+  /** The sms_reminders flag: off, the screen does not mention text messages at all. */
+  smsEnabled: boolean
+  /** The consent with its links filled in, the same words the server keeps. */
+  consentText: string
 }) {
   const router = useRouter()
   const [pending, start] = useTransition()
@@ -204,19 +210,23 @@ export function ChannelsForm({
       <dl className="grid grid-cols-[9rem_1fr] gap-x-3 gap-y-1 text-sm">
         <dt className="font-semibold">{c.email}</dt>
         <dd className="text-text-secondary">{c.emailOn}</dd>
-        <dt className="font-semibold">{c.sms}</dt>
-        <dd className="text-text-secondary" data-testid="sms-state">
-          {sms ? (
-            <>
-              {fill(c.smsOn, { phone: US_PHONE(sms.phone) })}{' '}
-              {fill(c.consentRecorded, { date: formatDate(sms.consentAt) })}
-            </>
-          ) : (
-            c.smsOff
-          )}
-        </dd>
+        {smsEnabled && (
+          <>
+            <dt className="font-semibold">{c.sms}</dt>
+            <dd className="text-text-secondary" data-testid="sms-state">
+              {sms ? (
+                <>
+                  {fill(c.smsOn, { phone: US_PHONE(sms.phone) })}{' '}
+                  {fill(c.consentRecorded, { date: formatDate(sms.consentAt) })}
+                </>
+              ) : (
+                c.smsOff
+              )}
+            </dd>
+          </>
+        )}
       </dl>
-      {!readOnly && sms && (
+      {smsEnabled && !readOnly && sms && (
         <div>
           <Button
             variant="secondary"
@@ -232,7 +242,7 @@ export function ChannelsForm({
           </Button>
         </div>
       )}
-      {!readOnly && !sms && (
+      {smsEnabled && !readOnly && !sms && (
         <form
           noValidate
           className="grid gap-3"
@@ -272,7 +282,7 @@ export function ChannelsForm({
                 onChange={(e) => setConsent(e.target.checked)}
                 className="mt-0.5 size-4 shrink-0 accent-brand"
               />
-              <span>{c.consent}</span>
+              <span>{consentText}</span>
             </label>
             {consentError && (
               <p id="sms-consent-error" className="text-xs font-semibold text-error-600">

@@ -1677,7 +1677,7 @@ export const copy = {
         phone: 'Mobile number',
         phoneFormat: 'Enter a ten-digit US mobile number.',
         consent:
-          'I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above: two days before a deadline and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase.',
+          'I agree to receive text messages from WeeklyCert about certified payroll deadlines at the number above. Up to 2 messages per deadline: two days before and on the day. Message and data rates may apply. Reply STOP to stop and HELP for help. Consent is not a condition of purchase. Terms: {termsUrl}. Privacy: {privacyUrl}.',
         consentRequired: 'Check the box to give consent, or leave text messages off.',
         consentRecorded: 'Consent recorded on {date}.',
         smsOn: 'Text messages go to {phone}, two days before a deadline and on the day.',

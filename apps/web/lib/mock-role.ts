@@ -16,3 +16,10 @@ export function setMockRole(role: MembershipRole): void {
   // biome-ignore lint/suspicious/noDocumentCookie: demo role picker only, gone in step 4
   document.cookie = `${ROLE_COOKIE}=${role}; path=/; samesite=lax`
 }
+
+/**
+ * Feature flags to play on, comma separated, for tests only: sms_reminders is
+ * off in the fixtures, and the screen behind it must still be seen end to end.
+ * No control in the UI sets it. Gone in step 4 with the rest of the mock.
+ */
+export const FLAGS_COOKIE = 'wc-mock-flags'
