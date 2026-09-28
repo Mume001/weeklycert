@@ -7,6 +7,7 @@ import { NotYetBuiltError } from '../not-yet.ts'
 import { readPii } from '../pii.ts'
 import type { Repositories } from '../repositories.ts'
 import { exportArchive, listArchive } from './archive.ts'
+import * as auth from './auth.ts'
 import { mockNow, mockToday } from './clock.ts'
 import {
   chooseSetupTier,
@@ -482,6 +483,49 @@ export const mockRepositories: Repositories = {
       return exportArchive(tenantId, projectId, texts)
     },
   },
+  auth: {
+    async signIn(email, password) {
+      await delay('auth.signIn')
+      return auth.signIn(email, password)
+    },
+    async issueToken(kind, email) {
+      await delay('auth.issueToken')
+      return auth.issueToken(kind, email)
+    },
+    async peekToken(kind, token) {
+      await delay('auth.peekToken')
+      return auth.peekToken(kind, token)
+    },
+    async consumeToken(kind, token) {
+      await delay('auth.consumeToken')
+      return auth.consumeToken(kind, token)
+    },
+    async register(input, withInvitation) {
+      await delay('auth.register')
+      return auth.register(input, withInvitation)
+    },
+    async invitation(token) {
+      await delay('auth.invitation')
+      return auth.invitation(token)
+    },
+    async account(userId) {
+      await delay('auth.account')
+      return auth.account(userId)
+    },
+    async renameUser(userId, name) {
+      await delay('auth.renameUser')
+      auth.renameUser(userId, name)
+    },
+    async signOutSession(userId, sessionId) {
+      await delay('auth.signOutSession')
+      auth.signOutSession(userId, sessionId)
+    },
+    async signOutEverywhere(userId) {
+      await delay('auth.signOutEverywhere')
+      auth.signOutEverywhere(userId)
+    },
+  },
+
   flags: {
     async isOn(tenantId, key) {
       await delay('flags.isOn')

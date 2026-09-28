@@ -83,6 +83,8 @@ export const UserRow = z.object({
   name: z.string(),
   isSuperAdmin: z.boolean(),
   lastActiveTenantId: UuidSchema.nullable(),
+  /** Two-factor on (11 §3: required for owner, admin, signer and bookkeeper). */
+  twoFactor: z.boolean().default(false),
 })
 
 export const MembershipRow = z.object({

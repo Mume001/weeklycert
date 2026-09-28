@@ -4,6 +4,7 @@
 import type { WeekInput } from '@wc/core'
 import type { Table as ImportTable } from '@wc/core/import'
 import type {
+  AccountDTO,
   AdminHealthDTO,
   AllocationInput,
   AllocationSaveResult,
@@ -35,9 +36,11 @@ import type {
   ImportResolveInput,
   ImportStart,
   InvitableRole,
+  InvitationDTO,
   InviteInput,
   InviteResult,
   IsoDate,
+  MembershipRole,
   NotificationsDTO,
   NotificationsInput,
   OnboardingDTO,
@@ -53,6 +56,8 @@ import type {
   ProjectSaveResult,
   ProjectTimelineDTO,
   RateVersionInput,
+  RegisterErrorCode,
+  RegisterInput,
   ReportStatusDTO,
   ReportsDTO,
   ReviewDTO,
@@ -61,12 +66,14 @@ import type {
   SignerInput,
   SignersDTO,
   SignInput,
+  SignInResult,
   SmsInput,
   SubmissionDTO,
   TeamDTO,
   TenantBrief,
   TenantDTO,
   Timezone,
+  TokenKind,
   UserDTO,
   Uuid,
   WeekGridDTO,
@@ -296,6 +303,29 @@ export interface Repositories {
       projectId: Uuid,
       texts: ArchiveExportTexts,
     ): Promise<{ name: string; contentType: string; body: Uint8Array<ArrayBuffer> } | null>
+  }
+  /**
+   * Sign-in and the account (spec/03 §4.1, §4.2). No company: the user is the
+   * one signing in, or the signed-in user's own account. Mock until step 4.
+   */
+  auth: {
+    signIn(email: string, password: string): Promise<SignInResult>
+    issueToken(kind: TokenKind, email: string): Promise<string>
+    /** Reads without using: opening a link is not clicking it (03 §4.1). */
+    peekToken(kind: TokenKind, token: string): Promise<{ email: string } | null>
+    consumeToken(
+      kind: TokenKind,
+      token: string,
+    ): Promise<{ email: string; userId: Uuid | null; role: MembershipRole | null } | null>
+    register(
+      input: RegisterInput,
+      withInvitation: boolean,
+    ): Promise<{ ok: true; token: string } | { ok: false; error: RegisterErrorCode }>
+    invitation(token: string): Promise<InvitationDTO | null>
+    account(userId: Uuid): Promise<AccountDTO | null>
+    renameUser(userId: Uuid, name: string): Promise<void>
+    signOutSession(userId: Uuid, sessionId: string): Promise<void>
+    signOutEverywhere(userId: Uuid): Promise<void>
   }
   /** 04 feature_flags: the company's own row wins over the global one (09 §4). */
   flags: { isOn(tenantId: Uuid, key: FlagKey): Promise<boolean> }

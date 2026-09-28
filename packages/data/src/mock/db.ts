@@ -84,6 +84,23 @@ function loadAll() {
     auditLog: load('audit-log', AuditRow, auditLog),
     featureFlags: load('feature-flags', FeatureFlagRow, featureFlags),
     invitations: [] as z.infer<typeof InvitationRow>[],
+    // Sign-in in the mock (19 §4, session M): in memory, never in a fixture.
+    authTokens: [] as {
+      token: string
+      kind: 'magic' | 'verify' | 'reset'
+      email: string
+      usedAt: string | null
+      issuedOn: string
+    }[],
+    signInFailures: [] as { email: string; count: number; lockedUntil: string | null }[],
+    pendingAccounts: [] as { email: string; name: string }[],
+    userSessions: [] as {
+      id: string
+      userId: string
+      device: string
+      lastActive: string
+      current: boolean
+    }[],
     // Tables of spec/04 that have no fixture rows: the screens fill them.
     primeContractors: [] as z.infer<typeof PrimeContractorRow>[],
     workPauses: [] as z.infer<typeof WorkPauseRow>[],

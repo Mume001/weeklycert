@@ -367,6 +367,12 @@ koje već koristi referentni vizual `dizajn/aplikacija.html`.
 `RoleSwitcher` u mock fazi mijenja aktivnu ulogu bez ponovne prijave, jer se
 inače navigacija po ulogama (02 §5) ne može provjeriti.
 
+**Prijava u mocku** (sesija M): svaki korisnik iz tabele se prijavljuje lozinkom
+`demo`, a dvofaktorski kod je bilo kojih šest cifara. Prijava postavlja ulogu tog
+korisnika u Hudson Electric, kao RoleSwitcher. Nema Better Autha; forme samo
+navigiraju (20 M). Tokeni za magic link, potvrdu emaila i novu lozinku žive u
+memoriji servera i troše se jednom.
+
 **Druga firma** `riverside-mechanical` postoji samo zato da birač firmi i ekran
 `/firms` imaju šta pokazati knjigovođi.
 

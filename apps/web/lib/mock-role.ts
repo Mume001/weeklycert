@@ -23,3 +23,9 @@ export function setMockRole(role: MembershipRole): void {
  * No control in the UI sets it. Gone in step 4 with the rest of the mock.
  */
 export const FLAGS_COOKIE = 'wc-mock-flags'
+
+/**
+ * Mock sign-in (spec/19 §4, session M): the user who passed the password but
+ * not yet the two-factor code, as "role". Gone in step 4.
+ */
+export const PENDING_2FA_COOKIE = 'wc-mock-2fa'

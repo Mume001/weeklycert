@@ -157,6 +157,74 @@ kaže šta je to. Dugme je glagol (`Add a worker`).
 - Pozivnica: `{Inviter} invited you to {Company} as {Role}. Accepting adds this company to your account.`
 - 2FA obavezna: `Your role can sign certifications, so two-factor authentication is required. It takes two minutes to set up.`
 
+Ostatak prijave i naloga napisao Claude Code u sesiji M, kao u L (Mume je
+pregleda). U mock fazi forme samo navigiraju (20 M).
+
+**Prijava** (`/login`)
+- Polja: `Email` · `Password` · `Keep me signed in for 30 days`
+- Linkovi: `Forgot your password?` · `New to WeeklyCert? Create an account`
+- Nepotvrđen email: `Confirm your email first. We sent a link to {email}.` ·
+  dugme `Send the link again` · poslije `Sent. Check your inbox.`
+- Link za prijavu poslat: `If {email} has an account, a sign-in link is on its way. It works once and expires in 15 minutes.`
+- Passkey u demu: `Passkeys come with real sign-in. In this demo, use your email and password.`
+- Demo: `In this demo, every listed user signs in with the password demo, and the two-factor code is any six digits.`
+- Demo link (svuda gdje bi otišao email): `In this demo no email is sent. Open the link here:` · dugme `Open the link`
+
+**Registracija** (`/register`)
+- Naslov: `Create your account`
+- Polja: `Your name` · `Work email` · `Password` s napomenom
+  `At least 12 characters. We check it against known leaked passwords.` ·
+  `Company name` · `State` s vrijednošću `New York` · checkbox
+  `I agree to the Terms of Service and the Data Processing Agreement.`
+- Dugme: `Create account`. Link `Already have an account? Sign in`
+- S pozivnicom: `You are joining {Company}. No new company is created.`
+- Greške: `Enter your name.` · `Enter your email address.` ·
+  `Use at least 12 characters.` · `Enter your company's name.` ·
+  `Accept the terms to continue.` · email zauzet
+  `There is already an account with this email.` s linkom `Sign in instead`
+- Poslije: naslov `Check your email`, tekst
+  `We sent a link to {email}. Open it to confirm your address; your company is created then.`
+
+**Zaboravljena i nova lozinka** (`/forgot`, `/reset/[token]`)
+- Naslov: `Reset your password` · polje `Email` · dugme `Email me a reset link`
+- Poslije: `If {email} has an account, a reset link is on its way. It works once.`
+- Nova: naslov `Choose a new password` · polje `New password` · dugme
+  `Save new password` · poslije
+  `Your password is changed, and every other session is signed out.` · dugme `Sign in`
+- Link koji ne važi (i za potvrdu emaila, magic link i pozivnicu):
+  `This link has expired or was already used.` · dugme `Send a new link`
+
+**Potvrda emaila** (`/verify/[token]`)
+- Naslov: `Confirm your email` · dugme `Confirm my email` · poslije
+  `Your email is confirmed.` · dugme `Continue`
+
+**Magic link** (`/magic/[token]`): naslov `Sign in to WeeklyCert`, tekst gore, dugme `Sign me in`
+
+**Pozivnica** (`/invite/[token]`): tekst gore, dugmad `Accept invitation` ·
+`Create an account` · `Sign in`. Drugi email:
+`This invitation is for {email}. Sign in with that address to accept it.`
+
+**Dvofaktorska** (`/2fa`)
+- Naslov: `Two-factor authentication` · tekst
+  `Enter the 6-digit code from your authenticator app.` · polje `Code` · dugme `Verify`
+- Greška: `That code does not match. Check the app and try again.`
+
+**Nalog** (`/account`)
+- Naslov: `Your account` · polja `Name` · `Email` s napomenom
+  `Changing your email sends a confirmation link to the new address.` ·
+  `Language` s vrijednošću `English`
+- Poruke: `Saved.` ·
+  `We sent a confirmation link to {email}. The change takes effect when you open it.`
+
+**Sigurnost** (`/account/security`)
+- Naslov: `Security`
+- Lozinka: `Password` · `Current password` · `New password` · dugme
+  `Change password` · poslije `Password changed. Every other session is signed out.` ·
+  greška `The current password does not match.`
+- Dvofaktorska: `Two-factor authentication` · `On` · `Off` · `Required for your role.`
+- Sesije: `Active sessions` · kolone `Device` · `Last active` · `This device` ·
+  dugme `Sign out` · `Sign out everywhere` · poslije `Signed out everywhere else.`
+
 ### Kontrolna tabla
 - Naslov: `{Weekday}, {Month} {D}` · pod njim `week ending {WeekEndDay} {Month} {D}`
 - Kartice (broj iznad teksta, pa jednina i množina po pravilu 11):

@@ -74,7 +74,7 @@ zahtjev su ugrađeni jer ih traže i NY kupci.
 | `requireSuperAdmin()` | `/admin/*` | `is_super_admin`, obavezna 2FA, IP allowlist |
 | `verifyStripeSignature()` | `/api/webhooks/stripe` | potpis webhooka nad sirovim tijelom, prozor za ponavljanje. Nikad se ne vjeruje `tenant_id` iz tijela poruke |
 | `internalOnly()` | `/api/metrics` | samo interna mreža (10 §5), nikad javno |
-| bez straže | `/api/health`, auth rute (`login`, `register`, `magic`, `invite`, `reset`, `verify`) | vidi ispod |
+| bez straže | `/api/health`, auth rute (`login`, `register`, `forgot`, `magic`, `invite`, `reset`, `verify`, `2fa`) | vidi ispod |
 
 **Zašto `/api/health` nema stražu.** Nadzor je vanjski i nema nalog; da traži
 sesiju, ne bi mogao javiti da je aplikacija pala. Zato ta ruta smije biti javna,
@@ -91,6 +91,9 @@ ali pod tri uslova, i sva tri su obavezna:
 ih čuva nešto drugo: rate limit po IP-u i po emailu, tokeni koji se troše jednom
 i imaju rok, i poređenje tokena u konstantnom vremenu. Pozivnica se prihvata samo
 ako se email poklapa.
+`forgot` odgovara isto bez obzira da li nalog postoji. `2fa` radi samo uz
+polovičnu sesiju koju je upravo napravila tačna lozinka, s istim rate limitom
+(dodato u sesiji M, 28.9.2026: 03 i 20 M imaju te dvije rute, lista ih nije imala).
 
 **Ovo je zatvorena lista.** Nova javna ruta se ne dodaje bez izmjene ovog
 odjeljka. CI test `guards.test.ts` prolazi kroz sve Route Handlere i server akcije

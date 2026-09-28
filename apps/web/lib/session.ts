@@ -171,3 +171,14 @@ export const NOTIFICATION_READERS: readonly MembershipRole[] = [
   'signer',
   'bookkeeper',
 ]
+
+/**
+ * The guard of /account and /account/security (spec/11 §4): a signed-in user,
+ * no company. In the mock the session is the demo user of the picked role.
+ */
+export async function requireSession(): Promise<{ user: UserDTO }> {
+  const { userId } = await mockSession()
+  const user = await getRepositories().users.get(userId)
+  if (!user) throw new GuardError(404)
+  return { user }
+}

@@ -69,7 +69,14 @@ async function invitationOfA(r: Repositories): Promise<string> {
  * Methods that take a user id and no company: the user is the signed-in
  * session's own, not a row a company owns. Nothing else goes on this list.
  */
-const USER_SCOPED = new Set(['users.get', 'tenants.listForUser'])
+const USER_SCOPED = new Set([
+  'users.get',
+  'tenants.listForUser',
+  'auth.account',
+  'auth.renameUser',
+  'auth.signOutSession',
+  'auth.signOutEverywhere',
+])
 
 const rates = { baseRate: '50.00', supplement: '30.00', otCodes: '', effectiveFrom: '2026-10-03' }
 
