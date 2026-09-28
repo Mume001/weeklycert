@@ -189,6 +189,8 @@ export interface AuditDTO {
     userId: Uuid | null
     userName: string | null
     kind: AuditKind
+    /** What exactly, e.g. support.start or support.end (04 audit_log.action). */
+    action: string
     detail: string
   }[]
   people: { userId: Uuid; name: string }[]

@@ -6,6 +6,7 @@ import { getRepositories } from '@wc/data'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { supportNow } from '@/lib/clock'
 import { requireSuperAdmin } from '@/lib/session'
 
 const Id = z.string().min(1)
@@ -17,15 +18,16 @@ export async function startSupportAction(tenantId: string, reason: string): Prom
   const { user } = await requireSuperAdmin()
   if (reason.trim() === '') return { ok: false, error: 'reasonRequired' }
   const repos = getRepositories()
-  const tenant = await repos.admin.tenant(Id.parse(tenantId), user.id)
+  const now = await supportNow()
+  const tenant = await repos.admin.tenant(Id.parse(tenantId), user.id, now)
   if (!tenant) redirect('/admin/tenants')
-  await repos.admin.startSupportAccess(tenant.id, user.id, reason)
+  await repos.admin.startSupportAccess(tenant.id, user.id, reason, now)
   redirect(`/app/${tenant.slug}/dashboard`)
 }
 
 export async function endSupportAction(tenantId: string): Promise<void> {
   const { user } = await requireSuperAdmin()
-  await getRepositories().admin.endSupportAccess(Id.parse(tenantId), user.id)
+  await getRepositories().admin.endSupportAccess(Id.parse(tenantId), user.id, await supportNow())
   redirect(`/admin/tenants/${tenantId}`)
 }
 

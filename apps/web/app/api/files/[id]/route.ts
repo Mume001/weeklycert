@@ -118,7 +118,7 @@ async function auditCsv(tenantId: string, id: string) {
       `${formatDate(r.at.slice(0, 10))} ${formatClock(r.at)}`,
       r.userName ?? '',
       a.kinds[r.kind],
-      r.detail,
+      r.action === 'support.end' ? a.supportEnded : r.detail,
     ]),
   ]
   return {

@@ -96,6 +96,39 @@ test('the main action: support access with a reason, read only, in the owner aud
   await owner.close()
 })
 
+test('support access runs out after 30 minutes, not 29 (11 §2)', async ({ page, browser }) => {
+  await signInAsAdmin(page)
+  await page.goto('/admin/tenants')
+  await page.getByRole('link', { name: 'Open' }).first().click()
+  await page.getByLabel('Reason').fill('Ticket 42: the clock')
+  await page.getByRole('button', { name: 'Open with support access' }).click()
+  await expect(page).toHaveURL('/app/hudson-electric/dashboard')
+
+  // The support clock, moved by the test (apps/web lib/clock.ts).
+  const move = (minutes: number) =>
+    page
+      .context()
+      .addCookies([
+        { name: 'wc-mock-clock-minutes', value: String(minutes), url: 'http://localhost:3100' },
+      ])
+  const banner = page.getByText(/^Support access to Hudson Electric LLC, read only, until/)
+  await move(29)
+  await page.reload()
+  await expect(banner.first()).toBeVisible()
+  await move(30)
+  const over = await page.reload()
+  expect(over?.status()).toBe(404)
+  await expect(banner).toHaveCount(0)
+  await move(0)
+
+  // The owner's audit log says when it ended.
+  const owner = await browser.newPage()
+  await owner.goto('/app/hudson-electric/settings/audit?kind=support')
+  await expect(owner.getByText('Support access ended.').first()).toBeVisible()
+  await expect(owner.getByText('Ticket 42: the clock')).toBeVisible()
+  await owner.close()
+})
+
 test('a failed job is retried, a schedule is approved', async ({ page }) => {
   await signInAsAdmin(page)
   await page.goto('/admin/jobs')

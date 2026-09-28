@@ -39,3 +39,10 @@ export const PENDING_2FA_COOKIE = 'wc-mock-2fa'
  * clears it and acts as the picked role's demo user again. Gone in step 4.
  */
 export const USER_COOKIE = 'wc-mock-user'
+
+/**
+ * Minutes to move the support-access clock, for tests only: the 30 minutes of
+ * support access (11 §2) must be seen running out, and MOCK_TODAY stands
+ * still. Read in one place, lib/clock.ts. Gone in step 4.
+ */
+export const CLOCK_COOKIE = 'wc-mock-clock-minutes'

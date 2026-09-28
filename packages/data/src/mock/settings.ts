@@ -70,6 +70,8 @@ export function audit(
   kind: AuditKind,
   action: string,
   detail: string,
+  /** When it happened; the mock's now unless the event has its own time. */
+  at: string = mockNow(),
 ): void {
   db.auditLog.push({
     id: db.auditLog.length + 1,
@@ -78,7 +80,7 @@ export function audit(
     kind,
     action,
     detail,
-    at: mockNow(),
+    at,
   })
 }
 
@@ -401,6 +403,7 @@ export function auditLog(tenantId: Uuid, filter: AuditFilter = {}): AuditDTO {
         at: r.at,
         userId: r.actorUserId,
         kind: r.kind,
+        action: r.action,
         detail: r.detail,
       })),
     ...db.piiAccessLog
@@ -410,6 +413,7 @@ export function auditLog(tenantId: Uuid, filter: AuditFilter = {}): AuditDTO {
         at: r.at,
         userId: r.userId,
         kind: 'pii' as const,
+        action: 'pii.read',
         detail: workerName(r.workerId),
       })),
   ].sort((a, b) => b.at.localeCompare(a.at) || b.id.localeCompare(a.id))

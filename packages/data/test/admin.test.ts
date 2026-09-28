@@ -31,16 +31,30 @@ describe('overview and companies', () => {
 })
 
 describe('support access (02 §1, 11 §2)', () => {
-  it('needs the platform admin and a reason, lasts 30 minutes, and the owner sees it', async () => {
-    await expect(repos.admin.startSupportAccess(HUDSON, OWNER, 'look')).rejects.toThrow()
-    await expect(repos.admin.startSupportAccess(HUDSON, SUPER, '  ')).rejects.toThrow()
-    const until = await repos.admin.startSupportAccess(HUDSON, SUPER, 'Ticket 12: grid totals')
-    expect(until).toBe('2026-09-15T13:11:00.000Z')
-    expect(await repos.admin.supportAccess(HUDSON, SUPER)).toBe(until)
+  const NOW = '2026-09-15T12:41:00.000Z'
+  const plus = (minutes: number) => new Date(Date.parse(NOW) + minutes * 60_000).toISOString()
+
+  it('needs the platform admin and a reason, and the owner sees it', async () => {
+    await expect(repos.admin.startSupportAccess(HUDSON, OWNER, 'look', NOW)).rejects.toThrow()
+    await expect(repos.admin.startSupportAccess(HUDSON, SUPER, '  ', NOW)).rejects.toThrow()
+    const until = await repos.admin.startSupportAccess(HUDSON, SUPER, 'Ticket 12: grid totals', NOW)
+    expect(until).toBe(plus(30))
     const log = await repos.settings.auditLog(HUDSON, { kind: 'support' })
-    expect(log.rows[0]).toMatchObject({ detail: 'Ticket 12: grid totals' })
-    await repos.admin.endSupportAccess(HUDSON, SUPER)
-    expect(await repos.admin.supportAccess(HUDSON, SUPER)).toBeNull()
+    expect(log.rows[0]).toMatchObject({ action: 'support.start', detail: 'Ticket 12: grid totals' })
+    await repos.admin.endSupportAccess(HUDSON, SUPER, plus(5))
+    expect(await repos.admin.supportAccess(HUDSON, SUPER, plus(5))).toBeNull()
+  })
+
+  it('still runs at 29 minutes, is over at 30, and the log says when it ended', async () => {
+    const until = await repos.admin.startSupportAccess(HUDSON, SUPER, 'Ticket 13', NOW)
+    expect(await repos.admin.supportAccess(HUDSON, SUPER, plus(29))).toBe(until)
+    expect(await repos.admin.supportAccess(HUDSON, SUPER, plus(30))).toBeNull()
+    // Once closed it stays closed, and the end is logged once, at the 30th minute.
+    expect(await repos.admin.supportAccess(HUDSON, SUPER, plus(31))).toBeNull()
+    const ends = (await repos.settings.auditLog(HUDSON, { kind: 'support' })).rows.filter(
+      (r) => r.action === 'support.end',
+    )
+    expect(ends.map((r) => r.at)).toEqual([until])
   })
 })
 

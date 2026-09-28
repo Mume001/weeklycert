@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { supportNow } from '@/lib/clock'
 import { formatClock, formatDate } from '@/lib/format'
 import { ApproveButton, JobButtons, SupportAccessForm } from './AdminForms'
 import { adminPage } from './AdminFrame'
@@ -145,7 +146,7 @@ export async function AdminTenants({ search }: { search: Search & { q?: string }
 export async function AdminTenant({ id, search }: { id: string; search: Search }) {
   const page = await adminPage('tenants', search)
   if ('done' in page) return page.done
-  const tenant = await getRepositories().admin.tenant(id, page.userId)
+  const tenant = await getRepositories().admin.tenant(id, page.userId, await supportNow())
   if (!tenant) notFound()
   const t = a.tenant
   return page.frame(

@@ -193,8 +193,11 @@ Iz: 15-TEKSTOVI-I-EMAILOVI §4.
 - pg-boss zakazani poslovi: ponedjeljni pregled, brojač 30-dnevnog roka na T-10,
   T-5, T-2, T-0, federalni T-2, podsjetnik za potpis poslije 24 h.
 - Sva vremena se računaju u `America/New_York` (17 §1).
+- Email vlasniku firme kad super-admin otvori pristup podrške, s razlogom i
+  trajanjem (11 §2). Mock ga ne šalje (sesija N, Mume 28.9.2026).
 - **Gotovo kad**: šablon podsjetnika iz 15 §4.3 stiže u Gmail inbox, ne u spam,
-  i DMARC izvještaji su čisti.
+  DMARC izvještaji su čisti, i otvaranje pristupa podrške šalje vlasniku email
+  s razlogom (test s pravim slanjem na test inbox).
 
 ## Korak 7: Naplata (Claude Code, 2 dana)
 
@@ -210,8 +213,14 @@ Iz: 10-INFRASTRUKTURA §5, 11 §9.
 - bootstrap.sh, Dokploy, Managed Postgres, B2, secrets, Cloudflare, staging,
   UptimeRobot, Sentry, backup restore test.
 - Kontrolna lista 11 §9 kompletna.
+- IP allowlista za `/admin` (Cloudflare Access ili naš middleware, 11 §4); mock
+  je nema (sesija N).
+- Sentry greške na admin pregledu (`/admin`, 03 §4.10): zadnje greške s linkom;
+  mock pokazuje samo napomenu (sesija N).
 - **Gotovo kad**: `https://app.weeklycert.com` radi, restore test prošao, lista
-  čekirana, incident runbook napisan.
+  čekirana, incident runbook napisan, `/admin` s adrese van allowliste daje 403
+  a s allowliste radi, i greška izazvana na stagingu se vidi na admin pregledu
+  s linkom na Sentry.
 
 ## Korak 8b: Pravno i operativno, prije prvog stvarnog kupca (Mume, 1 sedmica)
 

@@ -401,12 +401,20 @@ export interface Repositories {
   admin: {
     health(): Promise<AdminHealthDTO>
     tenants(query?: string): Promise<AdminTenantRowDTO[]>
-    tenant(tenantId: Uuid, superUserId: Uuid): Promise<AdminTenantDTO | null>
+    tenant(tenantId: Uuid, superUserId: Uuid, now: string): Promise<AdminTenantDTO | null>
     /** Read only for 30 minutes, in the company's audit log with the reason (11 §2). */
-    startSupportAccess(tenantId: Uuid, superUserId: Uuid, reason: string): Promise<string>
-    endSupportAccess(tenantId: Uuid, superUserId: Uuid): Promise<void>
-    /** The end of an open support access, or null. */
-    supportAccess(tenantId: Uuid, superUserId: Uuid): Promise<string | null>
+    startSupportAccess(
+      tenantId: Uuid,
+      superUserId: Uuid,
+      reason: string,
+      now: string,
+    ): Promise<string>
+    endSupportAccess(tenantId: Uuid, superUserId: Uuid, now: string): Promise<void>
+    /**
+     * The end of an open support access, or null. `now` is the support clock
+     * (apps/web lib/clock.ts); an access past it is closed and logged.
+     */
+    supportAccess(tenantId: Uuid, superUserId: Uuid, now: string): Promise<string | null>
     jobs(): Promise<JobDTO[]>
     retryJob(jobId: Uuid, superUserId: Uuid): Promise<void>
     discardJob(jobId: Uuid, superUserId: Uuid): Promise<void>

@@ -638,21 +638,21 @@ export const mockRepositories: Repositories = {
       await delay('admin.tenants')
       return admin.tenants(query)
     },
-    async tenant(tenantId, superUserId) {
+    async tenant(tenantId, superUserId, now) {
       await delay('admin.tenant')
-      return admin.tenant(tenantId, superUserId)
+      return admin.tenant(tenantId, superUserId, now)
     },
-    async startSupportAccess(tenantId, superUserId, reason) {
+    async startSupportAccess(tenantId, superUserId, reason, now) {
       await delay('admin.startSupportAccess')
-      return admin.startSupportAccess(tenantId, superUserId, reason)
+      return admin.startSupportAccess(tenantId, superUserId, reason, now)
     },
-    async endSupportAccess(tenantId, superUserId) {
+    async endSupportAccess(tenantId, superUserId, now) {
       await delay('admin.endSupportAccess')
-      admin.endSupportAccess(tenantId, superUserId)
+      admin.endSupportAccess(tenantId, superUserId, now)
     },
-    async supportAccess(tenantId, superUserId) {
+    async supportAccess(tenantId, superUserId, now) {
       await delay('admin.supportAccess')
-      return admin.supportAccess(tenantId, superUserId)
+      return admin.supportAccess(tenantId, superUserId, now)
     },
     async jobs() {
       await delay('admin.jobs')

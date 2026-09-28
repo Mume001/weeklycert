@@ -1017,7 +1017,8 @@ Tekstove napisao Claude Code u sesiji N (kao u L i M, Mume ih pregleda). Admin
   `Open with support access`
 - Traka u firmi za vrijeme pristupa:
   `Support access to {Company}, read only, until {time}.` · dugme `End support access`
-- Vrsta u dnevniku firme: `Support access`
+- Vrsta u dnevniku firme: `Support access`; kraj pristupa, ručni ili poslije
+  30 minuta, u koloni Detail: `Support access ended.`
 - Poslovi: kolone `Queue` · `State` · `Created` · `Error` · stanja `Waiting` ·
   `Running` · `Done` · `Failed` · dugmad `Retry` · `Discard` · prazno `No jobs.`
 - Platne tabele: kolone `PRC` · `WD` · `Fetched` · `Status` · `Rates` · stanja
@@ -1119,6 +1120,31 @@ navodi dok se ne pročita iz XSD-a.
 - Korak 1: `Put in the hours` / `Type them into a grid that works like a spreadsheet, or import the export from QuickBooks Time, Gusto, ADP, Paychex or your own file. Last week's crew is already there.`
 - Korak 2: `We check the math` / `Overtime by the OT code on your wage schedule, not a guess. Fringe credit against what the determination requires. Apprentice ratios and registration. Deduction totals that have to add up to net pay.`
 - Korak 3: `Sign and file` / `Your certifying officer signs electronically, which the Department of Labor accepts. When the generator is finished you will download the XML for the portal and the WH-347 for the general contractor.`
+
+**5b Interaktivni demo** (16 §4 red 7; tekst napisao Claude Code u sesiji O)
+- Nadnaslov: `Try it`
+- Naslov: `One week on a county job`
+- Uvod: `A made-up electrical contractor and its crew. Change any hours and watch the checks run. No sign-up, nothing is saved.`
+- Oznaka: `Demo data. Every name and number is made up.`
+- Kolone: `Worker` · `Total`
+- Ćelija, za čitač ekrana: `Hours for {Worker} on {day}`
+- Provjere: naslov `Checks` · `{n} error` / `{n} errors` · `{n} warning` / `{n} warnings` ·
+  kad nema ničega `Everything checks out.`
+- Dugme: `Review the week`
+- Pregled: naslov `The week, ready to sign` · kolone `Worker` · `Classification` ·
+  `Hours` · `Overtime` · `Gross` · red `Total` · napomena
+  `In the product you sign here, and the NY XML and the WH-347 are made from these lines.` ·
+  dugme `Back to the grid`
+- Na uskom ekranu: `The demo is made for a computer screen. It still works here, one row at a time.`
+
+**Demo video** (12 korak 3, 20 O: 90 sekundi, bez zvuka, s titlovima; titlovi se vide u videu)
+1. `Monday morning. Last week's hours for the courthouse job.`
+2. `Type the hours. Straight time and overtime split by themselves.`
+3. `Every check runs as you type. Errors block, warnings explain.`
+4. `Review: the week as the certification will show it.`
+5. `Generate the draft. The signer signs and the week locks.`
+6. `Record the filing. The 30-day clock starts again.`
+7. `WeeklyCert. New York certified payroll, done in ten minutes.`
 
 **6 Stari i novi način** (16 §4 red 8, sedam redova)
 - Nadnaslov: `The difference`

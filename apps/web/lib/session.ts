@@ -14,6 +14,7 @@ import {
 } from '@wc/data'
 import { cookies } from 'next/headers'
 import { cache } from 'react'
+import { supportNow } from './clock'
 import { ROLE_COOKIE, STATUS_COOKIE, USER_COOKIE } from './mock-role'
 
 export async function mockRole(): Promise<MembershipRole> {
@@ -69,7 +70,9 @@ export const loadShell = cache(async (slug: string): Promise<ShellContext | null
   // The platform admin is no member (02 §1): in only through an open support
   // access, read only, seen as the owner would see it (03 §4.10, 11 §2).
   const supportUntil =
-    !membership && user.isSuperAdmin ? await repos.admin.supportAccess(tenant.id, user.id) : null
+    !membership && user.isSuperAdmin
+      ? await repos.admin.supportAccess(tenant.id, user.id, await supportNow())
+      : null
   if (!membership && !supportUntil) return null
   if (supportUntil) tenant.supportUntil = supportUntil
   const role: MembershipRole = membership?.role ?? 'owner'

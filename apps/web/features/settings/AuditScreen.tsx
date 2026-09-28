@@ -118,7 +118,9 @@ export async function AuditScreen({
                   </TableCell>
                   <TableCell>{r.userName}</TableCell>
                   <TableCell>{t.kinds[r.kind]}</TableCell>
-                  <TableCell className="whitespace-normal">{r.detail}</TableCell>
+                  <TableCell className="whitespace-normal">
+                    {r.action === 'support.end' ? t.supportEnded : r.detail}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
