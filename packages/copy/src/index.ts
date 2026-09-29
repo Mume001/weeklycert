@@ -2106,7 +2106,7 @@ export const copy = {
       'Review: the week as the certification will show it.',
       'Generate the draft. The signer signs and the week locks.',
       'Record the filing. The 30-day clock starts again.',
-      'WeeklyCert. New York certified payroll, done in ten minutes.',
+      'WeeklyCert. New York certified payroll, checked before you sign.',
     ],
     compare: {
       eyebrow: 'The difference',

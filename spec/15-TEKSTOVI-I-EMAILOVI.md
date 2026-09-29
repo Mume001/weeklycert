@@ -1144,7 +1144,7 @@ navodi dok se ne pročita iz XSD-a.
 4. `Review: the week as the certification will show it.`
 5. `Generate the draft. The signer signs and the week locks.`
 6. `Record the filing. The 30-day clock starts again.`
-7. `WeeklyCert. New York certified payroll, done in ten minutes.`
+7. `WeeklyCert. New York certified payroll, checked before you sign.`
 
 **6 Stari i novi način** (16 §4 red 8, sedam redova)
 - Nadnaslov: `The difference`
