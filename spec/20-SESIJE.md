@@ -1,4 +1,4 @@
-# 20. Preostale sesije koraka 3
+# 20. Sesije za Claude Code (korak 3 završen, korak 4 u toku)
 
 Ovo je red čekanja za Claude Code poslije sesije E (pregled, potpis,
 izvještaji). Svaka sesija je jedan unos ovdje. Mume otvara sesiju jednom
@@ -172,4 +172,134 @@ Obavezno:
   docs/demo/.
 
 Poslije sesije O korak 3 je gotov i odmah počinje korak 4 iz spec/12 (kapija je
-ukinuta 24.9.2026). Sesije za korake 4 do 10 se dopisuju ovdje kad korak 3 završi.
+ukinuta 24.9.2026). Korak 3 je završen 29.9.2026. Sesije koraka 4 su ispod.
+
+---
+
+# Korak 4: prava baza, prijava i šifrovanje
+
+Cilj koraka 4 iz 12: iste ekrane i iste Playwright tokove pokrenuti na
+`DATA_SOURCE=drizzle`, s pravom Postgres bazom, pravom prijavom i RLS-om.
+Nijedan ekran se ne mijenja izgledom. Mock ostaje i dalje radi (demo, sajt,
+brzi testovi).
+
+Za svaku sesiju koraka 4 važi, uz pravila s vrha ovog fajla:
+
+- Ugovorni testovi repozitorija su jedan skup testova koji se pokreće i na
+  `mock` i na `drizzle`. Isti test, isti očekivani rezultat. Kad se ne slažu,
+  mock je bio pogrešan ili drizzle jeste; ispravlja se kod, ne test.
+- Nijedan test ne smije zavisiti od kolačića `wc-mock-*` kad radi na drizzle.
+  Stanje za test (pauzirana firma, pomjeren sat, uključena zastavica) postavlja
+  Playwright fixture direktno u testnoj bazi. Aplikacija nema nijednu testnu
+  rutu ni testni prekidač u produkcijskom buildu.
+- Lozinke, ključevi i tokeni za lokalni rad su u `.env` koji se ne komituje;
+  `.env.example` ima samo imena i opis.
+- Ništa iz koraka 5 (XML, PDF), 6b (emailovi osim onih koje prijava traži),
+  7 (Stripe) ni 8 (server).
+
+## P. Lokalna baza, šema i RLS
+
+Čitaj: 12 korak 4, 04 cijeli, 09 §2, §3, §5 i §6, 11 §4, 10 §6.
+
+- Prvo provjeri `docker --version` i `docker compose version`. Ako Docker nije
+  instaliran ili ne radi, **stani** i javi tačno šta fali. Ništa ne instaliraj
+  sam na Mumin računar.
+- `docker/compose.yml`: postgres:17, minio, mailpit. Web i worker lokalno i dalje
+  idu kroz pnpm.
+- Drizzle šema svih tabela iz 04, enum tipovi, indeksi, jedinstvena ograničenja
+  (uključujući NULLS NOT DISTINCT iz 04). Broj tabela mora odgovarati 04 §2;
+  test to broji.
+- Migracije su SQL fajlovi. RLS politike su u istoj migraciji kao tabela.
+  Uloge `app_user` (bez BYPASSRLS, nije vlasnik tabela) i `app_admin`.
+- `audit_log`: `app_user` smije samo INSERT i SELECT svoje firme. Bez UPDATE i
+  DELETE granta.
+- `rls.isolation.test.ts`: sam pronađe svaku tabelu s `tenant_id` iz
+  information_schema, pa kao firma A pokuša SELECT, UPDATE i DELETE nad
+  redovima firme B kroz `app_user`. Očekuje 0 redova. Pada ako neka tabela s
+  `tenant_id` nema politiku.
+- Seed: države, katalog klasifikacija (dok u `izvori/` nema zvanične liste,
+  koristi listu iz fixtures, označenu NEPROVJERENO), demo firma Hudson Electric
+  sa istim podacima i istim ID-jevima kao fixtures.
+- CI: posao `db` iz 09 §6 (Postgres 17 servis, migracije na prazno, RLS test).
+- **Gotovo kad**: `docker compose up -d`, `pnpm db:migrate` i `pnpm db:seed`
+  rade na praznoj bazi; RLS test zelen lokalno i u CI.
+
+## Q. Repozitoriji na bazi, prvi dio, i šifrovanje
+
+Čitaj: 04 §6, 09 §3, 11 §4 i §5, 19 §3 (Repozitorij).
+
+- `requireTenant()` otvara transakciju i postavlja `app.tenant_id` i
+  `app.user_id` sa `set_config(..., true)`. Svaki upit ide kroz tu transakciju.
+- `data/drizzle` za: projekte i klasifikacije, sedmice (mreža, ćelije,
+  kopiranje prošle sedmice, "nema rada"), radnike, planove i beneficije po
+  radniku.
+- `packages/data/src/pii.ts` tačno po 04 §6: KEK iz secreta, DEK po firmi,
+  AES-256-GCM, format bajtova i AAD kako piše. Svako dešifrovanje piše
+  `pii_access_log`.
+- Testovi: PII round-trip; šifrat iz jedne kolone ili firme ne dešifruje se u
+  drugoj (AAD); u sirovoj bazi nigdje nema čitljive adrese ni datuma rođenja
+  (test pretraži sve tekstualne i bytea kolone); pravilo iz 19 §3 (tuđi ID je
+  404) važi i na drizzle.
+- Ugovorni testovi za sve navedeno prolaze na `mock` i na `drizzle`.
+- **Gotovo kad**: ekrani projekata, mreže i radnika rade na `drizzle` s istim
+  e2e testovima.
+
+## R. Repozitoriji na bazi, drugi dio, i fajlovi
+
+Čitaj: 04, 06, 08 §2, 11 §5 i §7, 19 §3.
+
+- `data/drizzle` za sve ostalo: pregled i potpis, izvještaji i predaje (s
+  kanalom), korekcije, uvoz i poništavanje, arhiva, kontrolna tabla i /firms,
+  postavke, dnevnik, zastavice, admin i pristup podrške.
+- Skladište fajlova kroz S3 API (MinIO lokalno): ključ fajla nikad ne sadrži
+  ime radnika ni SSN; preuzimanje ide samo kroz `/api/files/[id]` sa stražom.
+  Certifikat pripravnika se sad može uploadovati (03 §4.6).
+- Pretraga arhive po radniku radi i za starije sedmice.
+- Zadnja aktivna firma se pamti po korisniku.
+- Brzina: kontrolna tabla na 50 projekata ispod 500 ms na pravoj bazi, mjereno
+  testom sa seedom od 50 projekata.
+- **Gotovo kad**: ugovorni testovi 100% zeleni na obje implementacije.
+
+## S. Prijava (Better Auth)
+
+Čitaj: 11 §3 i §4, 09 §2 (Auth), 02, 15 §3 (Prijava i nalog), 03 §4.1.
+
+- Better Auth samo za identitet i sesiju, bez `organization` plugina (09 §2).
+  Firme, članstva i pozivnice su naše tabele.
+- Lozinke argon2id, najmanje 12 znakova, provjera kroz HaveIBeenPwned
+  k-anonimity. Ako HIBP ne odgovori, prijava ne pada; to se bilježi.
+- Magic link 15 minuta, jednokratan, troši se tek na klik (kao u M).
+- TOTP 2FA obavezna po ulozi iz 11 §3, s QR kodom i kodovima za oporavak.
+  Passkey kao opcija.
+- Sesija: httpOnly, Secure, SameSite=Lax, 12 h klizno, 30 dana uz "zapamti me",
+  rotacija pri promjeni uloge, sve sesije se gase pri promjeni lozinke ili
+  isključenju 2FA. "Sign out everywhere" radi stvarno.
+- Zaključavanje: 10 promašaja, 15 minuta, rate limit po IP-u i po emailu.
+- Pozivnice: token 32 bajta, u bazi samo sha256, 7 dana, jednokratan, samo za
+  email na koji je poslan.
+- Potpis izjave traži ponovnu potvrdu (lozinka ili TOTP) unutar 5 minuta.
+- Registracija pravi stvarnu firmu i DEK firme. Brisanje firme se može povući
+  u roku od 30 dana; DEK se briše tek na kraju roka.
+- Emailovi koje prijava treba (potvrda, magic link, nova lozinka, pozivnica) idu
+  u Mailpit lokalno, tekstovi iz 15. Ostali emailovi čekaju 6b.
+- Dnevnik bilježi prijave, neuspjele prijave i preuzimanja fajlova.
+- Demo prijava (lozinka "demo") ostaje samo na mock (19 §4).
+- Testovi: seed korisnici s testnim lozinkama iz seed fajla; TOTP kod test
+  računa iz seed tajne.
+- **Gotovo kad**: svi tokovi iz sesije M rade na `drizzle` s pravom prijavom.
+
+## T. Zatvaranje koraka 4
+
+Čitaj: 12 korak 4 i 8c, 11 §4 i §9.
+
+- Cijeli Playwright skup prolazi na `DATA_SOURCE=drizzle`. Testovi se ne
+  mijenjaju osim što kolačiće `wc-mock-*` zamjenjuju fixture-i nad bazom.
+- `guards.test.ts`: prolazi kroz sve Route Handlere i server akcije i pada ako
+  neka nema stražu ili je javna a nije na listi iz 11 §4.
+- `permissions.matrix.test.ts`: za svaku ulogu i akciju iz 02 poziva stvarnu
+  server akciju na `drizzle` i očekuje dozvoljeno ili 403 tačno po tabeli.
+- Test da produkcijski build nema nijednu mock ili testnu rutu ni kolačić.
+- Upiši u 12 korak 4 šta je urađeno i šta je prebačeno dalje, s razlogom.
+- **Gotovo kad**: sve gore zeleno u CI dva pokretanja zaredom. Onda stani i
+  javi; sesije za korak 5 dolaze ovdje.
+

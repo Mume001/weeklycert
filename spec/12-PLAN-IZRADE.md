@@ -164,6 +164,8 @@ Iz: 05-IZLAZI. Zahtijeva korak 0.
 - Cover strana, ZIP paket.
 - Worker: pg-boss, `report.generate`, S3 upload, `files`, `reports` statusi.
 - Potpis s ponovnom autentikacijom, `payroll_number` dodjela, zaključavanje.
+- Interaktivni demo na sajtu dobija zadnji korak: generisani WH-347 PDF iz demo
+  podataka, označen kao primjer (16 §4 red 7). U koraku 3 završava na pregledu.
 - **Gotovo kad**: jedan stvarni XML prihvaćen u NY portalu za test ili prvog
   kupca (ovo je jedini pravi kriterij); WH-347 pregledan od jednog glavnog
   izvođača ili kupca.
