@@ -103,6 +103,11 @@ describe('spec/19 §8: what has to be out before it is published', () => {
     for (const line of mentions) expect(line).toMatch(/We do not claim .* we do not say/)
   })
 
+  it('promises no ten-minute week, which nobody has measured (15 §2)', () => {
+    // 10 minutes is the target of 03; it comes back after step 8c measures it.
+    expect(offenders(/\b(ten|10)[\s-]+minutes?\b/i)).toEqual([])
+  })
+
   it('uses no em or en dash in anything a visitor reads (15 §1 rule 7)', () => {
     expect(siteText.filter((s) => /[–—]/.test(s))).toEqual([])
   })

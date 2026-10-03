@@ -1069,7 +1069,7 @@ dokument s izmišljenim radnicima.
 - Podnožje, zadnja linija: `Built for New York. On purpose.`
 
 **1 Hero**
-- Naslov: `Your weekly New York certified payroll, XML and WH-347, done in ten minutes.`
+- Naslov: `New York certified payroll, entered once and checked before you sign.`
 - Podnaslov (ne tvrdi da izlazi već postoje; generator je korak 5):
   `Built for New York subcontractors with 3 to 30 workers. Enter hours once. The overtime codes and the fringe math are checked as you type, and that same entry is what the NYSDOL portal file and the federal WH-347 will be built from.`
 - Dugmad: `Start free for 14 days` · `See what you get`
@@ -1079,10 +1079,12 @@ dokument s izmišljenim radnicima.
   kraja sedmice bira firma, pravilo 12): `The WeeklyCert hours grid: one row per worker, seven days of the week, and the overtime and the findings worked out while the hours are typed.`
 
 **2 Traka brojeva** (16 §4 red 3, četiri tvrda broja)
-- `10 minutes` / `a typical week, from the first hour typed to signed`
+- `6 years` / `of records, every signed version kept with the input it came from`
 - `2 filings` / `from one entry: the NYSDOL portal XML and the federal WH-347`
 - `63 checks` / `run against the week before you can certify it`
 - `$0` / `to set up, if you would rather do it yourself`
+
+10 minuta je cilj iz 03, ne izmjerena brojka. Vraća se na sajt tek kad ga izmjerimo u koraku 8c (ljudski test).
 
 **3 Šta dobijete** (16 §4 red 4)
 - Naslov: `The two documents this exists to produce`

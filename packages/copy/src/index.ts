@@ -1991,7 +1991,7 @@ export const copy = {
       lastLine: 'Built for New York. On purpose.',
     },
     hero: {
-      title: 'Your weekly New York certified payroll, XML and WH-347, done in ten minutes.',
+      title: 'New York certified payroll, entered once and checked before you sign.',
       // No claim that the two files exist: the generator is step 5 (19 §11).
       subtitle:
         'Built for New York subcontractors with 3 to 30 workers. Enter hours once. The overtime codes and the fringe math are checked as you type, and that same entry is what the NYSDOL portal file and the federal WH-347 will be built from.',
@@ -2008,7 +2008,10 @@ export const copy = {
         'The WeeklyCert hours grid: one row per worker, seven days of the week, and the overtime and the findings worked out while the hours are typed.',
     },
     numbers: [
-      { value: '10 minutes', label: 'a typical week, from the first hour typed to signed' },
+      {
+        value: '6 years',
+        label: 'of records, every signed version kept with the input it came from',
+      },
       { value: '2 filings', label: 'from one entry: the NYSDOL portal XML and the federal WH-347' },
       { value: '63 checks', label: 'run against the week before you can certify it' },
       { value: '$0', label: 'to set up, if you would rather do it yourself' },
